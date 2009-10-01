@@ -1,0 +1,4 @@
+%h1=@order.id
+%ul
+  -@order.order_items.each do |item|
+    %li="#{item.quantity} #{item.description}"

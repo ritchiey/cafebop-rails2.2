@@ -181,7 +181,21 @@
         %tr
           %td(colspan="2") Total
           %td#total 0.00         
-    %hr
+    %hr                       
+    %h3 Order Form
+    -form_for @order do |form|  
+      = form.label :notes
+      = form.text_field :notes  
+      %br   
+      -@order.order_items.each do |item|
+        -fields_for "order[order_item_attributes][]", item do |item_form|     
+          =item_form.label :quantity
+          =item_form.text_field :quantity
+          %br
+          =item_form.label :description
+          =item_form.text_field :description
+          %br
+      = submit_tag
     .hidden
       #dialog{ :title => "Add to Order" }
         %form

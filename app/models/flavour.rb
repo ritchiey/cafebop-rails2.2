@@ -9,9 +9,7 @@ class Flavour < ActiveRecord::Base
   end
 
   has_many :order_items, :dependent=>:nullify
-
   belongs_to :menu_item
-
   validates_length_of :name, :minimum=>1
 
   def ordering_json
