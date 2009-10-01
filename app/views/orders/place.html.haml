@@ -1,0 +1,195 @@
+%html
+  %head   
+    =stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css'
+    =javascript_include_tag 'jquery-1.3.2.min.js', 'jquery-ui-1.7.2.custom.min.js'
+    :javascript
+    
+      var dialog, quantity_field, size_field, notes_field, details_field, order_items, total;
+      
+      $(function() { // page ready   
+      
+        dialog = $('#dialog');
+        quantity_field = $('#quantity_field');
+        size_field = $('#size_field');
+        flavour_field = $('#flavour_field');
+        notes_field = $('#notes_field');
+        details_field = $('#details_field');
+        order_items = $('#order_items');
+        total = $('#total');
+            
+      	dialog.dialog({
+      			bgiframe: true,
+      			autoOpen: false,
+      			height: 300,
+      			modal: true,
+      			buttons: {
+      				'Add to order': function() {
+      					$(this).dialog('close');
+      					add_to_order();
+              }
+            }
+          });
+      });   
+               
+      function add_to_order() { 
+        var order_item = order_item_from_json(details_field.val());
+        var menu_item = order_item.menu_item;
+        order_items.append("<tr><td>"+ quantity_field.val() + "</td><td>"+description(menu_item)+"</td><td class='cost'>"+cost(menu_item)+"</td></tr>");
+        update_total();
+      }
+
+      function selected(select_field_id) {
+        return $('#'+select_field_id+' option:selected');
+      }
+
+      function selected_text(select_field_id) {
+        var option = selected(select_field_id);
+        return (option && option.val())? option.text()+" " : "";
+      }
+      
+      function selected_id(select_field_id) {
+        var option = selected(select_field_id);
+        return (option && option.val())? option.val() : null;
+      }   
+      
+      function index_by(key, list) {
+        result = {};
+        for (i in list) {
+          record = list[i];
+          result[record[key]] = record;
+        }                              
+        return result;
+      }
+
+      function as_currency(amount)
+      {
+      	var i = parseFloat(amount);
+      	if(isNaN(i)) { i = 0.00; }
+      	var minus = '';
+      	if(i < 0) { minus = '-'; }
+      	i = Math.abs(i);
+      	i = parseInt((i + .005) * 100);
+      	i = i / 100;
+      	s = new String(i);
+      	if(s.indexOf('.') < 0) { s += '.00'; }
+      	if(s.indexOf('.') == (s.length - 2)) { s += '0'; }
+      	s = minus + s;
+      	return s;
+      }
+      
+
+      function cost(menu_item) {
+        var price, quantity;
+        quantity = parseInt(quantity_field.val(), 10);
+        var size_id = selected_id("size_field");
+        price = parseInt(size_id ? index_by('id', menu_item.sizes)[size_id].price : menu_item.price, 10);
+        return as_currency(price * quantity / 100.0);
+      }  
+      
+      function total_cost() {       
+        var total = 0.0;
+        $('#order_items .cost').each(function(i) {
+          var amount = this.innerText;
+          total += parseFloat(amount);
+        });
+        return total;
+      }      
+      
+      function update_total() {
+          total.html(as_currency(total_cost()));
+      }
+      
+      function description(menu_item) {
+        var desc = "";
+        desc += selected_text("size_field");
+        desc += selected_text("flavour_field"); 
+        desc += menu_item.name;
+        return desc;
+      }
+                                                                   
+      function options_from_sizes(sizes) {
+        options = "";
+        for (var i in sizes) {
+          options += "<option value='"+sizes[i].id+"'>"+sizes[i].name+"</option>";
+        } 
+        return options;
+      }
+
+      function options_from_flavours(flavours) {
+        options = "";
+        for (var i in flavours) {
+          options += "<option value='"+flavours[i].id+"'>"+flavours[i].name+"</option>";
+        } 
+        return options;
+      }
+                       
+      function show_or_hide(menu_item, attr) {
+        var element = $('#'+attr+'_details');
+        if (menu_item[attr+'s'].length == 0)
+          element.hide();
+        else
+          element.show();
+      }                                            
+      
+      function order_item_from_json(json) {
+        return eval("("+json+")").order_item;
+      }
+
+      function popup(json) {
+        var order_item = order_item_from_json(json);
+        var menu_item = order_item.menu_item;   
+        quantity_field.val("1"); 
+        details_field.val(json);
+        dialog.data('title.dialog', menu_item.name);  
+        show_or_hide(menu_item, 'size');
+        show_or_hide(menu_item, 'flavour');
+        size_field.html(options_from_sizes(menu_item.sizes));
+        flavour_field.html(options_from_flavours(menu_item.flavours));
+        dialog.dialog('open');
+      }
+  %body
+    %h3 Menu Items
+    %ul
+      %li
+        Gum
+        =button_to_function "Add", %q{popup('{"order_item": {"menu_item": {"price": 100, "name": "Gum", "item_queue_id": 1, "flavours": [], "sizes": [], "id": 7}, "description": null}}')}
+      %li
+        Chips
+        =button_to_function "Add", %q{popup('{"order_item": {"menu_item": {"price": 100, "name": "Chips", "item_queue_id": 1, "flavours": [{"name": "Salt", "id": 13}, {"name": "Nacho Cheese", "id": 14}], "sizes": [], "id": 5}, "description": null}}')}
+      %li
+        Pizza
+        =button_to_function "Add", %q{popup('{"order_item": {"menu_item": {"price": 0, "name": "Pizza", "item_queue_id": 1, "flavours": [{"name": "Supreme", "id": 7}, {"name": "Marinara", "id": 8}, {"name": "Mexican", "id": 24}], "sizes": [{"price": 1200, "name": "Large", "id": 5}, {"price": 1500, "name": "Family", "id": 6}], "id": 3}, "description": null}}')}
+    %hr  
+    %h3 Your Order
+    %table
+      %thead
+        %tr
+          %th Qty
+          %th Description
+          %th Cost($)
+          %th
+      
+      %tbody#order_items
+      
+      %tfoot
+        %tr
+          %td(colspan="2") Total
+          %td#total 0.00         
+    %hr
+    .hidden
+      #dialog{ :title => "Add to Order" }
+        %form
+          %fieldset
+            %label{ :for => "quantity" } Qty
+            %input#quantity_field.text.ui-widget-content.ui-corner-all{ :name => "quantity", :type => "text" }
+            #flavour_details
+              %label{ :for => "flavour" } Flavour
+              %select#flavour_field.select.ui-widget-content.ui-corner-all{ :name => "flavour" }
+            #size_details
+              %label{ :for => "size" } Size
+              %select#size_field.select.ui-widget-content.ui-corner-all{ :name => "size" }
+            %label{ :for => "notes" } Notes
+            %input#notes_field.text.ui-widget-content.ui-corner-all{ :name => "notes", :type => "text", :value => "" }
+            %input#details_field{ :name => "details", :type => "hidden", :value => "" }
+            
+    
