@@ -36,11 +36,28 @@
         });
 
       });   
+
+      function flavour_id() {
+        // TODO: get flavour id if specified in order_item
+        return selected_id('flavour_id');
+      }
+      
+      function size_id() {
+        return selected_id('size_id');
+      }
                
       function add_to_order() { 
         var order_item = order_item_from_json(details_field.val());
-        var menu_item = order_item.menu_item;
-        order_items.append("<tr><td>"+ quantity_field.val() + "</td><td>"+description(menu_item)+"</td><td class='cost'>"+cost(menu_item)+"</td><td class='remove'>x</td></tr>");
+        var menu_item = order_item.menu_item;  
+        var quantity = quantity_field.val();
+        order_items.append("<tr><td>"+ quantity +
+                          "<input type='hidden' name='order[order_item_attributes][][quantity]' value='"+quantity+"'>"+   
+                          "<input type='hidden' name='order[order_item_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+   
+                          (flavour_id() ? ("<input type='hidden' name='order[order_item_attributes][][flavour_id]' value='"+flavour_id()+"'>") : "")+   
+                          (size_id() ? ("<input type='hidden' name='order[order_item_attributes][][size_id]' value='"+size_id()+"'>") : "")+   
+                          "</td><td>"+description(menu_item)+"<input type='hidden' name='order[order_item_attributes][][description]' value='"+description(menu_item)+"'>"+
+                          "</td><td class='cost'>"+cost(menu_item)+
+                          "</td><td class='remove'>x</td></tr>");
         update_total();
       }
 
@@ -167,35 +184,23 @@
         =button_to_function "Add", %q{popup('{"order_item": {"menu_item": {"price": 0, "name": "Pizza", "item_queue_id": 1, "flavours": [{"name": "Supreme", "id": 7}, {"name": "Marinara", "id": 8}, {"name": "Mexican", "id": 24}], "sizes": [{"price": 1200, "name": "Large", "id": 5}, {"price": 1500, "name": "Family", "id": 6}], "id": 3}, "description": null}}')}
     %hr  
     %h3 Your Order
-    %table
-      %thead
-        %tr
-          %th Qty
-          %th Description
-          %th Cost($)
-          %th
+    -form_for @order do |form|
+      %table
+        %thead
+          %tr
+            %th Qty
+            %th Description
+            %th Cost($)
+            %th
       
-      %tbody#order_items
+        %tbody#order_items
       
-      %tfoot
-        %tr
-          %td(colspan="2") Total
-          %td#total 0.00         
-    %hr                       
-    %h3 Order Form
-    -form_for @order do |form|  
-      = form.label :notes
-      = form.text_field :notes  
-      %br   
-      -@order.order_items.each do |item|
-        -fields_for "order[order_item_attributes][]", item do |item_form|     
-          =item_form.label :quantity
-          =item_form.text_field :quantity
-          %br
-          =item_form.label :description
-          =item_form.text_field :description
-          %br
+        %tfoot
+          %tr
+            %td(colspan="2") Total
+            %td#total 0.00  
       = submit_tag
+    %hr                       
     .hidden
       #dialog{ :title => "Add to Order" }
         %form

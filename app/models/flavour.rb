@@ -1,7 +1,5 @@
 class Flavour < ActiveRecord::Base
 
-  
-
   fields do
     name        :string
     description :string
