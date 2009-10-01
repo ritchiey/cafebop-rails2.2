@@ -26,15 +26,21 @@
       				'Add to order': function() {
       					$(this).dialog('close');
       					add_to_order();
-              }
             }
-          });
+          }
+        });
+          
+        $('.remove').live('click', function(e) {
+          $(this).closest('tr').remove();   
+          update_total();
+        });
+
       });   
                
       function add_to_order() { 
         var order_item = order_item_from_json(details_field.val());
         var menu_item = order_item.menu_item;
-        order_items.append("<tr><td>"+ quantity_field.val() + "</td><td>"+description(menu_item)+"</td><td class='cost'>"+cost(menu_item)+"</td></tr>");
+        order_items.append("<tr><td>"+ quantity_field.val() + "</td><td>"+description(menu_item)+"</td><td class='cost'>"+cost(menu_item)+"</td><td class='remove'>x</td></tr>");
         update_total();
       }
 
