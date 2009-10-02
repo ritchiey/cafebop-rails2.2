@@ -1,5 +1,5 @@
 %h2 Shops
-  %ul
-    -@shops.each do |shop|
-      %li=link_to shop.nam, shop
-  =link_to "Add Shop", new_shop_path
+%ul
+  -@shops.each do |shop|
+    %li=link_to shop.name, shop
+=link_to "Add Shop", new_shop_path

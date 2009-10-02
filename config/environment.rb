@@ -29,6 +29,7 @@ Rails::Initializer.run do |config|
   config.gem "authlogic"
   config.gem 'searchlogic'
   config.gem 'raganwald-andand', :lib => 'andand', :source => 'http://gems.github.com'
+  config.gem "josevalim-rails-footnotes",  :lib => "rails-footnotes", :source => "http://gems.github.com"
   
 
   # Only load the plugins named here, in the order given (default is alphabetical).
