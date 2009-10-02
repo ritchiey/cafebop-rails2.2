@@ -1,9 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :order_items
-
-  map.resources :orders   
   
-  map.root :controller => "orders", :action=>'place'   
+  map.resources :order_items
+  map.resources :orders 
+  map.resources :shops  
+  
+  map.root :controller => "shops", :action=>'index'   
 
   # The priority is based upon order of creation: first created -> highest priority.
 

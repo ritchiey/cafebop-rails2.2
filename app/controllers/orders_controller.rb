@@ -8,9 +8,10 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  def place
-    @order = Order.new
-    3.times {@order.order_items.build}
+  def new_for_shop
+    #TODO find appropriate shop
+    @shop = Shop.find(params[:id])
+    @order = Shop.order.build
   end                  
   
   def create
