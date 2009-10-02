@@ -6,7 +6,8 @@ class OrderItem < ActiveRecord::Base
     description :string
     quantity :integer
     price    :integer   
-    notes    :string
+    notes    :string    
+    state    :string
     timestamps
   end
 

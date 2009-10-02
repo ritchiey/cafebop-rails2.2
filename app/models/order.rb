@@ -1,7 +1,8 @@
 class Order < ActiveRecord::Base
       
   fields do
-    notes :text
+    notes :text    
+    state :string
     timestamps
   end
 

@@ -19,7 +19,17 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "hobofields"
+  config.gem "hobofields"      
+  config.gem 'test-unit', :lib => 'test/unit' 
+  config.gem "thoughtbot-shoulda", :lib => "shoulda", :source => "http://gems.github.com"
+  config.gem 'rr'
+  config.gem 'notahat-machinist', :lib => 'machinist', :source => "http://gems.github.com"
+  config.gem 'sevenwire-forgery', :lib => 'forgery', :source => "http://gems.github.com"
+  config.gem 'haml'
+  config.gem "authlogic"
+  config.gem 'searchlogic'
+  config.gem 'raganwald-andand', :lib => 'andand', :source => 'http://gems.github.com'
+  
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
