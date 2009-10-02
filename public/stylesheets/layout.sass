@@ -1,0 +1,78 @@
+@import mixins.sass
+@import colours.sass
+
+
+html
+  :background = !border_colour
+  // Need to sort out how to create/cache image properly on heroku before using
+  // gradient server
+  //  :background = "url(/gradient_images/50:aaa:fff.png) repeat-x #{!border_colour}"
+
+// Establishes the left and right page margins
+body
+  :width  840px      
+  :margin-top 20px
+  :margin-left auto
+  :margin-right auto
+  :background-color transparent  
+
+
+.page-header
+  :float left
+  :width  100%  
+  :margin 10px auto 0    
+  :list-style-type none
+  
+.account-nav
+  :float  right  
+  :background = !main_colour
+  :padding 5px 10px 5px 10px 
+  :margin 5px 10px 5px 10px
+  +rounded-corners
+  li
+    :list-style-type  none
+    :display inline
+    :margin 0 0 0 5px
+  
+
+// The coloured content area
+// Because it floats, it will contain its floating children
+.page-content  
+  :float  left
+  :margin 10px auto
+  :padding 5px
+  :width  100%
+  :background-color = !main_colour
+  +rounded-corners
+  
+.content-header
+  :float left
+  :width 100%
+  :margin 0.5em 0 0 0 
+  :padding-top 0.5em
+
+.content-footer 
+  :float left
+  :width 100%
+  :margin 1.5em 0 0 0 
+  :padding-top 1em
+  :background = !content_footer_colour
+  +rounded-bottom-corners
+  
+.left-column
+  :float left
+  :width 74%
+  
+.right-column, .owners-panel
+  :float right
+  :width 26%
+
+.page-footer 
+  :float  left
+  :width  100%   
+  :text-align right 
+
+.aside
+  :float  right
+  :width  40%   
+

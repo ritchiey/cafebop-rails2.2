@@ -1,3 +1,5 @@
 %h3 Editing Menu Item
 
 =link_to "&lt;&lt; back", edit_menu_path(@menu_item.menu)
+
+=render :partial=>'form', :object=>@menu_item

@@ -18,7 +18,16 @@ class MenuItemsController < ApplicationController
   def edit
     @menu_item = MenuItem.find(params[:id])
   end          
-  
+
+
+  def update
+    @menu_item = MenuItem.find(params[:id])
+    if @menu_item.update_attributes(params[:menu_item])
+      redirect_to edit_menu_path(@menu_item.menu)
+    else
+      render :action=>'edit'
+    end
+  end
 private
 
   def get_menu

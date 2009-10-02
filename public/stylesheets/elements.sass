@@ -1,0 +1,72 @@
+@import mixins.sass
+@import colours.sass
+
+.content-header
+  :float left
+  :width 100% 
+  :margin-bottom 3em
+
+.logo
+  :float left
+  :width 40%
+  :font 3em Georgia, "Lucida Grande", "Lucida Sans Unicode", helvetica, verdana, arial, times, "Times New Roman", sans-serif
+
+.slogan
+  :float right
+  :width 40%
+  :margin 1em 10% 1em
+  :font 1.8em Georgia, "Lucida Grande", "Lucida Sans Unicode", helvetica, verdana, arial, times, "Times New Roman", sans-serif
+
+.blurb
+  :float left
+  :width 50%
+  :margin 0 5% 1em
+  ol
+    :float  left
+    :width  100%
+    li
+      :display inline    
+      
+.cafe-blurb
+  :float right
+  :width 30%
+
+.sign-up   
+  :display  inline-block
+  :background white
+  :float right
+  :margin 1em 5% 0
+  :padding  5px
+  +rounded-corners
+  :text-align center
+  button
+    :font 1.5em Georgia, "Lucida Grande", "Lucida Sans Unicode", helvetica, verdana, arial, times, "Times New Roman", sans-serif
+  
+
+.search-panel
+  float: left
+  width: 50%
+  margin: 0 10% 2em
+  .form
+    :display inline-block
+    :padding 5px
+    :background #fff
+    +rounded-corners
+    .search
+      :white-space nowrap
+
+  input
+    :font 1.5em Georgia, "Lucida Grande", "Lucida Sans Unicode", helvetica, verdana, arial, times, "Times New Roman", sans-serif
+    
+ul.shops
+  :float  left
+  :width  70%    
+  :list-style none
+
+form.shop
+  :margin 2em auto 2em 10%
+  :text-align left
+
+.print-only, .hidden
+  :display none       
+  

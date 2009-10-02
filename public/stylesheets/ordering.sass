@@ -1,0 +1,70 @@
+// Style for Ordering screens
+
+@import mixins.sass
+@import colours.sass
+
+ul.flavours
+  :list-style-type none
+  li
+    :display    inline
+
+div.opening-times 
+  :float right
+  :display  inline-block
+  :margin 0 5px 1em 10px   
+  :padding .5em 2% .5em 2%  
+
+div.ordering-info    
+  :float  left
+  :width  55%
+  ul
+    :list-style-type none 
+  
+                     
+ul.menu-items
+  :list-style-type none 
+  :width  100%
+
+.ordering-card   
+  :float  left   
+  :width  100%
+  :background = !ordering_card_colour
+  :margin 0 5px 1em 10px   
+  :padding .5em 2% .5em 2%
+  +rounded-corners
+
+  button
+    :float  right
+                             
+    
+table.order-summary
+  :float  right
+  :background = !ordering_card_colour
+  :margin 3em 0 0 20px
+  :table-layout fixed
+  +rounded-corners
+  td.qty, td.description, td.price                                   
+    :border-bottom = "1px solid #{!border_colour}"
+  th.qty
+    :width  40px
+  th.description
+    :width  300px
+  th.price
+    :width  50px
+
+.place-button
+  :float  right
+  :width  200px
+
+table.grand-order-summary
+  :margin 2em auto 4em auto
+  :table-layout fixed
+  td.quantity-view, td.description-view, td.cost-as-currency-view                                   
+    :border-bottom = "1px solid #{!border_colour}"
+  th.quantity-heading
+    :width  40px
+  th.description-heading
+    :width  300px
+  th.cost-as-currency-heading
+    :width  50px
+  

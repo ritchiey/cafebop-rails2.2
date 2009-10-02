@@ -1,15 +1,8 @@
 %h3 Edit Shops
+   
+=link_to '&lt;&lt; Shops', shops_path
 
--form_for @shop do |f|
-  =f.label :name
-  =f.text_field :name
+=render :partial=>'form', :object=>@shop
 
 
--if @shop.menus.empty?
-  No menus yet.
--else
-  -@shop.menus.each do |menu|
-    %ul
-      %li=link_to menu.name, edit_menu_path(menu)
-=link_to "Add Menu", new_shop_menu_path(@shop)
   
