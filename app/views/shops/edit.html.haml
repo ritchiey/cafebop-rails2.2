@@ -9,6 +9,7 @@
   No menus yet.
 -else
   -@shop.menus.each do |menu|
-    =link_to menu.name, menu
+    %ul
+      %li=link_to menu.name, edit_menu_path(menu)
 =link_to "Add Menu", new_shop_menu_path(@shop)
   

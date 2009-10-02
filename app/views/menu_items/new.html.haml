@@ -1,0 +1,4 @@
+%h3=h "New Item for #{@menu.name} Menu"
+-form_for [@menu, @menu_item] do |f|
+  =f.label :name
+  =f.text_field :name

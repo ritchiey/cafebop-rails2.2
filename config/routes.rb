@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.resources :menus
   map.resources :shops, :shallow=>true do |shops|
     shops.resources :orders
-    shops.resources :menus
+    shops.resources :menus, :shallow=>true, :has_many=>[:menu_items]
   end
   
   map.root :controller => "shops", :action=>'index'   

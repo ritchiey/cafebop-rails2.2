@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
     @order = Order.new(params[:order])
     if @order.save
       flash[:notice] = "Successfully created order"
-      redirect_to orders_path
+      redirect_to @order
     else                     
       render :action=>'place'
     end

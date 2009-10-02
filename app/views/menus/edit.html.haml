@@ -1,0 +1,12 @@
+%h3 Edit Menu
+
+=link_to "&lt;&lt; back", edit_shop_path(@menu.shop)
+
+-form_for @menu do |f|
+  =f.label :name
+  =f.text_field :name
+
+  %ul
+  -@menu.menu_items.each do |item|
+    %li=link_to item.name, edit_menu_item_path(item)
+  =link_to "Add Item", new_menu_menu_item_path(@menu)
