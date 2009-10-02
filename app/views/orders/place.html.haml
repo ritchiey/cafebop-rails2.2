@@ -50,12 +50,20 @@
         var order_item = order_item_from_json(details_field.val());
         var menu_item = order_item.menu_item;  
         var quantity = quantity_field.val();
+        var notes = notes_field.val();
         order_items.append("<tr><td>"+ quantity +
                           "<input type='hidden' name='order[order_item_attributes][][quantity]' value='"+quantity+"'>"+   
-                          "<input type='hidden' name='order[order_item_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+   
+                          "<input type='hidden' name='order[order_item_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+
+                          "<input type='hidden' name='order[order_item_attributes][][notes]' value='"+notes_field.val()+"'>"+
                           (flavour_id() ? ("<input type='hidden' name='order[order_item_attributes][][flavour_id]' value='"+flavour_id()+"'>") : "")+   
                           (size_id() ? ("<input type='hidden' name='order[order_item_attributes][][size_id]' value='"+size_id()+"'>") : "")+   
                           "</td><td>"+description(menu_item)+"<input type='hidden' name='order[order_item_attributes][][description]' value='"+description(menu_item)+"'>"+
+                          "</td><td>" +(notes ?
+                            "<img href='/images/notes.png' alt='"+notes+"'" +
+                            "<input type='hidden' name='order[order_item_attributes][][notes]' value='"+notes+"'>"
+                          :
+                            ""
+                          )+"</td>" +
                           "</td><td class='cost'>"+cost(menu_item)+
                           "</td><td class='remove'>x</td></tr>");
         update_total();
@@ -138,36 +146,53 @@
         return options;
       }
 
+
+      function option_from_flavour(flavour, selected) {
+        return "<option value='"+flavour.id+"'"+
+          (selected ? "selected = 'selected' ": "")
+        +">"+flavour.name+"</option>";
+      }
+      
       function options_from_flavours(flavours) {
-        options = "";
+        options = "";  
+        var first = true;
         for (var i in flavours) {
-          options += "<option value='"+flavours[i].id+"'>"+flavours[i].name+"</option>";
+          options += option_from_flavour(flavours[i], first);
+          first = false;
         } 
         return options;
       }
                        
       function show_or_hide(menu_item, attr) {
-        var element = $('#'+attr+'_details');
-        if (menu_item[attr+'s'].length == 0)
-          element.hide();
-        else
+        var element = $('#'+attr+'_details');         
+        var menu_item_attr = menu_item[attr+'s'];
+        if (menu_item_attr && menu_item_attr.length > 0)
           element.show();
+        else
+          element.hide();
       }                                            
       
       function order_item_from_json(json) {
         return eval("("+json+")").order_item;
+      }                                                 
+      
+      function title_for(order_item) {
+        return (order_item.flavour? order_item.flavour.name+" " : "") +
+               order_item.menu_item.name;
       }
 
       function popup(json) {
         var order_item = order_item_from_json(json);
         var menu_item = order_item.menu_item;   
-        quantity_field.val("1"); 
+        quantity_field.val("1");
         details_field.val(json);
-        dialog.data('title.dialog', menu_item.name);  
+        notes_field.val("");
+        dialog.data('title.dialog', title_for(order_item));  
         show_or_hide(menu_item, 'size');
         show_or_hide(menu_item, 'flavour');
         size_field.html(options_from_sizes(menu_item.sizes));
-        flavour_field.html(options_from_flavours(menu_item.flavours));
+        flavour_field.html(order_item.flavour ? option_from_flavour(order_item.flavour)
+          : options_from_flavours(menu_item.flavours)); 
         dialog.dialog('open');
       }
   %body
@@ -182,6 +207,16 @@
       %li
         Pizza
         =button_to_function "Add", %q{popup('{"order_item": {"menu_item": {"price": 0, "name": "Pizza", "item_queue_id": 1, "flavours": [{"name": "Supreme", "id": 7}, {"name": "Marinara", "id": 8}, {"name": "Mexican", "id": 24}], "sizes": [{"price": 1200, "name": "Large", "id": 5}, {"price": 1500, "name": "Family", "id": 6}], "id": 3}, "description": null}}')}
+      %li
+        Supreme Pizza        
+        =button_to_function "Add", %q{popup("{'order_item': {'menu_item': {'price': 0, 'name': 'Pizza', 'item_queue_id': 1, 'sizes': [{'price': 1200, 'name': 'Large', 'id': 5}, {'price': 1500, 'name': 'Family', 'id': 6}], 'id': 3}, 'flavour': {'name': 'Supreme', 'id': 7}, 'description': null}}")}
+      %li
+        Marinara Pizza        
+        =button_to_function "Add", %q{popup("{'order_item': {'menu_item': {'price': 0, 'name': 'Pizza', 'item_queue_id': 1, 'sizes': [{'price': 1200, 'name': 'Large', 'id': 5}, {'price': 1500, 'name': 'Family', 'id': 6}], 'id': 3}, 'flavour': {'name': 'Marinara', 'id': 8}, 'description': null}}")}
+      %li
+        Mexican Pizza        
+        =button_to_function "Add", %q{popup("{'order_item': {'menu_item': {'price': 0, 'name': 'Pizza', 'item_queue_id': 1, 'sizes': [{'price': 1200, 'name': 'Large', 'id': 5}, {'price': 1500, 'name': 'Family', 'id': 6}], 'id': 3}, 'flavour': {'name': 'Mexican', 'id': 24}, 'description': null}}")}        
+        
     %hr  
     %h3 Your Order
     -form_for @order do |form|
@@ -190,6 +225,7 @@
           %tr
             %th Qty
             %th Description
+            %th Notes
             %th Cost($)
             %th
       
@@ -197,7 +233,7 @@
       
         %tfoot
           %tr
-            %td(colspan="2") Total
+            %td(colspan="3") Total
             %td#total 0.00  
       = submit_tag
     %hr                       
