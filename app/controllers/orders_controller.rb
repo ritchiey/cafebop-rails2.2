@@ -8,10 +8,9 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  def new_for_shop
-    #TODO find appropriate shop
-    @shop = Shop.find(params[:id])
-    @order = Shop.order.build
+  def new
+    @shop = Shop.find(params[:shop_id])
+    @order = @shop.orders.build
   end                  
   
   def create

@@ -2,7 +2,10 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :order_items
   map.resources :orders 
-  map.resources :shops  
+  map.resources :shops, :shallow=>true do |shops|
+    shops.resources :orders
+    shops.resources :menus
+  end
   
   map.root :controller => "shops", :action=>'index'   
 

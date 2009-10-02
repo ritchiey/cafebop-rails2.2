@@ -7,7 +7,10 @@ class Shop < ActiveRecord::Base
     website :string    
     email_address :email_address
     timestamps
-  end                           
+  end   
+  
+  has_many :orders
+  has_many :menus
   
 
 end

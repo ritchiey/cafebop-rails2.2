@@ -1,0 +1,11 @@
+%h3 Edit Shops
+
+-form_for @shop do |f|
+  =f.label :name
+  =f.text_field :name
+
+
+-@shop.menus.each do |menu|
+  =link_to menu.name, menu
+=link_to "Add Menu", new_shop_menu_path(@shop)
+  

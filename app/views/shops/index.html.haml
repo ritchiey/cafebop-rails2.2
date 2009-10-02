@@ -2,4 +2,5 @@
 %ul
   -@shops.each do |shop|
     %li=link_to shop.name, shop
+    =link_to "Place Order", new_shop_order_path(shop)
 =link_to "Add Shop", new_shop_path

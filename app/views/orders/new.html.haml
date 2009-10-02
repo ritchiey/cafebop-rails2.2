@@ -1,13 +1,18 @@
+=link_to "Edit Shop", edit_shop_path(@shop)
+
 %h3 Menu Items
 %ul
-  -@shop.menus.each do |menu|
-    %h4=h menu.name
-    -menu.menu_items.each do |menu_item|
-      -if menu_item.present_flavours
-        -menu_item.flavours.each do |flavour|
-          =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
-      -else
-        =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
+  -if @shop.menus.empty?
+    This shop has no menus :(
+  -else
+    -@shop.menus.each do |menu|
+      %h4=h menu.name
+      -menu.menu_items.each do |menu_item|
+        -if menu_item.present_flavours
+          -menu_item.flavours.each do |flavour|
+            =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
+        -else
+          =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
         
       
    
