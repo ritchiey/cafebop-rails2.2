@@ -1,5 +1,5 @@
 %h1=@order.id
 %ul
   -@order.order_items.each do |item|
-    %li="#{item.quantity} #{item.description}"
+    %li="#{item.quantity} #{item.description} (#{item.notes}) [#{item.menu_item_id}, #{item.size_id}, #{item.flavour_id}]"
 =link_to "Add another", root_path    
