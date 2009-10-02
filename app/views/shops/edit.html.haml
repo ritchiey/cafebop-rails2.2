@@ -5,7 +5,10 @@
   =f.text_field :name
 
 
--@shop.menus.each do |menu|
-  =link_to menu.name, menu
+-if @shop.menus.empty?
+  No menus yet.
+-else
+  -@shop.menus.each do |menu|
+    =link_to menu.name, menu
 =link_to "Add Menu", new_shop_menu_path(@shop)
   

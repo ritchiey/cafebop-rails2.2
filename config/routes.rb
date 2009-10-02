@@ -1,7 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   
   map.resources :order_items
-  map.resources :orders 
+  # map.resources :orders     
+  # map.resources :menus
   map.resources :shops, :shallow=>true do |shops|
     shops.resources :orders
     shops.resources :menus
