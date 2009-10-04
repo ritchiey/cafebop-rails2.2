@@ -1,7 +1,6 @@
 %h3 Edit Menu
 
-=link_to "&lt;&lt; back", edit_shop_path(@menu.shop)
-
+=render :partial => 'back'
 =render :partial=>'form', :object=>@menu
 
 %ul
