@@ -117,14 +117,14 @@ function cost(menu_item) {
   var price, quantity;
   quantity = parseInt(quantity_field.val(), 10);
   var size_id = selected_id("size_field");
-  price = parseInt(size_id ? index_by('id', menu_item.sizes)[size_id].price : menu_item.price, 10);
+  price = parseInt(size_id ? index_by('id', menu_item.sizes)[size_id].price_in_cents : menu_item.price_in_cents, 10);
   return as_currency(price * quantity / 100.0);
 }  
 
 function total_cost() {       
   var total = 0.0;
   $('#order_items .cost').each(function(i) {
-    var amount = this.innerText;
+    var amount = this.textContent;
     total += parseFloat(amount);
   });
   return total;

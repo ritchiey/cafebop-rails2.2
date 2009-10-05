@@ -8,13 +8,13 @@ module ActiveRecord
         field = field.to_s
 
         # Convert price from integer
-        define_method "#{field}_as_currency" do
-          Dollars.from_int(self.send(field))
+        define_method "#{field}" do
+          Dollars.from_int(self.send("#{field}_in_cents"))
         end
 
-        # Convert price to integer for display
-        define_method("#{field}_as_currency=") do |in_currency|
-          self[field] =  Dollars.to_int(in_currency)
+        # Convert price to integer
+        define_method("#{field}=") do |in_currency|
+          self["#{field}_in_cents"] =  Dollars.to_int(in_currency)
         end
       end
     end

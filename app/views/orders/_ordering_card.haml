@@ -15,9 +15,9 @@
     -card_for.flavours.each do |flavour|
       %li=h flavour.name
   -if item.sizes.empty?
-    =h item.price_as_currency
+    =h item.price
   -else
     - item.sizes.each do |size|
       =h size.name
-      =h size.price_as_currency
+      =h size.price
   =button_to_function "Add", "popup('#{card_for.ordering_json}')"

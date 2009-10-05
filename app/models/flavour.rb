@@ -12,8 +12,8 @@ class Flavour < ActiveRecord::Base
 
   def ordering_json
     OrderItem.new({:menu_item=>menu_item, :flavour=>self}).to_json(
-      :include=>{:menu_item=>{:include=>[:sizes], :only=>[:name, :price, :id, :item_queue_id]},
-        :flavour=>{:only=>[:name, :price, :id]}
+      :include=>{:menu_item=>{:include=>[:sizes], :only=>[:name, :price_in_cents, :id, :item_queue_id]},
+        :flavour=>{:only=>[:name, :price_in_cents, :id]}
       },
       :only=>[:description]
     )

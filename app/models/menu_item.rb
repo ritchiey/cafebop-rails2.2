@@ -5,7 +5,7 @@ class MenuItem < ActiveRecord::Base
   fields do
     name  :string  
     description :string
-    price :integer
+    price_in_cents :integer
     position :integer
     present_flavours :boolean, :default=>false
     timestamps
@@ -24,7 +24,7 @@ class MenuItem < ActiveRecord::Base
   belongs_to :extras_menu, :class_name=>"Menu"
   
                                         
-  treat_as_currency :price
+  treat_as_currency :price #create virtual price attribute
 
 
   def shop
@@ -34,7 +34,7 @@ class MenuItem < ActiveRecord::Base
 
   def ordering_json
     OrderItem.new({:menu_item=>self}).to_json(
-      :include=>{:menu_item=>{:include=>[:sizes,:flavours], :only=>[:name, :price, :id, :item_queue_id]}},
+      :include=>{:menu_item=>{:include=>[:sizes,:flavours], :only=>[:name, :price_in_cents, :id, :item_queue_id]}},
       :only=>[:description]
     )
   end
