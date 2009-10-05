@@ -1,0 +1,11 @@
+hobofields --version '>= 0.8.8' --source gems.github.com --source gems.rubyforge.org  
+test-unit  --version '>= 2.0.3'    
+thoughtbot-shoulda --version '>= 2.10.2'
+rr  --version '>= 0.10.2'
+notahat-machinist --version '>= 1.0.3' 
+sevenwire-forgery --version '>= 0.2.2'  
+authlogic   --version '>= 2.1.2'
+searchlogic   --version '>= 2.3.5'
+raganwald-andand   --version '>= 1.3.1'
+josevalim-rails-footnotes  --version '>= 3.6.2'
+
