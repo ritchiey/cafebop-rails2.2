@@ -1,6 +1,6 @@
 hobofields --version '>= 0.8.8' --source gems.github.com --source gems.rubyforge.org  
 test-unit  --version '>= 2.0.3'    
-thoughtbot-shoulda --version '>= 2.10.2'
+thoughtbot-shoulda --version '>= 2.10.2' --source gems.github.com 
 rr  --version '>= 0.10.2'
 notahat-machinist --version '>= 1.0.3' 
 sevenwire-forgery --version '>= 0.2.2'  
