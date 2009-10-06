@@ -12,10 +12,10 @@
         %td=h item.quantity
         %td=h item.description
         %td=h item.notes
-        %td=h item.cost
+        %td=h number_to_currency(item.cost)
 
   %tfoot
     %tr
       %td(colspan="3") Total
-      %td=h @order.total
+      %td=h number_to_currency(@order.total)
  

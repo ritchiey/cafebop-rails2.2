@@ -5,10 +5,6 @@
   =link_to "Confirm &gt;&gt;", confirm_order_path(@order), :method=>:put
 -else
 
-
-%ul
-  -@order.order_items.each do |item|
-    %li="#{item.quantity} #{item.description} (#{item.notes}) [#{item.menu_item_id}, #{item.size_id}, #{item.flavour_id}]"
-
+=render :partial=>'order_summary'
 
 -#=link_to "Add another", root_path    

@@ -38,6 +38,14 @@ class OrderTest < ActiveSupport::TestCase
     should "calculate total correctly" do
       assert_equal 6.00, @order.total
     end
+
+    should "confirm all its order_items when confirmed" do
+      @order.order_items.each {|item| assert item.pending?}
+      @order.confirm!
+      assert @order.confirmed?
+      @order.order_items.each {|item| assert item.confirmed?}
+    end
+
   end
   
 end

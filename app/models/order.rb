@@ -36,7 +36,10 @@ class Order < ActiveRecord::Base
   def reported?()   state == 'reported'; end  
 
   def confirm!
-    self.state = 'confirmed' if pending?
+    if pending?
+      self.state = 'confirmed'
+      order_items.each { |item| item.confirm!}
+    end
   end
 
   # End state related methods
