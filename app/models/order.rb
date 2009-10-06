@@ -5,6 +5,8 @@ class Order < ActiveRecord::Base
     state :string
     timestamps
   end
+                 
+  before_create :default_to_pending
 
   belongs_to :user
   belongs_to :shop
@@ -20,4 +22,27 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def total
+    order_items.inject(0) {|sum, item| sum + item.cost}
+  end
+
+  # State related methods
+  def pending?() state == 'pending'; end  
+  def invited?()   state == 'invited'; end  
+  def declined?()   state == 'declined'; end  
+  def confirmed?()   state == 'confirmed'; end  
+  def made?()   state == 'made'; end  
+  def cancelled?()   state == 'cancelled'; end  
+  def reported?()   state == 'reported'; end  
+
+  def confirm!
+    self.state = 'confirmed' if pending?
+  end
+
+  # End state related methods
+private
+
+  def default_to_pending
+    self[:state] ||= 'pending'
+  end
 end

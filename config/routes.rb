@@ -1,10 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   
-  map.resources :order_items
-  # map.resources :orders     
+  map.resources :order_items 
   # map.resources :menus
   map.resources :shops, :shallow=>true do |shops|
-    shops.resources :orders
+    shops.resources :orders, :member=>{:confirm=>:put} 
     shops.resources :menus, :shallow=>true, :has_many=>[:menu_items]
   end
   
