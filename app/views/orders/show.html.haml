@@ -1,9 +1,15 @@
-%h1=@order.id
+-shop = @order.shop
+=render :partial => 'shop', :object=>shop
 
 -if @order.pending?
   =link_to "&lt;&lt; Change", edit_order_path(@order)
-  =link_to "Confirm &gt;&gt;", confirm_order_path(@order), :method=>:put
--else
+
+  -if shop.accepts_in_shop_payments?
+    =link_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put
+    %br
+
+  -if shop.accepts_paypal_payments?
+    =link_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
 
 =render :partial=>'order_summary'
 

@@ -28,11 +28,18 @@ class OrdersController < ApplicationController
     @shop = @order.shop
   end                                  
   
-  def confirm
+  def pay_in_shop
     @order = Order.find(params[:id])
-    @order.confirm!
+    @order.pay_in_shop!
     @order.save
     redirect_to @order
+  end
+
+  # Authorize payment through Paypal
+  def pay_paypal
+    @order = Order.find(params[:id])
+    @order.request_paypal_authorization!
+    #TODO: Redirect appropriately to Paypal
   end
   
 end

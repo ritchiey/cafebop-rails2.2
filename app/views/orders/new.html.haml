@@ -1,4 +1,6 @@
 =link_to "Edit Shop", edit_shop_path(@shop)
 
+= render :partial => 'shop', :object=>@shop
+
 = render :partial => 'ordering_form', :object=>[@shop, @order]
 

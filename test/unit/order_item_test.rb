@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OrderItemTest < ActiveSupport::TestCase
 
-  context "a given order_item" do
+  context "an order_item" do
     
     setup do
       @item = OrderItem.make
@@ -12,10 +12,16 @@ class OrderItemTest < ActiveSupport::TestCase
       assert @item.pending?
     end                    
 
-    should "become confirmed when confirmed" do
-      assert !@item.confirmed?
-      @item.confirm!
-      assert @item.confirmed?
+    should "become printed when printed" do
+      assert @item.pending?
+      @item.print!
+      assert @item.printed?
+    end
+    
+    should "become queued when queued" do
+      assert @item.pending?
+      @item.queue!
+      assert @item.queued?
     end
     
     should "adopt the item_queue of its menu_item" do

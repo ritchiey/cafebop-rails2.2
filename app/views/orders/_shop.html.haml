@@ -1,0 +1,11 @@
+.content-header
+  %h1=h shop.name
+  .opening-times
+    %h3 Opening Times
+    %table
+      -shop.operating_times.each do |opening|
+        %tr
+          %td
+            =h opening.days
+          %td
+            =h opening.opens_and_closes

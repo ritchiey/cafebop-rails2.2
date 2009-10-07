@@ -5,7 +5,7 @@ class OrderItem < ActiveRecord::Base
     quantity :integer
     price_in_cents    :integer   
     notes    :string    
-    state    :string
+    state    :string, :default=>'pending'
     timestamps
   end
 
@@ -16,7 +16,6 @@ class OrderItem < ActiveRecord::Base
   belongs_to :flavour
                           
   before_create :set_values_from_menu_item
-  before_create :default_to_pending
                   
   treat_as_currency :price
  
@@ -29,8 +28,6 @@ class OrderItem < ActiveRecord::Base
   def cost
     cost_in_cents / 100.0
   end
-
-  def 
   
   def to_s
     description || calc_description
@@ -38,11 +35,33 @@ class OrderItem < ActiveRecord::Base
 
   # State related    
   def pending?() state == 'pending'; end  
-  def confirmed?()   state == 'confirmed'; end  
-  def made?()   state == 'made'; end  
+  def queued?()   state == 'queued'; end
+  def printed?()  state == 'printed'; end
+  def made?()   state == 'made'; end
+  def delivered?() state = 'delivered'; end
   
-  def confirm!
-    self.state = 'confirmed'
+  def queue!             
+    if pending?
+      self.state = 'queued'
+    end
+  end
+    
+  def print!
+    if pending?
+      self.state = 'printed'
+    end
+  end
+
+  def make!
+    if queued?
+      state = 'made'
+    end
+  end
+
+  def deliver!
+    if made?
+      self.state = 'delivered'
+    end
   end
   # End State related
   
@@ -53,10 +72,6 @@ private
     self.price = size ? size.price : menu_item.price
     self.description = calc_description
   end  
-  
-  def default_to_pending
-    self[:state] = 'pending'
-  end
   
   def calc_description
     (size ? "#{size.name} ":'') +

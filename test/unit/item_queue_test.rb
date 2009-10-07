@@ -13,10 +13,10 @@ class ItemQueueTest < ActiveSupport::TestCase
       assert_equal @queue, @order_item.item_queue
     end
     
-    should "only see confirmed items in its current_items list" do
+    should "only see queued items in its current_items list" do
       assert @queue.current_items.empty?
-      @order_item.confirm!
-      assert @order_item.confirmed?    
+      @order_item.queue!
+      assert @order_item.queued?    
       @order_item.save!
       assert_same_elements [@order_item], @queue.current_items.find(:all)
     end

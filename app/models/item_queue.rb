@@ -10,7 +10,7 @@ class ItemQueue < ActiveRecord::Base
   belongs_to :shop
   has_many :menu_items, :dependent=>:nullify
   has_many :order_items
-  has_many :current_items, :class_name=>'OrderItem', :foreign_key=>'item_queue_id', :order=>"created_at ASC", :conditions=>{:state =>'confirmed'}
+  has_many :current_items, :class_name=>'OrderItem', :foreign_key=>'item_queue_id', :order=>"created_at ASC", :conditions=>{:state =>'queued'}
 
   validates_length_of :name, :minimum=>1
 

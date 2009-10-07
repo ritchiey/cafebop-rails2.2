@@ -2,11 +2,10 @@ class Order < ActiveRecord::Base
       
   fields do
     notes :text    
-    state :string
+    state :string, :default=>'pending'
     timestamps
   end
                  
-  before_create :default_to_pending
 
   belongs_to :user
   belongs_to :shop
@@ -29,23 +28,40 @@ class Order < ActiveRecord::Base
   # State related methods
   def pending?() state == 'pending'; end  
   def invited?()   state == 'invited'; end  
-  def declined?()   state == 'declined'; end  
+  def declined?()   state == 'declined'; end
+  def pending_paypal_auth?() state == 'pending_paypal_auth'; end  
   def confirmed?()   state == 'confirmed'; end  
   def made?()   state == 'made'; end  
   def cancelled?()   state == 'cancelled'; end  
-  def reported?()   state == 'reported'; end  
+  def reported?()   state == 'reported'; end
 
-  def confirm!
+  def pay_in_shop! 
+    if shop.accepts_in_shop_payments?
+      confirm!
+    else
+      throw Exception.new "Shop doesn't accept in-shop payment"
+    end
+  end
+
+  def request_paypal_authorization!
     if pending?
-      self.state = 'confirmed'
-      order_items.each { |item| item.confirm!}
+      # TODO: request paypal authorization
+      self.state = 'pending_paypal_auth'
     end
   end
 
   # End state related methods
 private
 
-  def default_to_pending
-    self[:state] ||= 'pending'
+  def confirm!
+    if pending?
+      self.state = 'confirmed'
+      if shop.queues_in_shop_payments?
+        order_items.each {|item| item.queue!}
+      else
+        order_items.each {|item| item.print!}
+      end
+    end
   end
+
 end

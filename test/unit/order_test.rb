@@ -16,9 +16,10 @@ class OrderTest < ActiveSupport::TestCase
       assert @order.order_items.empty?
     end
     
-    should "not be pending after confirm" do
+    should "be confirmed by pay_in_shop" do
       assert @order.pending?
-      @order.confirm!
+      assert @order.shop.accepts_in_shop_payments?
+      @order.pay_in_shop!
       assert !@order.pending?
       assert @order.confirmed?
     end
@@ -39,11 +40,24 @@ class OrderTest < ActiveSupport::TestCase
       assert_equal 6.00, @order.total
     end
 
-    should "confirm all its order_items when confirmed" do
+    should "print all its order_items on pay_in_shop if shop doesn't queue pay in shop items" do
       @order.order_items.each {|item| assert item.pending?}
-      @order.confirm!
+      class << @order.shop
+        def queues_in_shop_payments?() false; end
+      end
+      @order.send 'confirm!'
       assert @order.confirmed?
-      @order.order_items.each {|item| assert item.confirmed?}
+      @order.order_items.each {|item| assert item.printed?}
+    end
+
+    should "queue all its order_items on pay_in_shop if shop queues pay in shop items" do
+      @order.order_items.each {|item| assert item.pending?}
+      class << @order.shop
+        def queues_in_shop_payments?() true; end
+      end
+      @order.send 'confirm!'
+      assert @order.confirmed?
+      @order.order_items.each {|item| assert item.queued?}
     end
 
   end
