@@ -30,7 +30,8 @@ class Order < ActiveRecord::Base
   def invited?()   state == 'invited'; end  
   def declined?()   state == 'declined'; end
   def pending_paypal_auth?() state == 'pending_paypal_auth'; end  
-  def confirmed?()   state == 'confirmed'; end  
+  def printed?()   state == 'printed'; end  
+  def queued?()   state == 'queued'; end  
   def made?()   state == 'made'; end  
   def cancelled?()   state == 'cancelled'; end  
   def reported?()   state == 'reported'; end
@@ -55,11 +56,12 @@ private
 
   def confirm!
     if pending?
-      self.state = 'confirmed'
       if shop.queues_in_shop_payments?
         order_items.each {|item| item.queue!}
+        self.state = 'queued'
       else
         order_items.each {|item| item.print!}
+        self.state = 'printed'
       end
     end
   end

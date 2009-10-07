@@ -16,13 +16,6 @@ class OrderTest < ActiveSupport::TestCase
       assert @order.order_items.empty?
     end
     
-    should "be confirmed by pay_in_shop" do
-      assert @order.pending?
-      assert @order.shop.accepts_in_shop_payments?
-      @order.pay_in_shop!
-      assert !@order.pending?
-      assert @order.confirmed?
-    end
   end
   
   context "an order with a few order_items" do
@@ -46,7 +39,7 @@ class OrderTest < ActiveSupport::TestCase
         def queues_in_shop_payments?() false; end
       end
       @order.send 'confirm!'
-      assert @order.confirmed?
+      assert @order.printed?
       @order.order_items.each {|item| assert item.printed?}
     end
 
@@ -56,7 +49,7 @@ class OrderTest < ActiveSupport::TestCase
         def queues_in_shop_payments?() true; end
       end
       @order.send 'confirm!'
-      assert @order.confirmed?
+      assert @order.queued?
       @order.order_items.each {|item| assert item.queued?}
     end
 
