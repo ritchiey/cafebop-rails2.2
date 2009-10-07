@@ -30,3 +30,14 @@ ItemQueue.blueprint do
   shop
   name {BasicForgery.color.downcase}
 end
+
+Claim.blueprint do
+  shop
+  user
+end   
+
+User.blueprint do
+  email       { InternetForgery.email_address }
+  password    "monkey"
+  password_confirmation "monkey"
+end   

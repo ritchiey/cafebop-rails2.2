@@ -1,0 +1,70 @@
+html {
+  background: #ffed75; }
+
+body {
+  width: 840px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent; }
+
+.page-header {
+  float: left;
+  width: 100%;
+  margin: 10px auto 0;
+  list-style-type: none; }
+
+.account-nav {
+  float: right;
+  background: #fefffe;
+  padding: 5px 10px 5px 10px;
+  margin: 5px 10px 5px 10px;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em; }
+  .account-nav li {
+    list-style-type: none;
+    display: inline;
+    margin: 0 0 0 5px; }
+
+.page-content {
+  float: left;
+  margin: 10px auto;
+  padding: 5px;
+  width: 100%;
+  background-color: #fefffe;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em; }
+
+.content-header {
+  float: left;
+  width: 100%;
+  margin: 0.5em 0 0 0;
+  padding-top: 0.5em; }
+
+.content-footer {
+  float: left;
+  width: 100%;
+  margin: 1.5em 0 0 0;
+  padding-top: 1em;
+  background: #3bb0ff;
+  -moz-border-radius-bottomright: .5em;
+  -webkit-border-bottom-right-radius: .5em;
+  -moz-border-radius-bottomleft: .5em;
+  -webkit-border-bottom-left-radius: .5em; }
+
+.left-column {
+  float: left;
+  width: 74%; }
+
+.right-column, .owners-panel {
+  float: right;
+  width: 26%; }
+
+.page-footer {
+  float: left;
+  width: 100%;
+  text-align: right; }
+
+.aside {
+  float: right;
+  width: 40%; }

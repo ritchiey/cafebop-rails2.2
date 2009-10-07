@@ -8,12 +8,18 @@ class Shop < ActiveRecord::Base
     state   :string, :default=>'community'
     email_address :email_address
     timestamps
-  end              
+  end    
+  
+  def to_s() name; end          
   
   
-  has_many :orders
-  has_many :menus
-  has_many :operating_times
+  has_many :orders, :dependent=>:destroy
+  has_many :menus, :dependent=>:destroy
+  has_many :operating_times, :dependent=>:destroy
+  has_many :claims, :dependent=>:destroy
+  has_many :work_contracts
+  has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
+  
         
   def queues_in_shop_payments?
     express?
@@ -30,6 +36,17 @@ class Shop < ActiveRecord::Base
     return false if community? or express?
     false
     # TODO: Allow pro shops to enable this
+  end
+
+  def claim!(user)
+    if community?
+      wc = work_contracts.find(:first, :conditions=>{:user_id=>user.id})
+      wc ||= shop.work_contracts.build(:user=>user, :role=>'manager')
+      wc.role = 'manager'
+      wc.save!
+      go_express!
+      #TODO Send claimed email
+    end
   end
   
   # State related    

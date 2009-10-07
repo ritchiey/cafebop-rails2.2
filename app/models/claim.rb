@@ -1,20 +1,19 @@
 class Claim < ActiveRecord::Base
 
-
-
   fields do     
     notes :text    
-    state :string
+    state :string, :default=>'pending'
     timestamps
   end
 
   belongs_to :user
   belongs_to :shop
   belongs_to :reviewer, :class_name=>'User'
-
+                  
+  default_scope :order=>'created_at DESC'
+  named_scope :pending, :conditions=>{:state=>'pending'}
   named_scope :outstanding, :conditions=>{:state=>['pending', 'under_review']}
   named_scope :for_shop, lambda {|shop| {:conditions=>{:shop=>shop}}}
-  
 
   def to_s
     "#{user.to_s} claims #{shop.to_s}"
@@ -22,6 +21,31 @@ class Claim < ActiveRecord::Base
 
 
   # --- Lifecycle --- #
+  
+  def pending?() self.state == 'pending'; end
+  def under_review?() self.state == 'under_review'; end
+  def confirmed?() self.state == 'confirmed'; end
+  def rejected?() self.state == 'rejected'; end
+
+  def review!(reviewer)
+    if pending?
+      self.reviewer = reviewer
+      self.state = 'under_review'
+    end
+  end
+
+  def confirm!
+    if under_review?
+      shop.claim!(user)
+      self.state = 'confirmed'
+    end
+  end
+
+  def reject!
+    if under_review?
+      self.state = 'rejected'
+    end
+  end                        
   
   #TODO Reimplement lifecycle
   # lifecycle do

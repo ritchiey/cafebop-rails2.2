@@ -6,6 +6,9 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+APPLICATION_DOMAIN= 'cafebop.com'
+SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -49,5 +52,22 @@ Rails::Initializer.run do |config|
 
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
-  # config.i18n.default_locale = :de
+  # config.i18n.default_locale = :de     
+  
+  config.action_mailer.default_url_options = { :host => APPLICATION_DOMAIN }
+  
 end
+
+
+ActionMailer::Base.delivery_method = :smtp
+ActionMailer::Base.smtp_settings = {
+   :address => "mail.authsmtp.com",
+   :port => 2525,
+   :domain => "cafebop.com",
+   :authentication => :login,
+   :user_name => "ac43532",
+   :password => "aafz9ungf",
+}
+
+ENV['RECAPTCHA_PUBLIC_KEY'] = '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
+ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'

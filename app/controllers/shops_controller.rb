@@ -4,6 +4,11 @@ class ShopsController < ApplicationController
     @shop = Shop.new
   end               
   
+  def show
+    @shop = Shop.find(params[:id])
+    redirect_to new_shop_order_path(@shop)
+  end
+  
   def create
     @shop = Shop.new(params[:shop])
     if @shop.save

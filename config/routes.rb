@@ -1,12 +1,20 @@
 ActionController::Routing::Routes.draw do |map|
-  
+
+  map.activate '/users/activate', :controller => 'users', :action => 'activate'
+  map.resources :users
+  map.resources :user_sessions 
+  map.register '/register', :controller=>:users, :action=>:new
+  map.login '/login', :controller=>:user_sessions, :action=>:new
+  map.logout '/logout', :controller=>:user_sessions, :action =>:destroy
+  map.resources :claims, :member=>{:review=>:put, :confirm=>:put, :reject=>:put}
+
   map.resources :order_items 
   # map.resources :menus
   map.resources :shops, :shallow=>true do |shops|
     shops.resources :orders, :member=>{:pay_in_shop=>:put, :pay_paypal=>:put} 
     shops.resources :menus, :shallow=>true, :has_many=>[:menu_items]
   end
-  
+
   map.root :controller => "shops", :action=>'index'   
 
   # The priority is based upon order of creation: first created -> highest priority.

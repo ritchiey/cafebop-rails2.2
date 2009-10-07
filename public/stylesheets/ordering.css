@@ -1,0 +1,63 @@
+ul.flavours {
+  list-style-type: none; }
+  ul.flavours li {
+    display: inline; }
+
+div.opening-times {
+  float: right;
+  display: inline-block;
+  margin: 0 5px 1em 10px;
+  padding: .5em 2% .5em 2%; }
+
+div.ordering-info {
+  float: left;
+  width: 55%; }
+  div.ordering-info ul {
+    list-style-type: none; }
+
+ul.menu-items {
+  list-style-type: none;
+  width: 100%; }
+
+.ordering-card {
+  float: left;
+  width: 100%;
+  background: #ccd4a4;
+  margin: 0 5px 1em 10px;
+  padding: .5em 2% .5em 2%;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em; }
+  .ordering-card button {
+    float: right; }
+
+table.order-summary {
+  float: right;
+  background: #ccd4a4;
+  margin: 3em 0 0 20px;
+  table-layout: fixed;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em; }
+  table.order-summary td.qty, table.order-summary td.description, table.order-summary td.price {
+    border-bottom: 1px solid #ffed75; }
+  table.order-summary th.qty {
+    width: 40px; }
+  table.order-summary th.description {
+    width: 300px; }
+  table.order-summary th.price {
+    width: 50px; }
+
+.place-button {
+  float: right;
+  width: 200px; }
+
+table.grand-order-summary {
+  margin: 2em auto 4em auto;
+  table-layout: fixed; }
+  table.grand-order-summary td.quantity-view, table.grand-order-summary td.description-view, table.grand-order-summary td.cost-as-currency-view {
+    border-bottom: 1px solid #ffed75; }
+  table.grand-order-summary th.quantity-heading {
+    width: 40px; }
+  table.grand-order-summary th.description-heading {
+    width: 300px; }
+  table.grand-order-summary th.cost-as-currency-heading {
+    width: 50px; }

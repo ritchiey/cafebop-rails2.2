@@ -1,0 +1,27 @@
+.print-only {
+  display: inline; }
+
+img.logo {
+  float: right;
+  width: 50%;
+  top-margin: -2em; }
+
+.no-print, .page-header, .aside {
+  display: none; }
+
+.shop-blurb {
+  float: right;
+  width: 23%;
+  padding: 2%;
+  border: 1px solid #aaa; }
+
+.grand-order-summary {
+  margin-top: 10%;
+  margin-left: 25%;
+  width: 35%;
+  border: 1px solid #aaa; }
+  .grand-order-summary td {
+    border: 1px solid #ddd; }
+
+.total * {
+  font-weight: bold; }
