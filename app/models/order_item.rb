@@ -43,11 +43,13 @@ class OrderItem < ActiveRecord::Base
   def queue!             
     if pending?
       self.state = 'queued'
+      self.save
     end
   end
     
   def print!
     if pending?
+      self.save
       self.state = 'printed'
     end
   end
@@ -55,12 +57,14 @@ class OrderItem < ActiveRecord::Base
   def make!
     if queued?
       state = 'made'
+      self.save
     end
   end
 
   def deliver!
     if made?
       self.state = 'delivered'
+      self.save
     end
   end
   # End State related

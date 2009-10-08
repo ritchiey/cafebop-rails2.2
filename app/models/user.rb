@@ -10,10 +10,11 @@ class User < ActiveRecord::Base
     timestamps
   end                          
 
-  has_many :claims_to_review, :class_name => "Claim", :foreign_key => :reviewer_id
+  has_many :claims_to_review, :class_name => "Claim", :foreign_key=>:reviewer_id, :conditions=>{:state=>'under_review'}
   has_many :claims, :dependent=>:destroy
 
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/io, :on => :create
+  validates_uniqueness_of :email
                                            
   def to_s() name || email; end
   

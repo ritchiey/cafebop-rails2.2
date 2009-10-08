@@ -19,6 +19,7 @@ class Shop < ActiveRecord::Base
   has_many :claims, :dependent=>:destroy
   has_many :work_contracts
   has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
+  has_many :managers, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'manager'"]
   
         
   def queues_in_shop_payments?
@@ -41,7 +42,7 @@ class Shop < ActiveRecord::Base
   def claim!(user)
     if community?
       wc = work_contracts.find(:first, :conditions=>{:user_id=>user.id})
-      wc ||= shop.work_contracts.build(:user=>user, :role=>'manager')
+      wc ||= work_contracts.build(:user=>user, :role=>'manager')
       wc.role = 'manager'
       wc.save!
       go_express!
@@ -56,14 +57,17 @@ class Shop < ActiveRecord::Base
   
   def go_community!
     self.state = 'community'
+    self.save
   end
   
   def go_express!
     self.state = 'express'
+    self.save
   end
 
   def go_professional!
     self.state = 'professional'
+    self.save
   end
   # End state related
 

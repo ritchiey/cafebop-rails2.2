@@ -31,6 +31,7 @@ class Claim < ActiveRecord::Base
     if pending?
       self.reviewer = reviewer
       self.state = 'under_review'
+      self.save
     end
   end
 
@@ -38,12 +39,14 @@ class Claim < ActiveRecord::Base
     if under_review?
       shop.claim!(user)
       self.state = 'confirmed'
+      self.save
     end
   end
 
   def reject!
     if under_review?
       self.state = 'rejected'
+      self.save
     end
   end                        
   

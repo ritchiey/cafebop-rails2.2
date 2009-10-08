@@ -1,13 +1,17 @@
 %h3 Outstanding Claims
 
-.pending
-%h4 Unassigned Claims
-%ul.pending
-  -for claim in @pending_claims
-    %li=link_to claim, review_claim_path(claim), :method=>:put
-
 .mine
 %h4 Claims I'm Reviewing
 %ul.mine
   -for claim in @my_claims
-    %li=link_to claim, root_path
+    %li=link_to claim, claim
+  ="- None -" if @my_claims.empty?
+    
+.unassigned
+%h4 Unassigned Claims
+%ul.unassigned
+  -for claim in @pending_claims
+    %li=link_to claim, review_claim_path(claim), :method=>:put
+  ="- None -" if @pending_claims.empty?
+
+

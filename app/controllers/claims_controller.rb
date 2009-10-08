@@ -18,7 +18,8 @@ class ClaimsController < ApplicationController
 
   def review
     @claim = Claim.find(params[:id])
-    @claim.review!(current_user)
+    @claim.review!(current_user)     
+    @claim.save
     redirect_to @claim
   end                 
   
@@ -28,10 +29,24 @@ class ClaimsController < ApplicationController
   
   def confirm
     @claim = Claim.find(params[:id])
-    if @claim.confirm!
+    @claim.confirm!
+    if @claim.save
       flash[:notice] = "Claim confirmed"
+      redirect_to claims_path
+    else
+      render @claim
     end
-    redirect_to claims_path
+  end
+  
+  def reject
+    @claim = Claim.find(params[:id])
+    @claim.reject!
+    if @claim.save
+      flash[:notice] = "Claim rejected"
+      redirect_to claims_path
+    else
+      render @claim
+    end
   end
   
 end
