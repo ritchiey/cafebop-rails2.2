@@ -1,0 +1,5 @@
+%show-page
+  %collection-section:
+    #pending-items
+      = render :partial=>"pending_items"
+      = periodically_call_remote :update=>'pending-items', :url=>"/item_queues/#{@item_queue.id}/pending", :frequency=>20, :method=>'GET'

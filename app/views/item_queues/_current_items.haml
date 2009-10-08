@@ -1,0 +1,7 @@
+.current-items
+  = "Last Updated: #{Time.now}"
+  %ul
+    -for item in @item_queue.current_items
+      %li{:id=>"order-item-#{item.id}"}
+        =link_to_remote item.description, :url=>make_order_item_path(item), :method=>'PUT'
+          

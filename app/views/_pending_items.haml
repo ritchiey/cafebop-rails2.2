@@ -1,0 +1,7 @@
+.pending-items
+  = "Last Updated: #{Time.now}"
+  %ul
+    -@item_queue.items.each do |item|
+      %li{:id=>"order-item-#{item.id}"}
+        =link_to_remote item.description, :url=>"/order_items/#{item.id}/make", :method=>'PUT'
+          

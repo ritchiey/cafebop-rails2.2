@@ -1,0 +1,5 @@
+%h3=h "New Item Queue for #{@shop.name}"      
+
+-form_for [@shop, @item_queue] do |f|
+  =f.label :name
+  =f.text_field :name
