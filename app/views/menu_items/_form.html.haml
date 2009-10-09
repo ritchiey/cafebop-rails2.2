@@ -5,3 +5,5 @@
   =f.text_field :description 
   =f.label :price
   =f.text_field :price
+  =f.collection_select :item_queue_id, ItemQueue.all, :id, :name
+  =submit_tag

@@ -8,7 +8,6 @@
     = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css'
     = stylesheet_link_tag 'application' 
     = javascript_include_tag 'jquery-1.3.2.min.js', 'jquery-ui-1.7.2.custom.min.js', 'jrails', 'application.js'
-    -#= javascript_include_tag 'jquery', 'jquery-ui', 'jrails', 'application.js'
     = yield(:head)
   
   %body 
@@ -17,6 +16,15 @@
       %span#ajax-progress-text
   .header.page-header
     .account-nav
+      -if current_user
+        -if current_user.can_review_claims?
+          =link_to "Review Claims", claims_path
+          ="|"
+        =link_to "Logout", logout_path
+      -else        
+        =link_to "Login", login_path
+        ="|"
+        =link_to "Register", register_path
 
 
   .page-content    

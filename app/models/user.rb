@@ -21,7 +21,10 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/io, :on => :create
   validates_uniqueness_of :email
                                            
-  def to_s() name || email; end
-
+  def to_s() name || email; end 
+  
+  def can_review_claims?
+    is_cafebop_admin?
+  end
   
 end

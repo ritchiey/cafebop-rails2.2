@@ -13,7 +13,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :shops, :shallow=>true do |shops|
     shops.resources :item_queues, :member=>[:current_items]
     shops.resources :claims, :only=>[:create]
-    shops.resources :orders, :member=>{:pay_in_shop=>:put, :pay_paypal=>:put} 
+    shops.resources :orders, :shallow=>true, :member=>{:pay_in_shop=>:put, :pay_paypal=>:put} do |orders|
+      orders.resources :order_items, :member=>{:make=>:put}
+    end 
     shops.resources :menus, :shallow=>true, :has_many=>[:menu_items]
   end
 

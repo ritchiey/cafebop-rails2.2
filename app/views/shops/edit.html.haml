@@ -1,6 +1,7 @@
 %h3= "Edit Shop (#{@shop.state} edition)"
    
 =render :partial => 'back'
+=link_to "Place Order &gt;&gt;", new_shop_order_path(@shop)
 =render :partial=>'form', :object=>@shop
 
 .menus 
