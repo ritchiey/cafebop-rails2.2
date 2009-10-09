@@ -9,19 +9,35 @@ class Shop < ActiveRecord::Base
     email_address :email_address
     timestamps
   end    
+
   
+  # def menu_attributes=(attributes)
+  #   for attributes in new_menus
+  #     self.menus.build(attributes)
+  #   end
+  # end  
+
   def to_s() name; end          
   
   
   has_many :orders, :dependent=>:destroy
   has_many :item_queues, :dependent=>:destroy
   has_many :menus, :dependent=>:destroy
+  has_many :menu_items, :through => :menus
   has_many :operating_times, :dependent=>:destroy
   has_many :claims, :dependent=>:destroy
   has_many :work_contracts
   has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
   has_many :managers, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'manager'"]
   
+  
+  def can_be_claimed?
+    self.community?
+  end
+
+  def can_have_queues?
+    !self.community?
+  end
         
   def queues_in_shop_payments?
     express?
@@ -62,6 +78,11 @@ class Shop < ActiveRecord::Base
   end
   
   def go_express!
+    queue = item_queues.create({:name=>'Default'})
+    menu_items.each do |item|
+      item.item_queue = queue
+      item.save
+    end
     self.state = 'express'
     self.save
   end

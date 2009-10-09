@@ -10,6 +10,8 @@ class Menu < ActiveRecord::Base
     community   :boolean
     timestamps
   end
+  
+
 
   belongs_to :shop
   has_many :menu_items, :dependent=>:destroy, :order=>:position

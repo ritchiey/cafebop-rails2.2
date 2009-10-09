@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  acts_as_authentic
+  easy_roles :roles
   
   fields do  
     name      :string
@@ -6,9 +9,11 @@ class User < ActiveRecord::Base
     crypted_password  :string
     password_salt :string
     persistence_token :string   
-    perishable_token :string
+    perishable_token :string  
+    roles           :string, :default=>"--- []"
     timestamps
   end                          
+
 
   has_many :claims_to_review, :class_name => "Claim", :foreign_key=>:reviewer_id, :conditions=>{:state=>'under_review'}
   has_many :claims, :dependent=>:destroy
@@ -17,6 +22,6 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
                                            
   def to_s() name || email; end
+
   
-  acts_as_authentic
 end

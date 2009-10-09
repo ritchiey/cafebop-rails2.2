@@ -1,4 +1,4 @@
-%h3 Edit Shops
+%h3= "Edit Shop (#{@shop.state} edition)"
    
 =render :partial => 'back'
 =render :partial=>'form', :object=>@shop
@@ -8,19 +8,15 @@
   -if @shop.menus.empty?
     No menus yet.
   -else
-    -@shop.menus.each do |menu|
-      %ul
-        %li=link_to menu.name, edit_menu_path(menu)
+    %ul= render :partial => @shop.menus
   =link_to "Add Menu", new_shop_menu_path(@shop)
 
-
-.queues
-  %h4 Queues
-  -if @shop.item_queues.empty?
-    No queues yet.
-  -else
-    -@shop.item_queues.each do |queue|
-      %ul
-        %li=link_to queue.name, queue
-  =link_to "Add Queue", new_shop_item_queue_path(@shop)
+-if @shop.can_have_queues?
+  .queues
+    %h4 Queues
+    -if @shop.item_queues.empty?
+      No queues yet.
+    -else
+      %ul= render :partial => @shop.item_queues
+    =link_to "Add Queue", new_shop_item_queue_path(@shop)
   

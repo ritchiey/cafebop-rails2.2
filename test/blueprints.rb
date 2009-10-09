@@ -11,7 +11,6 @@ end
 
 MenuItem.blueprint do 
   menu
-  item_queue {ItemQueue.make(:shop=>menu.shop)}
   name { CafeForgery.menu_item_name} 
   price_in_cents {BasicForgery.number :at_least=>50, :at_most=>4500}
 end                                

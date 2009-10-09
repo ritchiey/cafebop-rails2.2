@@ -5,7 +5,8 @@ class Size < ActiveRecord::Base
     name            :string
     description     :string
     price_in_cents  :integer
-    extras_price    :string
+    extras_price    :string  
+    position        :integer
     timestamps
   end
 

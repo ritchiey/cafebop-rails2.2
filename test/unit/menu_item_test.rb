@@ -18,9 +18,5 @@ class MenuItemTest < ActiveSupport::TestCase
       assert_equal "10.24", @item.price
     end
     
-    should "belong to an item_queue" do
-      assert_not_nil @item.item_queue
-    end
-    
   end
 end

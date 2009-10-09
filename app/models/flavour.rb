@@ -3,6 +3,7 @@ class Flavour < ActiveRecord::Base
   fields do
     name        :string
     description :string
+    position    :integer
     timestamps
   end
 

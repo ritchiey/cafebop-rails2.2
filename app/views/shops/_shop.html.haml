@@ -1,0 +1,6 @@
+-# A Shop as it appears in search results
+=content_tag_for :li, shop do
+  =link_to shop.name, edit_shop_path(shop)
+  =link_to "Place Order", new_shop_order_path(shop)
+  -if shop.can_be_claimed?
+    =link_to "Claim this shop", shop_claims_path(shop), :method=>:post

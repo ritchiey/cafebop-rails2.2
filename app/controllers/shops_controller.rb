@@ -2,6 +2,7 @@ class ShopsController < ApplicationController
   
   def new
     @shop = Shop.new
+    @shop.menus.build
   end               
   
   def show
