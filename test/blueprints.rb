@@ -40,3 +40,10 @@ User.blueprint do
   password    "monkey"
   password_confirmation "monkey"
 end   
+
+
+WorkContract.blueprint do
+  shop
+  user
+  role 'patron'
+end

@@ -31,6 +31,10 @@ class Shop < ActiveRecord::Base
   has_many :managers, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'manager'"]
   
   
+  def is_manager?(user)
+    managers.include?(user)
+  end
+  
   def can_be_claimed?
     self.community?
   end
@@ -92,5 +96,12 @@ class Shop < ActiveRecord::Base
     self.save
   end
   # End state related
+                
 
+  # Permissions
+  def can_edit?(acting_user)
+    return true if (acting_user.manages? self)
+   false
+  end
+  
 end

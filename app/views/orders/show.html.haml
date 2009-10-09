@@ -1,5 +1,5 @@
 -shop = @order.shop
-=render :partial => 'shop', :object=>shop
+= render :partial => 'shops/page_header', :locals=>{:shop=>@order.shop}
 
 -if @order.pending?
   =link_to "&lt;&lt; Change", edit_order_path(@order)

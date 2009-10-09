@@ -1,3 +1,4 @@
-%h2 Shops
+%h2="#{@shops.count} Shops"
+
 %ul= render :partial=>@shops
 =link_to "Add Shop", new_shop_path

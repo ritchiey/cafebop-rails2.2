@@ -1,4 +1,7 @@
 class ShopsController < ApplicationController    
+
+  before_filter :find_instance, :except=>[:new, :create, :index]          
+  before_filter :can_edit, :only=>[:edit, :update]
   
   def new
     @shop = Shop.new
@@ -25,6 +28,30 @@ class ShopsController < ApplicationController
   
   def edit
     @shop = Shop.find(params[:id])
+  end  
+  
+  def update
+
+    if @shop.update_attributes(params[:shop])
+      redirect_to shops_path
+    else
+      render :action=>:edit
+    end
+    
   end
+
+
+private
+
+    def find_instance
+      @shop = Shop.find(params[:id])
+    end
+
+    def can_edit
+      unless @shop.can_edit?(current_user)
+        flash[:error] = "You aren't authorized to do that."
+        redirect_to root_path
+      end
+    end  
     
 end
