@@ -23,6 +23,13 @@ class OrderItemTest < ActiveSupport::TestCase
       @item.queue!
       assert @item.queued?
     end
+
+    should "become made from make!" do
+      @item.queue!
+      assert !@item.made?
+      @item.make!
+      assert @item.made?
+    end
     
     should "adopt the item_queue of its menu_item" do
       assert_equal @item.menu_item.item_queue, @item.item_queue
