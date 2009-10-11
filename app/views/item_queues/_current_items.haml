@@ -1,4 +1,9 @@
-.current-items
-  = "Last Updated: #{Time.now}"
-  %ul= render :partial => @item_queue.current_items
+%table
+  %thead
+    %tr
+      %td Qty
+      %td Item
+  %tbody= render :partial => @item_queue.current_items
+
+= "Last Updated: #{Time.now}"
           

@@ -1,4 +1,8 @@
 %h3 Editing Menu Item
 
-= render :partial => 'back'
+=render :partial => 'back'
 =render :partial=>'form', :object=>@menu_item
+
+%h4 Sizes
+%ul=render :partial=>@menu_item.sizes
+=link_to "Add Size", new_menu_item_size_path(@menu_item)

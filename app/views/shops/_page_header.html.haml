@@ -1,8 +1,7 @@
 .content-header
   %h1=h shop.name
   =h shop.state
-  -if shop.can_edit?(current_user)
-    =link_to "Edit Shop", edit_shop_path(shop)
+  =edit_shop_link(shop)
   .opening-times
     %h3 Opening Times
     %table

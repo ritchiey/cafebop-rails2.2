@@ -1,4 +1,4 @@
-.collection-section
-  #current-items
-    = render :partial=>"current_items"
-  = periodically_call_remote :update=>'current-items', :url=>current_items_item_queue_path(@item_queue), :frequency=>20, :method=>'GET'
+#collection-section
+  =render :partial=>'current_items'
+= periodically_call_remote :update=>'collection-section', :url=>current_items_item_queue_path(@item_queue), :frequency=>20, :method=>'GET'
+  

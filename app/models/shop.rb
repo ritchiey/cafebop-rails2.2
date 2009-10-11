@@ -4,7 +4,7 @@ class Shop < ActiveRecord::Base
     name    :string
     phone   :string
     fax     :string
-    website :string    
+    website :string
     state   :string, :default=>'community'
     email_address :email_address
     timestamps
@@ -99,7 +99,8 @@ class Shop < ActiveRecord::Base
                 
 
   # Permissions
-  def can_edit?(acting_user)
+  def can_edit?(acting_user)                 
+    return false unless acting_user
     return true if (acting_user.manages? self)
    false
   end

@@ -16,7 +16,12 @@ ActionController::Routing::Routes.draw do |map|
     shops.resources :orders, :shallow=>true, :member=>{:pay_in_shop=>:put, :pay_paypal=>:put} do |orders|
       orders.resources :order_items, :member=>{:make=>:put}
     end 
-    shops.resources :menus, :shallow=>true, :has_many=>[:menu_items]
+    shops.resources :menus, :shallow=>true do |menus|
+      menus.resources :menu_items, :shallow=>true do |menu_items|
+        menu_items.resources :sizes
+        menu_items.resources :flavours
+      end
+    end
   end
 
   map.root :controller => "shops", :action=>'index'   
