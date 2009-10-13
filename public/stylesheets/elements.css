@@ -63,6 +63,3 @@ ul.shops {
 form.shop {
   margin: 2em auto 2em 10%;
   text-align: left; }
-
-.print-only, .hidden {
-  display: none; }

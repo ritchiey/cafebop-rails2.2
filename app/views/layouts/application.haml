@@ -1,38 +1,37 @@
-!!! Strict
-%html{html_attrs}
-  
+!!!
+%html
   %head
-    %title
-      = h(yield(:title) || "Cafebop")
-    %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
+    %title= h(yield(:title) || "Cafebop")
+    %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}
+    = stylesheet_link_tag "blueprint/screen.css", :media=>'screen'
+    = stylesheet_link_tag "blueprint/print.css", :media=>'print'  
     = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css'
     = stylesheet_link_tag 'application' 
     = javascript_include_tag 'jquery-1.3.2.min.js', 'jquery-ui-1.7.2.custom.min.js', 'jrails', 'application.js'
+    / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]
     = yield(:head)
-  
-  %body 
-  #ajax-progress
-    %div
-      %span#ajax-progress-text
-  .header.page-header
-    .account-nav
-      -if current_user
-        -if current_user.can_review_claims?
-          =link_to "Review Claims", claims_path
-          ="|"
-        =link_to "Logout", logout_path
-      -else        
-        =link_to "Login", login_path
-        ="|"
-        =link_to "Register", register_path
 
+  %body      
+    .container        
+      #header.span-24.last
+        .span-18
+          =image_tag 'logo.png', :size=>'144x72'
+        .span-6.last
+          =render :partial=>'layouts/account_nav'
 
-  .page-content    
-    #container
-      
-      - flash.each do |name, msg|        
-        = render :partial => 'shared/notice', :object=>msg
-
+      #content.span-24.last
+        -default_content_for :content do
+          #content-header.span-24.last
+            -default_content_for :content_header do
+              =%q/"I'm going to the shop. Want anything?"/
+          #content-body.span-24.last
+            -default_content_for :content_body do
+              #main.span-16
+                =yield
+              #aside.span-8.last
+                -default_content_for :aside do
+                  Aside
             
-      = yield
-  =render :partial => 'shared/page_footer'
+      #footer.span-24.last
+        -default_content_for :footer do
+          Footer

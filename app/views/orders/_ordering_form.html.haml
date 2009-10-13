@@ -1,3 +1,5 @@
+
+
 %h3 Menu Items
 %ul
   -if @shop.menus.empty?
@@ -11,29 +13,28 @@
             =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
         -else
           =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
-        
-      
-   
-%hr  
-%h3 Your Order
--form_for ordering_form do |form|
-  %table
-    %thead
-      %tr
-        %th Qty
-        %th Description
-        %th Notes
-        %th Cost($)
-        %th
+
+-content_for :aside do        
+  %h3 Your Order
+  -form_for ordering_form do |form|
+    %table
+      %thead
+        %tr
+          %th Qty
+          %th Description
+          %th Notes
+          %th Cost($)
+          %th
+
+      %tbody#order_items
+
+      %tfoot
+        %tr
+          %td(colspan="3") Total
+          %td#total 0.00  
+    = submit_tag
   
-    %tbody#order_items
-  
-    %tfoot
-      %tr
-        %td(colspan="3") Total
-        %td#total 0.00  
-  = submit_tag
-%hr                       
+
 .hidden
   #dialog{ :title => "Add to Order" }
     %form
@@ -49,4 +50,4 @@
         %label{ :for => "notes" } Notes
         %input#notes_field.text.ui-widget-content.ui-corner-all{ :name => "notes", :type => "text", :value => "" }
         %input#details_field{ :name => "details", :type => "hidden", :value => "" }
-        
+      

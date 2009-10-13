@@ -1,63 +1,95 @@
-ul.flavours {
-  list-style-type: none; }
-  ul.flavours li {
-    display: inline; }
+/*
+Sass::SyntaxError: Undefined variable: "!ordering_card_colour".
+on line 31 of /Users/ritchiey/Projects/cafebop/public/stylesheets/sass/ordering.sass
 
-div.opening-times {
-  float: right;
-  display: inline-block;
-  margin: 0 5px 1em 10px;
-  padding: .5em 2% .5em 2%; }
+27: 
+28: .ordering-card   
+29:   :float  left   
+30:   :width  100%
+31:   :background = !ordering_card_colour
+32:   :margin 0 5px 1em 10px   
+33:   :padding .5em 2% .5em 2%
+34:   +rounded-corners
+35: 
+36:   button
+37:     :float  right
 
-div.ordering-info {
-  float: left;
-  width: 55%; }
-  div.ordering-info ul {
-    list-style-type: none; }
 
-ul.menu-items {
-  list-style-type: none;
-  width: 100%; }
-
-.ordering-card {
-  float: left;
-  width: 100%;
-  background: #ccd4a4;
-  margin: 0 5px 1em 10px;
-  padding: .5em 2% .5em 2%;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
-  .ordering-card button {
-    float: right; }
-
-table.order-summary {
-  float: right;
-  background: #ccd4a4;
-  margin: 3em 0 0 20px;
-  table-layout: fixed;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
-  table.order-summary td.qty, table.order-summary td.description, table.order-summary td.price {
-    border-bottom: 1px solid #ffed75; }
-  table.order-summary th.qty {
-    width: 40px; }
-  table.order-summary th.description {
-    width: 300px; }
-  table.order-summary th.price {
-    width: 50px; }
-
-.place-button {
-  float: right;
-  width: 200px; }
-
-table.grand-order-summary {
-  margin: 2em auto 4em auto;
-  table-layout: fixed; }
-  table.grand-order-summary td.quantity-view, table.grand-order-summary td.description-view, table.grand-order-summary td.cost-as-currency-view {
-    border-bottom: 1px solid #ffed75; }
-  table.grand-order-summary th.quantity-heading {
-    width: 40px; }
-  table.grand-order-summary th.description-heading {
-    width: 300px; }
-  table.grand-order-summary th.cost-as-currency-heading {
-    width: 50px; }
+Backtrace:
+/Users/ritchiey/Projects/cafebop/public/stylesheets/sass/ordering.sass:31
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/script/variable.rb:27:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/prop_node.rb:87:in `perform!'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:179:in `_perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:156:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:200:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:200:in `map'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:200:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:191:in `perform!'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/rule_node.rb:156:in `perform!'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:179:in `_perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:156:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:200:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:200:in `map'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:200:in `perform_children'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:191:in `perform!'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:179:in `_perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:156:in `perform'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/tree/node.rb:103:in `render'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/plugin.rb:83:in `update_stylesheet'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/plugin.rb:69:in `update_stylesheets'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/plugin.rb:64:in `each'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/plugin.rb:64:in `update_stylesheets'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/plugin.rb:62:in `each'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/plugin.rb:62:in `update_stylesheets'
+/Library/Ruby/Gems/1.8/gems/haml-2.2.5/lib/sass/plugin/rails.rb:16:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:391:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:386:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/routing/route_set.rb:437:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:87:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:121:in `_call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:130:in `build_middleware_stack'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:9:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:28:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:361:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/head.rb:9:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/methodoverride.rb:24:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/params_parser.rb:15:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/session/cookie_store.rb:93:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/failsafe.rb:26:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `synchronize'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:114:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/reloader.rb:34:in `run'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:108:in `call'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/rails/rack/static.rb:31:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:46:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:40:in `each'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:40:in `call'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/rails/rack/log_tailer.rb:17:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/content_length.rb:13:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/chunked.rb:15:in `call'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/handler/mongrel.rb:61:in `process'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:159:in `process_client'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:158:in `each'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:158:in `process_client'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `run'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `initialize'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `new'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `run'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `initialize'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `new'
+/Library/Ruby/Gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `run'
+/Users/ritchiey/.gem/ruby/1.8/gems/rack-1.0.0/lib/rack/handler/mongrel.rb:34:in `run'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/commands/server.rb:111
+/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
+script/server:3
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Sass::SyntaxError: Undefined variable: \"!ordering_card_colour\".\A on line 31 of /Users/ritchiey/Projects/cafebop/public/stylesheets/sass/ordering.sass\A \A 27: \A 28: .ordering-card   \A 29:   :float  left   \A 30:   :width  100%\A 31:   :background = !ordering_card_colour\A 32:   :margin 0 5px 1em 10px   \A 33:   :padding .5em 2% .5em 2%\A 34:   +rounded-corners\A 35: \A 36:   button\A 37:     :float  right\A "; }

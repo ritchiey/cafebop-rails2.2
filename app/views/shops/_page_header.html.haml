@@ -1,8 +1,9 @@
-.content-header
-  %h1=h shop.name
-  =h shop.state
-  =edit_shop_link(shop)
-  .opening-times
+#shop-header.span-18.last
+  .span-12
+    %h1=h shop.name
+    =h shop.state
+    =edit_shop_link(shop)
+  #opening-times.span-6.last
     %h3 Opening Times
     %table
       -shop.operating_times.each do |opening|
