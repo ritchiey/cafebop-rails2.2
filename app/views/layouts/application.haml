@@ -6,6 +6,9 @@
     = stylesheet_link_tag "blueprint/screen.css", :media=>'screen'
     = stylesheet_link_tag "blueprint/print.css", :media=>'print'  
     = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css'
+    = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css'
+    = stylesheet_link_tag "formtastic"
+    = stylesheet_link_tag "formtastic_changes"
     = stylesheet_link_tag 'application' 
     = javascript_include_tag 'jquery-1.3.2.min.js', 'jquery-ui-1.7.2.custom.min.js', 'jrails', 'application.js'
     / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]
@@ -15,7 +18,7 @@
     .container        
       #header.span-24.last
         .span-18
-          =image_tag 'logo.png', :size=>'144x72'
+          =link_to image_tag('logo.png', :size=>'144x72'), root_path
         .span-6.last
           =render :partial=>'layouts/account_nav'
 
@@ -30,8 +33,8 @@
                 =yield
               #aside.span-8.last
                 -default_content_for :aside do
-                  Aside
+                  =placeholder
             
       #footer.span-24.last
         -default_content_for :footer do
-          Footer
+          =placeholder

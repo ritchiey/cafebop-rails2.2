@@ -33,7 +33,8 @@ Rails::Initializer.run do |config|
   config.gem 'searchlogic'
   config.gem 'raganwald-andand', :lib => 'andand', :source => 'http://gems.github.com'
   config.gem "josevalim-rails-footnotes",  :lib => "rails-footnotes", :source => "http://gems.github.com"
-  config.gem 'easy_roles', :source => 'http://gemcutter.org'
+  config.gem 'easy_roles', :source => 'http://gemcutter.org'  
+  config.gem 'justinfrench-formtastic', :lib=>'formtastic', :source=>'http://gems.github.com'
   
   
 

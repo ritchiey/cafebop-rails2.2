@@ -1,0 +1,5 @@
+%h3=h "New flavour for #{@menu_item.name}"
+
+-semantic_form_for [@menu_item, @flavour] do |form|
+  =form.inputs :name, :description
+  =form.buttons

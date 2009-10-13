@@ -6,3 +6,7 @@
 %h4 Sizes
 %ul=render :partial=>@menu_item.sizes
 =link_to "Add Size", new_menu_item_size_path(@menu_item)
+
+%h4 Flavours
+%ul=render :partial=>@menu_item.flavours
+=link_to "Add Flavour", new_menu_item_flavour_path(@menu_item)

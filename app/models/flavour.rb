@@ -11,6 +11,11 @@ class Flavour < ActiveRecord::Base
   belongs_to :menu_item
   validates_length_of :name, :minimum=>1
 
+
+  def to_s
+    name
+  end   
+  
   def ordering_json
     OrderItem.new({:menu_item=>menu_item, :flavour=>self}).to_json(
       :include=>{:menu_item=>{:include=>[:sizes], :only=>[:name, :price_in_cents, :id, :item_queue_id]},
