@@ -24,9 +24,6 @@ menu_templates = [
                         }
                      ]
                    })
-},
-{
-  
 }
 ]
-menu_templates.each {MenuTemplate.create(mt)}
+menu_templates.each {|mt| MenuTemplate.create(mt)}
