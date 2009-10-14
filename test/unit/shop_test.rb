@@ -25,6 +25,14 @@ class ShopTest < ActiveSupport::TestCase
       @shop.go_professional!
       assert @shop.professional?
     end
+
+    should "get certain menu items when add_generic_cafe_menus is called" do
+      @shop.add_generic_cafe_menus
+      assert_not_nil(menu = @shop.menus.find_by_name('Drinks'))
+      assert_not_nil(coffee = menu.menu_items.find_by_name('Coffee'))
+      assert_not_nil(large = coffee.sizes.find_by_name('Large'))
+      assert_equal "4.50", large.price
+    end
       
   end
    

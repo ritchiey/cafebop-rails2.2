@@ -30,6 +30,7 @@ class Shop < ActiveRecord::Base
   has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
   has_many :managers, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'manager'"]
   
+  accepts_nested_attributes_for :menus
   
   def is_manager?(user)
     managers.include?(user)
@@ -103,6 +104,29 @@ class Shop < ActiveRecord::Base
     return false unless acting_user
     return true if (acting_user.manages? self)
    false
+  end      
+  
+  def add_generic_cafe_menus
+    menus.create(:name=>'Drinks',
+                 :menu_items_attributes=>[
+                     {:name=>'Coffee',
+                      :flavours_attributes=>[
+                        {
+                          :name=>'Flat White',
+                          :description=>'Frothy Perfection'
+                        },
+                        {
+                          :name=>'Cappucino',
+                          :description=>'Frothy Perfection plus chocolate sprinkles'
+                        }
+                        ], # flavours_attributes
+                      :sizes_attributes=>[
+                          { :name=>'Regular', :price=>'3.80' },
+                          { :name=>'Large', :price=>'4.50' }
+                        ]
+                      }
+                   ] #menu_item_attributes
+                   )
   end
   
 end

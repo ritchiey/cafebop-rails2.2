@@ -23,8 +23,10 @@ class MenuItem < ActiveRecord::Base
   # This specifies the menu containing extras suitable to add to this menu item
   belongs_to :extras_menu, :class_name=>"Menu"
   
-                                        
   treat_as_currency :price #create virtual price attribute
+
+  accepts_nested_attributes_for :flavours, :sizes
+  
 
 
   def shop
