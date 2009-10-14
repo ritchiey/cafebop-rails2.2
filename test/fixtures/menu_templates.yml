@@ -1,0 +1,7 @@
+one:
+  name: MyString
+  yaml_data: MyText
+
+two:
+  name: MyString
+  yaml_data: MyText

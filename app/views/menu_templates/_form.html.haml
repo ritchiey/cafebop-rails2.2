@@ -1,0 +1,12 @@
+- form_for @menu_template do |f|
+  = f.error_messages
+  %p
+    = f.label :name
+    %br
+    = f.text_field :name
+  %p
+    = f.label :yaml_data
+    %br
+    = f.text_area :yaml_data
+  %p
+    = f.submit "Submit"

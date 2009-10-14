@@ -105,6 +105,7 @@ class Shop < ActiveRecord::Base
     return true if (acting_user.manages? self)
    false
   end      
+                  
   
   def add_generic_cafe_menus
     menus.create(:name=>'Drinks',

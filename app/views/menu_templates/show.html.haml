@@ -1,0 +1,15 @@
+- title "Menu Template"
+
+%p
+  %strong Name:
+  =h @menu_template.name
+%p
+  %strong Yaml Data:
+  =h @menu_template.yaml_data
+
+%p
+  = link_to "Edit", edit_menu_template_path(@menu_template)
+  |
+  = link_to "Destroy", @menu_template, :confirm => 'Are you sure?', :method => :delete
+  |
+  = link_to "View All", menu_templates_path
