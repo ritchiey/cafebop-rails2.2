@@ -13,7 +13,12 @@ class FlavoursController < ApplicationController
     else
       render :action=>'new'
     end
-  end                      
+  end     
+  
+  def edit
+    @flavour = Flavour.find(params[:id])
+  end
+                     
   
   
 end

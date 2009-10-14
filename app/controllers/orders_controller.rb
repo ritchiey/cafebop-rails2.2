@@ -33,6 +33,11 @@ class OrdersController < ApplicationController
     @order.pay_in_shop!
     @order.save
     redirect_to @order
+  end        
+  
+  def summary
+    @order = Order.find(params[:id])
+    render :partial=>'summary'
   end
 
   # Authorize payment through Paypal

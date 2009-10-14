@@ -1,5 +1,7 @@
--shop = @order.shop
-= render :partial => 'shops/page_header', :locals=>{:shop=>@order.shop}
+-shop = @order.shop 
+
+-content_for :content_header do
+  = render :partial => 'shops/page_header', :locals=>{:shop=>shop}
 
 -if @order.pending?
   =link_to "&lt;&lt; Change", edit_order_path(@order)
@@ -17,8 +19,12 @@
   
 -elsif @order.queued?
   Your order has been sent to the shop.
-  We'll let you know when it's ready.
+  Keep this screen open to watch its progress.
+  = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
 
-=render :partial=>'order_summary'
+#order_summary
+  =render :partial=>'summary'
+
+
 
 -#=link_to "Add another", root_path    

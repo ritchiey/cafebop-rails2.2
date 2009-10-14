@@ -57,7 +57,9 @@ class OrderItem < ActiveRecord::Base
   def make!
     if queued?
       self.state = 'made'
-      self.save
+      if save
+        order.order_item_made(self)
+      end
     end
   end
 

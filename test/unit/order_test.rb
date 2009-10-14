@@ -43,14 +43,53 @@ class OrderTest < ActiveSupport::TestCase
       @order.order_items.each {|item| assert item.printed?}
     end
 
-    should "queue all its order_items on pay_in_shop if shop queues pay in shop items" do
-      @order.order_items.each {|item| assert item.pending?}
-      class << @order.shop
-        def queues_in_shop_payments?() true; end
+
+    context "for a shop that queues pay-in-shop items" do
+      setup do
+        class << @order.shop
+          def queues_in_shop_payments?() true; end
+        end
+      end     
+      
+      context "when queued" do
+        setup do
+          @order.order_items.each {|item| assert item.pending?}
+          @order.send 'confirm!'
+          assert @order.queued?
+        end
+    
+        should "queue all its order_items" do
+          @order.order_items.each {|item| assert item.queued?}
+        end   
+                                               
+        should "transition from queued to made on make!" do
+          assert @order.queued?
+          @order.make!
+          assert @order.made?
+        end
+      
+        should "transition to made when last order_item is made" do
+          assert @order.queued?
+          @order.order_items.each do |item|
+            assert_equal @order, item.order
+            assert item.queued?
+            item.make!
+            assert @order.queued?
+            assert item.made?
+            if @order.order_items.any? {|item| !item.made?}
+              assert @order.queued?
+            else  
+              @order.reload
+              assert @order.made?
+            end
+          end
+          assert @order.order_items.all? {|item| item.made?}
+          @order.reload
+          assert @order.made?, "order should have been made"
+        end
+
       end
-      @order.send 'confirm!'
-      assert @order.queued?
-      @order.order_items.each {|item| assert item.queued?}
+      
     end
 
   end
