@@ -44,7 +44,7 @@ class Order < ActiveRecord::Base
     if shop.accepts_in_shop_payments?
       confirm!
     else
-      throw Exception.new "Shop doesn't accept in-shop payment"
+      raise "Shop doesn't accept in-shop payment"
     end
   end
 
