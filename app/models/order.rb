@@ -14,11 +14,7 @@ class Order < ActiveRecord::Base
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
   belongs_to :parent, :class_name=>'Order'
 
-  def order_item_attributes=(order_items_attributes)
-    order_items_attributes.each do |attr|
-      order_items.build(attr)
-    end
-  end
+  accepts_nested_attributes_for :order_items, :allow_destroy=>true
 
   def total
     order_items.inject(0) {|sum, item| sum + item.cost}

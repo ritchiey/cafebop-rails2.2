@@ -1,6 +1,5 @@
-%h3 Editing Order
 
-
-= render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
+-content_for :content_header do
+  = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
 
 = render :partial => 'ordering_form', :object=>@order

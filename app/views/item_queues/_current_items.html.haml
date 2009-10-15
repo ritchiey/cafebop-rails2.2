@@ -1,0 +1,15 @@
+%table
+  %thead
+    %tr
+      %th Qty
+      %th Item
+      %th Notes
+  %tbody
+    -if @item_queue.current_items.empty?
+      %td
+      %td{:span=>"2"} No Items
+    -else
+      = render :partial => @item_queue.current_items
+
+= "Last Updated: #{Time.now}"
+                                                   
