@@ -1,4 +1,11 @@
 %h3 New Menu
 
-=render :partial => 'back'
+=render :partial => 'back'    
+
+-form_for [@shop, @menu] do |form|
+  = select_tag :menu_template_id, options_for_select(MenuTemplate.all.map {|t| [t.name, t.id]})
+  = submit_tag 'Create from Template'
+
+%div - OR -
+
 =render :partial => 'form', :object=>[@shop, @menu]
