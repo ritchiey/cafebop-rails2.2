@@ -1,12 +1,12 @@
+-order = ordering_form
 
-
-%h3 Menu Items
 %ul
   -if @shop.menus.empty?
     This shop has no menus :(
   -else
     -@shop.menus.each do |menu|
       %h4=h menu.name
+      %hr
       -menu.menu_items.each do |menu_item|
         -if menu_item.present_flavours
           -menu_item.flavours.each do |flavour|
@@ -16,7 +16,7 @@
 
 -content_for :aside do        
   %h3 Your Order
-  -form_for ordering_form do |form|
+  -form_for order do |form|
     %table
       %thead
         %tr
@@ -27,7 +27,24 @@
           %th
 
       %tbody#order_items
-
+        -form.fields_for @order_items do |item_form|
+          -debugger
+          -if item_form.object
+            %td
+              =h item_form.object.quantity
+              = item_form.hidden_field :quantity
+              = item_form.hidden_field :menu_item_id
+              = item_form.hidden_field :flavour_id
+              = item_form.hidden_field :size_id
+            %td
+              =h item_form.object.description          
+            %td.cost
+              =h item_form.object.cost
+            %td.remove
+          -else
+            %tr
+              %td X
+          
       %tfoot
         %tr
           %td(colspan="3") Total

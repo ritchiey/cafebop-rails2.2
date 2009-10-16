@@ -7,7 +7,9 @@ class MenusController < ApplicationController
   
   def create 
     @shop = Shop.find(params[:shop_id])
-    @menu = @shop.menus.build(params[:menu])
+    @template = MenuTemplate.find(params[:menu_template_id])
+    menu_data = @template ? @template.menu_params : params[:menu]
+    @menu = @shop.menus.build(menu_data) 
     if @menu.save
         redirect_to edit_shop_path(@shop)
     else                    

@@ -1,3 +1,4 @@
 %tr{:id=>"order-item-#{order_item.id}"}
   %td= order_item.quantity
   %td= link_to_remote order_item.description, :url=>make_order_item_path(order_item), :method=>'PUT'
+  %td=h order_item.notes

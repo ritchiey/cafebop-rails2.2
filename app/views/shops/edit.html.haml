@@ -19,5 +19,7 @@
       No queues yet.
     -else
       %ul= render :partial => @shop.item_queues
-    =link_to "Add Queue", new_shop_item_queue_path(@shop)
-  
+    =link_to "Add Queue", new_shop_item_queue_path(@shop)       
+    
+-content_for :aside do
+  Instructions go here!!

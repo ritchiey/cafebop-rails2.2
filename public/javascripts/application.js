@@ -57,14 +57,14 @@ function add_to_order() {
   var quantity = quantity_field.val();
   var notes = notes_field.val();
   order_items.append("<tr><td>"+ quantity +
-                    "<input type='hidden' name='order[order_item_attributes][][quantity]' value='"+quantity+"'>"+   
-                    "<input type='hidden' name='order[order_item_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+
-                    (flavour_id() ? ("<input type='hidden' name='order[order_item_attributes][][flavour_id]' value='"+flavour_id()+"'>") : "")+   
-                    (size_id() ? ("<input type='hidden' name='order[order_item_attributes][][size_id]' value='"+size_id()+"'>") : "")+   
-                    "</td><td>"+description(menu_item)+"<input type='hidden' name='order[order_item_attributes][][description]' value='"+description(menu_item)+"'>"+
+                    "<input type='hidden' name='order[order_items_attributes][][quantity]' value='"+quantity+"'>"+   
+                    "<input type='hidden' name='order[order_items_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+
+                    (flavour_id() ? ("<input type='hidden' name='order[order_items_attributes][][flavour_id]' value='"+flavour_id()+"'>") : "")+   
+                    (size_id() ? ("<input type='hidden' name='order[order_items_attributes][][size_id]' value='"+size_id()+"'>") : "")+   
+                    "</td><td>"+description(menu_item)+"<input type='hidden' name='order[order_items_attributes][][description]' value='"+description(menu_item)+"'>"+
                     "</td><td>" +(notes ?
                       "<img href='/images/notes.png' alt='"+notes+"'" +
-                      "<input type='hidden' name='order[order_item_attributes][][notes]' value='"+notes+"'>"
+                      "<input type='hidden' name='order[order_items_attributes][][notes]' value='"+notes+"'>"
                     :
                       ""
                     )+"</td>" +
