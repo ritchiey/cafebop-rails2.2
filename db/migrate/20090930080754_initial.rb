@@ -30,6 +30,16 @@ class Initial < ActiveRecord::Migration
       t.integer  :menu_item_id
     end
     
+    create_table :users do |t|
+      t.string   :username
+      t.string   :email
+      t.string   :crypted_password
+      t.string   :password_salt
+      t.string   :persistence_token
+      t.datetime :created_at
+      t.datetime :updated_at
+    end   
+    
     create_table :orders do |t|
       t.text     :notes
       t.datetime :created_at
@@ -79,6 +89,7 @@ class Initial < ActiveRecord::Migration
     drop_table :sizes
     drop_table :menu_items
     drop_table :flavours
+    drop_table :users
     drop_table :orders
     drop_table :menus
     drop_table :order_items
