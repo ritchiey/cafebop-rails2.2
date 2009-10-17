@@ -19,4 +19,22 @@ class MenuItemTest < ActiveSupport::TestCase
     end
     
   end
+  
+  context "a menu_item created in a shop with a queue" do
+    setup do
+      @shop = Shop.make
+      @queue = @shop.item_queues.create(:name=>"Default Queue")
+      @menu = Menu.make(:shop=>@shop)
+      @menu_item = @menu.menu_items.create(:menu=>@menu, :name=>'Fish')
+      assert_equal @shop, @menu_item.shop
+      assert !@shop.item_queues.empty?
+    end
+
+    should "pickup the first queue in the shop" do
+      assert !@menu_item.shop.item_queues.empty? 
+      @menu_item.reload
+      assert_equal @queue, @menu_item.item_queue
+    end
+    
+  end
 end

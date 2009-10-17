@@ -1,6 +1,5 @@
 class MenuItem < ActiveRecord::Base
 
-  
 
   fields do
     name  :string  
@@ -24,9 +23,9 @@ class MenuItem < ActiveRecord::Base
   belongs_to :extras_menu, :class_name=>"Menu"
   
   treat_as_currency :price #create virtual price attribute
-
   accepts_nested_attributes_for :flavours, :sizes
-  
+
+  before_create :set_default_queue
 
 
   def shop
@@ -39,6 +38,14 @@ class MenuItem < ActiveRecord::Base
       :include=>{:menu_item=>{:include=>[:sizes,:flavours], :only=>[:name, :price_in_cents, :id, :item_queue_id]}},
       :only=>[:description]
     )
+  end
+
+private
+
+  def set_default_queue      
+    unless self[:item_queue_id] or shop.item_queues.empty?
+      self[:item_queue_id] = shop.item_queues.first
+    end
   end
 
 end
