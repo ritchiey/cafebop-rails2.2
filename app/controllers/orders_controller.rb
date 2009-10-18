@@ -18,11 +18,12 @@ class OrdersController < ApplicationController
       @order = Order.new(params[:order].merge(:shop_id=>params[:shop_id]))
       if @order.save
         redirect_to @order
-      else
-        render :action=>'place'
+      else        
+        flash[:error] = @order.errors.full_messages.collect{|m| m}.join
+        redirect_to new_shop_order_path
       end
     else
-       flash[:error] = "You must select at least one item"
+       flash[:error] = "You must select at least one menu item"
        redirect_to new_shop_order_path
     end
 

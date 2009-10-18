@@ -16,6 +16,7 @@ class OrderItem < ActiveRecord::Base
   belongs_to :flavour
                           
   before_create :set_values_from_menu_item
+  validates_numericality_of :quantity, :greater_than => 0, :message => 'minimum is 1'
                   
   treat_as_currency :price
  
@@ -66,7 +67,7 @@ class OrderItem < ActiveRecord::Base
   def deliver!
     if made?
       self.state = 'delivered'
-      self.save
+      self.save!
     end
   end
   # End State related
