@@ -28,5 +28,12 @@ class MenusController < ApplicationController
     else
       render :action=>'edit'
     end
-  end
+  end  
+  
+  def destroy
+    @menu = Menu.find(params[:id])
+    @menu.destroy 
+    redirect_to edit_shop_path(@menu.shop)
+  end            
+  
 end
