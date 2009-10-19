@@ -37,3 +37,23 @@ body {
 
 .print-only, .hidden {
   display: none; }
+
+div.flash #notice {
+  background: #DFFFDF;
+  border-color: #9FCF9F;
+  color: #005F00;
+  font-size: 1.3em; }
+
+div.flash #warning {
+  background: #FFEBC1;
+  border-color: #FDBF3B;
+  color: #A6750C;
+  text-align: left;
+  font-size: 1.3em; }
+
+div.flash #error {
+  background: #FFE3E3;
+  border-color: #DD0000;
+  color: #550000;
+  font-size: 1.3em; }
+
