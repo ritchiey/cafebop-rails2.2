@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091016204907) do
+ActiveRecord::Schema.define(:version => 20091019050936) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -163,9 +163,11 @@ ActiveRecord::Schema.define(:version => 20091016204907) do
     t.string   "name"
     t.string   "perishable_token"
     t.string   "roles",             :default => "--- []"
+    t.string   "rpx_identifier"
+    t.string   "username"
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["email"], :name => "index_users_on_email"
 
   create_table "work_contracts", :force => true do |t|
     t.string   "role",       :default => "patron"

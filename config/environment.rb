@@ -7,7 +7,8 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 APPLICATION_DOMAIN= 'cafebop.com'
-SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN
+SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN     
+RPX_API_KEY = '24d7f83348112203f84fd2e817216e33adb80fff'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -30,12 +31,15 @@ Rails::Initializer.run do |config|
   config.gem 'notahat-machinist', :lib => 'machinist', :source => "http://gems.github.com"
   config.gem 'sevenwire-forgery', :lib => 'forgery', :source => "http://gems.github.com"
   config.gem 'haml'
-  config.gem "authlogic"
+  config.gem "authlogic", :version => '>= 2.1.1'
   config.gem 'searchlogic'
   config.gem 'raganwald-andand', :lib => 'andand', :source => 'http://gems.github.com'
   config.gem "josevalim-rails-footnotes",  :lib => "rails-footnotes", :source => "http://gems.github.com"
   config.gem 'easy_roles', :source => 'http://gemcutter.org'  
   config.gem 'justinfrench-formtastic', :lib=>'formtastic', :source=>'http://gems.github.com'
+  config.gem 'rpx_now', :version => '>= 0.6.6', :source => 'http://gemcutter.org'
+  config.gem 'authlogic_rpx', :version => '>= 1.0.4', :source => 'http://gemcutter.org'
+
   
   
 
@@ -74,4 +78,5 @@ ActionMailer::Base.smtp_settings = {
 }
 
 ENV['RECAPTCHA_PUBLIC_KEY'] = '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
-ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
+ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'    
+
