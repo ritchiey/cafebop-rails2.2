@@ -7,9 +7,10 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(params[:user])
+    @user.add_role('cafebop_admin') if User.count == 0
     if @user.save
       redirect_to root_path
-      flash[:notice] = "Thanks for signing up"
+      flash[:notice] = "Thanks for signing up! Check your email to permanently activate your account. "
     else
       render :action => 'new'
     end
@@ -25,24 +26,5 @@ class UsersController < ApplicationController
       flash[:error] = 'Sorry, could not activate account'
       redirect_to new_user_path
     end
-  end        
-  
-  def edit
-    @user = current_user
-    @user.valid?
   end
-  
-  # This action has the special purpose of receiving an update of the RPX identity information
-  # for current user - to add RPX authentication to an existing non-RPX account.
-  # RPX only supports :post, so this cannot simply go to update method (:put)
-  def addrpxauth
-          @user = current_user
-          if @user.save
-                  flash[:notice] = "Successfully added RPX authentication for this account."
-                  render :action => 'show'
-          else
-                  render :action => 'edit'
-          end
-  end
-  
 end

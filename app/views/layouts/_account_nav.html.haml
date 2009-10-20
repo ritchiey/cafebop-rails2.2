@@ -1,10 +1,10 @@
 .account-nav
   -if current_user
-    =h current_user.email
-    ="|"
     -if current_user.can_review_claims?
       =link_to "Review Claims", claims_path
       ="|"
     =link_to "Logout", logout_path
   -else        
-    = rpx_popup( :link_text => "Register/Sign in", :app_name => "cafebop", :return_url => user_sessions_url, :unobtrusive => false )    
+    =link_to "Login", login_path
+    ="|"
+    =link_to "Register", register_path

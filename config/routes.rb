@@ -3,7 +3,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :menu_templates
   map.activate '/users/activate', :controller => 'users', :action => 'activate'
   map.resources :users
-  map.addrpxauth "addrpxauth", :controller => "users", :action => "addrpxauth", :method => :post
   map.resources :user_sessions
   map.register '/register', :controller=>:users, :action=>:new
   map.login '/login', :controller=>:user_sessions, :action=>:new

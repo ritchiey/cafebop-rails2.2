@@ -29,10 +29,4 @@ class ApplicationController < ActionController::Base
       redirect_to new_user_session_path
     end
   end
-  
-  def redirect_back_or(path)
-    redirect_to :back
-    rescue ActionController::RedirectBackError
-    redirect_to path
-  end  
 end

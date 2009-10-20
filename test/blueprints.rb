@@ -35,8 +35,7 @@ Claim.blueprint do
   user
 end   
 
-User.blueprint do   
-  username    { InternetForgery.user_name }
+User.blueprint do
   email       { InternetForgery.email_address }
   password    "monkey"
   password_confirmation "monkey"
