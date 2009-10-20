@@ -1,3 +1,4 @@
+require 'active_record/fixtures'
 require 'yaml'
 
 
@@ -26,4 +27,9 @@ menu_templates = [
                    })
 }
 ]
-menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}
+menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}     
+
+Dir.glob(RAILS_ROOT + '/db/fixtures/*.{yml,csv}').each do |file|
+  Fixtures.create_fixtures('db/fixtures', File.basename(file, '.*'))
+end
+
