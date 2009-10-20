@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   
   fields do  
     name      :string
-    email     :string
+    email     :string 
+    active    :boolean, :default=>false
     crypted_password  :string
     password_salt :string
     persistence_token :string   
@@ -24,6 +25,15 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
                                            
   def to_s() name || email; end 
+  
+  def active?
+    active
+  end     
+  
+  def activate!
+    self.active = true
+    save
+  end
   
   def can_review_claims?
     is_cafebop_admin?

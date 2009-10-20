@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   end
   
   def activate
-    if @user = User.find_by_perishable_token(params[:token])
+    if @user = User.find_by_perishable_token(params[:token]) and @user.activate!
       @user.reset_perishable_token!
       UserSession.create(@user)
       flash[:notice] = "Your account has been activated"
