@@ -1,6 +1,5 @@
 class MenuItem < ActiveRecord::Base
 
-
   fields do
     name  :string  
     description :string
@@ -10,7 +9,8 @@ class MenuItem < ActiveRecord::Base
     timestamps
   end
 
-  validates_length_of :name, :minimum=>1
+  validates_length_of :name, :minimum => 1
+  validates_numericality_of :price_in_cents, :greater_than => 0, :allow_nil => true
                         
   has_many :flavours, :dependent=>:destroy
   has_many :sizes, :dependent=>:destroy, :order=>:position
