@@ -36,8 +36,8 @@ class Shop < ActiveRecord::Base
     managers.include?(user)
   end
   
-  def can_be_claimed?
-    self.community?
+  def can_be_claimed_by?(user)
+    self.community? && user && !user.claims.any? {|claim| claim.shop == self}
   end
 
   def can_have_queues?

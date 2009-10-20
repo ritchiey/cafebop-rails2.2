@@ -2,5 +2,5 @@
 -content_tag_for :li, shop do
   =link_to shop.name, new_shop_order_path(shop)  
   =edit_shop_link(shop)
-  -if shop.can_be_claimed?
+  -if shop.can_be_claimed_by?(current_user)
     =link_to "Claim this shop", shop_claims_path(shop), :method=>:post

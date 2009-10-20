@@ -14,6 +14,12 @@ class Claim < ActiveRecord::Base
   named_scope :pending, :conditions=>{:state=>'pending'}
   named_scope :outstanding, :conditions=>{:state=>['pending', 'under_review']}
   named_scope :for_shop, lambda {|shop| {:conditions=>{:shop=>shop}}}
+  
+  def validate_on_create
+    unless shop.can_be_claimed_by?(user)
+      errors.add_to_base("#{shop} can't be claimed by #{user}")
+    end
+  end
 
   def to_s
     "#{user.to_s} claims #{shop.to_s}"
@@ -96,5 +102,7 @@ class Claim < ActiveRecord::Base
     return true if user_is? acting_user
     acting_user.administrator?
   end
+
+
 
 end
