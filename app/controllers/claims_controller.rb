@@ -8,7 +8,7 @@ class ClaimsController < ApplicationController
     if @claim and @claim.save
       flash[:notice] = "Your claim for #{@shop.name} has been registered. We'll be in touch."
     end
-    redirect_to new_shop_order_path
+    redirect_to :back
   end          
   
   def index

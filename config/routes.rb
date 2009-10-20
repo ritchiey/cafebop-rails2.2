@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :order_items
   # map.resources :menus
-  map.resources :shops, :shallow=>true do |shops|
+  map.resources :shops, :shallow=>true, :collection=>{:search=>:get} do |shops|
     shops.resources :item_queues, :member=>[:current_items]
     shops.resources :claims, :only=>[:create]
     shops.resources :orders, :shallow=>true, :member=>{:summary => :get, :new => :get, :create => :put, :pay_in_shop =>:put, :pay_paypal=> :put} do |orders|
@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
-  map.root :controller => "shops", :action=>'index'
+  map.root :controller => "front", :action=>'index'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

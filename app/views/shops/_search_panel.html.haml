@@ -1,0 +1,11 @@
+.search-panel
+  %h3.title
+    Locate a Cafe near you...
+  %form{ :method => "get", :action => search_shops_path, :refocus => "true" }
+    .hidden-fields
+    .form
+      %span.search
+        %input{ :name => "q", :size => "18", :type => "text", :value=>@term }
+        %input.button.submit-button{ :type => "submit", :value => "Search" }
+      %br
+      Enter a shop name, suburb or postal code    

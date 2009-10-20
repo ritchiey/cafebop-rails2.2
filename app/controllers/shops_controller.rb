@@ -1,6 +1,6 @@
 class ShopsController < ApplicationController    
 
-  before_filter :find_instance, :except=>[:new, :create, :index]          
+  before_filter :find_instance, :except=>[:new, :create, :index, :search]          
   before_filter :can_edit, :only=>[:edit, :update]
   
   def new
@@ -21,10 +21,19 @@ class ShopsController < ApplicationController
       render :action=>'new'
     end
   end
-
+            
   def index
-    @shops = Shop.find :all
-  end               
+    @shops = Shop.all
+  end
+  
+  def search
+    @term = params[:q]
+    @shops = Shop.by_name_suburb_or_postcode(@term)
+    respond_to do |wants|
+      wants.html
+      wants.json {render_json @shops.to_json(:only=>[:id, :name])}
+    end
+  end        
   
   def edit
     @shop = Shop.find(params[:id])
