@@ -19,5 +19,13 @@ class SizesController < ApplicationController
     @size = Size.find(params[:id])
   end
   
+  def update
+    @size = Size.find(params[:id])
+    if @size.update_attributes(params[:size])
+      redirect_to edit_menu_item_path(@size.menu_item)
+    else
+      render :action=>'edit'
+    end
+  end  
   
 end

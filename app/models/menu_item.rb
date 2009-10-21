@@ -26,7 +26,10 @@ class MenuItem < ActiveRecord::Base
   accepts_nested_attributes_for :flavours, :sizes
 
   before_create :set_default_queue
-
+  
+  def to_s
+    name
+  end
 
   def shop
     menu.shop

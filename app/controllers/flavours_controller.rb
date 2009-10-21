@@ -19,6 +19,12 @@ class FlavoursController < ApplicationController
     @flavour = Flavour.find(params[:id])
   end
                      
-  
-  
+  def update
+    @flavour = Flavour.find(params[:id])
+    if @flavour.update_attributes(params[:flavour])
+      redirect_to edit_menu_item_path(@flavour.menu_item)
+    else
+      render :action=>'edit'
+    end
+  end  
 end

@@ -1,5 +1,3 @@
--form_for @shop do |f|
-  =f.label :name
-  =f.text_field :name         
-    
-  =submit_tag
+-semantic_form_for @shop do |f|
+  =f.inputs :name
+  =f.buttons
