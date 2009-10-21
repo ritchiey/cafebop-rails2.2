@@ -7,10 +7,18 @@ class Shop < ActiveRecord::Base
     website :string
     state   :string, :default=>'community'
     email_address :email_address
-    timestamps
+    street  :string
+    suburb  :string
+    province :string
+    country :string
+    postcode :string
+    lat     :float
+    lng     :float
+    timestamps   
   end    
+                        
+  attr_accessible :name, :phone, :fax, :website, :street, :suburb, :province, :country, :postcode
 
-  
   # def menu_attributes=(attributes)
   #   for attributes in new_menus
   #     self.menus.build(attributes)
@@ -42,6 +50,14 @@ class Shop < ActiveRecord::Base
     }
   }
 
+
+  def address
+    street ? "#{street} " : "" +
+    suburb ? "#{suburb} " : "" +
+    province ? "#{province} " : "" +
+    country ? "#{country} " : "" +
+    postcode ? "#{postcode} " : ""
+  end
   
   def is_manager?(user)
     managers.include?(user)
