@@ -5,7 +5,7 @@ class OrderItem < ActiveRecord::Base
     quantity :integer
     price_in_cents    :integer   
     notes    :string    
-    state    :string, :default=>'pending'
+    state    :string, :default => 'pending'
     timestamps
   end
 
@@ -16,7 +16,10 @@ class OrderItem < ActiveRecord::Base
   belongs_to :flavour
                           
   before_create :set_values_from_menu_item
-  validates_numericality_of :quantity, :greater_than => 0, :message => 'minimum is 1'
+
+  validates_presence_of :state
+  validates_numericality_of :quantity, :greater_than => 0, :message => 'is minimum 1'
+  validates_numericality_of :price_in_cents, :greater_than => 0, :allow_nil => true
                   
   treat_as_currency :price
  
@@ -67,7 +70,7 @@ class OrderItem < ActiveRecord::Base
   def deliver!
     if made?
       self.state = 'delivered'
-      self.save!
+      self.save
     end
   end
   # End State related
