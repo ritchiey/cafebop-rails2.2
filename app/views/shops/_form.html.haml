@@ -1,3 +1,13 @@
 -semantic_form_for @shop do |f|
-  =f.inputs :name
+  -f.inputs do
+    =f.input :name
+    =f.input :email_address
+    =f.input :website
+    =f.input :phone
+    =f.input :fax
+    =f.input :street
+    =f.input :suburb
+    =f.input :province
+    =f.input :postcode
+    =f.input :country
   =f.buttons

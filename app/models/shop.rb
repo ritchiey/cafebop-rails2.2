@@ -17,7 +17,7 @@ class Shop < ActiveRecord::Base
     timestamps   
   end    
                         
-  attr_accessible :name, :phone, :fax, :website, :street, :suburb, :province, :country, :postcode
+  attr_accessible :name, :phone, :fax, :email_address, :website, :street, :suburb, :province, :country, :postcode
 
   # def menu_attributes=(attributes)
   #   for attributes in new_menus
