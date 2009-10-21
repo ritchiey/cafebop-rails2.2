@@ -41,8 +41,9 @@
                   #error
                     =flash[:error]
             -default_content_for :content_body do
-              #main.span-16
-                =yield
+              #main.span-16 
+                .span-1=placeholder
+                .span-15.last=yield
               #aside.span-8.last
                 -default_content_for :aside do
                   =placeholder
