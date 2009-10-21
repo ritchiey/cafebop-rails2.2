@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 class MenuItemTest < ActiveSupport::TestCase
 
   context "menu_item associations" do
-    should_have_many :flavours
-    should_have_many :sizes
-    should_have_many :order_items
+    should_have_many :flavours, :dependent => :destroy
+    should_have_many :sizes, :dependent => :destroy
+    should_have_many :order_items, :dependent => :nullify
 
     should_belong_to :item_queue
     should_belong_to :menu

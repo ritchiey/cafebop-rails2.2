@@ -63,8 +63,8 @@ class OrderItemTest < ActiveSupport::TestCase
       @item.price_in_cents = 0
       assert !@item.valid?# An item must have a price_in_cents greater than 0
       @item.price_in_cents = nil
-      assert_valid @item# An item can be nil
-      @item.price_in_cents = BasicForgery.number :at_least => 0.01
+      assert !@item.valid?# An item can't be nil
+      @item.price_in_cents = BasicForgery.number :at_least => 1
       assert_valid @item
     end
 

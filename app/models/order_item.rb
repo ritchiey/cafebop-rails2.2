@@ -19,7 +19,7 @@ class OrderItem < ActiveRecord::Base
 
   validates_presence_of :state
   validates_numericality_of :quantity, :greater_than => 0, :message => 'is minimum 1'
-  validates_numericality_of :price_in_cents, :greater_than => 0, :allow_nil => true
+  validates_numericality_of :price_in_cents, :greater_than => 0
                   
   treat_as_currency :price
  
