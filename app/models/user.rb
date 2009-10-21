@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   fields do  
     name      :string
     email     :string 
-    active    :boolean, :default=>false
+    active    :boolean, :default=>false, :null=>false
     crypted_password  :string
     password_salt :string
     persistence_token :string   
@@ -14,7 +14,8 @@ class User < ActiveRecord::Base
     roles           :string, :default=>"--- []"
     timestamps
   end                          
-
+  
+  acts_as_mappable :default_distance=>:miles
 
   has_many :claims_to_review, :class_name => "Claim", :foreign_key=>:reviewer_id, :conditions=>{:state=>'under_review'}
   has_many :claims, :dependent=>:destroy

@@ -1,11 +1,14 @@
 class Suburb < ActiveRecord::Base
 
 
+#suburb,state,postcode,lat,lng
 
   fields do
     name  :string
     postcode  :string
-    state :string
+    state :string  
+    lng   :float
+    lat   :float
     timestamps
   end
 

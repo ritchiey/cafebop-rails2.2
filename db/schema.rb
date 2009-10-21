@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091020025232) do
+ActiveRecord::Schema.define(:version => 20091021014242) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -125,6 +125,8 @@ ActiveRecord::Schema.define(:version => 20091020025232) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "state",         :default => "community"
+    t.float    "lat"
+    t.float    "lng"
   end
 
   create_table "sizes", :force => true do |t|
@@ -144,6 +146,8 @@ ActiveRecord::Schema.define(:version => 20091020025232) do
     t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "lng"
+    t.float    "lat"
   end
 
   create_table "t_and_cs", :force => true do |t|
