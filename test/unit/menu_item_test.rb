@@ -31,12 +31,21 @@ class MenuItemTest < ActiveSupport::TestCase
     
     should "have a positive price_in_cents" do
       assert_operator @item.price_in_cents, :>, 0
-      @item.price_in_cents = 0
-      assert !@item.valid?# An item must have a price_in_cents greater than 0
+      assert_valid @item
       @item.price_in_cents = nil
       assert_valid @item# An item can be nil
-      @item.price_in_cents = BasicForgery.number :at_least => 0.01
-      assert_valid @item
+      @item.reload
+    end
+    
+    context "with invalid data" do
+      
+      should "not validate a negative price_in_cents" do
+        @item.price_in_cents = BasicForgery.number(:at_least => -4500, :at_most => 0)
+        
+        assert_operator @item.price_in_cents, :<=, 0
+        assert !@item.valid?# An item must have a price_in_cents greater than 0
+      end
+
     end
 
   end

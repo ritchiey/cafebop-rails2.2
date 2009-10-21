@@ -42,30 +42,50 @@ class OrderItemTest < ActiveSupport::TestCase
       assert @item.made?
     end
 
-    should "adopt the item_queue of its menu_item" do
-      assert_equal @item.menu_item.item_queue, @item.item_queue
-    end
-
     should "have a valid state" do
-      assert @item.send("#{@item.state}?")# An item must have a valid state
+      assert @item.respond_to?("#{@item.state}?")# An item must have a valid state
+      assert_valid @item
     end
 
-    should "have a positive quantity" do
+    should "have a quantity greater than 0" do
       assert_operator @item.quantity, :>, 0
-      @item.quantity = 0
-      assert !@item.valid?# An item must have a quantity greater than 0
-      @item.quantity = BasicForgery.number :at_least => 1
       assert_valid @item
     end
 
     should "have a positive price_in_cents" do
       assert_operator @item.price_in_cents, :>, 0
-      @item.price_in_cents = 0
-      assert !@item.valid?# An item must have a price_in_cents greater than 0
-      @item.price_in_cents = nil
-      assert !@item.valid?# An item can't be nil
-      @item.price_in_cents = BasicForgery.number :at_least => 1
       assert_valid @item
+    end
+
+    should "adopt the item_queue of its menu_item" do
+      assert_equal @item.menu_item.item_queue, @item.item_queue
+    end
+
+    context "with invalid data" do
+      
+      should "not validate a unknown state" do
+        @item.state = BasicForgery.text
+        
+        assert !@item.respond_to?("#{@item.state}?")# An item must have a valid state
+        assert !@item.valid?
+      end
+
+      should "not validate a quantity less than 1" do
+        @item.quantity = BasicForgery.number(:at_least => -25, :at_most => 0)
+        
+        assert_operator @item.quantity, :<, 1
+        assert !@item.valid?# An item must have a quantity greater than 0
+      end
+
+      should "not validate a negative price_in_cents" do
+        @item.price_in_cents = BasicForgery.number(:at_least => -4500, :at_most => 0)
+        
+        assert_operator @item.price_in_cents, :<=, 0
+        assert !@item.valid?# An item must have a price_in_cents greater than 0
+        @item.price_in_cents = nil
+        assert !@item.valid?# An item can't be nil
+      end
+
     end
 
   end
