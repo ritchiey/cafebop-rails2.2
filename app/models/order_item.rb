@@ -1,5 +1,5 @@
 class OrderItem < ActiveRecord::Base
-  STATES = %w( pending queued printed made delivered)
+  STATES = %w(pending queued printed made delivered)
 
   fields do
     description :string
@@ -18,12 +18,14 @@ class OrderItem < ActiveRecord::Base
 
   before_create :set_values_from_menu_item
 
+  treat_as_currency :price
+  
   validates_presence_of :state
   validates_inclusion_of :state, :in => STATES
   validates_numericality_of :quantity, :greater_than => 0, :message => 'is minimum 1'
-  validates_numericality_of :price_in_cents, :greater_than => 0
+  validates_numericality_of :price_in_cents, :greater_than => 0#, :allow_nil => true
 
-  treat_as_currency :price
+  
 
 
   def user() order.user; end
