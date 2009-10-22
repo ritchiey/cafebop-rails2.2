@@ -58,7 +58,8 @@ function add_to_order() {
   var notes = notes_field.val();
   order_items.append("<tr><td>"+ quantity +
                     "<input type='hidden' name='order[order_items_attributes][][quantity]' value='"+quantity+"'>"+   
-                    "<input type='hidden' name='order[order_items_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+
+                    "<input type='hidden' name='order[order_items_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+                    
+                    "<input type='hidden' name='order[order_items_attributes][][price_in_cents]' value='"+cost(menu_item)*100+"'>"+
                     (flavour_id() ? ("<input type='hidden' name='order[order_items_attributes][][flavour_id]' value='"+flavour_id()+"'>") : "")+   
                     (size_id() ? ("<input type='hidden' name='order[order_items_attributes][][size_id]' value='"+size_id()+"'>") : "")+   
                     "</td><td>"+description(menu_item)+"<input type='hidden' name='order[order_items_attributes][][description]' value='"+description(menu_item)+"'>"+
