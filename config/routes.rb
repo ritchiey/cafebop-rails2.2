@@ -8,13 +8,15 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller=>:user_sessions, :action=>:new
   map.logout '/logout', :controller=>:user_sessions, :action =>:destroy
   map.resources :claims, :member=>{:review=>:put, :confirm=>:put, :reject=>:put}
-
-  map.resources :order_items
+  
+  map.resources :orders
+  map.resources :order_items  
   # map.resources :menus
+  map.resources :shops, :has_many => {:orders => :order_items}
   map.resources :shops, :shallow=>true, :collection=>{:search=>:get} do |shops|
     shops.resources :item_queues, :member=>[:current_items]
     shops.resources :claims, :only=>[:create]
-    shops.resources :orders, :shallow=>true, :member=>{:summary => :get, :new => :get, :create => :put, :pay_in_shop =>:put, :pay_paypal=> :put} do |orders|
+    shops.resources :orders, :shallow => true, :member => {:summary => :get, :new => :get, :create => :put, :pay_in_shop => :put, :pay_paypal => :put} do |orders|
       orders.resources :order_items, :member=>{:make=>:put}
     end
     shops.resources :menus, :shallow=>true do |menus|
