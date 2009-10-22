@@ -124,14 +124,11 @@ ActiveRecord::Schema.define(:version => 20091021040636) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",         :default => "community"
+    t.string   "state",          :default => "community"
     t.float    "lat"
     t.float    "lng"
-    t.string   "street"
-    t.string   "suburb"
-    t.string   "province"
-    t.string   "country"
-    t.string   "postcode"
+    t.string   "street_address"
+    t.string   "postal_address"
   end
 
   create_table "sizes", :force => true do |t|

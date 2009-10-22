@@ -17,7 +17,7 @@ class Shop < ActiveRecord::Base
     timestamps   
   end    
                         
-  attr_accessible :name, :phone, :fax, :email_address, :website, :street, :suburb, :province, :country, :postcode
+  attr_accessible :name, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng
 
   # def menu_attributes=(attributes)
   #   for attributes in new_menus
@@ -26,7 +26,6 @@ class Shop < ActiveRecord::Base
   # end  
 
   def to_s() name; end          
-  
   
   has_many :orders, :dependent=>:destroy
   has_many :item_queues, :dependent=>:destroy

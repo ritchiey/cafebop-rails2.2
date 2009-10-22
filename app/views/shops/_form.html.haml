@@ -1,3 +1,77 @@
+-content_for :head do
+  %script{ :src => "http://www.google.com/jsapi?key=ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ", :type => "text/javascript" }
+
+  :javascript 
+  
+    function displayShop(point, address, shopName) {
+      map.setCenter(point, 13);
+      var marker = new GMarker(point);
+      map.addOverlay(marker);
+      marker.openInfoWindowHtml("<h1>"+shopName+"</h1>" +address);      
+    }
+
+    function geocode(address, shopName) {
+      geocoder.getLatLng(address, function(point) {
+        if (!point) {
+          alert("Couldn't find your street address in the map.");
+        } else {                   
+          $('#shop_lat').val(point.lat());
+          $('#shop_lng').val(point.lng());
+          displayShop(point, address, shopName);
+        }
+      })
+    }
+  
+    function toShopUrl(name) {
+      name = name.replace(/[ _]/g, "-");
+      name = name.replace(/[!@#$%^&*()]/g, "");
+      return "http://"+name.toLowerCase() + ".cafebop.com/";
+    }
+  
+  
+  
+    google.load("maps", "2");
+  
+    function initialize() {
+      map = new google.maps.Map2(document.getElementById("map"));
+      geocoder = new GClientGeocoder();
+      map.setCenter(new google.maps.LatLng(-31.96637,115.90049), 13); 
+      
+      var lat = $('#shop_lat').val();
+      var lng = $('#shop_lng').val();
+      var name = $('#shop_name').val();
+      var address = $('#shop_street_address').val();
+      if (lat.length > 0 && lng.length > 0) {
+        displayShop(new GLatLng(lat, lng), address, name);
+      }      
+    }                                
+    
+    google.setOnLoadCallback(initialize);
+    
+    $(function() { // page ready   
+
+
+      $('#shop_street_address').change(function(e) { 
+        var address = $('#shop_street_address').val();
+        if ($('#shop_postal_address').val() == "") {
+          $('#shop_postal_address').val(address);
+        }
+        geocode(address, $('#shop_name').val());
+      })
+      
+      $('#shop_name').change(function(e) {
+        website = $("#shop_website")
+        if (website.val() == "") {
+          website.val(toShopUrl($(this).val()));
+        } 
+      })
+      
+
+    })
+    
+
+
+
 -semantic_form_for @shop do |f|
   -f.inputs do
     =f.input :name
@@ -5,9 +79,11 @@
     =f.input :website
     =f.input :phone
     =f.input :fax
-    =f.input :street
-    =f.input :suburb
-    =f.input :province
-    =f.input :postcode
-    =f.input :country
+    =f.input :street_address
+    =f.input :postal_address
+    =f.input :lat, :as=>:hidden
+    =f.input :lng, :as=>:hidden  
   =f.buttons
+  
+-content_for :aside do
+  #map(style="width: 310px; height:300px")
