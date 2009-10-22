@@ -17,9 +17,9 @@ class OrdersController < ApplicationController
     if params[:order]
       @order = Order.new(params[:order].merge(:shop_id=>params[:shop_id]))
       if @order.save
-        redirect_to @order
+        redirect_to shop_order_path(@order.shop_id, @order)
       else        
-        flash[:error] = @order.errors.full_messages.collect{|m| m}.join
+        flash[:error] = @order.errors.full_messages.collect{|m| m}.join('. ')
         redirect_to new_shop_order_path
       end
     else
@@ -34,6 +34,16 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     @shop = @order.shop
   end
+  
+  def update
+    @order = Order.find(params[:id])
+    if @order.update_attributes(params[:order])
+      redirect_to shop_order_path(@order.shop_id, @order)
+    else
+      flash[:error] = "Unable to save changes"
+      redirect_to edit_shop_order_path(@order.shop_id, @order)
+    end
+  end  
 
   def pay_in_shop
     @order = Order.find(params[:id])

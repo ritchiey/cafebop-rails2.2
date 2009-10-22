@@ -4,7 +4,7 @@
   = render :partial => 'shops/page_header', :locals=>{:shop=>shop}
 
 -if @order.pending?
-  =link_to "&lt;&lt; Change", edit_order_path(@order)
+  =link_to "&lt;&lt; Change", edit_shop_order_path(@order.shop_id, @order)
 
   -if shop.accepts_in_shop_payments?
     =link_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put
