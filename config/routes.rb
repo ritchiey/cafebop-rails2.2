@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-
+  
   map.resources :menu_templates
   map.activate '/users/activate', :controller => 'users', :action => 'activate'
   map.resources :users

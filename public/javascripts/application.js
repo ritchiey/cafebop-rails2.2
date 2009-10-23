@@ -198,5 +198,55 @@ function popup(json) {
   flavour_field.html(order_item.flavour ? option_from_flavour(order_item.flavour)
     : options_from_flavours(menu_item.flavours)); 
   dialog.dialog('open');
+}      
+
+// Google Maps related
+
+function displayShop(point, address, shopName) {
+  map.setCenter(point, 13);
+  var marker = new GMarker(point);
+  map.addOverlay(marker);
+  marker.openInfoWindowHtml("<h1>"+shopName+"</h1>" +address);      
 }
+
+function geocode(address, shopName) {
+  geocoder.getLatLng(address, function(point) {
+    if (!point) {
+      alert("Couldn't find your street address in the map.");
+    } else {                   
+      $('#shop_lat').val(point.lat());
+      $('#shop_lng').val(point.lng());
+      displayShop(point, address, shopName);
+    }
+  })
+}
+
+function toShopUrl(name) {
+  name = name.replace(/[ _]/g, "-");
+  name = name.replace(/[!@#$%^&*()]/g, "");
+  return "http://"+name.toLowerCase() + ".cafebop.com/";
+}     
+
+function initialize_geocoder() {
+  geocoder = new GClientGeocoder();   
+}
+                   
+function initialize_map() {
+  map = new google.maps.Map2(document.getElementById("map"));
+  map.setCenter(new google.maps.LatLng(-31.96637,115.90049), 13); 
+}
+
+function initialize_shop_form_map() {
+  initialize_map();
+  initialize_geocoder();
+  
+  var lat = $('#shop_lat').val();
+  var lng = $('#shop_lng').val();
+  var name = $('#shop_name').val();
+  var address = $('#shop_street_address').val();
+  if (lat.length > 0 && lng.length > 0) {
+    displayShop(new GLatLng(lat, lng), address, name);
+  }      
+}
+
 

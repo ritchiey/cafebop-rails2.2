@@ -41,6 +41,8 @@ class Shop < ActiveRecord::Base
   
   
   accepts_nested_attributes_for :menus
+  acts_as_mappable
+
 
   named_scope :by_name_suburb_or_postcode, lambda  {|term|
     {

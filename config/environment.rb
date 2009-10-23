@@ -7,7 +7,8 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 APPLICATION_DOMAIN= 'cafebop.com'
-SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN
+SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN 
+GOOGLE_API_KEY= 'ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
