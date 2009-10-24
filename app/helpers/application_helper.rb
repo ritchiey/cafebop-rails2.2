@@ -17,7 +17,8 @@ module ApplicationHelper
   end   
   
   def import_google_api
-    javascript_include_tag "http://www.google.com/jsapi?key=#{GOOGLE_API_KEY}"
+    javascript_include_tag "http://www.google.com/jsapi?key=#{GOOGLE_API_KEY}&ignore="
+    #%Q{<script src="http://maps.google.com/maps?file=api&v=2&sensor=false&key=#{GOOGLE_API_KEY}" type="text/javascript"></script>}
   end   
   
   def static_map options={}  
@@ -32,7 +33,8 @@ module ApplicationHelper
       "size=#{width}x#{height}",
       "maptype=mobile",
       "sensor=false",
-      "markers=#{markers.join '|'}"
+      "markers=#{markers.join '|'}",
+      "key=#{GOOGLE_API_KEY}"
     ]
     valid_location?(center) and params << "center=#{center.lat},#{center.lng}"
     image_tag "http://maps.google.com/staticmap?#{params.join '&'}", :alt=>"map"
