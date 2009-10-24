@@ -1,3 +1,47 @@
+-content_for :head do
+  =import_google_api
+
+  :javascript 
+  
+    google.load("maps", "2");
+    google.setOnLoadCallback(initialize_shop_form_map);
+    
+    $(function() { // page ready   
+
+
+      $('#shop_street_address').change(function(e) { 
+        var address = $('#shop_street_address').val();
+        if ($('#shop_postal_address').val() == "") {
+          $('#shop_postal_address').val(address);
+        }
+        geocode(address, $('#shop_name').val());
+      })
+      
+      $('#shop_name').change(function(e) {
+        website = $("#shop_website")
+        if (website.val() == "") {
+          website.val(toShopUrl($(this).val()));
+        } 
+      })
+      
+
+    })
+    
+
+
+
 -semantic_form_for @shop do |f|
-  =f.inputs :name
+  -f.inputs do
+    =f.input :name
+    =f.input :email_address
+    =f.input :website
+    =f.input :phone
+    =f.input :fax
+    =f.input :street_address
+    =f.input :postal_address
+    =f.input :lat, :as=>:hidden
+    =f.input :lng, :as=>:hidden  
   =f.buttons
+  
+-content_for :aside do
+  #map(style="width: 310px; height:300px")

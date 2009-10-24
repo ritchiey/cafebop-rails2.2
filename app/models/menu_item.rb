@@ -46,9 +46,13 @@ class MenuItem < ActiveRecord::Base
 private
 
   def set_default_queue      
-    unless self[:item_queue_id] or shop.item_queues.empty?
-      self[:item_queue_id] = shop.item_queues.first
+    unless has_item_queue? or !shop.has_item_queues? 
+      self.item_queue = shop.item_queues.first
     end
+  end
+
+  def has_item_queue?
+    self[:item_queue_id]
   end
 
 end

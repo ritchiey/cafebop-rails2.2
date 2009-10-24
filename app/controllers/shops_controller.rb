@@ -25,10 +25,10 @@ class ShopsController < ApplicationController
   def index
     @shops = Shop.all
   end
-  
+              
   def search
-    @term = params[:q]
-    @shops = Shop.by_name_suburb_or_postcode(@term)
+    @search = Search.new(params[:search])
+    @shops = @search.shops   
     respond_to do |wants|
       wants.html
       wants.json {render_json @shops.to_json(:only=>[:id, :name])}

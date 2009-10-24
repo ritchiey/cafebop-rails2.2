@@ -7,10 +7,18 @@ class Shop < ActiveRecord::Base
     website :string
     state   :string, :default=>'community'
     email_address :email_address
-    timestamps
+    street  :string
+    suburb  :string
+    province :string
+    country :string
+    postcode :string
+    lat     :float
+    lng     :float
+    timestamps   
   end    
+                        
+  attr_accessible :name, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng
 
-  
   # def menu_attributes=(attributes)
   #   for attributes in new_menus
   #     self.menus.build(attributes)
@@ -18,7 +26,6 @@ class Shop < ActiveRecord::Base
   # end  
 
   def to_s() name; end          
-  
   
   has_many :orders, :dependent=>:destroy
   has_many :item_queues, :dependent=>:destroy
@@ -34,6 +41,8 @@ class Shop < ActiveRecord::Base
   
   
   accepts_nested_attributes_for :menus
+  acts_as_mappable
+
 
   named_scope :by_name_suburb_or_postcode, lambda  {|term|
     {
@@ -42,6 +51,14 @@ class Shop < ActiveRecord::Base
     }
   }
 
+
+  def address
+    street ? "#{street} " : "" +
+    suburb ? "#{suburb} " : "" +
+    province ? "#{province} " : "" +
+    country ? "#{country} " : "" +
+    postcode ? "#{postcode} " : ""
+  end
   
   def is_manager?(user)
     managers.include?(user)
@@ -118,7 +135,9 @@ class Shop < ActiveRecord::Base
   end     
   
    
-                  
+  def has_item_queues?
+    !item_queues.empty?
+  end
   
   def add_generic_cafe_menus
     menus.create(:name=>'Drinks',

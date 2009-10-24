@@ -7,7 +7,8 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 APPLICATION_DOMAIN= 'cafebop.com'
-SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN
+SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN 
+GOOGLE_API_KEY= 'ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -22,10 +23,10 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
+  config.gem 'test-unit', :lib => 'test/unit'
+  config.gem "thoughtbot-shoulda", :lib => "shoulda"
   config.gem "haml"
-  config.gem "hobofields"      
-  config.gem 'test-unit', :lib => 'test/unit' 
-  config.gem "thoughtbot-shoulda", :lib => "shoulda", :source => "http://gems.github.com"
+  config.gem "hobofields"
   config.gem 'rr'
   config.gem 'notahat-machinist', :lib => 'machinist', :source => "http://gems.github.com"
   config.gem 'sevenwire-forgery', :lib => 'forgery', :source => "http://gems.github.com"
@@ -36,7 +37,7 @@ Rails::Initializer.run do |config|
   config.gem "josevalim-rails-footnotes",  :lib => "rails-footnotes", :source => "http://gems.github.com"
   config.gem 'easy_roles', :source => 'http://gemcutter.org'  
   config.gem 'justinfrench-formtastic', :lib=>'formtastic', :source=>'http://gems.github.com'
-  
+  config.gem 'geokit'
   
 
   # Only load the plugins named here, in the order given (default is alphabetical).

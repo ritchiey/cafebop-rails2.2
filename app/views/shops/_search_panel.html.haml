@@ -1,11 +1,49 @@
+-content_for :head do    
+
+  =import_google_api
+
+  :javascript
+
+    function search_form_geocode(term, form) {
+      geocoder.getLatLng(term, function(point) { 
+        if (point) { 
+          $('#search_lat').val(point.lat());
+          $('#search_lng').val(point.lng());   
+        }
+        form.geocoded = true;
+        form.submit();
+      });
+    }
+
+    $(function() { // page ready    
+      var form = $("#search_form");
+      form.geocoded = false;
+      form.submit(function() {
+        if (!form.geocoded) {
+          term = $("#search_term").val();
+          if (term.length == 0) {  
+            return false;
+          }           
+          search_form_geocode(term, form);
+        }
+        return form.geocoded;
+      });
+    });
+
+    google.load("maps", "2");
+    google.setOnLoadCallback(initialize_geocoder);
+
+-content_for :aside do
+  -if @shops
+    =static_map :places=>@shops, :center=>@search, :width=>310, :height=>500
+
 .search-panel
-  %h3.title
-    Locate a Cafe near you...
-  %form{ :method => "get", :action => search_shops_path, :refocus => "true" }
-    .hidden-fields
-    .form
-      %span.search
-        %input{ :name => "q", :size => "18", :type => "text", :value=>@term }
-        %input.button.submit-button{ :type => "submit", :value => "Search" }
-      %br
-      Enter a shop name, suburb or postal code    
+  %h3.title Locate a Restaurant near you...
+  -semantic_form_for @search, :url=>search_shops_path, :html=>{:id=>'search_form', :method=>'get'} do |f|
+    -f.inputs do
+      = f.input :type
+      = f.input :term, :label=>'Location:'
+      = f.input :lat, :as=>'hidden'
+      = f.input :lng, :as=>'hidden'
+      - f.buttons do
+        =f.commit_button :button_html=>{:value=>'Search'}
