@@ -135,7 +135,9 @@ class Shop < ActiveRecord::Base
   end     
   
    
-                  
+  def has_item_queues?
+    !item_queues.empty?
+  end
   
   def add_generic_cafe_menus
     menus.create(:name=>'Drinks',

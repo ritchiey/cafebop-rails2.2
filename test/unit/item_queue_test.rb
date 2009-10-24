@@ -10,13 +10,14 @@ class ItemQueueTest < ActiveSupport::TestCase
       @menu = Menu.make(:shop=>@shop)
       @menu_item = MenuItem.make(:menu=>@menu, :item_queue=>@queue)
       @order_item = OrderItem.make(:menu_item=>@menu_item)
+      #debugger
       assert_equal @queue, @order_item.item_queue
     end
     
     should "only see queued items in its current_items list" do
       assert @queue.current_items.empty?
       @order_item.queue!
-      assert @order_item.queued?    
+      assert @order_item.queued?
       @order_item.save!
       assert_same_elements [@order_item], @queue.current_items.find(:all)
     end

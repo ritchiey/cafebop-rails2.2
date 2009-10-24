@@ -47,6 +47,7 @@ class MenuItemTest < ActiveSupport::TestCase
       @queue = @shop.item_queues.create(:name=>"Default Queue")
       @menu = Menu.make(:shop=>@shop)
       @menu_item = @menu.menu_items.create(:menu=>@menu, :name=>'Fish')
+      assert_equal @queue, @menu_item.item_queue     
       assert @menu_item.valid?
       assert_equal @shop, @menu_item.shop
       assert !@shop.item_queues.empty?
@@ -55,7 +56,7 @@ class MenuItemTest < ActiveSupport::TestCase
     should "pickup the first queue in the shop" do
       assert !@menu_item.shop.item_queues.empty?
       @menu_item.reload
-      assert_equal @queue, @menu_item.item_queue
+      assert_equal @queue, @menu_item.item_queue     
     end
 
   end
