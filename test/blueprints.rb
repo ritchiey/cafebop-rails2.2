@@ -42,9 +42,12 @@ User.blueprint do
   password_confirmation "monkey"
 end   
 
-
 WorkContract.blueprint do
   shop
   user
   role 'patron'
+end
+
+Cuisine.blueprint do
+  name  {CafeForgery.cuisine_name}
 end

@@ -11,7 +11,11 @@ class CafeForgery < Forgery
 
   def self.flavour_name
     dictionaries[:flavour_names].random
-  end   
+  end      
+  
+  def self.cuisine_name
+    dictionaries[:cuisine_names].random
+  end
   
 end
  

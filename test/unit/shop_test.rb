@@ -31,8 +31,35 @@ class ShopTest < ActiveSupport::TestCase
       assert_not_nil(coffee = menu.menu_items.find_by_name('Coffee'))
       assert_not_nil(large = coffee.sizes.find_by_name('Large'))
       assert_equal "4.50", large.price
-    end
+    end     
+    
+    context "with a given cuisine" do
+      setup do
+        @cuisine = Cuisine.make
+        @shop.cuisines << @cuisine
+      end                        
       
+      should "appear to have that cuisine"  do
+        assert_equal [@cuisine], @shop.cuisines.all
+      end                                          
+      
+      should "appear in the list of shops with_cuisine(@cuisine)" do
+        other_shop = Shop.make
+        assert_equal [@shop], Shop.with_cuisine(@cuisine)
+      end
+      
+      should "appear in a search for that shop with that cuisine" do
+        search = Search.new(:cuisine=>@cuisine.id.to_s, :term=>@shop.name)
+        assert_equal [@shop], search.shops 
+      end
+      
+      should "not appear in a search for that shop name but a different cuisine" do
+        search = Search.new(:cuisine=>Cuisine.make.id.to_s, :term=>@shop.name)
+        assert_equal [], search.shops
+      end
+      
+    end
+       
   end
    
   context "a community shop " do

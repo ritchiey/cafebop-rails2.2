@@ -45,7 +45,14 @@ class Shop < ActiveRecord::Base
       :include=>[:serviced_suburbs],
       :conditions=>["suburbs.postcode = ? or LOWER(shops.name) like ? or LOWER(suburbs.name) like ?", term, "#{term}%".downcase, "#{term}%".downcase],
     }
-  }
+  }      
+  
+  named_scope :with_cuisine, lambda {|id| 
+    {
+      :include=>[:shop_cuisines],
+      :conditions=>["shop_cuisines.cuisine_id = ?", id]
+    }
+    }
 
 
   def address
