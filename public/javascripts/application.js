@@ -224,7 +224,7 @@ function geocode(address, shopName) {
 
 function toShopUrl(name) {
   name = name.replace(/[ _]/g, "-");
-  name = name.replace(/[!@#$%^&*()]/g, "");
+  name = name.replace(/[!@#$%^&*()\']/g, "");
   return "http://"+name.toLowerCase() + ".cafebop.com/";
 }     
 

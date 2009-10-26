@@ -7,24 +7,19 @@ class Shop < ActiveRecord::Base
     website :string
     state   :string, :default=>'community'
     email_address :email_address
-    street  :string
-    suburb  :string
-    province :string
-    country :string
-    postcode :string
+    street_address  :string
+    postal_address  :string
     lat     :float
     lng     :float
     timestamps   
   end    
                         
-  attr_accessible :name, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng
+  attr_accessible :name, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids
 
-  # def menu_attributes=(attributes)
-  #   for attributes in new_menus
-  #     self.menus.build(attributes)
-  #   end
-  # end  
-
+  def cuisine_ids=(ids)
+    ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
+  end 
+    
   def to_s() name; end          
   
   has_many :orders, :dependent=>:destroy
@@ -38,9 +33,10 @@ class Shop < ActiveRecord::Base
   has_many :managers, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'manager'"]
   has_many :service_areas
   has_many :serviced_suburbs, :through=>:service_areas, :source=>:suburb
+  has_many :shop_cuisines
+  has_many :cuisines, :through=>:shop_cuisines
   
-  
-  accepts_nested_attributes_for :menus
+  accepts_nested_attributes_for :menus 
   acts_as_mappable
 
 

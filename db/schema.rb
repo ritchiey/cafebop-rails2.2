@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091022184753) do
+ActiveRecord::Schema.define(:version => 20091026011340) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -19,6 +19,12 @@ ActiveRecord::Schema.define(:version => 20091022184753) do
     t.integer  "user_id"
     t.integer  "shop_id"
     t.integer  "reviewer_id"
+  end
+
+  create_table "cuisines", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "flavours", :force => true do |t|
@@ -116,6 +122,13 @@ ActiveRecord::Schema.define(:version => 20091022184753) do
     t.integer  "shop_id"
   end
 
+  create_table "shop_cuisines", :force => true do |t|
+    t.integer  "shop_id"
+    t.integer  "cuisine_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "shops", :force => true do |t|
     t.string   "name"
     t.string   "phone"
@@ -169,7 +182,7 @@ ActiveRecord::Schema.define(:version => 20091022184753) do
     t.string   "name"
     t.string   "perishable_token"
     t.string   "roles",             :default => "--- []"
-    t.boolean  "active",            :default => false
+    t.boolean  "active",            :default => false,    :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

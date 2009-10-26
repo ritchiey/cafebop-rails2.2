@@ -1,0 +1,12 @@
+- title "Cuisine"
+
+%p
+  %strong Name:
+  =h @cuisine.name
+
+%p
+  = link_to "Edit", edit_cuisine_path(@cuisine)
+  |
+  = link_to "Destroy", @cuisine, :confirm => 'Are you sure?', :method => :delete
+  |
+  = link_to "View All", cuisines_path
