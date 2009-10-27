@@ -38,11 +38,19 @@ class ApplicationController < ActionController::Base
     unauthorized unless current_user && current_user.is_admin?
   end
 
+  def require_valid_captcha
+    unless verify_recaptcha
+     flash[:error] = "The Captcha words you entered weren't right."
+     redirect_to :back
+    end
+  end
+
+
 private
 
   def unauthorized
     flash[:notice] = "You're not authorized to do that."
     redirect_to root_path
-  end
-
+  end    
+                     
 end

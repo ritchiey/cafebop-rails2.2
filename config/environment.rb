@@ -37,7 +37,9 @@ Rails::Initializer.run do |config|
   config.gem "josevalim-rails-footnotes",  :lib => "rails-footnotes", :source => "http://gems.github.com"
   config.gem 'easy_roles', :source => 'http://gemcutter.org'  
   config.gem 'justinfrench-formtastic', :lib=>'formtastic', :source=>'http://gems.github.com'
-  config.gem 'geokit'
+  config.gem 'geokit'     
+  config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
+  
   
 
   # Only load the plugins named here, in the order given (default is alphabetical).

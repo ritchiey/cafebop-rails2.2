@@ -1,6 +1,12 @@
 UserObserver.instance
 
+
 class UsersController < ApplicationController
+
+
+  before_filter :require_valid_captcha, :only=>[:create]
+
+
   def new
     @user = User.new
   end
