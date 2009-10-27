@@ -36,12 +36,17 @@ class User < ActiveRecord::Base
     save
   end
   
-  def can_review_claims?
-    is_cafebop_admin?
-  end
+  def can_review_claims?() is_cafebop_admin?; end
+  def is_admin?() is_cafebop_admin?; end
+
   
   def manages?(shop)
     shop && work_contracts.exists?(:shop_id=>shop.id, :role=>'manager')
   end
-  
+
+  def self.stats
+    {
+      :total => count
+    }
+  end
 end

@@ -1,0 +1,12 @@
+-rows = table_for
+%table
+  %thead
+    %tr
+      -first_row = rows.shift
+      -for col in first_row
+        %th= col
+  %tbody
+    -for row in rows
+      %tr
+      -for col in row
+        %td= col

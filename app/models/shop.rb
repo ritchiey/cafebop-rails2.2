@@ -52,7 +52,11 @@ class Shop < ActiveRecord::Base
       :include=>[:shop_cuisines],
       :conditions=>["shop_cuisines.cuisine_id = ?", id]
     }
-    }
+    } 
+    
+  named_scope :community, :conditions=>{:state=>'community'}
+  named_scope :express, :conditions=>{:state=>'express'}
+  named_scope :professional, :conditions=>{:state=>'professional'}
 
 
   def address

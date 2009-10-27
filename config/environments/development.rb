@@ -18,3 +18,5 @@ config.action_mailer.raise_delivery_errors = false
 
 config.gem "rails-footnotes-linux",  :lib => "rails-footnotes", :source => "http://gems.github.com" if RUBY_PLATFORM =~ /linux/
 
+
+

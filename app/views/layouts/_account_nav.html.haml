@@ -1,5 +1,8 @@
 .account-nav
   -if current_user
+    -if current_user.is_admin?
+      =link_to "Admin Dashboard", dashboard_path
+      ="|"
     -if current_user.can_review_claims?
       =link_to "Review Claims", claims_path
       ="|"

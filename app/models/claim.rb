@@ -12,6 +12,9 @@ class Claim < ActiveRecord::Base
                   
   default_scope :order=>'created_at DESC'
   named_scope :pending, :conditions=>{:state=>'pending'}
+  named_scope :under_review, :conditions=>{:state=>'under_review'}
+  named_scope :confirmed, :conditions=>{:state=>'confirmed'}
+  named_scope :rejected, :conditions=>{:state=>'rejected'}
   named_scope :outstanding, :conditions=>{:state=>['pending', 'under_review']}
   named_scope :for_shop, lambda {|shop| {:conditions=>{:shop=>shop}}}
   

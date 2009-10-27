@@ -1,0 +1,24 @@
+%h3 Dashboard
+
+-content_for :content_body do
+
+
+  #user-stats.span-8
+    =render :partial => 'table_for', :object=>shop_rows
+       
+  #shop-stats.span-8
+    =render :partial => 'table_for', :object=>user_rows
+
+  #claim-stats.span-8.last
+    =render :partial => 'table_for', :object=>claim_rows
+
+  #order-stats.span-8
+    =render :partial => 'table_for', :object=>order_rows
+
+  #queue-stats.span-8
+    =placeholder
+    -#=render :partial => 'table_for', :object=>user_rows
+
+  #claim-stats.span-8.last
+    =placeholder
+    -#=render :partial => 'table_for', :object=>user_rows
