@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class OrderItemTest < ActiveSupport::TestCase
 
@@ -16,8 +16,7 @@ class OrderItemTest < ActiveSupport::TestCase
       @item = OrderItem.make
     end
 
-    should_validate_presence_of :state
-
+    should_allow_values_for :state, *OrderItem::STATES
 
     should "default to pending" do
       assert @item.pending?
@@ -42,50 +41,41 @@ class OrderItemTest < ActiveSupport::TestCase
       assert @item.made?
     end
 
-    should "have a valid state" do
-      assert @item.respond_to?("#{@item.state}?")# An item must have a valid state
-      assert_valid @item
-    end
-
-    should "have a quantity greater than 0" do
-      assert_operator @item.quantity, :>, 0
-      assert_valid @item
-    end
-
-    should "have a positive price_in_cents" do
-      assert_operator @item.price_in_cents, :>, 0
+    should "be valid" do
       assert_valid @item
     end
 
     should "adopt the item_queue of its menu_item" do
       assert_equal @item.menu_item.item_queue, @item.item_queue
     end
+    
+#    should "have a valid state" do
+#      assert @item.respond_to?("#{@item.state}?")# An item must have a valid state
+#      assert_valid @item
+#    end
+
+#    should "have a quantity greater than 0" do
+#      assert_operator @item.quantity, :>, 0
+#      assert_valid @item
+#    end    
 
     context "with invalid data" do
-      
-      should "not validate a unknown state" do
-        @item.state = BasicForgery.text
-        
-        assert !@item.respond_to?("#{@item.state}?")# An item must have a valid state
-        assert !@item.valid?
-      end
 
-      should "not validate a quantity less than 1" do
-        @item.quantity = BasicForgery.number(:at_least => -25, :at_most => 0)
-        
-        assert_operator @item.quantity, :<, 1
-        assert !@item.valid?# An item must have a quantity greater than 0
-      end
+      should_not_allow_values_for :state, BasicForgery.text, BasicForgery.text
+      should_not_allow_values_for :quantity, BasicForgery.number(:at_least => -25, :at_most => 0), nil
+      should_not_allow_values_for :price_in_cents, BasicForgery.number(:at_least => -4500, :at_most => 0), nil
 
-      should "not validate a negative price_in_cents" do
-        @item.price_in_cents = BasicForgery.number(:at_least => -4500, :at_most => 0)
-        
-        assert_operator @item.price_in_cents, :<=, 0
-        assert !@item.valid?# An item must have a price_in_cents greater than 0
-        @item.price_in_cents = nil
-        assert !@item.valid?# An item can't be nil
-      end
+#      should "not validate a unknown state" do
+#        @item.state = BasicForgery.text#
+#        assert !OrderItem::STATES.include?(@item.state)# An item must have a valid state
+#        @item.valid?
+#        assert_contains @item.errors.full_messages, "#{'OrderItem'.tableize.humanize} #{'state'.humanize} #{default_error_message(:inclusion)}"#
+#      end
 
+#      matcher = allow_value(1).for(:quantity).with_message('is minimum 1')
+#      should "not #{matcher.description}" do
+#        assert_rejects matcher, subject
+#      end
     end
 
   end
