@@ -13,8 +13,9 @@ class Size < ActiveRecord::Base
   has_many :order_items, :dependent=>:nullify
   belongs_to :menu_item
 
-  validates_length_of :name, :minimum=>1
-
+  validates_presence_of :name
+  validates_numericality_of :price_in_cents, :greater_than => 0
+  
   treat_as_currency :price
 
   def to_s

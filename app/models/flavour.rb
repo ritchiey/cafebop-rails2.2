@@ -9,7 +9,7 @@ class Flavour < ActiveRecord::Base
 
   has_many :order_items, :dependent=>:nullify
   belongs_to :menu_item
-  validates_length_of :name, :minimum=>1
+  validates_presence_of :name
 
 
   def to_s
