@@ -14,7 +14,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :orders
   map.resources :order_items  
-
+  map.resources :shops, :has_many => {:orders => :order_items}
+  
   map.resources :shops, :shallow=>true, :collection=>{:search=>:get} do |shops|
     shops.resources :item_queues, :member=>[:current_items]
     shops.resources :claims, :only=>[:create]
