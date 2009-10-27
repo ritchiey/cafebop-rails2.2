@@ -26,6 +26,17 @@ OrderItem.blueprint do
   price_in_cents {BasicForgery.number :at_least=>50, :at_most=>4500}
 end
 
+Flavour.blueprint do
+  menu_item
+  name { CafeForgery.flavor_name}
+end
+
+Size.blueprint do
+  menu_item
+  name { CafeForgery.size_name}
+  price_in_cents {BasicForgery.number :at_least=>50, :at_most=>4500}
+end
+
 ItemQueue.blueprint do
   shop
   name {BasicForgery.color.downcase}

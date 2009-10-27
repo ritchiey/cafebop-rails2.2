@@ -17,5 +17,9 @@ class CafeForgery < Forgery
     dictionaries[:cuisine_names].random
   end
   
+  def self.size_name
+    dictionaries[:size_names].random
+  end
+  
 end
  
