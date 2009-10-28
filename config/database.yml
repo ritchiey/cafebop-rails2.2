@@ -5,6 +5,7 @@ development:
   encoding: unicode
   database: cafebop_development
   pool: 5
+  min_messages: warning
   #host: localhost
   #port: 5432  #username: cafebop_development
   # password:
@@ -17,6 +18,7 @@ test:
   encoding: unicode
   database: cafebop_test
   pool: 5
+  min_messages: warning
   #username: cafebop_test
   # password:
 
