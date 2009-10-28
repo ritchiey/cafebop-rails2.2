@@ -11,8 +11,9 @@ class SizeTest < ActiveSupport::TestCase
   context "a size" do
     setup do
       @size = Size.make
-    end
-    
+    end       
+    subject { @size }
+
     should_validate_presence_of :name
         
     should "be valid" do
