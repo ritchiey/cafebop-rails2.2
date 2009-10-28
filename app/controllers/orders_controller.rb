@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
     if params[:order]
       @order = Order.new(params[:order].merge(:shop_id=>params[:shop_id]))
       if @order.save
-        redirect_to shop_order_path(@order.shop_id, @order)
+        redirect_to order_path(@order)
       else        
         flash[:error] = @order.errors.full_messages.collect{|m| m}.join('. ')
         redirect_to new_shop_order_path
