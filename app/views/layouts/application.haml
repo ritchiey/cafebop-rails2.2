@@ -45,12 +45,10 @@
                 .span-1=placeholder
                 .span-15.last=yield
               #aside.span-8.last
-                -default_content_for :aside do
-                  =placeholder
+                =yield :aside || placeholder
 
       #footer.span-24.last
-        -default_content_for :footer do
-          =placeholder    
+        = yield :footer || placeholder    
         
 
     =yield :javascript
