@@ -11,6 +11,8 @@ class Flavour < ActiveRecord::Base
   belongs_to :menu_item
   validates_presence_of :name
 
+  acts_as_list :scope=>:menu_item
+
 
   def to_s
     name

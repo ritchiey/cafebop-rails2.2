@@ -12,7 +12,7 @@ class MenuItem < ActiveRecord::Base
   validates_length_of :name, :minimum => 1
   validates_numericality_of :price_in_cents, :greater_than => 0, :allow_nil => true
                         
-  has_many :flavours, :dependent=>:destroy
+  has_many :flavours, :dependent=>:destroy, :order=>:position 
   has_many :sizes, :dependent=>:destroy, :order=>:position
   has_many :order_items, :dependent=>:nullify
   
@@ -24,6 +24,7 @@ class MenuItem < ActiveRecord::Base
   
   treat_as_currency :price #create virtual price attribute
   accepts_nested_attributes_for :flavours, :sizes
+  acts_as_list :scope=>:menu
 
   before_create :set_default_queue
   

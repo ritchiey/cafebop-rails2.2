@@ -28,10 +28,23 @@ class MenuItemsController < ApplicationController
       render :action=>'edit'
     end
   end
+
+  def reorder_sizes
+    reorder_child_items :size
+  end
+
+  def reorder_flavours
+    reorder_child_items :flavour
+  end
+
 private
+
+  def find_instance
+    @menu_item = MenuItem.find(params[:id])
+  end
 
   def get_menu
     @menu = Menu.find(params[:menu_id])
-  end
+  end                
   
 end

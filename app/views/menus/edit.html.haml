@@ -1,10 +1,13 @@
+-content_for :javascript do
+  :javascript
+    make_sortable('menu-items', 'menus', '#{@menu.id}');
+
 %h3 Edit Menu
 
 =render :partial => 'back'    
 =link_to "Delete Menu", menu_path(@menu), :method=>:delete, :confirm=>"Deleting this menu will destroy all items in this menu. Are you sure?"
 =render :partial=>'form', :object=>@menu
 
-%ul
-  -@menu.menu_items.each do |item|
-    %li=link_to item.name, edit_menu_item_path(item)
+%ul#menu-items-list=render :partial=>@menu.menu_items
+
 =link_to "Add Item", new_menu_menu_item_path(@menu)

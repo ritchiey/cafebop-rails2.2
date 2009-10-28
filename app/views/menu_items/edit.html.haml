@@ -1,12 +1,17 @@
+-content_for :javascript do
+  :javascript
+    make_sortable('sizes', 'menu_items', '#{@menu_item.id}');
+    make_sortable('flavours', 'menu_items', '#{@menu_item.id}');
+
 %h3 Editing Menu Item
 
 =render :partial => 'back'
 =render :partial=>'form', :object=>@menu_item
 
 %h4 Sizes
-%ul=render :partial=>@menu_item.sizes
+%ul#sizes-list=render :partial=>@menu_item.sizes
 =link_to "Add Size", new_menu_item_size_path(@menu_item)
 
 %h4 Flavours
-%ul=render :partial=>@menu_item.flavours
+%ul#flavours-list=render :partial=>@menu_item.flavours
 =link_to "Add Flavour", new_menu_item_flavour_path(@menu_item)

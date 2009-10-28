@@ -17,6 +17,7 @@ class Size < ActiveRecord::Base
   validates_numericality_of :price_in_cents, :greater_than => 0
   
   treat_as_currency :price
+  acts_as_list :scope=>:menu_item
 
   def to_s
     "#{name} (#{price})"

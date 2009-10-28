@@ -40,16 +40,23 @@ class ShopsController < ApplicationController
   end  
   
   def update
-
     if @shop.update_attributes(params[:shop])
       redirect_to shops_path
     else
       render :action=>:edit
     end
-    
   end
 
 
+  def reorder_menus
+    reorder_child_items(:menu)
+  end                 
+  
+  def reorder_item_queues
+    reorder_child_items(:item_queue)
+  end
+                                    
+    
 private
 
     def find_instance

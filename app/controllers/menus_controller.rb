@@ -6,9 +6,10 @@ class MenusController < ApplicationController
   end                        
   
   def create 
-    @shop = Shop.find(params[:shop_id])
-    @template = MenuTemplate.find(params[:menu_template_id])
-    menu_data = @template ? @template.menu_params : params[:menu]
+    @shop = Shop.find(params[:shop_id])                      
+    template_id = params[:menu_template_id]
+    menu_template = MenuTemplate.find(template_id) if template_id
+    menu_data = menu_template ? menu_template.menu_params : params[:menu]
     @menu = @shop.menus.build(menu_data) 
     if @menu.save
         redirect_to edit_shop_path(@shop)
@@ -34,6 +35,17 @@ class MenusController < ApplicationController
     @menu = Menu.find(params[:id])
     @menu.destroy 
     redirect_to edit_shop_path(@menu.shop)
-  end            
+  end  
+  
+  def reorder_menu_items
+    reorder_child_items :menu_item
+  end          
+       
+private
+
+  def find_instance
+    @menu = Menu.find(params[:id])
+  end
+  
   
 end

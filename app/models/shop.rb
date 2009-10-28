@@ -23,8 +23,8 @@ class Shop < ActiveRecord::Base
   def to_s() name; end          
   
   has_many :orders, :dependent=>:destroy
-  has_many :item_queues, :dependent=>:destroy
-  has_many :menus, :dependent=>:destroy
+  has_many :item_queues, :dependent=>:destroy, :order=>:position 
+  has_many :menus, :dependent=>:destroy, :order=>:position 
   has_many :menu_items, :through => :menus
   has_many :operating_times, :dependent=>:destroy
   has_many :claims, :dependent=>:destroy

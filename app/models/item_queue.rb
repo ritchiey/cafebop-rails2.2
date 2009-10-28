@@ -2,6 +2,7 @@ class ItemQueue < ActiveRecord::Base
 
   fields do
     name :string
+    position :integer
     timestamps
   end    
   
@@ -11,7 +12,8 @@ class ItemQueue < ActiveRecord::Base
   has_many :current_items, :class_name=>'OrderItem', :foreign_key=>'item_queue_id', :order=>"created_at ASC", :conditions=>{:state =>'queued'}
 
   validates_length_of :name, :minimum=>1       
-  validates_uniqueness_of :name, :scope=>:shop_id
+  validates_uniqueness_of :name, :scope=>:shop_id 
+  acts_as_list :scope=>:shop
 
 
   # --- Permissions --- #
