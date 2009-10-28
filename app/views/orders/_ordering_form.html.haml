@@ -30,20 +30,21 @@
         -form.fields_for :order_items do |item_form|
           -debugger
           -if item_form.object
-            %td
-              =h item_form.object.quantity
-              = item_form.hidden_field :quantity
-              = item_form.hidden_field :price_in_cents
-              = item_form.hidden_field :description
-              = item_form.hidden_field :menu_item_id
-              = item_form.hidden_field :flavour_id
-              = item_form.hidden_field :size_id
-            %td
-              =h item_form.object.description            %td.notes
-              =h form.object.notes
-            %td.cost
-              =h item_form.object.cost
-            %td.remove
+            %tr
+              %td
+                =h item_form.object.quantity
+                = item_form.hidden_field :quantity
+                = item_form.hidden_field :price_in_cents
+                = item_form.hidden_field :description
+                = item_form.hidden_field :menu_item_id
+                = item_form.hidden_field :flavour_id
+                = item_form.hidden_field :size_id
+              %td
+                =h item_form.object.description              %td.notes
+                =h form.object.notes
+              %td.cost
+                =h item_form.object.cost
+              %td.remove
           -else
             %tr
               %td
@@ -51,7 +52,8 @@
       %tfoot
         %tr
           %td(colspan="3") Total
-          %td#total 0.00  
+          -#FIXME calculate the total in edit view
+          %td#total 0.00
     = submit_tag
   
 
