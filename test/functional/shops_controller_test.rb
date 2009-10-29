@@ -5,4 +5,9 @@ class ShopsControllerTest < ActionController::TestCase
   test "the truth" do
     assert true
   end
+  
+  test "uploading a background image" do  
+    image_upload = fixture_file_upload('files/logo.png', 'image/png')
+    post "/shops", :name=>"Test Shop", :header_background=>image_upload
+  end
 end

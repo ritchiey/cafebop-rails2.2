@@ -1,4 +1,7 @@
 -content_for :content_header do
+  =image_tag @shop.header_background.url
+
+-content_for :content_header do
   = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
 
 = render :partial => 'ordering_form', :object=>[@shop, @order]
