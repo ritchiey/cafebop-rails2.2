@@ -60,9 +60,10 @@ class ApplicationController < ActionController::Base
   def cookies_test
     if request.cookies[SESSION_KEY].blank?
       logger.warn("** Cookies are disabled for #{request.remote_ip} at #{Time.now}" )
-      render :template => 'cookies_required'
+      flash[:error] = "Cookies are required for browsing this website"
+      render :template => 'front/cookies_required'
     else
-      redirect_to(session[:return_to] || {:controller => "store" })
+      redirect_to(session[:return_to] || {:controller => :front })
       session[:return_to] = nil
     end
   end
@@ -72,7 +73,7 @@ protected
   def cookies_required
     return unless request.cookies[SESSION_KEY].blank?
     session[:return_to] = request.request_uri
-    redirect_to :action => "cookies_test"
+    redirect_to :controller => :front, :action => "cookies_test"
   end
 
 

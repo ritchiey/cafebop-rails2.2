@@ -9,5 +9,8 @@ class FrontController < ApplicationController
     #@shops = @search.shops   
   end
   
+  def cookies_test
+    super
+  end
   
 end
