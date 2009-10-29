@@ -3,9 +3,8 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
+  before_filter :cookies_required, :except => [:cookies_test]
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  
-
 
   filter_parameter_logging :password, :password_confirmation
   
@@ -56,6 +55,24 @@ class ApplicationController < ActionController::Base
       end
     end
     render :nothing=>true
+  end
+
+  def cookies_test
+    if request.cookies[SESSION_KEY].blank?
+      logger.warn("** Cookies are disabled for #{request.remote_ip} at #{Time.now}" )
+      render :template => 'cookies_required'
+    else
+      redirect_to(session[:return_to] || {:controller => "store" })
+      session[:return_to] = nil
+    end
+  end
+
+
+protected
+  def cookies_required
+    return unless request.cookies[SESSION_KEY].blank?
+    session[:return_to] = request.request_uri
+    redirect_to :action => "cookies_test"
   end
 
 
