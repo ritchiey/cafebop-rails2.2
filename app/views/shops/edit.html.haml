@@ -1,3 +1,6 @@
+-content_for :content_header do
+  =image_tag @shop.header_background.url
+
 -content_for :javascript do
   :javascript
     make_sortable('menus', 'shops', '#{@shop.id}');

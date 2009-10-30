@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091028061926) do
+ActiveRecord::Schema.define(:version => 20091029080050) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -139,11 +139,15 @@ ActiveRecord::Schema.define(:version => 20091028061926) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",          :default => "community"
+    t.string   "state",                          :default => "community"
     t.float    "lat"
     t.float    "lng"
     t.string   "street_address"
     t.string   "postal_address"
+    t.string   "header_background_file_name"
+    t.string   "header_background_content_type"
+    t.integer  "header_background_file_size"
+    t.datetime "header_background_updated_at"
   end
 
   create_table "sizes", :force => true do |t|

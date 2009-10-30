@@ -41,6 +41,7 @@ Rails::Initializer.run do |config|
   config.gem 'justinfrench-formtastic', :lib=>'formtastic', :source=>'http://gems.github.com'
   config.gem 'geokit'     
   config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
+  config.gem "aws-s3", :version => ">= 0.6.2", :lib => "aws/s3"
   
   
 

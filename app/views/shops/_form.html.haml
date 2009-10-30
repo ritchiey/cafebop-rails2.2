@@ -26,11 +26,8 @@
       
 
     })
-    
 
-
-
--semantic_form_for @shop do |f|
+-semantic_form_for @shop, :html=>{:multipart=>true} do |f|
   -f.inputs do
     =f.input :name
     =f.input :email_address
@@ -40,7 +37,8 @@
     =f.input :street_address
     =f.input :postal_address
     =f.input :lat, :as=>:hidden
-    =f.input :lng, :as=>:hidden
+    =f.input :lng, :as=>:hidden 
+    =f.input :header_background
     =f.input :cuisines, :as=>:check_boxes
   =f.buttons
   
