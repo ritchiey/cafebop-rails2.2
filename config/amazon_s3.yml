@@ -1,19 +1,19 @@
 development:
   bucket: cafebop_development
-  access_key_id: ENV['AMAZON_ACCESS_KEY_ID']
-  secret_access_key: ENV['AMAZON_SECRET_ACCESS_KEY']
+  access_key_id: <%=ENV['AMAZON_ACCESS_KEY_ID']%>
+  secret_access_key: <%=ENV['AMAZON_SECRET_ACCESS_KEY']%>
 
 test:
   bucket: cafebop_test
-  access_key_id: ENV['AMAZON_ACCESS_KEY_ID']
-  secret_access_key: ENV['AMAZON_SECRET_ACCESS_KEY']
+  access_key_id: <%=ENV['AMAZON_ACCESS_KEY_ID']%>
+  secret_access_key: <%=ENV['AMAZON_SECRET_ACCESS_KEY']%>
 
 staging:
   bucket: cafebop_staging
-  access_key_id: ENV['AMAZON_ACCESS_KEY_ID']
-  secret_access_key: ENV['AMAZON_SECRET_ACCESS_KEY']
+  access_key_id: <%=ENV['AMAZON_ACCESS_KEY_ID']%>
+  secret_access_key: <%=ENV['AMAZON_SECRET_ACCESS_KEY']%>
 
 production:
   bucket: cafebop
-  access_key_id: ENV['AMAZON_ACCESS_KEY_ID']
-  secret_access_key: ENV['AMAZON_SECRET_ACCESS_KEY']
+  access_key_id: <%=ENV['AMAZON_ACCESS_KEY_ID']%>
+  secret_access_key: <%=ENV['AMAZON_SECRET_ACCESS_KEY']%>
