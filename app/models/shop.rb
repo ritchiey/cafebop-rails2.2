@@ -40,7 +40,10 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :menus 
   acts_as_mappable
   
-  has_attached_file :header_background
+  has_attached_file :header_background,
+      :storage => :s3,
+      :s3_credentials => "#{RAILS_ROOT}/config/amazon_s3.yml",
+      :path=>":provider/:attachment/:id_:style.:extension"
 
   named_scope :by_name_suburb_or_postcode, lambda  {|term|
     {

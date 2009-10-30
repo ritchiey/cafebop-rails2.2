@@ -11,3 +11,5 @@ josevalim-rails-footnotes  --version '>= 3.6.2' --source gems.github.com
 easy_roles --source gemcutter.org
 authlogic --version '>= 2.1.1'
 ambethia-recaptcha --source "http://gems.github.com"
+aws-s3
+
