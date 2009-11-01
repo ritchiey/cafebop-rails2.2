@@ -26,3 +26,13 @@ config.action_view.cache_template_loading            = true
 
 # Enable threaded mode
 # config.threadsafe!
+
+class ActiveRecord::Base
+  def self.paperclip_options(type)
+    {
+      :storage => :s3,
+      :s3_credentials => "#{RAILS_ROOT}/config/amazon_s3.yml",
+      :path=>":provider/:attachment/#{type}_:id_:style.:extension"
+    }
+  end
+end

@@ -18,5 +18,11 @@ config.action_mailer.raise_delivery_errors = false
 
 config.gem "rails-footnotes-linux",  :lib => "rails-footnotes", :source => "http://gems.github.com" if RUBY_PLATFORM =~ /linux/
 
-
-
+class ActiveRecord::Base
+  def self.paperclip_options(type)
+    {  
+      :url=>"/assets/#{type}/:id/:style/:basename.:extension",
+      :path=>":rails_root/public/assets/#{type}/:id/:style/:basename.:extension"
+    }
+  end
+end

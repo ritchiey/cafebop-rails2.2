@@ -41,10 +41,8 @@ class Shop < ActiveRecord::Base
   acts_as_mappable
   
   has_attached_file :header_background,
-      :styles=>{:header=>"950x180>"},
-      :storage => :s3,
-      :s3_credentials => "#{RAILS_ROOT}/config/amazon_s3.yml",
-      :path=>":provider/:attachment/:id_:style.:extension"
+      paperclip_options('shops').merge(:styles=>{:header=>"950x180>"})
+      
 
   named_scope :by_name_suburb_or_postcode, lambda  {|term|
     {

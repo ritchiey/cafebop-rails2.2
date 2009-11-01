@@ -23,10 +23,11 @@
         .span-6.last
           =render :partial=>'layouts/account_nav'
 
-      #content.span-24.last
+      #content.span-24.last  
         -default_content_for :content do
-          #content-header.span-24.last
+          #content-header.span-24.last{:style=>"background: url(/images/logo.png)repeat"}
             -default_content_for :content_header do
+              =placeholder :width=>1, :height=>72
               =%q/"I'm going to the shop. Want anything?"/
           #content-body.span-24.last
             - unless flash.empty?

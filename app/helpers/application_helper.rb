@@ -12,8 +12,8 @@ module ApplicationHelper
   end
 
 
-  def placeholder
-    image_tag 'transparent.png', :alt=>''
+  def placeholder(options={})
+    image_tag 'transparent.png', {:alt=>''}.merge(options)
   end   
   
   def import_google_api

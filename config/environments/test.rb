@@ -26,3 +26,12 @@ config.action_mailer.delivery_method = :test
 # This is necessary if your schema can't be completely dumped by the schema dumper,
 # like if you have constraints or database-specific column types
 # config.active_record.schema_format = :sql
+
+class ActiveRecord::Base
+  def self.paperclip_options(type)
+    {  
+      :url=>"/assets/#{type}/:id/:style/:basename.:extension",
+      :path=>":rails_root/public/assets/#{type}/:id/:style/:basename.:extension"
+    }
+  end
+end
