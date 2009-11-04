@@ -53,5 +53,6 @@ menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}
   'Desserts',
   'Japanese',
   'Hamburgers',
-  'Mexican'
+  'Mexican',
+  'Other'
 ].each {|cuisine| Cuisine.find_or_create_by_name(cuisine)}

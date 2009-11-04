@@ -17,6 +17,8 @@ class Shop < ActiveRecord::Base
   attr_accessible :name, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background
 
+  validates_presence_of :name, :phone, :street_address
+
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
   end 
@@ -141,6 +143,7 @@ class Shop < ActiveRecord::Base
   # Permissions
   def can_edit?(acting_user)                 
     return false unless acting_user
+    return true if acting_user.is_admin?
     return true if (acting_user.manages? self)
    false
   end     
