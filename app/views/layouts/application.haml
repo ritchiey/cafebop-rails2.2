@@ -27,10 +27,7 @@
         -default_content_for :content do
           #content-header.span-24.last{:style=>"background: #{header_background}"}
             -default_content_for :content_header do
-              .span-1
-                =placeholder :width=>1, :height=>180
-              .span-23.last
-                =%q/"I'm going to the shop. Want anything?"/
+              =placeholder :width=>1, :height=>180
           #content-body.span-24.last
             - unless flash.empty?
               .flash

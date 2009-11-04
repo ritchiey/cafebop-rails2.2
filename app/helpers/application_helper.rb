@@ -20,7 +20,8 @@ module ApplicationHelper
     if shop_with_header?
       "url(#{@shop.header_background.url(:header)}) no-repeat white"
     else
-      "url(/gradient_images/144:aaa:fff.png) repeat-x white"
+       "url(/images/logo.png) no-repeat" 
+    #  "url(/gradient_images/144:aaa:fff.png) repeat-x white"
     end
   end
 
