@@ -12,6 +12,18 @@ module ApplicationHelper
   end
 
 
+  def shop_with_header?
+    @shop and @shop.header_background
+  end                  
+  
+  def header_background
+    if shop_with_header?
+      "url(#{@shop.header_background.url(:header)}) no-repeat white"
+    else
+      "url(/gradient_images/144:aaa:fff.png) repeat-x white"
+    end
+  end
+
   def placeholder(options={})
     image_tag 'transparent.png', {:alt=>''}.merge(options)
   end   

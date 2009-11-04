@@ -19,16 +19,18 @@
     .container
       #header.span-24.last
         .span-18
-          =link_to image_tag('logo.png', :size=>'144x72'), root_path
+          =shop_with_header? ? link_to(image_tag('logo.png', :size=>'144x72'), root_path) : placeholder(:size=>'144x72')
         .span-6.last
           =render :partial=>'layouts/account_nav'
 
       #content.span-24.last  
         -default_content_for :content do
-          #content-header.span-24.last{:style=>"background: url(/gradient_images/72:aaa:fff.png) repeat-x white"}
+          #content-header.span-24.last{:style=>"background: #{header_background}"}
             -default_content_for :content_header do
-              =placeholder :width=>1, :height=>72
-              =%q/"I'm going to the shop. Want anything?"/
+              .span-1
+                =placeholder :width=>1, :height=>180
+              .span-23.last
+                =%q/"I'm going to the shop. Want anything?"/
           #content-body.span-24.last
             - unless flash.empty?
               .flash
