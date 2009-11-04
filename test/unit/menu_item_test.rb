@@ -39,6 +39,32 @@ class MenuItemTest < ActiveSupport::TestCase
       should_not_allow_values_for :price_in_cents, BasicForgery.number(:at_least => -4500, :at_most => 0)
     end
 
+    context "with a list of sizes" do
+      setup do               
+        @prices = "regular:$4.20, large:8.00 huge:20"
+      end
+      
+      should "parse the list into price attributes" do
+        price_attributes = @item.send :parse_prices, @prices
+        assert_equal [
+          {:name=>'regular', :price=>'4.20', :position=>1},
+          {:name=>'large', :price=>'8.00', :position=>2},
+          {:name=>'huge', :price=>'20', :position=>3} 
+          ], price_attributes
+      end            
+      
+      context "in the price field" do
+        setup do               
+          @item.price = @prices
+          @item.save!
+        end
+        should "create the prices as sizes and reformat them" do
+          assert_equal 3, @item.sizes.count
+          assert_equal "regular:$4.20, large:$8.00, huge:$20.00", @item.price
+        end
+      end
+    end
+
   end
 
   context "a menu_item created in a shop with a queue" do

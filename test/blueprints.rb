@@ -2,7 +2,9 @@ require 'machinist/active_record'
 require 'sham'
 
 Shop.blueprint do     
-  name { NameForgery.company_name }
+  name { NameForgery.company_name } 
+  street_address { "#{AddressForgery.street_address} #{AddressForgery.city}"  }
+  phone {AddressForgery.phone}
 end
 
 Menu.blueprint do
