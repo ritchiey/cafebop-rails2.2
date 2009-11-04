@@ -12,12 +12,22 @@ menu_templates = [
                           {
                             :name=>'Flat White',
                             :description=>'Frothy Perfection'
-                          },
-                          {
-                            :name=>'Cappucino',
-                            :description=>'Frothy Perfection plus chocolate sprinkles'
-                          }
-                          ], # flavours_attributes
+                          }  ,
+                            {
+                              :name=>'Cappucino',
+                              :description=>'Frothy Perfection plus chocolate sprinkles'
+                            }
+                            ,
+                            {
+                              :name=>'Expresso',
+                              :description=>''
+                            },
+                            {
+                              :name=>'Latte',
+                              :description=>''
+                            }
+                            
+                                                    ], # flavours_attributes
                         :sizes_attributes=>[
                             { :name=>'Regular', :price=>'3.80' },
                             { :name=>'Large', :price=>'4.50' }
