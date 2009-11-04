@@ -38,10 +38,10 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     if @order.update_attributes(params[:order])
-      redirect_to shop_order_path(@order.shop_id, @order)
+      redirect_to order_path(@order)
     else
       flash[:error] = "Unable to save changes"
-      redirect_to edit_shop_order_path(@order.shop_id, @order)
+      redirect_to edit_order_path(@order)
     end
   end  
 
