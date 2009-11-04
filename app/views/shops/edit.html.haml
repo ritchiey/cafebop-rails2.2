@@ -10,21 +10,27 @@
 =render :partial => 'back'
 =link_to "Place Order &gt;&gt;", new_shop_order_path(@shop)
 =render :partial=>'form', :object=>@shop
+           
+%hr
 
-.menus 
-  %h4 Menus
-  -if @shop.menus.empty?
-    No menus yet.
-  -else
-    %ul#menus-list= render :partial => @shop.menus
-  =link_to "Add Menu", new_shop_menu_path(@shop)
-
--if @shop.can_have_queues?
-  .queues
-    %h4 Queues
-    -if @shop.item_queues.empty?
-      No queues yet.
+.span-7
+  .menus 
+    %h4 Menus
+    -if @shop.menus.empty?
+      No menus yet.
     -else
-      %ul#item-queues-list= render :partial => @shop.item_queues
-    =link_to "Add Queue", new_shop_item_queue_path(@shop)       
+      %ul#menus-list= render :partial => @shop.menus
+    =link_to "Add Menu", new_shop_menu_path(@shop)
+
+.span-8.last
+  -if @shop.can_have_queues?
+    .queues
+      %h4 Queues
+      -if @shop.item_queues.empty?
+        No queues yet.
+      -else
+        %ul#item-queues-list= render :partial => @shop.item_queues
+      =link_to "Add Queue", new_shop_item_queue_path(@shop)       
+  -else
+    =placeholder
     

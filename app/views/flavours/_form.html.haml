@@ -1,4 +1,6 @@
 
 -semantic_form_for form do |f|
-  =f.inputs :name, :description
+  -f.inputs do
+    =f.input :name, :hint=>""
+    =f.input :description, :hint=>""
   =f.buttons

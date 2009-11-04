@@ -1,6 +1,4 @@
--content_for :content_header do
-  =image_tag @shop.header_background.url(:header)
-  
+
 -content_for :content_header do
   = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
 

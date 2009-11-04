@@ -25,7 +25,31 @@ class MenuItem < ActiveRecord::Base
   treat_as_currency :price #create virtual price attribute
   accepts_nested_attributes_for :flavours, :sizes
   acts_as_list :scope=>:menu
+    
 
+  # Accept sizes in price field in the format size:price
+  alias_method :normal_price=, :price=
+  def price=(value)
+    price_attributes = parse_prices(value)
+    if price_attributes
+      self.sizes = price_attributes.map do |attrs|
+        (size = sizes.find_by_name(attrs['name']) || Size.new).attributes = attrs
+        size
+      end
+    else
+      self.normal_price=value
+    end
+  end
+
+  alias_method :normal_price, :price
+  def price                         
+    if sizes.empty?
+      normal_price
+    else
+      sizes.map {|s| "#{s.name}:$#{s.price}"}.join(', ')
+    end
+  end
+  
   before_create :set_default_queue
   
   def to_s
@@ -56,4 +80,15 @@ private
     self[:item_queue_id]
   end
 
+
+  def parse_prices(str)
+    attrs = []
+    i=0
+    while str =~ /^[, ]*(.+?):\$?([0-9.]+)/o
+      attrs << {:name=>$1, :price=>$2, :position=>(i += 1)}
+      str = $'
+    end
+    attrs.empty? ? nil : attrs
+  end                                 
+  
 end

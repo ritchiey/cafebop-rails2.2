@@ -29,17 +29,17 @@
 
 -semantic_form_for @shop, :html=>{:multipart=>true} do |f|
   -f.inputs do
-    =f.input :name
-    =f.input :email_address
-    =f.input :website
-    =f.input :phone
-    =f.input :fax
-    =f.input :street_address
-    =f.input :postal_address
+    =f.input :name, :hint=>"Restaurant's full name"
+    =f.input :street_address, :hint=>"Physical location of the restaurant"
+    =f.input :postal_address, :hint=>"For snail mail"
+    =f.input :email_address, :hint=>"For enquiries or bookings"
+    =f.input :website, :hint=>"If one exists"
+    =f.input :phone, :hint=>"To call for bookings"
+    =f.input :fax, :hint=>"If available"
     =f.input :lat, :as=>:hidden
     =f.input :lng, :as=>:hidden 
-    =f.input :header_background
-    =f.input :cuisines, :as=>:check_boxes
+    =f.input :header_background, :hint=>"Upload an image to appear above the shop's menu"
+    =f.input :cuisines, :as=>:check_boxes, :hint=>"What are your specialities"
   =f.buttons
   
 -content_for :aside do

@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SizeTest < ActiveSupport::TestCase
 
   context "size associations" do
-    should_have_many :order_items, :dependent=>:nullify
+    
+    # Don't think this is right, see comment in model
+    #should_have_many :order_items, :dependent=>:nullify
     should_belong_to :menu_item
 
   end
@@ -21,6 +23,7 @@ class SizeTest < ActiveSupport::TestCase
     end
     
     context "with invalid data" do
+      subject { @size }
       should_not_allow_values_for :price_in_cents, BasicForgery.number(:at_least => -4500, :at_most => 0)
       should_not_allow_values_for :name, nil
     end

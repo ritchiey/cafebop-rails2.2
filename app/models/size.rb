@@ -10,7 +10,9 @@ class Size < ActiveRecord::Base
     timestamps
   end
 
-  has_many :order_items, :dependent=>:nullify
+# This looks like a bad thing. If the price record is deleted, we actually want
+# to keep the order item.
+#  has_many :order_items, :dependent=>:nullify
   belongs_to :menu_item
 
   validates_presence_of :name
