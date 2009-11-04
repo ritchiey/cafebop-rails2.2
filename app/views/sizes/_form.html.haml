@@ -1,5 +1,6 @@
 -semantic_form_for form do |f|
   -f.inputs do
-    =f.input :name
-    =f.input :price
+    =f.input :name, :hint=>"As it will appear on the menu (Eg regular, large, grande)"
+    =f.input :price, :hint=>"If item is priced by size"
+    
   =f.buttons

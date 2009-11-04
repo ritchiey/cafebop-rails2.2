@@ -1,2 +1,3 @@
 -semantic_form_for form do |f|
-  =f.inputs :name
+  -f.inputs do
+    =f.input :name, :hint=>"Title for this menu (Eg Drinks, Desserts, Breakfast)"
