@@ -4,5 +4,5 @@
     =f.input :name, :hint=>"As it will appear on the menu"
     =f.input :description, :hint=>"Sounds delicious"
     =f.input :price, :as=>:numeric, :hint=>"Leave blank if priced according to size"
-    =f.input :item_queue_id, :collection=>menu.shop.item_queues, :hint=>"Which queue in the kitchen will receive orders for this item"
+    =f.input :item_queue_id, :collection=>menu.shop.item_queues, :include_blank=>false, :hint=>"Which queue in the kitchen will receive orders for this item"
   =f.buttons
