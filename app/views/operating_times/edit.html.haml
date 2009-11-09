@@ -1,0 +1,6 @@
+- title "Edit Operating Times"
+
+= render :partial => 'back'
+=link_to "Delete Opening Time", operating_time_path(@operating_time), :method=>:delete, :confirm=>"Are you sure?"
+= render :partial => 'form', :object=>@operating_time
+

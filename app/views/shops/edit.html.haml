@@ -1,9 +1,8 @@
-
-
 -content_for :javascript do
   :javascript
     make_sortable('menus', 'shops', '#{@shop.id}');
     make_sortable('item-queues', 'shops', '#{@shop.id}');
+    make_sortable('operating-times', 'shops', '#{@shop.id}');
 
 %h3= "Edit Shop (#{@shop.state} edition)"
    
@@ -13,7 +12,7 @@
            
 %hr
 
-.span-7
+.span-5
   .menus 
     %h4 Menus
     -if @shop.menus.empty?
@@ -22,7 +21,17 @@
       %ul#menus-list= render :partial => @shop.menus
     =link_to "Add Menu", new_shop_menu_path(@shop)
 
-.span-8.last
+.span-5
+  .operating-times
+  %h4 Opening Hours
+  -if @shop.operating_times.empty?
+    No opening hours yet.
+  -else
+    %ul#operating-times-list= render :partial => @shop.operating_times
+  =link_to "Add Opening Time", new_shop_operating_time_path(@shop)
+
+
+.span-5.last
   -if @shop.can_have_queues?
     .queues
       %h4 Queues

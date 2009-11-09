@@ -1,15 +1,15 @@
 class OperatingTime < ActiveRecord::Base
 
-
-
   fields do                  
-    days  enum_string(:Monday, :Tuesday, :Wednesday, :Thursday, :Friday, :Saturday, :Sunday, :Weekdays, :Weekends, :'Public Holidays', :'Weekends and Public Holidays', :'Christmas Day', :'Good Friday', :'Easter Sunday')
+    days   :string
     opens  :string, :limit=>7
     closes :string, :limit=>7
+    position  :integer
     timestamps
   end
 
   belongs_to :shop
+  acts_as_list :scope=>:shop
                      
   def to_s
     "#{days} #{opens} - #{closes}"
@@ -17,6 +17,10 @@ class OperatingTime < ActiveRecord::Base
   
   def opens_and_closes
     "#{opens} - #{closes}"
+  end
+
+  def self.days_values
+    [:Monday, :Tuesday, :Wednesday, :Thursday, :Friday, :Saturday, :Sunday, :Weekdays, :Weekends, :'Public Holidays', :'Weekends and Public Holidays', :'Christmas Day', :'Good Friday', :'Easter Sunday']
   end
   
   # --- Permissions --- #

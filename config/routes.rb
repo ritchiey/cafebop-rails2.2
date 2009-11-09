@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :operating_times
+
   map.resources :cuisines
 
   
@@ -15,7 +17,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :orders
   map.resources :order_items  
 
-  map.resources :shops, :shallow=>true, :collection=>{:search=>:get}, :member=>{:reorder_menus=>:post, :reorder_item_queues=>:post} do |shops|
+  map.resources :shops, :shallow=>true, :collection=>{:search=>:get}, :member=>{:reorder_menus=>:post, :reorder_item_queues=>:post, :reorder_operating_times=>:post} do |shops|
+    shops.resources :operating_times
     shops.resources :item_queues, :member=>[:current_items]
     shops.resources :claims, :only=>[:create]
     shops.resources :orders, :shallow => true, :member => {:summary => :get, :new => :get, :create => :put, :pay_in_shop => :put, :pay_paypal => :put} do |orders|
@@ -26,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
         menu_items.resources :sizes
         menu_items.resources :flavours
       end
-    end
+    end 
   end
 
   map.root :controller => "front", :action=>'index'

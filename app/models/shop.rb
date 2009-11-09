@@ -11,6 +11,10 @@ class Shop < ActiveRecord::Base
     postal_address  :string
     lat     :float
     lng     :float
+    header_background_updated_at :datetime
+    header_background_file_name :string
+    header_background_content_type :string
+    header_background_file_size :integer
     timestamps   
   end    
                         
@@ -29,7 +33,7 @@ class Shop < ActiveRecord::Base
   has_many :item_queues, :dependent=>:destroy, :order=>:position 
   has_many :menus, :dependent=>:destroy, :order=>:position 
   has_many :menu_items, :through => :menus
-  has_many :operating_times, :dependent=>:destroy
+  has_many :operating_times, :dependent=>:destroy, :order=>:position 
   has_many :claims, :dependent=>:destroy
   has_many :work_contracts
   has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
