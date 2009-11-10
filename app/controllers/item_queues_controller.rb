@@ -27,4 +27,16 @@ class ItemQueuesController < ApplicationController
     end
   end
 
+  def start
+    @item_queue = ItemQueue.find(params[:id])
+    @item_queue.start!
+    render :partial=>'status'
+  end
+
+  def stop
+    @item_queue = ItemQueue.find(params[:id])
+    @item_queue.stop!
+    render :partial=>'status'
+  end
+
 end

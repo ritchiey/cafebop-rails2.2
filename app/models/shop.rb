@@ -7,6 +7,7 @@ class Shop < ActiveRecord::Base
     website :string
     state   :string, :default=>'community'
     email_address :email_address
+    accept_queued_orders :boolean, :default=>false
     street_address  :string
     postal_address  :string
     lat     :float
@@ -88,9 +89,25 @@ class Shop < ActiveRecord::Base
   def can_have_queues?
     !self.community?
   end
+
+  def accepts_queued_orders?
+    can_have_queues? and accept_queued_orders
+  end
+
+  def start_accepting_queued_orders!
+    if can_have_queues?
+      self.accept_queued_orders = true
+      save!
+    end
+  end
+        
+  def stop_accepting_queued_orders!
+    self.accept_queued_orders = false
+    save!
+  end
         
   def queues_in_shop_payments?
-    express?
+    accepts_queued_orders? and accepts_in_shop_payments?
   end
 
   def accepts_in_shop_payments?

@@ -17,6 +17,13 @@ MenuItem.blueprint do
   price_in_cents {BasicForgery.number :at_least=>50, :at_most=>4500}
 end                                
 
+OperatingTime.blueprint do
+  shop
+  days {"Weekdays"}
+  opens {"9:00am" }
+  closes { "5:00pm"}
+end
+
 Order.blueprint do
   shop
 end
