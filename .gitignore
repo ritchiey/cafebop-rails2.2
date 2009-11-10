@@ -8,3 +8,4 @@
 /app/view/taglibs/auto
 /public/system
 /public/assets
+.*.sw*
