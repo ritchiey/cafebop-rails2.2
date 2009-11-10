@@ -23,15 +23,13 @@
         .span-6.last
           =render :partial=>'layouts/account_nav'
 
-      #content.span-16
+      #content.span-16.last
         -default_content_for :content do
           #content-header.span-16{:style=>"background: #{header_background}"}
             -default_content_for :content_header do
               =placeholder :width=>1, :height=>180
-          .span-8.last
-            =placeholder :width=>1, :height=>180
             
-          #content-body.span-24.last
+          #content-body.span-16.last
             - unless flash.empty?
               .flash
                 - if flash[:notice]
@@ -44,7 +42,7 @@
                   #error
                     =flash[:error]
             -default_content_for :content_body do
-              #main.span-16 
+              #main.span-16.last
                 .span-1=placeholder
                 .span-15.last
                   =yield
