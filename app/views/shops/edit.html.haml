@@ -1,9 +1,8 @@
-
-
 -content_for :javascript do
   :javascript
     make_sortable('menus', 'shops', '#{@shop.id}');
     make_sortable('item-queues', 'shops', '#{@shop.id}');
+    make_sortable('operating-times', 'shops', '#{@shop.id}');
 
 %h3= "Edit Shop (#{@shop.state} edition)"
    
@@ -23,7 +22,18 @@
     =link_to "Add Menu", new_shop_menu_path(@shop)
 
 .span-8.last
-  -if @shop.can_have_queues?
+  .operating-times
+  %h4 Opening Hours
+  -if @shop.operating_times.empty?
+    No opening hours yet.
+  -else
+    %ul#operating-times-list= render :partial => @shop.operating_times
+  =link_to "Add Opening Time", new_shop_operating_time_path(@shop)
+
+
+-if @shop.can_have_queues?
+  %hr
+  .span-8
     .queues
       %h4 Queues
       -if @shop.item_queues.empty?
@@ -31,6 +41,10 @@
       -else
         %ul#item-queues-list= render :partial => @shop.item_queues
       =link_to "Add Queue", new_shop_item_queue_path(@shop)       
-  -else
-    =placeholder
-    
+  .span-7.last
+    Queues are lists of order items that your customers have placed. If queuing is enabled below, you must monitor your queues during business hours so that you can make the items your customers order.
+    #queuing-status
+      = render :partial => 'queuing_status'
+-else
+  =placeholder
+  

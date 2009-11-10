@@ -41,12 +41,21 @@ class ShopsController < ApplicationController
   
   def update
     if @shop.update_attributes(params[:shop])
-      redirect_to shops_path
+      redirect_to new_shop_order_path(@shop)
     else
       render :action=>:edit
     end
   end
 
+  def start_queuing
+    @shop.start_accepting_queued_orders!
+    render :partial=>'queuing_status'
+  end
+
+  def stop_queuing
+    @shop.stop_accepting_queued_orders!
+    render :partial=>'queuing_status'
+  end
 
   def reorder_menus
     reorder_child_items(:menu)
@@ -56,6 +65,9 @@ class ShopsController < ApplicationController
     reorder_child_items(:item_queue)
   end
                                     
+  def reorder_operating_times
+    reorder_child_items(:operating_time)
+  end
     
 private
 

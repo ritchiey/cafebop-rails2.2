@@ -7,10 +7,15 @@ class Shop < ActiveRecord::Base
     website :string
     state   :string, :default=>'community'
     email_address :email_address
+    accept_queued_orders :boolean, :default=>false
     street_address  :string
     postal_address  :string
     lat     :float
     lng     :float
+    header_background_updated_at :datetime
+    header_background_file_name :string
+    header_background_content_type :string
+    header_background_file_size :integer
     timestamps   
   end    
                         
@@ -29,7 +34,7 @@ class Shop < ActiveRecord::Base
   has_many :item_queues, :dependent=>:destroy, :order=>:position 
   has_many :menus, :dependent=>:destroy, :order=>:position 
   has_many :menu_items, :through => :menus
-  has_many :operating_times, :dependent=>:destroy
+  has_many :operating_times, :dependent=>:destroy, :order=>:position 
   has_many :claims, :dependent=>:destroy
   has_many :work_contracts
   has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
@@ -84,9 +89,25 @@ class Shop < ActiveRecord::Base
   def can_have_queues?
     !self.community?
   end
+
+  def accepts_queued_orders?
+    can_have_queues? and accept_queued_orders
+  end
+
+  def start_accepting_queued_orders!
+    if can_have_queues?
+      self.accept_queued_orders = true
+      save!
+    end
+  end
+        
+  def stop_accepting_queued_orders!
+    self.accept_queued_orders = false
+    save!
+  end
         
   def queues_in_shop_payments?
-    express?
+    accepts_queued_orders? and accepts_in_shop_payments?
   end
 
   def accepts_in_shop_payments?

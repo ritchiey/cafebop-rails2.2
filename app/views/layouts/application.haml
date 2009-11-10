@@ -23,12 +23,13 @@
         .span-6.last
           =render :partial=>'layouts/account_nav'
 
-      #content.span-24.last  
+      #content.span-16.last
         -default_content_for :content do
-          #content-header.span-24.last{:style=>"background: #{header_background}"}
+          #content-header.span-16{:style=>"background: #{header_background}"}
             -default_content_for :content_header do
               =placeholder :width=>1, :height=>180
-          #content-body.span-24.last
+            
+          #content-body.span-16.last
             - unless flash.empty?
               .flash
                 - if flash[:notice]
@@ -41,14 +42,24 @@
                   #error
                     =flash[:error]
             -default_content_for :content_body do
-              #main.span-16 
+              #main.span-16.last
                 .span-1=placeholder
-                .span-15.last=yield
-              #aside.span-8.last
-                =yield :aside || placeholder
+                .span-15.last
+                  =yield
+      #side.span-8.last
+        .span-8.last
+          =placeholder :width=>1, :height=>180
+        #aside.span-8.last
+          =yield :aside || placeholder
 
-      #footer.span-24.last
-        = yield :footer || placeholder    
+      .span-24.last
+        #footer.span-16
+          .span-1
+          .span-15.last
+            -default_content_for :footer do
+              = render :partial => 'shared/footer'
+        .span-8.last
+          =placeholder
         
 
     =yield :javascript

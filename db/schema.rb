@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091029080050) do
+ActiveRecord::Schema.define(:version => 20091110020713) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20091029080050) do
     t.datetime "updated_at"
     t.integer  "shop_id"
     t.integer  "position"
+    t.boolean  "active",     :default => false
   end
 
   create_table "menu_items", :force => true do |t|
@@ -90,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20091029080050) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "shop_id"
+    t.integer  "position"
   end
 
   create_table "order_items", :force => true do |t|
@@ -148,6 +150,7 @@ ActiveRecord::Schema.define(:version => 20091029080050) do
     t.string   "header_background_content_type"
     t.integer  "header_background_file_size"
     t.datetime "header_background_updated_at"
+    t.boolean  "accept_queued_orders",           :default => false
   end
 
   create_table "sizes", :force => true do |t|

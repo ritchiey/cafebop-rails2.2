@@ -1,0 +1,6 @@
+- semantic_form_for form do |f|
+  -f.inputs do
+    =f.input :days, :as=>:select, :collection=>OperatingTime.days_values
+    =f.input :opens
+    =f.input :closes
+  =f.buttons

@@ -2,6 +2,7 @@ class ItemQueue < ActiveRecord::Base
 
   fields do
     name :string
+    active  :boolean, :default=>false
     position :integer
     timestamps
   end    
@@ -15,6 +16,16 @@ class ItemQueue < ActiveRecord::Base
   validates_uniqueness_of :name, :scope=>:shop_id 
   acts_as_list :scope=>:shop
 
+
+  def stop!
+    self.active = false
+    save!
+  end
+
+  def start!
+    self.active = true
+    save!
+  end
 
   # --- Permissions --- #
 

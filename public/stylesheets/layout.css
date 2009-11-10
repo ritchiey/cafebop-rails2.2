@@ -22,12 +22,12 @@ body {
   -webkit-border-top-left-radius: .5em; }
 
 #aside {
-  min-height: 500px;
+  min-height: 200px;
   height: auto !important;
-  height: 500px;
+  height: 200px;
   background-color: #4f6354;
-  -moz-border-radius-bottomright: .5em;
-  -webkit-border-bottom-right-radius: .5em; }
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em; }
 
 #footer {
   margin-top: 18px;
