@@ -1,3 +1,6 @@
+-content_for :content_header do
+  = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
+
 -content_for :javascript do
   :javascript
     make_sortable('menus', 'shops', '#{@shop.id}');
