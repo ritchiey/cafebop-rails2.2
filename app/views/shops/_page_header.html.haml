@@ -1,11 +1,11 @@
 #shop-header.span-18.last
   .span-1
     =placeholder :size=>"1x180"
-  .span-11 
+  .span-8
     %h1=h shop.name
     =h shop.state
     =edit_shop_link(shop)
-  #opening-times.span-6.last
+  #opening-times.span-9.last
     %h3 Opening Times
     %table
       -shop.operating_times.each do |opening|

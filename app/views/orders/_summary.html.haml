@@ -14,7 +14,7 @@
         %td=h item.description
         %td=h item.notes
         %td=h number_to_currency(item.cost)
-        %td=h(@order.printed? ? check_box_tag('x') : item.state)
+        %td=(@order.printed? ? check_box_tag('x') : item.state)
 
   %tfoot
     %tr
