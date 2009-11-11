@@ -21,6 +21,8 @@
       %td(colspan="3") Total
       %td=h number_to_currency(@order.total)
                                       
-=h "Order status: #{@order.state}"    
+-unless @order.state == "printed"
+  =h "Order status: #{@order.state}"    
 %hr      
 ="Last updated: #{Time.now}" 
+= render :partial => 'shop_blurb'

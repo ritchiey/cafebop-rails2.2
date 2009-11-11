@@ -3,8 +3,9 @@
     =placeholder :size=>"1x180"
   .span-8
     %h1=h shop.name
-    =h shop.state
-    =edit_shop_link(shop)
+    .no-print
+      =h shop.state
+      =edit_shop_link(shop)
   #opening-times.span-9.last
     %h3 Opening Times
     %table

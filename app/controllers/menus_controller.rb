@@ -12,7 +12,7 @@ class MenusController < ApplicationController
     menu_data = menu_template ? menu_template.menu_params : params[:menu]
     @menu = @shop.menus.build(menu_data) 
     if @menu.save
-        redirect_to edit_shop_path(@shop)
+        redirect_to edit_menu_path(@menu)
     else                    
       redirect_to new_shop_menu_path(@shop)
     end
