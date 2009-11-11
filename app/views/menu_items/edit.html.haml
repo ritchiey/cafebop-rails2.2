@@ -3,6 +3,18 @@
     make_sortable('sizes', 'menu_items', '#{@menu_item.id}');
     make_sortable('flavours', 'menu_items', '#{@menu_item.id}');
 
+-content_for :bottom_of_form do
+  .span-7
+    %h4 Sizes
+    %ul#sizes-list=render :partial=>@menu_item.sizes
+    =link_to "[ Add Size ]", new_menu_item_size_path(@menu_item)
+         
+  .span-8.last
+    %h4 Flavours
+    %ul#flavours-list=render :partial=>@menu_item.flavours
+    =link_to "[ Add Flavour ]", new_menu_item_flavour_path(@menu_item)
+
+
 %h3 Editing Menu Item
 
 =render :partial => 'back'
@@ -10,12 +22,3 @@
                   
 %hr
 
-.span-7
-  %h4 Sizes
-  %ul#sizes-list=render :partial=>@menu_item.sizes
-  =link_to "Add Size", new_menu_item_size_path(@menu_item)
-       
-.span-8.last
-  %h4 Flavours
-  %ul#flavours-list=render :partial=>@menu_item.flavours
-  =link_to "Add Flavour", new_menu_item_flavour_path(@menu_item)
