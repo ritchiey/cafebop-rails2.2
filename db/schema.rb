@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091110020713) do
+ActiveRecord::Schema.define(:version => 20091111061226) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20091110020713) do
     t.integer  "header_background_file_size"
     t.datetime "header_background_updated_at"
     t.boolean  "accept_queued_orders",           :default => false
+    t.boolean  "generic_orders",                 :default => true
   end
 
   create_table "sizes", :force => true do |t|
