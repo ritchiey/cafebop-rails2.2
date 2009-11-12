@@ -1,5 +1,6 @@
+-content_for :content_header do
+  = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
 
-%h3 New Shop
 
 =render :partial => 'back'
 =render :partial => 'form', :object=>@shop

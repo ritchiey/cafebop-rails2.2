@@ -2,16 +2,20 @@
   .span-1
     =placeholder :size=>"1x180"
   .span-8
-    %h1=h shop.name
-    .no-print
-      =h shop.state
-      =edit_shop_link(shop)
+    -if shop.new_record?
+      %h1 New Shop
+    -else
+      %h1=h shop.name
+      .no-print
+        =h shop.state
+        =edit_shop_link(shop)
   #opening-times.span-9.last
-    %h3 Opening Times
-    %table
-      -shop.operating_times.each do |opening|
-        %tr
-          %td
-            =h opening.days
-          %td
-            =h opening.opens_and_closes
+    -unless shop.operating_times.empty?
+      %h3 Opening Times
+      %table
+        -shop.operating_times.each do |opening|
+          %tr
+            %td
+              =h opening.days
+            %td
+              =h opening.opens_and_closes
