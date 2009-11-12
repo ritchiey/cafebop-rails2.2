@@ -6,13 +6,13 @@
   #user-stats.span-8
     =render :partial => 'table_for', :object=>shop_rows
        
-  #shop-stats.span-8
+  #shop-stats.span-8.last
     =render :partial => 'table_for', :object=>user_rows
 
-  #claim-stats.span-8.last
+  #claim-stats.span-8
     =render :partial => 'table_for', :object=>claim_rows
 
-  #order-stats.span-8
+  #order-stats.span-8.last
     =render :partial => 'table_for', :object=>order_rows
 
   #queue-stats.span-8
@@ -22,3 +22,8 @@
   #claim-stats.span-8.last
     =placeholder
     -#=render :partial => 'table_for', :object=>user_rows
+
+  #other.span-8
+    =placeholder
+    =link_to "Menu Templates", menu_templates_path
+    =link_to "Cuisines", cuisines_path
