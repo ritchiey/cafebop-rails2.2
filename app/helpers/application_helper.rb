@@ -13,15 +13,18 @@ module ApplicationHelper
 
 
   def shop_with_header?
-    @shop and @shop.header_background
+    @shop and @shop.header_background.file?
   end                  
   
   def header_background
     if shop_with_header?
-      "url(#{@shop.header_background.url(:header)}) no-repeat white"
+      "url(#{@shop.header_background.url(:header)}) no-repeat #FEFEFD"
     else
-       "url(/images/logo.png) no-repeat" 
-    #  "url(/gradient_images/144:aaa:fff.png) repeat-x white"
+      if @shop
+        "url(/gradient_images/180:F1F1F0:CCD4A4.png) repeat-x #FEFEFD"
+      else
+        "url(/images/logo.png) no-repeat" 
+      end
     end
   end
 

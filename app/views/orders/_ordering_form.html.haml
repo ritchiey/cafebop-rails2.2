@@ -2,7 +2,7 @@
 
 %ul
   -if @shop.menus.empty?
-    This shop has no menus :(
+    This shop hasn't published any menus yet. But you can still order.
   -else
     -@shop.menus.each do |menu|
       %h4=h menu.name
@@ -13,6 +13,10 @@
             =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
         -else
           =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
+  -if @shop.generic_orders
+    \[Generic Order Item Form will go Here]
+    
+    
 
 -content_for :aside do        
   %h3 Your Order
@@ -61,16 +65,15 @@
 .hidden
   #dialog{ :title => "Add to Order" }
     %form
-      %fieldset
-        %label{ :for => "quantity" } Qty
-        %input#quantity_field.text.ui-widget-content.ui-corner-all{ :name => "quantity", :type => "text" }
-        #flavour_details
-          %label{ :for => "flavour" } Flavour
-          %select#flavour_field.select.ui-widget-content.ui-corner-all{ :name => "flavour" }
-        #size_details
-          %label{ :for => "size" } Size
-          %select#size_field.select.ui-widget-content.ui-corner-all{ :name => "size" }
-        %label{ :for => "notes" } Notes
-        %input#notes_field.text.ui-widget-content.ui-corner-all{ :name => "notes", :type => "text", :value => "" }
-        %input#details_field{ :name => "details", :type => "hidden", :value => "" }
+      %label{ :for => "quantity" } Quantity
+      %input#quantity_field.text.ui-widget-content.ui-corner-all{ :name => "quantity", :type => "text", :size=>"3", :maxlength=>"3"}
+      #flavour_details
+        %label{ :for => "flavour" } Flavour
+        %select#flavour_field.select.ui-widget-content.ui-corner-all{ :name => "flavour" }
+      #size_details
+        %label{ :for => "size" } Size
+        %select#size_field.select.ui-widget-content.ui-corner-all{ :name => "size" }
+      %label{ :for => "notes" } Notes
+      %input#notes_field.text.ui-widget-content.ui-corner-all{ :name => "notes", :type => "text", :value => "" }
+      %input#details_field{ :name => "details", :type => "hidden", :value => "" }
       

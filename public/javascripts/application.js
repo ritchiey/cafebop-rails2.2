@@ -27,6 +27,7 @@ $(function() { // page ready
 			bgiframe: true,
 			autoOpen: false,
 			height: 300,
+                        width: 400,
 			modal: true,
 			buttons: {
 				'Add to order': function() {

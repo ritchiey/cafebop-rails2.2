@@ -12,6 +12,7 @@ class Shop < ActiveRecord::Base
     postal_address  :string
     lat     :float
     lng     :float
+    generic_orders :boolean, :default=>true
     header_background_updated_at :datetime
     header_background_file_name :string
     header_background_content_type :string

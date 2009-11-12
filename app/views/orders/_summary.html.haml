@@ -14,13 +14,15 @@
         %td=h item.description
         %td=h item.notes
         %td=h number_to_currency(item.cost)
-        %td=h(@order.printed? ? check_box_tag('x') : item.state)
+        %td=(@order.printed? ? check_box_tag('x') : item.state)
 
   %tfoot
     %tr
       %td(colspan="3") Total
       %td=h number_to_currency(@order.total)
                                       
-=h "Order status: #{@order.state}"    
+-unless @order.state == "printed"
+  =h "Order status: #{@order.state}"    
 %hr      
 ="Last updated: #{Time.now}" 
+= render :partial => 'shop_blurb'

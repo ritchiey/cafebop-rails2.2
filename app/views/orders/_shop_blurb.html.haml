@@ -1,0 +1,18 @@
+.print-only
+
+  -if @shop.community?
+    %p
+      This order comes from the group ordering system you'll find at
+      =link_to root_url, root_url
+      \.
+    %p
+      There you'll find a generically branded, community maintained store called
+      %strong=h @shop.name
+      \. If you are the owner or manager of
+      %strong=h @shop.name
+      , you can
+      %strong
+        claim it
+      and set it up as it should be.
+    %p
+      Do this and you'll make it easier for other people to find you and send you group orders like this one.

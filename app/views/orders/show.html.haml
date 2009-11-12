@@ -3,28 +3,28 @@
 -content_for :content_header do
   = render :partial => 'shops/page_header', :locals=>{:shop=>shop}
 
--if @order.pending?
-  =link_to "&lt;&lt; Change", edit_order_path(@order)
+.no-print
+  -if @order.pending?
+    =link_to "&lt;&lt; Change", edit_order_path(@order)
 
-  -if shop.accepts_in_shop_payments?
-    =link_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put
-    %br
+    -if shop.accepts_in_shop_payments?
+      =link_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put
+      %br
 
-  -if shop.accepts_paypal_payments?
-    =link_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
+    -if shop.accepts_paypal_payments?
+      =link_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
 
--elsif @order.printed?
-  =link_to_function "Click here to print", "window.print();"                
-  =link_to 'Home', root_path
-  
--elsif @order.queued?
-  Your order has been sent to the shop.
-  Keep this screen open to watch its progress.
-  = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
+  -elsif @order.printed?
+    =link_to_function "Click here to print", "window.print();"                
+    =link_to 'Home', root_path
+    
+  -elsif @order.queued?
+    Your order has been sent to the shop.
+    Keep this screen open to watch its progress.
+    = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
 
 #order_summary
   =render :partial=>'summary'
 
 
 
--#=link_to "Add another", root_path    
