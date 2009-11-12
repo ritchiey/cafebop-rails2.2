@@ -83,5 +83,3 @@ ActionMailer::Base.smtp_settings = {
 ENV['RECAPTCHA_PUBLIC_KEY'] = '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
 ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
 
-require 'hirb'
-Hirb::View.enable

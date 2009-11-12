@@ -26,3 +26,6 @@ class ActiveRecord::Base
     }
   end
 end
+
+require 'hirb'
+Hirb::View.enable
