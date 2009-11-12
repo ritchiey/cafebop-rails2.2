@@ -1,8 +1,6 @@
 class ShopsController < ApplicationController    
 
   before_filter :find_instance, :except=>[:new, :create, :index, :search]          
-  before_filter :can_edit, :only=>[:edit, :update]
-  
   def new
     @shop = Shop.new
     @shop.menus.build

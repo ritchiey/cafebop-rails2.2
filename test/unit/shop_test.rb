@@ -78,6 +78,13 @@ class ShopTest < ActiveSupport::TestCase
       claim = @shop.claims.build(:user=>user)
       assert !claim.save
     end
+
+    context "with a given cuisine" do
+      setup do
+        @cuisine = Cuisine.make
+        @menu = Menu.make(:shop=>nil, :cuisine=>@cuisine)
+      end
+    end
     
     context "with some menus and menu_items" do
       setup do

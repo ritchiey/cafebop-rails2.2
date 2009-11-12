@@ -5,6 +5,12 @@
   =h @cuisine.name
 
 %p
+  %strong Generic Menus:
+  %ul
+  -@cuisine.menus.each do |menu|
+    %li=h menu.name
+
+%p
   = link_to "Edit", edit_cuisine_path(@cuisine)
   |
   = link_to "Destroy", @cuisine, :confirm => 'Are you sure?', :method => :delete
