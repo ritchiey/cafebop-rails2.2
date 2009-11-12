@@ -8,7 +8,7 @@
   %strong Generic Menus:
   %ul
   -@cuisine.menus.each do |menu|
-    %li=h menu.name
+    %li=link_to menu.name, edit_menu_path(menu)
 
 %p
   = link_to "Edit", edit_cuisine_path(@cuisine)

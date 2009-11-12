@@ -81,8 +81,32 @@ class ShopTest < ActiveSupport::TestCase
 
     context "with a given cuisine" do
       setup do
-        @cuisine = Cuisine.make
-        @menu = Menu.make(:shop=>nil, :cuisine=>@cuisine)
+        @cuisine = Cuisine.make(:name=>"Chicken")
+        @shop.cuisines << @cuisine
+        @menu = Menu.make(:name=>"Roast Chicken", :shop=>nil, :cuisines=>[@cuisine])
+        assert_equal [@menu], @cuisine.menus.all
+        assert_equal [@shop], @cuisine.shops
+      end
+
+      should "see the menus for that cuisine as virtual_menus" do
+        assert_equal [@menu], Menu.virtual_for_shop(@shop)
+        assert_equal [@menu], @shop.effective_menus
+      end
+
+      should "not have any menus" do
+        assert @shop.menus.empty?
+      end
+
+      context "goes express" do
+        setup do
+          @shop.go_express!
+          @shop.reload
+        end
+
+        should "get a copy of the virtual menus" do
+          assert_equal @shop.virtual_menus.*.name, @shop.menus.*.name
+          assert_not_equal @shop.virtual_menus.*.id, @shop.menus.*.id
+        end
       end
     end
     

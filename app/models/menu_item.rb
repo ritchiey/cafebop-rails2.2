@@ -71,7 +71,7 @@ class MenuItem < ActiveRecord::Base
 private
 
   def set_default_queue      
-    unless has_item_queue? or !shop.has_item_queues? 
+    unless has_item_queue? or !shop or !shop.has_item_queues? 
       self.item_queue = shop.item_queues.first
     end
   end
@@ -90,5 +90,14 @@ private
     end
     attrs.empty? ? nil : attrs
   end                                 
+
+
+  def deep_clone
+    self.clone.tap do |cloned|
+      cloned.save!
+      cloned.flavours = flavours.map {|flavour| flavour.clone.tap {|o| o.save!}}
+      cloned.sizes = sizes.map {|size| size.clone.tap {|o| o.save!}}
+    end
+  end
   
 end

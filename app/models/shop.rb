@@ -70,6 +70,13 @@ class Shop < ActiveRecord::Base
   named_scope :express, :conditions=>{:state=>'express'}
   named_scope :professional, :conditions=>{:state=>'professional'}
 
+  def virtual_menus
+    Menu.virtual_for_shop(self)
+  end
+  
+  def effective_menus
+    community? ? virtual_menus : menus 
+  end
 
   def address
     street ? "#{street} " : "" +
@@ -146,6 +153,7 @@ class Shop < ActiveRecord::Base
   end
   
   def go_express!
+    menus = virtual_menus.map {|menu| menu.deep_clone }
     queue = item_queues.create({:name=>'Default'})
     menu_items.each do |item|
       item.item_queue = queue

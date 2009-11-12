@@ -1,5 +1,6 @@
 # Be sure to restart your server when you modify this file
 
+
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
@@ -81,3 +82,6 @@ ActionMailer::Base.smtp_settings = {
 
 ENV['RECAPTCHA_PUBLIC_KEY'] = '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
 ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
+
+require 'hirb'
+Hirb::View.enable

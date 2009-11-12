@@ -1,10 +1,10 @@
 -order = ordering_form
 
 %ul
-  -if @shop.menus.empty?
-    This shop hasn't published any menus yet. But you can still order.
+  -if @shop.effective_menus.empty?
+    This shop hasn't published any menus yet. :(
   -else
-    -@shop.menus.each do |menu|
+    -@shop.effective_menus.each do |menu|
       %h4=h menu.name
       %hr
       -menu.menu_items.each do |menu_item|

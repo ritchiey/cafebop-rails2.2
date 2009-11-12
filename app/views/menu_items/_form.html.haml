@@ -4,7 +4,7 @@
     =f.input :name, :hint=>"As it will appear on the menu"
     =f.input :description, :hint=>"Sounds delicious"
     =f.input :price, :as=>:numeric, :hint=>"Leave blank if priced according to size"
-    =f.input :item_queue_id, :collection=>menu.shop.item_queues, :include_blank=>false, :hint=>"Which queue in the kitchen will receive orders for this item"
+    =menu.shop ? f.input(:item_queue_id, :collection=>menu.shop.item_queues, :include_blank=>false, :hint=>"Which queue in the kitchen will receive orders for this item") : ""
     =f.input :present_flavours, :as=>:select, :include_blank=>false, :collection=>{ "as part of one menu item"=>false,"as individual menu items"=>true }, :hint=>" Flavours can be listed as part of the menu item or as individual items on the menu. For example: a milkshake might have the flavours strawberry, vanilla and chocolate listed as part of the item. A pizza on the other hand might have the flavours Supreme, Marinara and Vegetarian listed as individual items on the menu."
     =yield :bottom_of_form
   =f.buttons
