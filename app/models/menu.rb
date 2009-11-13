@@ -35,4 +35,5 @@ class Menu < ActiveRecord::Base
       cloned.menu_items = menu_items.map {|menu_item| menu_item.deep_clone}
     end
   end
+
 end

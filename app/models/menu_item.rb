@@ -57,7 +57,7 @@ class MenuItem < ActiveRecord::Base
   end
 
   def shop
-    menu.shop
+    menu.andand.shop
   end
 
 
@@ -67,6 +67,15 @@ class MenuItem < ActiveRecord::Base
       :only=>[:description]
     )
   end
+
+  def deep_clone
+    self.clone.tap do |cloned|
+      cloned.save!
+      cloned.flavours = flavours.map {|flavour| flavour.clone.tap {|o| o.save!}}
+      cloned.sizes = sizes.map {|size| size.clone.tap {|o| o.save!}}
+    end
+  end
+  
 
 private
 
@@ -92,12 +101,4 @@ private
   end                                 
 
 
-  def deep_clone
-    self.clone.tap do |cloned|
-      cloned.save!
-      cloned.flavours = flavours.map {|flavour| flavour.clone.tap {|o| o.save!}}
-      cloned.sizes = sizes.map {|size| size.clone.tap {|o| o.save!}}
-    end
-  end
-  
 end

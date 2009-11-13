@@ -164,7 +164,7 @@ class Shop < ActiveRecord::Base
   # to it.
   def go_express!
     if community?
-      menus = virtual_menus.map {|menu| menu.deep_clone }
+      self.menus = virtual_menus.map {|menu| menu.deep_clone }
       queue = item_queues.create({:name=>'Default'})
       menu_items.each do |item|
         item.item_queue = queue
@@ -193,29 +193,6 @@ class Shop < ActiveRecord::Base
    
   def has_item_queues?
     !item_queues.empty?
-  end
-  
-  def add_generic_cafe_menus
-    menus.create(:name=>'Drinks',
-                 :menu_items_attributes=>[
-                     {:name=>'Coffee',
-                      :flavours_attributes=>[
-                        {
-                          :name=>'Flat White',
-                          :description=>'Frothy Perfection'
-                        },
-                        {
-                          :name=>'Cappucino',
-                          :description=>'Frothy Perfection plus chocolate sprinkles'
-                        }
-                        ], # flavours_attributes
-                      :sizes_attributes=>[
-                          { :name=>'Regular', :price=>'3.80' },
-                          { :name=>'Large', :price=>'4.50' }
-                        ]
-                      }
-                   ] #menu_item_attributes
-                   )
   end
   
 end
