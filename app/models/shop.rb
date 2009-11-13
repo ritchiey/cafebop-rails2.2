@@ -149,10 +149,10 @@ class Shop < ActiveRecord::Base
   def express?() state == 'express'; end
   def professional?() state == 'professional'; end
   
-  def go_community!
-    self.state = 'community'
-    self.save
-  end
+# def go_community!
+#   self.state = 'community'
+#   self.save
+# end
   
   # Switch the shop to express state. Express means that the
   # shop can receive orders to a queue but their customers can't
