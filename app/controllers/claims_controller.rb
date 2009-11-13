@@ -1,4 +1,4 @@
-class ClaimsController < ApplicationController    
+class ClaimsController < ApplicationController
 
   before_filter :require_login
   before_filter :require_can_review_claims, :except=>[:create]

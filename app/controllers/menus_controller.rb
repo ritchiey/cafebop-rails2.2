@@ -4,7 +4,11 @@ class MenusController < ApplicationController
     @shop = Shop.find(params[:shop_id])
     @menu = @shop.menus.build
   end                        
-  
+
+  def index
+    @menus = Menu.generic.all
+  end
+
   def create 
     @shop = Shop.find(params[:shop_id])                      
     template_id = params[:menu_template_id]

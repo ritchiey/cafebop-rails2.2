@@ -2,9 +2,9 @@
   :javascript
     make_sortable('menu-items', 'menus', '#{@menu.id}');
 
-%h3 Edit Menu
+%h3=@menu.generic? ? "Edit Generic Menu" : "Edit Menu"
 
-=render :partial => 'back'    
+=render :partial => 'back'
 =link_to "Delete Menu", menu_path(@menu), :method=>:delete, :confirm=>"Deleting this menu will destroy all items in this menu. Are you sure?"
 =render :partial=>'form', :object=>@menu
 

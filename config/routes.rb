@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :operating_times
 
+  map.resources :operating_times
   map.resources :cuisines
 
   
@@ -31,6 +31,8 @@ ActionController::Routing::Routes.draw do |map|
       end
     end 
   end
+
+  map.resources :menus, :only=>[:index] # for generic menus
 
   map.root :controller => "front", :action=>'index'
 

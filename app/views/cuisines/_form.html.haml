@@ -1,5 +1,5 @@
 - semantic_form_for @cuisine do |f|
   -f.inputs do
     = f.input :name
-    = f.input :menus, :as=>:check_boxes, :collection=>Menu.template, :hint=>"Which generic menus are implied by this cuisine"
+    = f.input :menus, :as=>:check_boxes, :collection=>Menu.generic, :hint=>"Which generic menus are implied by this cuisine"
     = f.buttons

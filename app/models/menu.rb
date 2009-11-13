@@ -24,10 +24,13 @@ class Menu < ActiveRecord::Base
 
   accepts_nested_attributes_for :menu_items
 
-  named_scope :template, :conditions=>{:shop_id=>nil}
+  named_scope :generic, :conditions=>{:shop_id=>nil}
   named_scope :virtual_for_shop, lambda {|shop| { :joins=>["INNER JOIN cuisine_menus AS cm ON cm.menu_id = menus.id",
     "INNER JOIN shop_cuisines AS sc ON sc.cuisine_id = cm.cuisine_id"], :conditions=>["sc.shop_id = ?", shop.id] }}
 
+  def generic?
+    !shop_id
+  end
 
   def deep_clone
     self.clone.tap do |cloned|
