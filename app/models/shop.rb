@@ -74,6 +74,8 @@ class Shop < ActiveRecord::Base
     Menu.virtual_for_shop(self)
   end
   
+  # Return the menus that the customer should see when ordering whether
+  # the be generic or specific to this shop
   def effective_menus
     community? ? virtual_menus : menus 
   end
@@ -152,12 +154,22 @@ class Shop < ActiveRecord::Base
     self.save
   end
   
+  # Switch the shop to express state. Express means that the
+  # shop can receive orders to a queue but their customers can't
+  # pay online.
+  # When switching from community mode (only done once) the generic
+  # menus are copied so that the shop can use them as a starting point
+  # to produce custom menus.
+  # A default queue is created for the shop and all menu_items are assigned
+  # to it.
   def go_express!
-    menus = virtual_menus.map {|menu| menu.deep_clone }
-    queue = item_queues.create({:name=>'Default'})
-    menu_items.each do |item|
-      item.item_queue = queue
-      item.save
+    if community?
+      menus = virtual_menus.map {|menu| menu.deep_clone }
+      queue = item_queues.create({:name=>'Default'})
+      menu_items.each do |item|
+        item.item_queue = queue
+        item.save
+      end
     end
     self.state = 'express'
     self.save

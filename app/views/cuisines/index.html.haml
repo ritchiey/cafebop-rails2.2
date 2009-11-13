@@ -5,7 +5,7 @@
     %th Name
   - for cuisine in @cuisines
     %tr
-      %td= h cuisine.name
+      %td= h "#{cuisine.name} (#{cuisine.menus.count})"
       %td= link_to 'Show', cuisine
       %td= link_to 'Edit', edit_cuisine_path(cuisine)
       %td= link_to 'Destroy', cuisine, :confirm => 'Are you sure?', :method => :delete

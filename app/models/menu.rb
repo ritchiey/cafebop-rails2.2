@@ -1,3 +1,7 @@
+# A menu to be displayed to the customer for ordering.
+# Most menus will belong_to a shop. Those that don't are considered generic menus and should
+# be associated with a cuisine. Community shops that offer that cuisine will automatically
+# pick up any generic menus associated with that cuisine.
 class Menu < ActiveRecord::Base
 
   fields do
@@ -10,7 +14,7 @@ class Menu < ActiveRecord::Base
     timestamps
   end
 
-  belongs_to :shop
+  belongs_to :shop # a menu not attached to a shop is considered a generic menu
   has_many :menu_items, :dependent=>:destroy, :order=>:position
   has_many :extras_menu_for, :class_name=>"MenuItem", :foreign_key=>'extras_menu_id'
   has_many :cuisine_menus
