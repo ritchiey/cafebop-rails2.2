@@ -18,6 +18,12 @@ class MenuItemsController < ApplicationController
   def edit
     @menu_item = MenuItem.find(params[:id])
   end          
+                         
+  def destroy
+    @menu_item = MenuItem.find(params[:id])
+    @menu_item.destroy
+    redirect_to edit_menu_path(@menu_item.menu)
+  end
 
 
   def update

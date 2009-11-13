@@ -1,13 +1,15 @@
 .account-nav
   -if current_user
     -if current_user.is_admin?
-      =link_to "Admin Dashboard", dashboard_path
-      ="|"
+      =link_to_unless_current("Home", root_path) 
+      \|
+      =link_to_unless_current("Admin Dashboard", dashboard_path)
+      \|
     -if current_user.can_review_claims?
-      =link_to "Review Claims", claims_path
-      ="|"
+      =link_to_unless_current "Review Claims", claims_path
+      \|
     =link_to "Logout", logout_path
   -else        
     =link_to "Login", login_path
-    ="|"
+    \|
     =link_to "Register", register_path
