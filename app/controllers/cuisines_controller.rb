@@ -1,10 +1,11 @@
 require 'stringio'
 
-before_filter :require_login
-before_filter :require_admin_rights
-
-
 class CuisinesController < ApplicationController
+
+  before_filter :require_login
+  before_filter :require_admin_rights
+
+
   def index
     @cuisines = Cuisine.is_not_franchise.all
     @franchises = Cuisine.is_franchise.all
