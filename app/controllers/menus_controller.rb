@@ -1,20 +1,28 @@
 class MenusController < ApplicationController
   
-  def new
-    @shop = Shop.find(params[:shop_id])
-    @menu = @shop.menus.build
+  def new             
+    if params[:shop_id] # Shop menu
+      @shop = Shop.find(params[:shop_id])
+      @menu = @shop.menus.build
+    else
+      @menu = Menu.new # Generic Menu (ie doesn't belong to a shop)
+    end
   end                        
 
   def index
     @menus = Menu.generic.all
   end
 
-  def create 
-    @shop = Shop.find(params[:shop_id])                      
+  def create                          
     template_id = params[:menu_template_id]
     menu_template = MenuTemplate.find(template_id) if template_id
     menu_data = menu_template ? menu_template.menu_params : params[:menu]
-    @menu = @shop.menus.build(menu_data) 
+    if params[:shop_id]
+      @shop = Shop.find(params[:shop_id])                      
+      @menu = @shop.menus.build(menu_data) 
+    else
+      @menu = Menu.new(menu_data)
+    end
     if @menu.save
       redirect_to edit_menu_path(@menu)
     else

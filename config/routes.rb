@@ -17,6 +17,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :orders
   map.resources :order_items  
 
+  map.resources :menus, :only=>[:new, :create, :index] # for generic menus
+
   map.resources :shops, :shallow=>true, :collection=>{:search=>:get}, :member=>{:reorder_menus=>:post, :reorder_item_queues=>:post, :reorder_operating_times=>:post, :start_queuing=>:put, :stop_queuing=>:put} do |shops|
     shops.resources :operating_times
     shops.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
@@ -32,7 +34,6 @@ ActionController::Routing::Routes.draw do |map|
     end 
   end
 
-  map.resources :menus, :only=>[:index] # for generic menus
 
   map.root :controller => "front", :action=>'index'
 
