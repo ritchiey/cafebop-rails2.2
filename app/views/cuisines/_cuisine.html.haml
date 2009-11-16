@@ -1,0 +1,6 @@
+%tr
+  %td= link_to cuisine.name, cuisine
+  %td= cuisine.shops.count
+  %td= cuisine.menus.count
+  %td= link_to 'Edit', edit_cuisine_path(cuisine)
+  %td= link_to 'Destroy', cuisine, :confirm => 'Are you sure?', :method =>:delete

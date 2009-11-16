@@ -21,7 +21,7 @@ class Shop < ActiveRecord::Base
   end    
                         
   attr_accessible :name, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background
+        :header_background, :franchise_id
 
   validates_presence_of :name, :phone, :street_address
 
@@ -43,9 +43,8 @@ class Shop < ActiveRecord::Base
   has_many :service_areas
   has_many :serviced_suburbs, :through=>:service_areas, :source=>:suburb
   has_many :shop_cuisines
-  has_many :cuisines, :through=>:shop_cuisines#, :conditions=>{:franchise=>false}
-  has_one :franchise, :through=>:shop_cuisines, :source=>:cuisine_id, :conditions=>{:franchise=>true}
-  
+  has_many :cuisines, :through=>:shop_cuisines, :conditions=>{:franchise=>false}
+  belongs_to :franchise, :class_name => "Cuisine", :foreign_key => "franchise_id", :conditions=>{:franchise=>true}
   accepts_nested_attributes_for :menus 
   acts_as_mappable
   
@@ -72,7 +71,7 @@ class Shop < ActiveRecord::Base
   named_scope :professional, :conditions=>{:state=>'professional'}
 
   def virtual_menus
-    Menu.virtual_for_shop(self)
+    franchise ? Menu.for_franchise(franchise) : Menu.virtual_for_shop(self)
   end
   
   # Return the menus that the customer should see when ordering whether

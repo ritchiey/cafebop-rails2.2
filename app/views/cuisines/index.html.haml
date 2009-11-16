@@ -1,16 +1,20 @@
-- title "Cuisines"
+- title "Cuisines"  
+%h3 Cuisines and Franchises
 
+%h4 Franchises
 %table
   %tr
     %th Name
     %th Shops
     %th Menus
-  - for cuisine in @cuisines
-    %tr
-      %td= link_to cuisine.name, cuisine
-      %td= cuisine.shops.count
-      %td= cuisine.menus.count
-      %td= link_to 'Edit', edit_cuisine_path(cuisine)
-      %td= link_to 'Destroy', cuisine, :confirm => 'Are you sure?', :method => :delete
+    =render :partial=>@franchises
+
+%h4 Cuisines
+%table
+  %tr
+    %th Name
+    %th Shops
+    %th Menus
+    =render :partial=>@cuisines
 
 %p= link_to "New Cuisine", new_cuisine_path

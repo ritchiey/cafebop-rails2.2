@@ -1,6 +1,7 @@
 class CuisinesController < ApplicationController
   def index
-    @cuisines = Cuisine.all
+    @cuisines = Cuisine.is_not_franchise.all
+    @franchises = Cuisine.is_franchise.all
   end
   
   def show
