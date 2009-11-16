@@ -41,7 +41,7 @@
   %h3.title Locate a Restaurant near you...
   -semantic_form_for @search, :url=>search_shops_path, :html=>{:id=>'search_form', :method=>'get'} do |f|
     -f.inputs do
-      = f.input :cuisine, :required=>false, :as=>:select, :include_blank=>'-- Any --', :collection=>Cuisine.all.map {|c| [c.name, c.id]}, :hint=>"Type of food"
+      = f.input :cuisine, :required=>false, :as=>:select, :include_blank=>'-- Any --', :collection=>Cuisine.is_not_franchise.map {|c| [c.name, c.id]}, :hint=>"Type of food"
       = f.input :term, :required=>false, :label=>'Location:', :hint=>"Town, Suburb or Address"
       = f.input :lat, :as=>'hidden'
       = f.input :lng, :as=>'hidden'
