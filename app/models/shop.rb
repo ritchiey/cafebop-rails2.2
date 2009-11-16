@@ -43,7 +43,8 @@ class Shop < ActiveRecord::Base
   has_many :service_areas
   has_many :serviced_suburbs, :through=>:service_areas, :source=>:suburb
   has_many :shop_cuisines
-  has_many :cuisines, :through=>:shop_cuisines
+  has_many :cuisines, :through=>:shop_cuisines#, :conditions=>{:franchise=>false}
+  has_one :franchise, :through=>:shop_cuisines, :source=>:cuisine_id, :conditions=>{:franchise=>true}
   
   accepts_nested_attributes_for :menus 
   acts_as_mappable

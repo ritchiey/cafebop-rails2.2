@@ -1,7 +1,8 @@
 class Cuisine < ActiveRecord::Base      
   
   fields do
-    name  :string
+    name  :string    
+    franchise  :boolean, :default=>false
     timestamps
   end
   
