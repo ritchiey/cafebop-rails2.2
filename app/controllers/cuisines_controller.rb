@@ -1,5 +1,8 @@
 require 'stringio'
 
+before_filter :require_login
+before_filter :require_admin_rights
+
 
 class CuisinesController < ApplicationController
   def index

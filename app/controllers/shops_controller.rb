@@ -1,4 +1,6 @@
-class ShopsController < ApplicationController    
+class ShopsController < ApplicationController      
+  
+  before_filter :require_login, :except=>[:search]
 
   before_filter :find_instance, :except=>[:new, :create, :index, :search]          
   def new
