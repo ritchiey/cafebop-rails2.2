@@ -65,12 +65,11 @@ private
       if shop.queues_in_shop_payments?
         order_items.each {|item| item.queue!}
         self.state = 'queued'   
-        save
       else
         order_items.each {|item| item.print!}
         self.state = 'printed'
-        save
       end
+      save
     end
   end
 

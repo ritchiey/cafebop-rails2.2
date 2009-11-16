@@ -58,8 +58,8 @@ class OrderItem < ActiveRecord::Base
 
   def print!
     if pending?
-      self.save
       self.state = 'printed'
+      self.save
     end
   end
 
