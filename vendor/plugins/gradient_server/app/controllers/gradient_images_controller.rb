@@ -5,9 +5,10 @@ class GradientImagesController < ActionController::Base
   
   include Magick
   
-  caches_page :get
+  #caches_page :get # can't use this because it writes to disk (no good on heroku)
   
-  def get
+  def get     
+    headers['Cache-Control'] = 'public; max-age=259200000' # cache for 100 months
     images = ImageList.new
 
     parts = params[:spec].split('::')
