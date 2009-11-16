@@ -6,6 +6,8 @@ class Cuisine < ActiveRecord::Base
     timestamps
   end
   
+  default_scope :order=>:name
+  
   attr_accessible :name, :menu_ids, :franchise
   
   has_many :shop_cuisines

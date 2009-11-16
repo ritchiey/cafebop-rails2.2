@@ -5,6 +5,6 @@ class DashboardController < ApplicationController
   
   def show
     @stat = Stat.new
-  end
-
+  end       
+  
 end

@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.resources :operating_times
-  map.resources :cuisines
+  map.resources :cuisines, :collection=>{:import_form=>:get, :import=>:post}
 
   
   map.dashboard '/dashboard', :controller=>'dashboard', :action=>'show'

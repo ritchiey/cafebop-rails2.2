@@ -1,3 +1,6 @@
+require 'stringio'
+
+
 class CuisinesController < ApplicationController
   def index
     @cuisines = Cuisine.is_not_franchise.all
@@ -41,5 +44,22 @@ class CuisinesController < ApplicationController
     @cuisine.destroy
     flash[:notice] = "Successfully destroyed cuisine."
     redirect_to cuisines_url
+  end      
+  
+  
+  def import_form
   end
+
+
+  def import  
+    data = params[:data]
+    franchise = params[:type] == 'franchise'
+    StringIO.open(data, 'r') do |io|
+      io.each_line do |line|
+        Cuisine.find_or_create_by_name(:name=>line, :franchise=>franchise)
+      end
+    end
+    redirect_to cuisines_path
+  end
+  
 end

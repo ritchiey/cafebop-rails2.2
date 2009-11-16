@@ -1,0 +1,8 @@
+%h3 Import Cuisines or Franchises
+
+-form_tag import_cuisines_path do
+  =text_area_tag :data, nil, :size=>"80x10"
+  =select_tag :type, options_for_select(%w/cuisine franchise/)
+  =submit_tag
+  
+  
