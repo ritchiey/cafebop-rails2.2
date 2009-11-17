@@ -2,14 +2,8 @@
 
 %h2="#{pluralize @shops.size, 'restaurant'} found:"
 
-%ol= render :partial=>@shops
+%table
+  -@shops.each_with_index do |shop, index|
+    = render :partial=>"shop", :object=>shop, :locals=>{:index=>index}
 
-%h3 Are we missing something here?
-%p If you know of a restaurant or cafe that we don't have listed, add it here.
-%p
-  If that shop goes on to become one of our paying customers, we'll give you $A25.00
-  (subject to these 
-  =link_to "terms and conditions", bounty_conditions_content_path
-  \).
-
-%p=button_to "Add Shop", new_shop_path
+!= render :partial => 'add_shop_blurb'

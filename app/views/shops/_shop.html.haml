@@ -1,6 +1,13 @@
 -# A Shop as it appears in search results     
--content_tag_for :li, shop do
-  =link_to shop.name, new_shop_order_path(shop)  
-  =edit_shop_link(shop)
-  -if shop.can_be_claimed_by?(current_user)
-    =link_to "Claim this shop", shop_claims_path(shop), :method=>:post
+-content_tag_for :tr, shop do
+  %td=link_to "#{index + 1}",  new_shop_order_path(shop)
+  %td=link_to shop.name, new_shop_order_path(shop)
+  %td
+    =shop.express? ? image_tag('express_icon', :alt=>"Express") : ""
+    =shop.professional? ? image_tag('professional_icon', :alt=>"Professional") : ""
+    =shop.accepts_queued_orders? ? image_tag('orderonline_icon') : ""
+    =shop.accepts_paypal_payments? ? image_tag('pay_paypal_icon') : ""
+  %td=edit_shop_link(shop)
+  %td
+    -if shop.can_be_claimed_by?(current_user)
+      =link_to "Claim this shop", shop_claims_path(shop), :method=>:post, :confirm=>"Only click ok if you are the owner or manager of #{h shop.name}"
