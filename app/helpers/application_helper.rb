@@ -15,6 +15,10 @@ module ApplicationHelper
   def shop_with_header?
     @shop and @shop.header_background.file?
   end                  
+                                            
+  def page_background
+    "url(/gradient_images/18:666:555::27:555:AAA.png) repeat-x #FEFEFD"
+  end
   
   def header_background
     if shop_with_header?

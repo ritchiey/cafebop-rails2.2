@@ -12,7 +12,7 @@
     =javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? 
     = yield(:head)
 
-  %body
+  %body{:style=>"background: #{page_background}"}
     .container
       #header.page-header.span-24.last
         .span-18
