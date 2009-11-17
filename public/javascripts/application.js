@@ -1,3 +1,7 @@
+var country_code = 'au';
+var domain_name = '.cafebop.com';
+
+
 function showControlsAsNeeded() {
   jQuery("tr").hover(
       function() {     
@@ -250,16 +254,17 @@ function geocode(address, shopName) {
 function toShopUrl(name) {
   name = name.replace(/[ _]/g, "-");
   name = name.replace(/[!@#$%^&*()\']/g, "");
-  return "http://"+name.toLowerCase() + ".cafebop.com/";
+  return "http://"+name.toLowerCase() + domain_name + "/";
 }     
 
 function initialize_geocoder() {
   geocoder = new GClientGeocoder();   
+  geocoder.setBaseCountryCode(country_code)
 }
                    
 function initialize_map() {
   map = new google.maps.Map2(document.getElementById("map"));
-  map.setCenter(new google.maps.LatLng(-31.96637,115.90049), 13); 
+  map.setCenter(new google.maps.LatLng(-31.96637,115.90049), 13);
 }
 
 function initialize_shop_form_map() {
