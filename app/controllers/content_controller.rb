@@ -7,6 +7,9 @@ class ContentController < ApplicationController
   end               
   
   def social_ordering
+  end               
+  
+  def online_order_queuing
   end
   
 end
