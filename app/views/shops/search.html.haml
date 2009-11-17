@@ -3,4 +3,17 @@
 %h2="#{pluralize @shops.size, 'restaurant'} found:"
 
 %ol= render :partial=>@shops
-=link_to "Add Shop", new_shop_path
+
+%p If you know of a restaurant or cafe that we don't have listed, add it here.
+%p If that shop goes on to become one of our paying customers, we'll give you $A25.00.
+
+%p
+Here are the conditions:
+
+%ul
+%li You must provide us with a valid Paypal account id capable of receiving funds.
+%li You can add as many shops as you like but they must be real ones (imaginary shops don't pay).
+%li You must have the details right (Name, Phone Number, Opening Hours, Cuisine)
+%li You warrant that you have obtained the list of shops from a legal and legitimate source. If you happen to have collected a list of such details somehow, that's great but data-mining is unacceptable.
+%li You grant Cafebop a licence to use the details entered in any manner they deem appropriate.
+%p=button_to "Add Shop", new_shop_path
