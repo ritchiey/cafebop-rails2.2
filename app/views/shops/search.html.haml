@@ -1,6 +1,6 @@
 = render :partial => 'shops/search_panel'
 
-%h2="#{@shops.size} Shops"
+%h2="#{pluralize @shops.size, 'restaurant'} found:"
 
 %ol= render :partial=>@shops
 =link_to "Add Shop", new_shop_path
