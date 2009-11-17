@@ -24,7 +24,9 @@
     = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
 
 #order_summary
-  =render :partial=>'summary'
+  =render :partial=>'summary'   
+  
+  =render :partial=>'price_warning'
 
 
 

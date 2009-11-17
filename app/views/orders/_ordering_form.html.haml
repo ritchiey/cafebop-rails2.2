@@ -58,7 +58,8 @@
           %td#total 0.00
     - form.buttons do
       = form.commit_button #'Save changes'
-  
+      != render :partial => 'price_warning'
+        
 
 .hidden
   #dialog{ :title => "Add to Order" }
