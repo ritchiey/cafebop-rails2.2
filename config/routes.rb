@@ -32,7 +32,12 @@ ActionController::Routing::Routes.draw do |map|
         menu_items.resources :flavours
       end
     end 
-  end
+  end    
+  
+  map.resources :content, :only=>[], :collection=>{
+    :bounty_conditions=>:get,
+    :why_inaccurate=>:get
+    }
 
 
   map.root :controller => "front", :action=>'index'
