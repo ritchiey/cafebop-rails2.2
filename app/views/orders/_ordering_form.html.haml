@@ -30,7 +30,6 @@
 
       %tbody#order_items        
         -form.semantic_fields_for :order_items, :name => "Items" do |item_form|
-          -debugger
           -if item_form.object
             %tr
               %td
@@ -42,7 +41,8 @@
                 = item_form.input :flavour_id, :as => :hidden
                 = item_form.input :size_id, :as => :hidden
               %td
-                =h item_form.object.description              %td.notes
+                =h item_form.object.description
+              %td.notes
                 =h form.object.notes
               %td.cost
                 =h item_form.object.cost
