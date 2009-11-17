@@ -71,7 +71,7 @@ class Shop < ActiveRecord::Base
   named_scope :professional, :conditions=>{:state=>'professional'}
 
   def virtual_menus
-    franchise ? Menu.for_franchise(franchise) : Menu.virtual_for_shop(self)
+    franchise ? Menu.for_franchise(franchise).with_items : Menu.virtual_for_shop(self).with_items
   end
   
   # Return the menus that the customer should see when ordering whether

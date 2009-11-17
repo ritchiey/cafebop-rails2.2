@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
   end
 
   def new
-    @shop = Shop.find(params[:shop_id])
+    @shop = Shop.find(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
     @order = @shop.orders.build
   end
 
