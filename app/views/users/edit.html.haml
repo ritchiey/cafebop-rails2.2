@@ -1,0 +1,9 @@
+%h3 Edit User
+
+-semantic_form_for :user, :url => user_path(@user), :html=>{:method=>:put} do |f|
+  -f.inputs do 
+    =f.input :name
+    =f.input :email
+    =f.input :roles, :as=>:check_boxes, :collection=>User.possible_roles
+    
+  =f.buttons

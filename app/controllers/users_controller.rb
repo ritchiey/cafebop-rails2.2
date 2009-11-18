@@ -1,11 +1,19 @@
 UserObserver.instance
 
-
 class UsersController < ApplicationController
 
+  before_filter :require_login, :except=>[:new, :create, :activate]
+  before_filter :require_admin_rights, :except=>[:new, :create, :activate]   
 
+  make_resourceful do
+    actions :index, :update, :show, :destroy
+  end  
+                                  
   before_filter :require_valid_captcha, :only=>[:create]
 
+  def edit
+    @user = User.find(params[:id])
+  end
 
   def new
     @user = User.new
@@ -32,5 +40,15 @@ class UsersController < ApplicationController
       flash[:error] = 'Sorry, could not activate account'
       redirect_to new_user_path
     end
+  end  
+  
+  private
+  
+  def current_objects
+    @current_objects ||= User.find(:all)
+  end   
+  
+  def current_object
+    @current_object ||= User.find(params[:id])
   end
 end

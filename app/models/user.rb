@@ -3,6 +3,10 @@ class User < ActiveRecord::Base
   acts_as_authentic
   easy_roles :roles
   
+  def self.possible_roles
+    %w/cafebop_admin claim_approver/
+  end
+  
   fields do  
     name      :string
     email     :string 

@@ -1,0 +1,10 @@
+%h3 User
+
+%ul
+  %li="Name: #{@user.name}"
+  %li="Email: #{@user.email}"
+  %li="Roles: #{@user.roles.join(':')}"
+  
+=link_to 'Edit', edit_user_path(@user)     
+=link_to 'Delete', user_path(@user), :method=>'delete', :confirm=>"When you delete a user, you take from him all he owns and all he ever will own. Are you sure?"
+=link_to 'All Users', users_path

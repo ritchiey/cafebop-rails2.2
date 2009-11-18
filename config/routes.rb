@@ -6,10 +6,10 @@ ActionController::Routing::Routes.draw do |map|
   
   map.dashboard '/dashboard', :controller=>'dashboard', :action=>'show'
   map.resources :menu_templates
-  map.activate '/users/activate', :controller => 'users', :action => 'activate'
+#  map.activate '/users/activate', :controller => 'users', :action => 'activate'
   map.resources :users
   map.resources :user_sessions
-  map.register '/register', :controller=>:users, :action=>:new
+#  map.register '/register', :controller=>:users, :action=>:new
   map.login '/login', :controller=>:user_sessions, :action=>:new
   map.logout '/logout', :controller=>:user_sessions, :action =>:destroy
   map.resources :claims, :member=>{:review=>:put, :confirm=>:put, :reject=>:put}

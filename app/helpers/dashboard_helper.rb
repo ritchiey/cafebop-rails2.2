@@ -10,7 +10,7 @@ module DashboardHelper
   end
 
   def user_rows
-    tabulate([['Users', 'total']], @stat.user)
+    tabulate([[link_to('Users', users_path), 'total']], @stat.user)
   end
 
   def shop_rows
