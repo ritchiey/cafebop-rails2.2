@@ -1,0 +1,7 @@
+%h1 Creating friendship
+
+= error_messages_for :friendship
+
+= render :partial=>"form", :object=>[@user, @friendship]
+
+= link_to 'Back', user_friendships_path(@user)
