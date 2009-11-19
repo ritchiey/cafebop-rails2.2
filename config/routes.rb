@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :friendships
   end
   map.resources :user_sessions
-#  map.register '/register', :controller=>:users, :action=>:new
+  map.register '/register', :controller=>:users, :action=>:new
   map.login '/login', :controller=>:user_sessions, :action=>:new
   map.logout '/logout', :controller=>:user_sessions, :action =>:destroy
   map.resources :claims, :member=>{:review=>:put, :confirm=>:put, :reject=>:put}
@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
     shops.resources :operating_times
     shops.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
     shops.resources :claims, :only=>[:create]
-    shops.resources :orders, :shallow => true, :member => {:summary => :get, :new => :get, :create => :put, :pay_in_shop => :put, :pay_paypal => :put} do |orders|
+    shops.resources :orders, :shallow => true, :member => {:summary => :get, :new => :get, :create => :put, :pay_in_shop => :put, :pay_paypal => :put, :invite=>:get} do |orders|
       orders.resources :order_items, :member=>{:make=>:put}
     end
     shops.resources :menus, :shallow=>true, :member=>{:reorder_menu_items=>:post} do |menus|
