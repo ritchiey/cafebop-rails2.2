@@ -46,3 +46,8 @@ body, p, td, li, ul, ol {
 
 .links a {
   font-weight: bold; }
+
+#page-footer {
+  margin-top: 90px;
+  width: 100%;
+  background: url(/gradient_images/54:FEFEFD:FEFEFD::18:666:555::27:555:AAA.png) repeat-x #FEFEFD; }

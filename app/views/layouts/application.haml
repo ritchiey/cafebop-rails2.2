@@ -49,14 +49,12 @@
         #aside.span-8.last
           =yield :aside || placeholder
 
-      .span-24.last
-        #footer.span-16
-          .span-1
-          .span-15.last
-            -default_content_for :footer do
-              = render :partial => 'shared/footer'
-        .span-8.last
-          =placeholder
-        
+    #page-footer
+      .container
+        .span-1
+          =placeholder :width=>1, :height=>99
+        .span-23.last 
+          =link_to(image_tag('logo.png', :size=>'200x90'), root_path)
+          
 
     =yield :javascript
