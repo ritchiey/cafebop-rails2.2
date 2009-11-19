@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091118050720) do
+ActiveRecord::Schema.define(:version => 20091119075417) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -45,8 +45,10 @@ ActiveRecord::Schema.define(:version => 20091118050720) do
   end
 
   create_table "friendships", :force => true do |t|
-    t.integer "user_id"
-    t.integer "friend_id"
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "item_queues", :force => true do |t|
@@ -122,7 +124,8 @@ ActiveRecord::Schema.define(:version => 20091118050720) do
     t.integer  "user_id"
     t.integer  "shop_id"
     t.integer  "parent_id"
-    t.string   "state",      :default => "pending"
+    t.string   "state",            :default => "pending"
+    t.string   "perishable_token"
   end
 
   create_table "service_areas", :force => true do |t|

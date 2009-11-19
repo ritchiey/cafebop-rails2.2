@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   has_many :claims, :dependent=>:destroy
   has_many :work_contracts
   has_many :shops, :through => :work_contracts
-  has_many :friendships, :class_name=>"Friendship", :foreign_key => "user_id"
+  has_many :friendships, :class_name =>"Friendship", :foreign_key => "user_id"
   has_many :friends, :through=>:friendships, :source=>:friend
   has_many :fanships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :fans, :through=>:fanships, :source=>:user

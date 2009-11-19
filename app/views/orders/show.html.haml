@@ -1,5 +1,15 @@
 -shop = @order.shop 
 
+-content_for :aside do
+  =link_to "Offer Friends", invite_order_path(@order)
+  %table
+    %thead
+      %tr
+        %th Friend
+        %th Status
+    != render :partial => 'child_order', :collection=>@order.child_orders
+
+
 -content_for :content_header do
   = render :partial => 'shops/page_header', :locals=>{:shop=>shop}
 
@@ -27,6 +37,3 @@
   =render :partial=>'summary'   
   
   =render :partial=>'price_warning'
-
-
-

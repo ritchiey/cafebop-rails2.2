@@ -92,6 +92,26 @@ class OrderTest < ActiveSupport::TestCase
       
     end
 
+    context "and one child order" do
+      setup do                               
+        @other_user = User.make
+        @order.child_orders.make(:user=>@other_user)
+      end
+
+      should "not be able to invite the same user again" do
+        assert_no_difference "Order.count" do
+          @order.update_attributes :invited_user_attributes=>[@other_user.id]
+        end
+      end
+      
+      should "be able to invite an exising user" do
+        assert_difference "Order.count", 1 do
+          @order.update_attributes :invited_user_attributes=>[User.make.id]
+        end
+      end
+      
+    end
+    
   end
   
 end

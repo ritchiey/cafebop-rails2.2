@@ -26,7 +26,7 @@ end
 
 Order.blueprint do
   shop
-end
+end           
 
 OrderItem.blueprint do
   order

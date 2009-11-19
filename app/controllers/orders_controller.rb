@@ -16,7 +16,7 @@ class OrdersController < ApplicationController
 
   def create
     if params[:order]
-      @order = Order.new(params[:order].merge(:shop_id=>params[:shop_id]))
+      @order = Order.new(params[:order].merge(:shop_id=>params[:shop_id], :user=>current_user))
       if @order.save
         redirect_to order_path(@order)
       else        
@@ -27,8 +27,6 @@ class OrdersController < ApplicationController
        flash[:error] = "You must select at least one menu item"
        redirect_to new_shop_order_path
     end
-
-
   end
 
   def edit
@@ -63,6 +61,26 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     @order.request_paypal_authorization!
     #TODO: Redirect appropriately to Paypal
+  end
+
+  # Display the invitation form to invite others
+  def invite
+    @order = Order.find(params[:id])
+  end
+
+  # Accept an invite that we were sent
+  def accept
+    @order = Order.find(params[:token])
+    @order.accept!
+    redirect_to :action=>:edit
+  end
+
+  # Decline an invite that we were sent
+  def decline
+    @order = Order.find(params[:token])
+    @order.decline!
+    flash[:notice] = "Thanks for letting us know. Maybe next time."
+    redirect_to root_path
   end
 
 end

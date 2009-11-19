@@ -1,8 +1,11 @@
 class Order < ActiveRecord::Base
+  
+  include Authlogic::ActsAsAuthentic::PerishableToken
       
   fields do
     notes :text    
     state :string, :default=>'pending'
+    perishable_token :string
     timestamps
   end
 
@@ -11,10 +14,21 @@ class Order < ActiveRecord::Base
   has_many :order_items, :dependent=>:destroy
 
   has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id'
+  has_many :invited_users, :through => :child_orders, :source => :user
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
   belongs_to :parent, :class_name=>'Order'
 
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
+  
+  def invited_user_attributes=(attrs)
+    invitees = User.find(attrs)
+    invitees.each do |invitee|
+      #TODO: Drop unless user is a friend of the owner of this order
+      #Ignore if we've already invited them
+      next if invited_users.include? invitee
+      child_orders << Order.invite!(:parent=>self,  :user=>invitee)
+    end
+  end
 
   def total
     order_items.inject(0) {|sum, item| sum + item.cost}
@@ -35,6 +49,13 @@ class Order < ActiveRecord::Base
   def made?()   state == 'made'; end  
   def cancelled?()   state == 'cancelled'; end  
   def reported?()   state == 'reported'; end
+              
+
+  def self.invite!(params={})
+    order = self.new(params)
+    order.state = 'invited'
+    order.tap {|o| o.save!}
+  end
 
   def pay_in_shop! 
     if shop.accepts_in_shop_payments?

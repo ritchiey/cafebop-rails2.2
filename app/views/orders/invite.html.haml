@@ -1,0 +1,18 @@
+%h3
+
+
+-if current_user
+  -form_for @order do |f|
+    %table
+      %thead
+        %tr
+          %th Offer
+          %th Email
+      %tbody
+        -current_user.friends.each do |friend|
+          %tr
+            %td=check_box_tag "order[invited_user_attributes][]", friend.id, true 
+            %td=h friend.email
+    =submit_tag "Send Invites"
+-else
+  No user associated with order
