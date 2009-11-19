@@ -16,7 +16,7 @@
     .container
       #header.page-header.span-24.last
         .span-18
-          =@shop ? link_to(image_tag('logo.png', :size=>'144x72'), root_path) : placeholder(:size=>'144x72')
+          =placeholder(:size=>'144x72')
         .span-6.last
           =render :partial=>'layouts/account_nav'
 
@@ -43,6 +43,9 @@
                 .span-1=placeholder
                 .span-15.last
                   =yield
+              .span-16.last
+                =placeholder :height=>54
+                
       #side.span-8.last
         .span-8.last
           =placeholder :width=>1, :height=>180
