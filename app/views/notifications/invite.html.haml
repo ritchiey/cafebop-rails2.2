@@ -1,0 +1,14 @@
+:markdown
+  #{h @parent.user} is going to #{h @parent.shop}
+  and can bring you something back.
+
+  If you'd like to take up the offer, click here:
+
+  #{@accept_url} - Show me the menu
+
+  if not, click here
+
+  #{@decline_url} - Not this time thanks
+
+  This message was sent on behalf of #{h @parent.user} by the Cafebop social
+  food ordering system at #{APPLICATION_DOMAIN}

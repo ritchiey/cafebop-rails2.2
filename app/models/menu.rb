@@ -9,7 +9,7 @@ class Menu < ActiveRecord::Base
     header    :string
     footer    :string
     is_extras :boolean
-    community   :boolean   
+    community :boolean   
     position  :integer
     timestamps
   end

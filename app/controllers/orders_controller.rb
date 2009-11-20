@@ -1,3 +1,5 @@
+OrderObserver.instance
+
 class OrdersController < ApplicationController
 
   def index

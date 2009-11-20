@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller=>:user_sessions, :action =>:destroy
   map.resources :claims, :member=>{:review=>:put, :confirm=>:put, :reject=>:put}
   
-  map.resources :orders
+  map.resources :orders, :collection=>{:accept=>:get, :decline=>:get}
   map.resources :order_items  
 
   map.resources :menus, :only=>[:new, :create, :index] # for generic menus
@@ -31,9 +31,8 @@ ActionController::Routing::Routes.draw do |map|
         :create => :put,
         :pay_in_shop => :put,
         :pay_paypal => :put,
-        :invite=>:get,
-        :accept=>:get,
-        :decline=>:get} do |orders|
+        :invite=>:get
+        } do |orders|
       orders.resources :order_items, :member=>{:make=>:put}
     end
     shops.resources :menus, :shallow=>true, :member=>{:reorder_menu_items=>:post} do |menus|

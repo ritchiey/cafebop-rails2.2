@@ -14,8 +14,10 @@ class Notifications < ActionMailer::Base
     recipients order.user.email
     from       parent.user.email
     sent_on    Time.now
-    body       :accept_url => accept_order_url(:token => order.perishable_token),
-               :decline_url => decline_order_url(:token => order.perishable_token)
+    body   :order => order,
+           :parent => parent,
+           :accept_url => accept_orders_url(:token => order.perishable_token),
+           :decline_url => decline_orders_url(:token => order.perishable_token)
   end
 
 end
