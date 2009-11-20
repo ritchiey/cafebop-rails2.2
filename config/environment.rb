@@ -1,6 +1,5 @@
 # Be sure to restart your server when you modify this file
 
-
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
@@ -12,6 +11,9 @@ SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN
 GOOGLE_API_KEY= 'ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ'
 # Define session key as a constant
 SESSION_KEY = '_ordertest_session'
+ENV['RECAPTCHA_PUBLIC_KEY'] = '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
+ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
+
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -67,11 +69,12 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de     
   
   config.action_mailer.default_url_options = { :host => APPLICATION_DOMAIN }
-  
+ 
+  config.action_mailer.delivery_method = :smtp
+
 end
 
 
-ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
    :address => "mail.authsmtp.com",
    :port => 2525,
@@ -81,5 +84,5 @@ ActionMailer::Base.smtp_settings = {
    :password => "aafz9ungf",
 }
 
-ENV['RECAPTCHA_PUBLIC_KEY'] = '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
-ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
+
+

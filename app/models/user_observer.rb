@@ -1,5 +1,5 @@
 class UserObserver < ActiveRecord::Observer
   def after_create(user)
-    Notifications.deliver_activate(user) unless RAILS_ENV == 'test'
+    Notifications.deliver_activate(user)
   end
 end
