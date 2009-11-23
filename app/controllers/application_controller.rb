@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user
 
   protected
+  
+  def login_as user
+    UserSession.create(user)
+  end
                                                         
   def current_user_session
     return @current_user_session if defined?(@current_user_session)

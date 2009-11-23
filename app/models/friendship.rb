@@ -12,7 +12,11 @@ class Friendship < ActiveRecord::Base
   
   def friend_email=(email)
     dummy_password = "24389kjk4hjk!!hj432h2l4kjhl2h$#" 
-    self[:friend_id] = User.find_or_create_by_email(:email=>email, :password=>dummy_password, :password_confirmation=>dummy_password).id
+    User.find_or_initialize_by_email(:email=>email, :password=>dummy_password, :password_confirmation=>dummy_password).tap do |friend|
+      friend.active = true
+      friend.save!
+      self[:friend_id] = friend.id
+    end
   end
   
   def friend_email

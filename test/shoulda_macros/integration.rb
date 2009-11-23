@@ -8,8 +8,17 @@ class ActionController::IntegrationTest
       fill_in "user_session_email", :with=>user.email
       fill_in "user_session_password", :with=>password
       click_button "user_session_submit"
-      assert_contain "Logout"
+      assert_logged_in_as user
     end
+  end
+
+  def assert_logged_in_as user
+    assert_contain "Logout"
+    assert_contain "Logged in as #{user}"
+  end     
+  
+  def logout
+    click_link "Logout"
   end
 
   def place_order options={}
@@ -29,7 +38,7 @@ class ActionController::IntegrationTest
     visit root_path
     click_link "Add Friend"
     fill_in "friendship_friend_email", :with=>email
-    click_button "Create Friendship"
+    click_button "Create Friendship"   
   end
   
 end

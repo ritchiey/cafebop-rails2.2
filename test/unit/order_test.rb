@@ -99,7 +99,7 @@ class OrderTest < ActiveSupport::TestCase
       setup do                 
         @order.user = User.make              
         @other_user = User.make
-        @order.child_orders.make(:user=>@other_user)
+        @child_order = @order.invite(@other_user)
       end
 
       should "not be able to invite the same user again" do
@@ -112,6 +112,10 @@ class OrderTest < ActiveSupport::TestCase
         assert_difference "Order.count", 1 do
           @order.update_attributes :invited_user_attributes=>[User.make.id]
         end
+      end           
+      
+      should "have the same details on the child as the order" do
+        assert_equal @order.shop, @child_order.shop
       end
       
     end

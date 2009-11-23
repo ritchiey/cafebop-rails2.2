@@ -76,14 +76,17 @@ class OrdersController < ApplicationController
 
   # Accept an invite that we were sent
   def accept
-    @order = Order.find(params[:token])
+    @order = Order.find_by_perishable_token(params[:token])
+    # authenticate the user
+    login_as @order.user
     @order.accept!
-    redirect_to :action=>:edit
+    redirect_to edit_order_path(@order)
   end
 
   # Decline an invite that we were sent
   def decline
-    @order = Order.find(params[:token])
+    @order = Order.find_by_perishable_token(params[:token])
+    login_as @order.user
     @order.decline!
     flash[:notice] = "Thanks for letting us know. Maybe next time."
     redirect_to root_path

@@ -1,7 +1,7 @@
+require 'digest/sha1'
+
 class Order < ActiveRecord::Base
-  
-  include Authlogic::ActsAsAuthentic::PerishableToken
-      
+        
   fields do
     notes :text    
     state :string, :default=>'pending'
@@ -26,7 +26,13 @@ class Order < ActiveRecord::Base
       #TODO: Drop unless user is a friend of the owner of this order
       #Ignore if we've already invited them
       next if invited_users.include? invitee
-      child_orders << Order.invite!(:parent=>self,  :user=>invitee)
+      invite invitee
+    end
+  end
+
+  def invite invitee
+    Order.invite!(:parent=>self, :user=>invitee).tap do |child_order|
+      child_orders << child_order
     end
   end
 
@@ -52,9 +58,26 @@ class Order < ActiveRecord::Base
               
 
   def self.invite!(params={})
-    order = self.new(params)
-    order.state = 'invited'
-    order.tap {|o| o.save!}
+    self.new(params).tap do |order|
+      order.state = 'invited'   
+      order.shop = order.parent.shop
+      order.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
+      order.save!
+    end
+  end
+  
+  def accept!
+    if invited?
+      self.state = 'pending'
+      save!
+    end
+  end  
+  
+  def decline!
+    if invited?
+      self.state = 'declined'
+      save!
+    end
   end
 
   def pay_in_shop! 

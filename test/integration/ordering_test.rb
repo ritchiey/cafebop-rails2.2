@@ -10,7 +10,10 @@ class OrderingTest < ActionController::IntegrationTest
     
     context "with friends" do
       setup do
-        add_friends
+        assert_no_difference "ActionMailer::Base.deliveries.count" do
+          add_friend 'bobo@cafebop.com'
+          add_friend 'mary@cafebop.com'
+        end
       end
 
       context "who places an order" do
@@ -23,12 +26,24 @@ class OrderingTest < ActionController::IntegrationTest
           assert_equal @user, @order.user
         end
       
-        should "be able to invite others" do
+        should "be able to invite others and have them accept" do
           click_link "Offer Friends"
-          @user.friends.each {|friend| check(friend.to_s)}
-          uncheck @user.friends.last.to_s
+          @user.friends.each {|friend| uncheck("invite_user_#{friend.id}")}
+          check "invite_user_#{@user.friends.last.id}"
           click_button 'Send Invites'
+          invite_email = ActionMailer::Base.deliveries.last
+          assert_match /#{@user} is going to #{@order.shop} and can bring you something back/, invite_email.body
+          invite_email.body =~ /(http:.*) - Show me the menu/
+          accept_url = $1
+          logout
+          visit accept_url
+          assert_logged_in_as @user.friends.last
+          assert_contain 'Your Order'
+          
+          #http://cafebop.com/orders/decline - Not this time thanks
+          
         end
+
         
         
       end
@@ -37,7 +52,3 @@ class OrderingTest < ActionController::IntegrationTest
     
   end
 end
-    
-  
-  
-

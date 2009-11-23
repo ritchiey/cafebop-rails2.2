@@ -1,5 +1,7 @@
 .account-nav
   -if current_user
+    Logged in as #{current_user}
+    \|
     -if current_user.is_admin?
       =link_to_unless_current("Home", root_path) 
       \|
