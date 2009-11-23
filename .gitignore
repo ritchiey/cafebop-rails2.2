@@ -9,3 +9,4 @@
 /public/system
 /public/assets
 .*.sw*
+webrat-*.html
