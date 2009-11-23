@@ -32,7 +32,6 @@ OrderItem.blueprint do
   order
   menu_item
   quantity { BasicForgery.number }
-  price_in_cents {BasicForgery.number :at_least=>50, :at_most=>4500}
 end
 
 Flavour.blueprint do
@@ -60,7 +59,11 @@ User.blueprint do
   email       { InternetForgery.email_address }
   password    "monkey"
   password_confirmation "monkey"
-end   
+end              
+
+User.blueprint :active do
+  active  true
+end
 
 WorkContract.blueprint do
   shop

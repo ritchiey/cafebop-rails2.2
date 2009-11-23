@@ -35,3 +35,4 @@ class ActiveRecord::Base
     }
   end
 end
+config.gem "webrat", :version=> ">=0.4.3"

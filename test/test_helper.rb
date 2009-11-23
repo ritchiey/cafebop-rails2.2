@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'mocha'
 require 'test_help'    
 require 'shoulda'
-require 'fast_context'
+#require 'fast_context'
 #require 'phocus'
 
 require File.expand_path(File.dirname(__FILE__) + "/blueprints")
@@ -48,4 +48,8 @@ class ActionController::TestCase
     super
     @request.cookies[SESSION_KEY] = "faux session"
   end
+end
+
+Webrat.configure do |config|
+  config.mode = :rails
 end

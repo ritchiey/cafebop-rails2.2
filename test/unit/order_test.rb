@@ -1,7 +1,10 @@
-require 'test_helper'
+require 'test_helper' 
+
 
 class OrderTest < ActiveSupport::TestCase
   
+  should_allow_mass_assignment_of :user, :order_item_attributes
+
   context "a new order" do
     
     setup do
@@ -92,8 +95,9 @@ class OrderTest < ActiveSupport::TestCase
       
     end
 
-    context "and one child order" do
-      setup do                               
+    context "and a user set and one child order" do
+      setup do                 
+        @order.user = User.make              
         @other_user = User.make
         @order.child_orders.make(:user=>@other_user)
       end

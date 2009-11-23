@@ -16,15 +16,15 @@ class OrderItem < ActiveRecord::Base
   belongs_to :size
   belongs_to :flavour
 
-  before_create :set_values_from_menu_item
+  before_validation_on_create :set_values_from_menu_item
 
   treat_as_currency :price
   
   validates_presence_of :state
+  validates_presence_of :menu_item, :on => :create
   validates_inclusion_of :state, :in => STATES
   validates_numericality_of :quantity, :greater_than => 0, :message => 'is minimum 1'
   validates_numericality_of :price_in_cents, :greater_than => 0#, :allow_nil => true
-
   
 
 
@@ -84,7 +84,7 @@ private
 
   def set_values_from_menu_item
     self[:item_queue_id] = menu_item.item_queue_id
-    self.price = size ? size.price : menu_item.price
+    self.price_in_cents = size ? size.price_in_cents : menu_item.price_in_cents
     self.description = calc_description
   end
 

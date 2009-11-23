@@ -1,9 +1,3 @@
-%div[friendship]
-  %p.user
-    %strong User
-    = h friendship.user
-  %p.friend
-    %strong Friend
-    = h friendship.friend
-
-  = link_to 'Remove Friend', object_path(friendship), :confirm => 'Really destroy friendship?', :method => :delete
+%li
+  = h friendship.friend
+  = link_to 'x', user_friendship_path(friendship.user, friendship), :confirm => 'Really remove friend?', :method => :delete

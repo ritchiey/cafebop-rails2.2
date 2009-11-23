@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class OrderItemTest < ActiveSupport::TestCase
 
-  context "order_item associations" do
+  context "order_item associations" do      
+    subject {OrderItem.make}      
     should_belong_to :item_queue
     should_belong_to :order
     should_belong_to :menu_item
@@ -14,7 +15,9 @@ class OrderItemTest < ActiveSupport::TestCase
 
     setup do
       @item = OrderItem.make
-    end
+    end      
+    
+    subject {@item}
 
     should_allow_values_for :state, *OrderItem::STATES
 
@@ -47,6 +50,10 @@ class OrderItemTest < ActiveSupport::TestCase
 
     should "adopt the item_queue of its menu_item" do
       assert_equal @item.menu_item.item_queue, @item.item_queue
+    end                       
+    
+    should "adopt the price_in_cents of its menu_item or size" do
+      assert_equal @item.menu_item.price_in_cents, @item.price_in_cents
     end
     
 #    should "have a valid state" do
@@ -59,7 +66,9 @@ class OrderItemTest < ActiveSupport::TestCase
 #      assert_valid @item
 #    end    
 
-    context "with invalid data" do
+    context "with invalid data" do 
+      
+      subject {OrderItem.make}  
 
       should_not_allow_values_for :state, BasicForgery.text, BasicForgery.text
       should_not_allow_values_for :quantity, BasicForgery.number(:at_least => -25, :at_most => 0), nil

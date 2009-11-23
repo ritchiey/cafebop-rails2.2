@@ -17,12 +17,16 @@ class OrdersController < ApplicationController
   end
 
   def create
-    if params[:order]
-      @order = Order.new(params[:order].merge(:shop_id=>params[:shop_id], :user=>current_user))
+    @shop = Shop.find(params[:shop_id])
+    if @shop and params[:order]
+      logger.info "Creating order for user '#{current_user}'"
+      @order = @shop.orders.build(params[:order].merge(:user_id=>current_user.id))
       if @order.save
+        logger.info "Created order for user '#{@order.user}'"
         redirect_to order_path(@order)
       else        
         flash[:error] = @order.errors.full_messages.collect{|m| m}.join('. ')
+        logger.error @order.errors.full_messages.collect{|m| m}.join('. ')
         redirect_to new_shop_order_path
       end
     else

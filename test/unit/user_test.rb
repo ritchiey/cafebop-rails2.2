@@ -1,6 +1,7 @@
 require File.dirname(__FILE__)+'/../test_helper'
 
 class UserTest < ActiveSupport::TestCase  
+
   context "a user" do
     setup do
       @user = User.make 
