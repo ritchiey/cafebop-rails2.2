@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.dashboard '/dashboard', :controller=>'dashboard', :action=>'show'
   map.resources :menu_templates
-#  map.activate '/users/activate', :controller => 'users', :action => 'activate'
+  map.activate '/users/activate', :controller => 'users', :action => 'activate'
   map.resources :users do |users|
     users.resources :friendships
   end
