@@ -42,8 +42,15 @@ $(function() { // page ready
   });
     
   $('.remove').live('click', function(e) {
-    $(this).closest('tr').remove();   
+    var tr = $(this).closest('tr');
+    var id = $(tr).find('input#order_order_items_attributes__id').attr('value');
+    var form = $(this).closest('form');
+    tr.remove();
     update_total();
+    if (id) {
+      form.append("<input type='hidden' name='order[order_items_attributes][][id]' value='"+id+"'");
+      form.append("<input type='hidden' name='order[order_items_attributes][][_delete]' value='true'");
+    }
   });
 
 });    
@@ -88,10 +95,9 @@ function add_to_order() {
   order_items.append("<tr><td>"+ quantity +
                     "<input type='hidden' name='order[order_items_attributes][][quantity]' value='"+quantity+"'>"+   
                     "<input type='hidden' name='order[order_items_attributes][][menu_item_id]' value='"+menu_item.id+"'>"+                    
-                    "<input type='hidden' name='order[order_items_attributes][][price_in_cents]' value='"+cost(menu_item)*100+"'>"+
                     (flavour_id() ? ("<input type='hidden' name='order[order_items_attributes][][flavour_id]' value='"+flavour_id()+"'>") : "")+   
                     (size_id() ? ("<input type='hidden' name='order[order_items_attributes][][size_id]' value='"+size_id()+"'>") : "")+   
-                    "</td><td>"+description(menu_item)+"<input type='hidden' name='order[order_items_attributes][][description]' value='"+description(menu_item)+"'>"+
+                    "</td><td>"+description(menu_item)+
                     "</td><td>" +(notes ?
                       "<img href='/images/notes.png' alt='"+notes+"'" +
                       "<input type='hidden' name='order[order_items_attributes][][notes]' value='"+notes+"'>"

@@ -31,7 +31,8 @@ ActionController::Routing::Routes.draw do |map|
         :create => :put,
         :pay_in_shop => :put,
         :pay_paypal => :put,
-        :invite=>:get
+        :invite=>:get,
+        :confirm => :put
         } do |orders|
       orders.resources :order_items, :member=>{:make=>:put}
     end

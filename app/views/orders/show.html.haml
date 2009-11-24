@@ -1,14 +1,21 @@
 -shop = @order.shop 
 
 -content_for :aside do
-  =link_to "Offer Friends", invite_order_path(@order)
-  %table
-    %thead
-      %tr
-        %th Friend
-        %th Status
-    != render :partial => 'child_order', :collection=>@order.child_orders
-
+  -if @order.can_send_invites?
+    =link_to "Offer Friends", invite_order_path(@order)
+  -unless @order.child_orders.empty?
+    %table
+      %thead
+        %tr
+          %th Friend
+          %th Status
+      != render :partial => 'child_order', :collection=>@order.child_orders
+  -else
+    -if @order.can_send_invites?
+      See if your friends or co-workers want anything from #{@order.shop}.
+    -else
+      This order will be collected from #{@order.parent.shop} by #{@order.user}.
+  
 
 -content_for :content_header do
   = render :partial => 'shops/page_header', :locals=>{:shop=>shop}
@@ -16,13 +23,16 @@
 .no-print
   -if @order.pending?
     =link_to "&lt;&lt; Change", edit_order_path(@order)
+    
+    -if @order.is_child?
+      =link_to "Confirm Order", confirm_order_path(@order), :method=>:put
+    -else
+      -if shop.accepts_in_shop_payments?
+        =link_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put
+        %br
 
-    -if shop.accepts_in_shop_payments?
-      =link_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put
-      %br
-
-    -if shop.accepts_paypal_payments?
-      =link_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
+      -if shop.accepts_paypal_payments?
+        =link_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
 
   -elsif @order.printed?
     =link_to_function "Click here to print", "window.print();"                

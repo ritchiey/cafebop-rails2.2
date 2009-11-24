@@ -41,7 +41,7 @@ class OrderTest < ActiveSupport::TestCase
       class << @order.shop
         def queues_in_shop_payments?() false; end
       end
-      @order.send 'confirm!'
+      @order.send 'print_or_queue!'
       assert @order.printed?
       @order.order_items.each {|item| assert item.printed?}
     end
@@ -57,7 +57,7 @@ class OrderTest < ActiveSupport::TestCase
       context "when queued" do
         setup do
           @order.order_items.each {|item| assert item.pending?}
-          @order.send 'confirm!'
+          @order.send 'print_or_queue!'
           assert @order.queued?
         end
     

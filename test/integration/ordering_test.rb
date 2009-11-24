@@ -40,17 +40,32 @@ class OrderingTest < ActionController::IntegrationTest
             logout
           end
 
-          should "allow them to accept once only" do
-            @invite_email.body =~ /(http:.*) - Show me the menu/
-            accept_url = $1
-            visit accept_url
-            assert_logged_in_as @invited
-            assert_contain 'Your Order'
-            logout
-            visit accept_url
-            assert_logged_out
-            assert_contain 'Sorry, you can only accept an invitation once'
+          context "who accepts the invitation" do
+            setup do
+              @invite_email.body =~ /(http:.*) - Show me the menu/
+              @accept_url = $1
+              visit @accept_url
+              assert_logged_in_as @invited
+              assert_contain 'Your Order'
+            end
+
+
+            should "not be allowed to accept it again" do
+              logout
+              visit @accept_url
+              assert_logged_out
+              assert_contain 'Sorry, you can only accept an invitation once'
+            end
+
+            should_eventually "be able to edit and confirm their order" do
+              add_to_last_order
+              click_link "Confirm Order"
+              assert_contain "Your order will be collected from #{@order.shop} by #{@order.user}."
+            end
+
           end
+          
+
           
           should "allow them to decline once only" do
             @invite_email.body =~ /(http:.*) - Not this time thanks/

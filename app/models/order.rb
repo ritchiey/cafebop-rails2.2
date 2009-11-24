@@ -21,14 +21,28 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
   def invited_user_attributes=(attrs)
-    invitees = User.find(attrs)
-    invitees.each do |invitee|
-      #TODO: Drop unless user is a friend of the owner of this order
-      #Ignore if we've already invited them
-      next if invited_users.include? invitee
-      invite invitee
+    if can_send_invites?
+      invitees = User.find(attrs)
+      invitees.each do |invitee|
+        #TODO: Drop unless user is a friend of the owner of this order
+        #Ignore if we've already invited them
+        next if invited_users.include? invitee
+        invite invitee
+      end
     end
+  end                   
+                
+  # Can only send invites if not a child order
+  def can_send_invites?
+    !is_child?
   end
+
+  def is_child?
+    self.parent
+  end
+
+
+
 
   def invite invitee
     Order.invite!(:parent=>self, :user=>invitee).tap do |child_order|
@@ -48,7 +62,8 @@ class Order < ActiveRecord::Base
   # State related methods
   def pending?() state == 'pending'; end  
   def invited?()   state == 'invited'; end  
-  def declined?()   state == 'declined'; end
+  def declined?()   state == 'declined'; end  
+  def confirmed?()  state == 'confirmed'; end
   def pending_paypal_auth?() state == 'pending_paypal_auth'; end  
   def printed?()   state == 'printed'; end  
   def queued?()   state == 'queued'; end  
@@ -79,10 +94,16 @@ class Order < ActiveRecord::Base
       save!
     end
   end
-
+      
+  def confirm!
+    if pending? && is_child?
+      self.state = 'confirmed'
+    end
+  end
+  
   def pay_in_shop! 
     if shop.accepts_in_shop_payments?
-      confirm!
+      print_or_queue!
     else
       raise "Shop doesn't accept in-shop payment"
     end
@@ -104,7 +125,7 @@ class Order < ActiveRecord::Base
   # End state related methods
 private
 
-  def confirm!
+  def print_or_queue!
     if pending?
       if shop.queues_in_shop_payments?
         order_items.each {|item| item.queue!}

@@ -102,5 +102,11 @@ class OrdersController < ApplicationController
     redirect_to root_path
   end
 
+  def confirm
+    @order = Order.find(params[:id])
+    @order.confirm!
+    @order.save
+    redirect_to @order  end
+
 end
 

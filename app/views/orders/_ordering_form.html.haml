@@ -18,7 +18,7 @@
 
 -content_for :aside do        
   %h3 Your Order
-  -semantic_form_for order do |form|
+  -form_for order do |form|
     %table
       %thead
         %tr
@@ -29,36 +29,36 @@
           %th
 
       %tbody#order_items        
-        -form.semantic_fields_for :order_items, :name => "Items" do |item_form|
-          -if item_form.object
-            %tr
-              %td
-                =h item_form.object.quantity
-                = item_form.input :quantity, :as => :hidden
-                = item_form.input :price_in_cents, :as => :hidden
-                = item_form.input :description, :as => :hidden
-                = item_form.input :menu_item_id, :as => :hidden
-                = item_form.input :flavour_id, :as => :hidden
-                = item_form.input :size_id, :as => :hidden
-              %td
-                =h item_form.object.description
-              %td.notes
-                =h form.object.notes
-              %td.cost
-                =h item_form.object.cost
-              %td.remove
-          -else
-            %tr
-              %td
+        -@order.order_items.each do |order_item|
+          -fields_for "order[order_items_attributes][]", order_item, :index=>nil do |item_form|
+            -if item_form.object
+              %tr
+                %td
+                  =h item_form.object.quantity
+                  = item_form.hidden_field :id, :index=>nil
+                  = item_form.hidden_field :quantity
+                  = item_form.hidden_field :menu_item_id
+                  = item_form.hidden_field :flavour_id
+                  = item_form.hidden_field :size_id
+                %td
+                  =h item_form.object.description
+                %td.notes
+                  =h form.object.notes
+                %td.cost
+                  =h item_form.object.cost
+                %td.remove
+                  x
+            -else
+              %tr
+                %td
           
       %tfoot
         %tr
           %td(colspan="3") Total
           -#FIXME calculate the total in edit view
           %td#total 0.00
-    - form.buttons do
-      = form.commit_button #'Save changes'
-      != render :partial => 'price_warning'
+    =submit_tag "Save Changes"
+    != render :partial => 'price_warning'
         
 
 .hidden

@@ -38,6 +38,17 @@ class ActionController::IntegrationTest
       'order[order_items_attributes][][notes]' => 'from integration test'
     Order.last # TODO: this could be more robust
   end
+
+  def add_to_last_order options={}
+    menu_item = options[:for] || MenuItem.make
+    quantity = options[:quantity] || 1
+    Order.last.tap do |order|
+      visit order_url(order), :put,
+        'order[order_items_attributes][][quantity]' => '1',
+        'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
+        'order[order_items_attributes][][notes]' => 'added to existing order'
+    end
+  end
   
   def add_friend email
     visit root_path

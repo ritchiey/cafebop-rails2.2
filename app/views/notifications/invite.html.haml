@@ -1,14 +1,13 @@
-:markdown
-  #{h @parent.user} is going to #{h @parent.shop}
-  and can bring you something back.
+:plain
+  #{h @parent.user} is going to #{h @parent.shop} and can bring you something back.
 
-  If you'd like to take up the offer, click here:
+  If you'd like to take up the offer, go here:
 
   #{@accept_url} - Show me the menu
 
-  if not, click here
+  if not, go here:
 
   #{@decline_url} - Not this time thanks
 
   This message was sent on behalf of #{h @parent.user} by the Cafebop social
-  food ordering system at #{APPLICATION_DOMAIN}
+  food ordering system at http://#{APPLICATION_DOMAIN}

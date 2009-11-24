@@ -15,6 +15,9 @@ class OrderItem < ActiveRecord::Base
   belongs_to :menu_item
   belongs_to :size
   belongs_to :flavour
+  
+  attr_accessible :quantity, :notes, :menu_item, :size, :flavour,
+                  :menu_item_id, :size_id, :flavour_id
 
   before_validation_on_create :set_values_from_menu_item
 
