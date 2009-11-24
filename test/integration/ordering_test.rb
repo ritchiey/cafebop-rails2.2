@@ -25,26 +25,45 @@ class OrderingTest < ActionController::IntegrationTest
           @order.reload
           assert_equal @user, @order.user
         end
+        
       
-        should "be able to invite others and have them accept" do
-          click_link "Offer Friends"
-          @user.friends.each {|friend| uncheck("invite_user_#{friend.id}")}
-          check "invite_user_#{@user.friends.last.id}"
-          click_button 'Send Invites'
-          invite_email = ActionMailer::Base.deliveries.last
-          assert_match /#{@user} is going to #{@order.shop} and can bring you something back/, invite_email.body
-          invite_email.body =~ /(http:.*) - Show me the menu/
-          accept_url = $1
-          logout
-          visit accept_url
-          assert_logged_in_as @user.friends.last
-          assert_contain 'Your Order'
+        context "invites a friend" do
+          setup do
+            @invited = @user.friends.last
+            assert_not_nil @invited
+            click_link "Offer Friends"
+            @user.friends.each {|friend| uncheck("invite_user_#{friend.id}")}
+            check "invite_user_#{@invited.id}"
+            click_button 'Send Invites'
+            @invite_email = ActionMailer::Base.deliveries.last
+            assert_match /#{@user} is going to #{@order.shop} and can bring you something back/, @invite_email.body
+            logout
+          end
+
+          should "allow them to accept once only" do
+            @invite_email.body =~ /(http:.*) - Show me the menu/
+            accept_url = $1
+            visit accept_url
+            assert_logged_in_as @invited
+            assert_contain 'Your Order'
+            logout
+            visit accept_url
+            assert_logged_out
+            assert_contain 'Sorry, you can only accept an invitation once'
+          end
           
-          #http://cafebop.com/orders/decline - Not this time thanks
+          should "allow them to decline once only" do
+            @invite_email.body =~ /(http:.*) - Not this time thanks/
+            visit(decline_url=$1)
+            assert_logged_in_as @invited   
+            assert_contain 'Maybe next time'
+            logout
+            visit decline_url
+            assert_logged_out
+            assert_contain 'Maybe next time'
+          end
           
         end
-
-        
         
       end
       

@@ -16,6 +16,11 @@ class ActionController::IntegrationTest
     assert_contain "Logout"
     assert_contain "Logged in as #{user}"
   end     
+
+  def assert_logged_out
+    assert_not_contain "Logged in as"
+    assert_contain "Login"  
+  end                    
   
   def logout
     click_link "Logout"

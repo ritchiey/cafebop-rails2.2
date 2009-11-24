@@ -77,17 +77,27 @@ class OrdersController < ApplicationController
   # Accept an invite that we were sent
   def accept
     @order = Order.find_by_perishable_token(params[:token])
-    # authenticate the user
-    login_as @order.user
-    @order.accept!
-    redirect_to edit_order_path(@order)
+    if @order.invited?
+      # authenticate the user
+      login_as @order.user
+      @order.accept!
+      redirect_to edit_order_path(@order)
+    elsif @order.declined?
+      flash[:notice] = "Sorry, you already declined that invitation"
+      redirect_to root_path
+    else
+      flash[:notice] = "Sorry, you can only accept an invitation once"
+      redirect_to root_path
+    end
   end
 
   # Decline an invite that we were sent
   def decline
     @order = Order.find_by_perishable_token(params[:token])
-    login_as @order.user
-    @order.decline!
+    if @order.invited?
+      login_as @order.user
+      @order.decline!
+    end
     flash[:notice] = "Thanks for letting us know. Maybe next time."
     redirect_to root_path
   end
