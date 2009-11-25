@@ -15,6 +15,7 @@ function showControlsAsNeeded() {
 
 var dialog, quantity_field, size_field, notes_field, details_field, order_items, total;
 
+
 $(function() { // page ready   
 	jQuery(".hjq-accordion").accordion(); 
 	          

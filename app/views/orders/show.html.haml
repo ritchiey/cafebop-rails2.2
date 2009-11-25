@@ -15,6 +15,7 @@
       See if your friends or co-workers want anything from #{@order.shop}.
     -else
       This order will be collected from #{@order.parent.shop} by #{@order.user}.
+  != render :partial => 'close_time_counter'
   
 
 -content_for :content_header do

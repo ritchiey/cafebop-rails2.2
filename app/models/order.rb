@@ -6,6 +6,7 @@ class Order < ActiveRecord::Base
     notes :text    
     state :string, :default=>'pending'
     perishable_token :string
+    close_time :datetime
     timestamps
   end
 
@@ -17,7 +18,15 @@ class Order < ActiveRecord::Base
   has_many :invited_users, :through => :child_orders, :source => :user
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
   belongs_to :parent, :class_name=>'Order'
-
+  
+  def minutes_til_close=(period)
+    self[:close_time] = period.to_i.minutes.from_now
+  end
+  
+  def minutes_til_close
+    10
+  end
+    
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
   def invited_user_attributes=(attrs)

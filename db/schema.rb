@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091119075417) do
+ActiveRecord::Schema.define(:version => 20091125035445) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20091119075417) do
     t.integer  "parent_id"
     t.string   "state",            :default => "pending"
     t.string   "perishable_token"
+    t.datetime "close_time"
   end
 
   create_table "service_areas", :force => true do |t|

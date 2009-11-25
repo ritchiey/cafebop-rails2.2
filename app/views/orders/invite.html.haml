@@ -1,7 +1,11 @@
 %h3
 
 -if current_user
-  -form_for @order do |f|
+  -semantic_form_for @order do |f|
+    -if @order.close_time
+      Timer will appear here
+    -else
+      =f.input :minutes_til_close, :as=>:select, :collection=>[5, 10, 15, 20, 25, 30, 45, 60]
     %table
       %thead
         %tr
