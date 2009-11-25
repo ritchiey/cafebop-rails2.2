@@ -26,6 +26,18 @@ class Order < ActiveRecord::Base
   def minutes_til_close
     10
   end
+  
+  def close_time
+    is_child? ? parent.close_time : self[:close_time]
+  end
+  
+  def closed?
+    Time.now >= close_time
+  end
+  
+  def waiting_for_close?
+    close_time and !closed?
+  end
     
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   

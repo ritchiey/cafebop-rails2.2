@@ -306,6 +306,7 @@ $('#'+item+'-list').sortable(
   })                    
 }
 
-
-
-
+function order_timer_expired() {
+  $('.order-closed').show("slow");   
+  $('.order-closed').removeAttr('disabled')
+}

@@ -2,10 +2,6 @@
 
 -if current_user
   -semantic_form_for @order do |f|
-    -if @order.close_time
-      Timer will appear here
-    -else
-      =f.input :minutes_til_close, :as=>:select, :collection=>[5, 10, 15, 20, 25, 30, 45, 60]
     %table
       %thead
         %tr
@@ -16,6 +12,11 @@
           %tr
             %td=check_box_tag "order[invited_user_attributes][]", friend.id, true, :id=>"invite_user_#{friend.id}" 
             %td=h friend.email
+    -if @order.close_time
+      != render :partial => 'close_time_counter'
+    -else
+      =f.input :minutes_til_close, :as=>:select, :collection=>[5, 10, 15, 20, 25, 30, 45, 60]
+            
     =submit_tag "Send Invites"
 -else
   No user associated with order

@@ -1,11 +1,18 @@
 -if @order and @order.close_time
-  #close_time_countdown
-  :javascript
-    $(function() { // page ready
-    	jQuery("#close_time_countdown").countdown({
-    	  until: new Date('#{@order.close_time.strftime("%B %d, %Y %I:%M:%S %p %Z")}'),
-    	  format: 'dhmS',
-        description: 'Until order closes',
-        expiryText: 'Order is now closed'
-    	  });
-    }); 
+  .order_close_time
+    -if @order.closed?
+      .closed-message
+        Order is now closed
+    -else
+      #close_time_countdown
+      :javascript
+        order_close_time = new Date('#{@order.close_time.strftime("%B %d, %Y %I:%M:%S %p %Z")}');
+        $(function() { // page ready
+        	jQuery("#close_time_countdown").countdown({
+        	  until: order_close_time,
+        	  format: 'dhmS',
+            description: 'Until order closes',
+            expiryText: 'Order is now closed',
+            onExpiry: order_timer_expired
+        	  });
+        }); 

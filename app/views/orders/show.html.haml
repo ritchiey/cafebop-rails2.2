@@ -2,7 +2,7 @@
 
 -content_for :aside do
   -if @order.can_send_invites?
-    =link_to "Offer Friends", invite_order_path(@order)
+    =button_to "Offer Friends", invite_order_path(@order), :method=>:get
   -unless @order.child_orders.empty?
     %table
       %thead
@@ -23,20 +23,20 @@
 
 .no-print
   -if @order.pending?
-    =link_to "&lt;&lt; Change", edit_order_path(@order)
+    =button_to "&lt;&lt; Change", edit_order_path(@order), :method=>:get
     
     -if @order.is_child?
-      =link_to "Confirm Order", confirm_order_path(@order), :method=>:put
+      =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
     -else
       -if shop.accepts_in_shop_payments?
-        =link_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put
+        =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
         %br
 
       -if shop.accepts_paypal_payments?
-        =link_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
+        =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
 
   -elsif @order.printed?
-    =link_to_function "Click here to print", "window.print();"                
+    =button_to_function "Click here to print", "window.print();"                
     =link_to 'Home', root_path
     
   -elsif @order.queued?
