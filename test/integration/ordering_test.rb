@@ -31,7 +31,7 @@ class OrderingTest < ActionController::IntegrationTest
           setup do
             @invited = @user.friends.last
             assert_not_nil @invited
-            click_link "Offer Friends"
+            click_button "Offer Friends"
             @user.friends.each {|friend| uncheck("invite_user_#{friend.id}")}
             check "invite_user_#{@invited.id}"
             click_button 'Send Invites'

@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   has_many :friends, :through=>:friendships, :source=>:friend
   has_many :fanships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :fans, :through=>:fanships, :source=>:user
+  
+  named_scope :email_in, lambda {|emails| {:conditions=>{:email=>emails}}}
 
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/io, :on => :create
   validates_uniqueness_of :email

@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
   belongs_to :parent, :class_name=>'Order'
   
+
   def minutes_til_close=(period)
     self[:close_time] = period.to_i.minutes.from_now
   end
@@ -41,9 +42,10 @@ class Order < ActiveRecord::Base
     
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
-  def invited_user_attributes=(attrs)
-    if can_send_invites?
-      invitees = User.find(attrs)
+  def invited_user_attributes=(emails)
+    if can_send_invites?                  
+#      debugger
+      invitees = User.email_in(emails).all
       invitees.each do |invitee|
         #TODO: Drop unless user is a friend of the owner of this order
         #Ignore if we've already invited them

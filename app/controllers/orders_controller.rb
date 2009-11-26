@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
     @shop = Shop.find(params[:shop_id])
     if @shop and params[:order]
       logger.info "Creating order for user '#{current_user}'"
-      @order = @shop.orders.build(params[:order].merge(:user_id=>current_user.id))
+      @order = @shop.orders.build(params[:order].merge(:user_id=>current_user.andand.id))
       if @order.save
         logger.info "Created order for user '#{@order.user}'"
         redirect_to order_path(@order)

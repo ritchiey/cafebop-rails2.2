@@ -104,13 +104,15 @@ class OrderTest < ActiveSupport::TestCase
 
       should "not be able to invite the same user again" do
         assert_no_difference "Order.count" do
-          @order.update_attributes :invited_user_attributes=>[@other_user.id]
+          @order.update_attributes :invited_user_attributes=>[@other_user.email]
         end
       end
       
       should "be able to invite an exising user" do
-        assert_difference "Order.count", 1 do
-          @order.update_attributes :invited_user_attributes=>[User.make.id]
+        assert_difference "Order.count", 1 do                      
+          email = User.make.email
+          assert_not_nil email
+          @order.update_attributes :invited_user_attributes=>[email]
         end
       end           
       

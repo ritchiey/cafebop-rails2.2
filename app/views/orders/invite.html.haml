@@ -10,7 +10,7 @@
       %tbody
         -current_user.friends.each do |friend|
           %tr
-            %td=check_box_tag "order[invited_user_attributes][]", friend.id, true, :id=>"invite_user_#{friend.id}" 
+            %td=check_box_tag "order[invited_user_attributes][]", friend.email, true, :id=>"invite_user_#{friend.id}" 
             %td=h friend.email
     -if @order.close_time
       != render :partial => 'close_time_counter'
@@ -19,4 +19,8 @@
             
     =submit_tag "Send Invites"
 -else
-  No user associated with order
+  -semantic_form_for UserSession.new do |f|
+    -f.inputs do
+      =f.input :email, :hint=>'To invite others, we need your email address'
+      =f.input :password, :as=>:password
+      =f.buttons
