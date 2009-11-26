@@ -41,7 +41,18 @@ class OrdersController < ApplicationController
   end
   
   def update
+    # Allow user to login here if they want
+    if params[:user_session]
+      @user_session = UserSession.new(params[:user_session])
+      unless @user_session.save
+        flash[:error] = "Invalid email or password"
+      end
+      redirect_to :back
+      return
+    end
+    # Actual order form processing
     @order = Order.find(params[:id])
+    @order.user ||= current_user
     if @order.update_attributes(params[:order])
       redirect_to order_path(@order)
     else

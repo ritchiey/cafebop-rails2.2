@@ -44,14 +44,8 @@ class Order < ActiveRecord::Base
   
   def invited_user_attributes=(emails)
     if can_send_invites?                  
-#      debugger
-      invitees = User.email_in(emails).all
-      invitees.each do |invitee|
-        #TODO: Drop unless user is a friend of the owner of this order
-        #Ignore if we've already invited them
-        next if invited_users.include? invitee
-        invite invitee
-      end
+      invitees = User.for_emails(emails)
+      invitees.each {|user| invite(user) unless invited_users.include?(user)}
     end
   end                   
                 
@@ -63,9 +57,6 @@ class Order < ActiveRecord::Base
   def is_child?
     self.parent
   end
-
-
-
 
   def invite invitee
     Order.invite!(:parent=>self, :user=>invitee).tap do |child_order|

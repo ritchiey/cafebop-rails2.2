@@ -59,4 +59,8 @@ class User < ActiveRecord::Base
       :total => count
     }
   end
+  
+  def self.for_emails(emails)
+    emails.map {|email| find_or_create_by_email(email)}.reject {|user| !user}
+  end
 end

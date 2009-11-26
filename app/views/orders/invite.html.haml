@@ -1,26 +1,27 @@
 %h3
 
--if current_user
-  -semantic_form_for @order do |f|
+-semantic_form_for @order do |f|    
+  -unless current_user
+    -semantic_fields_for UserSession.new do |uf|
+      -uf.inputs do
+        =uf.input :email, :label=>"Your email", :hint=>'To invite others, we need your email address'
+        =uf.input :password, :as=>:password, :hint=>"If you don't have a password or don't know it, leave this blank."
+        =submit_tag "Continue"
+  -else
     %table
       %thead
         %tr
           %th Offer
           %th Email
       %tbody
-        -current_user.friends.each do |friend|
-          %tr
-            %td=check_box_tag "order[invited_user_attributes][]", friend.email, true, :id=>"invite_user_#{friend.id}" 
-            %td=h friend.email
+        -if current_user
+          -current_user.friends.each do |friend|
+            %tr
+              %td=check_box_tag "order[invited_user_attributes][]", friend.email, true, :id=>"invite_user_#{friend.id}" 
+              %td=h friend.email
     -if @order.close_time
       != render :partial => 'close_time_counter'
     -else
-      =f.input :minutes_til_close, :as=>:select, :collection=>[5, 10, 15, 20, 25, 30, 45, 60]
-            
+      =f.input :minutes_til_close, :as=>:select, :collection=>[5, 10, 15, 20, 25, 30, 45, 60], :include_blank=>false, :hint=>"How long before you go"
+          
     =submit_tag "Send Invites"
--else
-  -semantic_form_for UserSession.new do |f|
-    -f.inputs do
-      =f.input :email, :hint=>'To invite others, we need your email address'
-      =f.input :password, :as=>:password
-      =f.buttons

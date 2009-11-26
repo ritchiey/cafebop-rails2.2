@@ -85,4 +85,26 @@ class OrderingTest < ActionController::IntegrationTest
     end
     
   end
+  
+  
+  
+  context "An anonymous user who places an order" do
+    setup do
+      @password = 'heehaw!!'
+      @user = User.make(:password=>@password, :password_confirmation=>@password)
+      visit root_path
+      @order = place_order
+      assert_contain "Offer Friends"
+#      save_and_open_page
+    end
+
+    should_eventually "be able to enter login as an existing user on the invite others screen" do
+      click_button "Offer Friends"
+      fill_in "user_session_email", :with=>@user.email
+      fill_in "user_session_password", :with=>@password
+      click_button "Send Invites"
+    end
+    
+  end
+  
 end
