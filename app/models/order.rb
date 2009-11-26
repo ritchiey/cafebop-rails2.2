@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
   belongs_to :parent, :class_name=>'Order'
   
+  named_scope :current, :conditions=>{:state=>%w/invited pending queued pending_paypal_auth/}
 
   def minutes_til_close=(period)
     self[:close_time] = period.to_i.minutes.from_now
@@ -47,7 +48,14 @@ class Order < ActiveRecord::Base
       invitees = User.for_emails(emails)
       invitees.each {|user| invite(user) unless invited_users.include?(user)}
     end
-  end                   
+  end                       
+        
+  def set_user user
+    unless self.user
+      self.user = user
+      save
+    end
+  end
                 
   # Can only send invites if not a child order
   def can_send_invites?
@@ -57,10 +65,16 @@ class Order < ActiveRecord::Base
   def is_child?
     self.parent
   end
+  
+  def originator
+    (is_child? ? parent.user : self.user) || "unknown"
+  end
 
   def invite invitee
-    Order.invite!(:parent=>self, :user=>invitee).tap do |child_order|
-      child_orders << child_order
+    if can_send_invites?
+      Order.invite!(:parent=>self, :user=>invitee).tap do |child_order|
+        child_orders << child_order
+      end
     end
   end
 

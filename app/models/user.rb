@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   has_many :friends, :through=>:friendships, :source=>:friend
   has_many :fanships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :fans, :through=>:fanships, :source=>:user
+  has_many :orders
   
   named_scope :email_in, lambda {|emails| {:conditions=>{:email=>emails}}}
 
@@ -44,6 +45,11 @@ class User < ActiveRecord::Base
   def activate!
     self.active = true
     save
+  end
+  
+  def self.create_without_password(params)
+    p = "2jljl23jlklj$%kkjhkjhk"
+    self.create params.merge(:password=>p, :password_confirmation=>p)
   end
   
   def can_review_claims?() is_cafebop_admin?; end

@@ -1,13 +1,16 @@
 OrderObserver.instance
+UserObserver.instance
 
 class OrdersController < ApplicationController
+
+  before_filter :order_from_id, :except=>[:index, :new, :create, :accept, :decline]
+  before_filter :login_transparently, :only => [:update]
 
   def index
     @orders = Order.find :all
   end
 
   def show
-    @order = Order.find(params[:id])
     @shop = @order.shop
   end
 
@@ -36,22 +39,10 @@ class OrdersController < ApplicationController
   end
 
   def edit
-    @order = Order.find(params[:id])
     @shop = @order.shop
   end
   
   def update
-    # Allow user to login here if they want
-    if params[:user_session]
-      @user_session = UserSession.new(params[:user_session])
-      unless @user_session.save
-        flash[:error] = "Invalid email or password"
-      end
-      redirect_to :back
-      return
-    end
-    # Actual order form processing
-    @order = Order.find(params[:id])
     @order.user ||= current_user
     if @order.update_attributes(params[:order])
       redirect_to order_path(@order)
@@ -62,27 +53,23 @@ class OrdersController < ApplicationController
   end  
 
   def pay_in_shop
-    @order = Order.find(params[:id])
     @order.pay_in_shop!
     @order.save
     redirect_to @order
   end
 
   def summary
-    @order = Order.find(params[:id])
     render :partial=>'summary'
   end
 
   # Authorize payment through Paypal
   def pay_paypal
-    @order = Order.find(params[:id])
     @order.request_paypal_authorization!
     #TODO: Redirect appropriately to Paypal
   end
 
   # Display the invitation form to invite others
   def invite
-    @order = Order.find(params[:id])
   end
 
   # Accept an invite that we were sent
@@ -114,10 +101,42 @@ class OrdersController < ApplicationController
   end
 
   def confirm
-    @order = Order.find(params[:id])
     @order.confirm!
     @order.save
-    redirect_to @order  end
+    redirect_to @order
+  end
 
+
+private
+
+  def order_from_id
+    @order = Order.find(params[:id])
+  end
+  
+  def login_transparently
+    if params[:user_session]
+      email = params[:user_session][:email] 
+      user = User.email_is(email).first
+      if user
+        if user.active?
+          @user_session = UserSession.new(params[:user_session])
+          if @user_session.save
+            @order.andand.set_user(user)
+          else
+            flash[:error] = "Invalid email or password"
+          end
+        else # exists but not active
+          Notifications.deliver_activate(user)
+          flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
+          @order.andand.set_user(user)
+        end
+      else # new user
+        user = User.create_without_password(:email=>email)
+        flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
+        @order.andand.set_user(user)
+      end
+      redirect_to :back
+    end
+  end
 end
 
