@@ -1,0 +1,6 @@
+%tr
+  %td=h order_item.quantity
+  %td=h order_item.description
+  %td=h order_item.notes
+  %td=h number_to_currency(order_item.cost)
+  %td=(@order.printed? ? check_box_tag('x') : order_item.state)

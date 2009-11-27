@@ -8,18 +8,13 @@
       %th Status
 
   %tbody#order_items
-    -@order.order_items.each do |item|
-      %tr
-        %td=h item.quantity
-        %td=h item.description
-        %td=h item.notes
-        %td=h number_to_currency(item.cost)
-        %td=(@order.printed? ? check_box_tag('x') : item.state)
-
+    != render :partial => 'summary_rows', :object=>@order
+    != render :partial => 'summary_rows', :collection=>@order.child_orders, :spacer_template=>'empty_row'
+    
   %tfoot
     %tr
       %td(colspan="3") Total
-      %td=h number_to_currency(@order.total)
+      %td=h number_to_currency(@order.grand_total)
                                       
 -unless @order.state == "printed"
   =h "Order status: #{@order.state}"    

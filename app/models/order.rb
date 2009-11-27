@@ -38,7 +38,11 @@ class Order < ActiveRecord::Base
   end
   
   def waiting_for_close?
-    close_time and !closed?
+    close_timer_started? and !closed?
+  end     
+  
+  def close_timer_started?
+    close_time
   end
     
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
@@ -59,11 +63,25 @@ class Order < ActiveRecord::Base
                 
   # Can only send invites if not a child order
   def can_send_invites?
-    !is_child?
+    !is_child? and !close_timer_started?
   end
 
   def is_child?
     self.parent
+  end                 
+  
+  def is_parent?
+    !self.child_orders.empty?
+  end
+  
+  def is_in_group?
+    is_child? or is_parent?
+  end
+  
+  def can_confirm?
+    return false unless pending?
+    return true if is_child?
+    !waiting_for_close?
   end
   
   def originator
@@ -80,6 +98,11 @@ class Order < ActiveRecord::Base
 
   def total
     order_items.inject(0) {|sum, item| sum + item.cost}
+  end
+  
+  def grand_total
+    total +
+    child_order_items.inject(0) {|sum, item| sum + item.cost}
   end
     
   # Called by an order_item of this order when its state changes to made

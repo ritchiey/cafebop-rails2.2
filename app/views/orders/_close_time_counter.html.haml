@@ -2,7 +2,7 @@
   .order_close_time
     -if @order.closed?
       .closed-message
-        Order is now closed
+        Order is closing
     -else
       #close_time_countdown
       :javascript
@@ -12,7 +12,7 @@
         	  until: order_close_time,
         	  format: 'dhmS',
             description: 'Until order closes',
-            expiryText: 'Order is now closed',
+            expiryText: 'Order is closing',
             onExpiry: order_timer_expired
         	  });
         }); 

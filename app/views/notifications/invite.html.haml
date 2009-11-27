@@ -1,5 +1,5 @@
 :plain
-  #{h @parent.user} is going to #{h @parent.shop} and can bring you something back.
+  #{h @parent.user} is going to #{h @parent.shop} in about #{h @parent.minutes_til_close} minutes and can bring you something back.
 
   If you'd like to take up the offer, go here:
 
@@ -11,3 +11,5 @@
 
   This message was sent on behalf of #{h @parent.user} by the Cafebop social
   food ordering system at http://#{APPLICATION_DOMAIN}
+  
+  If you don't know who #{h @parent.user} is, you can safely ignore this message.

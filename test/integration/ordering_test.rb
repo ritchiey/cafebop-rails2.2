@@ -30,13 +30,14 @@ class OrderingTest < ActionController::IntegrationTest
         context "invites a friend" do
           setup do
             @invited = @user.friends.last
-            assert_not_nil @invited
+            assert_not_nil @invited 
+            assert_have_selector "#offer-friends-button" 
             click_button "Offer Friends"
             @user.friends.each {|friend| uncheck("invite_user_#{friend.id}")}
             check "invite_user_#{@invited.id}"
-            click_button 'Send Invites'
+            click_button 'Continue'
             @invite_email = ActionMailer::Base.deliveries.last
-            assert_match /#{@user} is going to #{@order.shop} and can bring you something back/, @invite_email.body
+            assert_match /#{@user} is going to #{@order.shop} in about 10 minutes and can bring you something back/, @invite_email.body
             logout
           end
 
@@ -94,15 +95,14 @@ class OrderingTest < ActionController::IntegrationTest
       @user = User.make(:password=>@password, :password_confirmation=>@password)
       visit root_path
       @order = place_order
-      assert_contain "Offer Friends"
-#      save_and_open_page
+      assert_have_selector "#offer-friends-button"
     end
 
     should_eventually "be able to enter login as an existing user on the invite others screen" do
       click_button "Offer Friends"
       fill_in "user_session_email", :with=>@user.email
       fill_in "user_session_password", :with=>@password
-      click_button "Send Invites"
+      click_button "Continue"
     end
     
   end

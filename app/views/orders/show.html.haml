@@ -1,21 +1,7 @@
 -shop = @order.shop 
 
 -content_for :aside do
-  -if @order.can_send_invites?
-    =button_to "Offer Friends", invite_order_path(@order), :method=>:get
-  -unless @order.child_orders.empty?
-    %table
-      %thead
-        %tr
-          %th Friend
-          %th Status
-      != render :partial => 'child_order', :collection=>@order.child_orders
-  -else
-    -if @order.can_send_invites?
-      See if your friends or co-workers want anything from #{@order.shop}.
-    -else
-      This order will be collected from #{@order.parent.shop} by #{@order.user}.
-  != render :partial => 'close_time_counter'
+  != render :partial => 'group_order_details'
   
 
 -content_for :content_header do
@@ -29,7 +15,7 @@
       =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
     -else
       -if shop.accepts_in_shop_payments?
-        =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
+        =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>!@order.waiting_for_close?
         %br
 
       -if shop.accepts_paypal_payments?
@@ -44,7 +30,10 @@
     Keep this screen open to watch its progress.
     = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
 
-#order_summary
+#order-summary
   =render :partial=>'summary'   
+
+#friend-order-summary
+  
   
   =render :partial=>'price_warning'

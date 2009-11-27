@@ -3,7 +3,7 @@ class ActionController::IntegrationTest
   def login options={}                     
     password = options[:password] || "bluebell"
     (options[:as] || User.make(:active=>true, :password=>password, :password_confirmation=>password)).tap do |user|
-      visit root_path
+      visit root_url
       click_link 'login'
       fill_in "user_session_email", :with=>user.email
       fill_in "user_session_password", :with=>password
@@ -36,7 +36,7 @@ class ActionController::IntegrationTest
       'order[order_items_attributes][][quantity]' => '1',
       'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
       'order[order_items_attributes][][notes]' => 'from integration test'
-    Order.last # TODO: this could be more robust
+    Order.last # TODO: this could be more robust   
   end
 
   def add_to_last_order options={}

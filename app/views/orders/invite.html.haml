@@ -1,27 +1,34 @@
-%h3
+%h3 Invite Friends
 
--semantic_form_for @order do |f|    
-  -unless current_user
-    -semantic_fields_for UserSession.new do |uf|
-      -uf.inputs do
-        =uf.input :email, :label=>"Your email", :hint=>'To invite others, we need your email address'
-        =uf.input :password, :as=>:password, :hint=>"If you don't have a password or don't know it, leave this blank."
-        =submit_tag "Continue"
-  -else
-    %table
-      %thead
-        %tr
-          %th Offer
-          %th Email
-      %tbody
-        -if current_user
-          -current_user.friends.each do |friend|
-            %tr
-              %td=check_box_tag "order[invited_user_attributes][]", friend.email, true, :id=>"invite_user_#{friend.id}" 
-              %td=h friend.email
-    -if @order.close_time
-      != render :partial => 'close_time_counter'
-    -else
-      =f.input :minutes_til_close, :as=>:select, :collection=>[5, 10, 15, 20, 25, 30, 45, 60], :include_blank=>false, :hint=>"How long before you go"
-          
-    =submit_tag "Send Invites"
+-if !current_user and @email # not logged in but specified email of valid user
+  -semantic_form_for @order do |f|
+    -semantic_fields_for UserSession.new do |uf| 
+      =uf.input :email, :disabled=>true, :value=>@user
+      =uf.input :password, :as=>:password, :hint=>"Your Cafebop password"
+      = submit_tag "Continue"
+-else
+  %p
+    See if you're friends or colleagues want anything while you're there. The email they receive will read:
+
+  -form_for @order do |f|
+    -fields_for UserSession.new do |uf|   
+      .email-message
+        =current_user ? h(current_user) : "#{uf.text_field(:email, :value=>'your email')}" 
+        \ is going to #{h @order.shop} |
+        in about #{f.select :minutes_til_close, [5, 10, 15, 20, 25, 30, 45, 60]} minutes and can bring you something back.
+    -if current_user
+      %table
+        %thead
+          %tr
+            %th Offer
+            %th Email
+        %tbody
+          -if current_user
+            -current_user.friends.each do |friend|
+              %tr
+                %td=check_box_tag "order[invited_user_attributes][]", friend.email, true, :id=>"invite_user_#{friend.id}" 
+                %td=h friend.email
+
+    %p
+      =submit_tag "Continue"    
+      

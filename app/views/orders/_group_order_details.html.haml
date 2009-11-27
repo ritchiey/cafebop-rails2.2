@@ -1,0 +1,15 @@
+-if @order.can_send_invites?
+  =button_to "Offer Friends", invite_order_path(@order), :method=>:get, :id=>'offer-friends-button'
+-unless @order.child_orders.empty?
+  %table
+    %thead
+      %tr
+        %th Friend
+        %th Status
+    != render :partial => 'child_order', :collection=>@order.child_orders
+-else
+  -if @order.can_send_invites?
+    See if your friends or co-workers want anything from #{@order.shop}.
+  -else
+    This order will be collected from #{@order.parent.shop} by #{@order.user}.
+!= render :partial => 'close_time_counter'

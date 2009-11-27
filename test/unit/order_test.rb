@@ -19,6 +19,18 @@ class OrderTest < ActiveSupport::TestCase
       assert @order.order_items.empty?
     end
     
+    should "not be in considered part of a group order" do
+      assert !@order.is_in_group?
+    end                         
+    
+    should "not be a child" do
+      assert !@order.is_child?
+    end                       
+    
+    should "not be a parent" do
+      assert !@order.is_parent?
+    end
+    
   end
   
   context "an order with a few order_items" do
@@ -100,6 +112,15 @@ class OrderTest < ActiveSupport::TestCase
         @order.user = User.make              
         @other_user = User.make
         @child_order = @order.invite(@other_user)
+      end
+
+      should "have respond correctly as parent and child" do
+        assert @order.is_parent?
+        assert !@order.is_child?
+        assert !@child_order.is_parent?
+        assert @child_order.is_child?
+        assert @order.is_in_group?
+        assert @child_order.is_in_group?
       end
 
       should "not be able to invite the same user again" do

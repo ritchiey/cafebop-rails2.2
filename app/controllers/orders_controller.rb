@@ -70,6 +70,7 @@ class OrdersController < ApplicationController
 
   # Display the invitation form to invite others
   def invite
+    @email = session[:email]
   end
 
   # Accept an invite that we were sent
@@ -113,17 +114,21 @@ private
     @order = Order.find(params[:id])
   end
   
-  def login_transparently
-    if params[:user_session]
+  def login_transparently   
+    if !current_user && params[:user_session]
       email = params[:user_session][:email] 
       user = User.email_is(email).first
       if user
         if user.active?
-          @user_session = UserSession.new(params[:user_session])
-          if @user_session.save
-            @order.andand.set_user(user)
-          else
-            flash[:error] = "Invalid email or password"
+          if params[:user_session][:password]
+            @user_session = UserSession.new(params[:user_session])
+            if @user_session.save
+              @order.andand.set_user(user)
+            else
+              flash[:error] = "Invalid email or password"
+            end
+          else # active user but no password specified
+            session[:email] = user.email # the view should detect the email and just ask for the password
           end
         else # exists but not active
           Notifications.deliver_activate(user)
