@@ -46,7 +46,8 @@ $(function() { // page ready
     var tr = $(this).closest('tr');
     var id = $(tr).find('input#order_order_items_attributes__id').attr('value');
     var form = $(this).closest('form');
-    tr.remove();
+    tr.remove();  
+    update_continue_order_button();
     update_total();
     if (id) {
       form.append("<input type='hidden' name='order[order_items_attributes][][id]' value='"+id+"'");
@@ -107,8 +108,17 @@ function add_to_order() {
                     )+"</td>" +
                     "</td><td class='cost'>"+cost(menu_item)+
                     "</td><td class='remove'>x</td></tr>");
+  update_continue_order_button();
   update_total();
 }
+                              
+function update_continue_order_button() {
+  if ($('#order_items .cost').length > 0) {
+    $('#continue-order-button').enable();
+  } else {
+    $('#continue-order-button').disable();
+  }
+}                                  
 
 function selected(select_field_id) {
   return $('#'+select_field_id+' option:selected');

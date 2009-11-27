@@ -28,7 +28,7 @@
           %th Cost($)
           %th
 
-      %tbody#order_items        
+      %tbody#order_items
         -@order.order_items.each do |order_item|
           -fields_for "order[order_items_attributes][]", order_item, :index=>nil do |item_form|
             -if item_form.object
@@ -57,7 +57,7 @@
           %td(colspan="3") Total
           -#FIXME calculate the total in edit view
           %td#total 0.00
-    =submit_tag "Save Changes"
+    =submit_tag "Continue", :disabled=>@order.order_items.empty?, :id=>'continue-order-button'
     != render :partial => 'price_warning'
     != render :partial => 'close_time_counter'
         
