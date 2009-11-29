@@ -1,6 +1,7 @@
 - semantic_form_for @cuisine do |f|
   -f.inputs do
     = f.input :name
+    = f.input :url, :hint=>"To franchises main site or other info about cuisine"
     = f.input :franchise, :hint=>"This is a franchise (eg Subway) rather than a generic cuisine type"
     = f.input :menus, :as=>:check_boxes, :collection=>Menu.generic, :hint=>"Which generic menus are implied by this cuisine"
     = f.buttons

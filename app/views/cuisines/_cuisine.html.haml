@@ -1,5 +1,7 @@
 %tr
-  %td= link_to cuisine.name, cuisine
+  %td
+    = link_to cuisine.name, cuisine
+    = cuisine.url ? link_to("[site]", cuisine.url) : ""
   %td= cuisine.shops.count
   %td= cuisine.menus.count
   %td= link_to 'Edit', edit_cuisine_path(cuisine)
