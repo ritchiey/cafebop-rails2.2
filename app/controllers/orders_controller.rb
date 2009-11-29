@@ -114,7 +114,7 @@ private
     @order = Order.find(params[:id])
   end
   
-  def login_transparently   
+  def login_transparently
     if !current_user && params[:user_session]
       email = params[:user_session][:email] 
       user = User.email_is(email).first

@@ -12,6 +12,11 @@ class ApplicationController < ActionController::Base
 
   protected
   
+  def browser_session
+    @browser_session ||= BrowserSession.new(session)
+  end        
+  helper_method :browser_session
+  
   def login_as user
     UserSession.create(user)
   end
