@@ -44,6 +44,7 @@ class OrdersController < ApplicationController
   end
   
   def update
+    browser_session.record_order_details(params)
     if create_friendship
       redirect_to invite_order_path(@order)
     else
@@ -74,7 +75,8 @@ class OrdersController < ApplicationController
   end
 
   # Display the invitation form to invite others
-  def invite
+  def invite 
+    browser_session.decorate_order(@order)
     @email = session[:email]
   end
 

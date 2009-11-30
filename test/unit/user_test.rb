@@ -53,9 +53,19 @@ class UserTest < ActiveSupport::TestCase
       end
       
     end
-    
-    
+
+    should "be added to the list by for_users alongside a previously non-existent user" do
+      newguy_email = "newguy@cafebop.com"
+      users = nil
+      assert_difference "User.count", 1 do
+        users = User.for_emails([@user.email, newguy_email])
+      end
+      assert_not_nil newguy = User.find_by_email(newguy_email)
+      assert_same_elements [@user, newguy], users
+    end
+
   end
-  
+
+
 
 end

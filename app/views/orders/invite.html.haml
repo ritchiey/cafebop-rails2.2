@@ -23,7 +23,7 @@
           -if current_user
             -current_user.friends.each do |friend|
               %tr
-                %td=check_box_tag "order[invited_user_attributes][]", friend.email, true, :id=>"invite_user_#{friend.id}" 
+                %td=check_box_tag "order[invited_user_attributes][]", friend.email, browser_session.was_invited?(friend), :id=>"invite_user_#{friend.id}" 
                 %td=h friend.email
             -semantic_fields_for current_user.friendships.build do |ff|
               =ff.input :friend_email

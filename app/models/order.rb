@@ -22,11 +22,12 @@ class Order < ActiveRecord::Base
   named_scope :current, :conditions=>{:state=>%w/invited pending queued pending_paypal_auth/}
 
   def minutes_til_close=(period)
+    @minutes_til_close = period
     self[:close_time] = period.to_i.minutes.from_now
   end
   
   def minutes_til_close
-    10
+    @minutes_til_close || 10
   end
   
   def close_time

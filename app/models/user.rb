@@ -47,11 +47,6 @@ class User < ActiveRecord::Base
     save
   end
   
-  def self.create_without_password(params)
-    p = "2jljl23jlklj$%kkjhkjhk"
-    self.create params.merge(:password=>p, :password_confirmation=>p)
-  end
-  
   def can_review_claims?() is_cafebop_admin?; end
   def is_admin?() is_cafebop_admin?; end
 
@@ -67,6 +62,17 @@ class User < ActiveRecord::Base
   end
   
   def self.for_emails(emails)
-    emails.map {|email| find_or_create_by_email(email)}.reject {|user| !user}
+    emails.map {|email| find_or_create_by_email({:email=>email}.merge(dummy_password_attributes))}.reject {|user| !user}
   end
+
+  def self.create_without_password(params)
+    self.create params.merge(dummy_password_attributes)
+  end
+  
+  def self.dummy_password_attributes
+    p = "2jljl23jlklj$%kkjhkjhk"
+    {:password=>p, :password_confirmation=>p}
+  end  
+
+
 end
