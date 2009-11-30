@@ -1,0 +1,11 @@
+-recent_orders = current_user.orders.recent.by_age
+-unless recent_orders.empty?
+  %h4 Recent Orders
+  %table.my-orders
+    %thead
+      %tr
+        %th Date
+        %th Shop
+        %th Originator
+    %tbody
+      !=render :partial=>'orders/current_order', :as=>:order, :collection=>recent_orders

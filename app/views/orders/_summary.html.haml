@@ -9,7 +9,7 @@
 
   %tbody#order_items
     != render :partial => 'summary_rows', :object=>@order
-    != render :partial => 'summary_rows', :collection=>@order.child_orders, :spacer_template=>'empty_row'
+    != render :partial => 'summary_rows', :collection=>@order.child_orders.with_items, :spacer_template=>'empty_row'
     
   %tfoot
     %tr

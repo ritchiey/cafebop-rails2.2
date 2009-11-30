@@ -15,7 +15,7 @@
       =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
     -else
       -if shop.accepts_in_shop_payments?
-        =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>!@order.waiting_for_close?
+        =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
         %br
 
       -if shop.accepts_paypal_payments?

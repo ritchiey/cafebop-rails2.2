@@ -144,6 +144,34 @@ class OrderTest < ActiveSupport::TestCase
     end
     
   end
+
+  context "a couple of orders one with order items" do
+    setup do
+      @order_with_items = Order.make
+      @order_with_items.order_items.make
+      @order_without_items = Order.make
+    end
+
+    should "filter correctly through the with_items named_scope" do
+      assert_same_elements [@order_with_items], Order.with_items.all
+    end
+  end
   
+  context "an old order and a new order" do
+    setup do
+      @new_order = Order.make
+      @old_order = Order.make
+      @old_order.created_at = 1.year.ago
+      @old_order.save
+    end
+
+    should "be correctly distinguished by the recent named_scope" do
+      assert_same_elements [@new_order], Order.recent.all
+    end
+    
+    should "appear in the right order" do
+      assert_equal [@old_order, @new_order], Order.by_age.all
+    end
+  end
   
 end
