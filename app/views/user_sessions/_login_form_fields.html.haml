@@ -1,0 +1,4 @@
+-semantic_fields_for UserSession.new do |uf| 
+  =uf.input :email, :disabled=>true, :value=>@user
+  =uf.input :password, :as=>:password, :hint=>"Your Cafebop password"
+  = submit_tag "Continue"

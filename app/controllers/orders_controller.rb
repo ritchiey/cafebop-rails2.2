@@ -5,6 +5,7 @@ class OrdersController < ApplicationController
 
   before_filter :order_from_id, :except=>[:index, :new, :create, :accept, :decline]
   before_filter :login_transparently, :only => [:update]
+  before_filter :create_friendship, :only=>[:create]
 
   def index
     @orders = Order.find :all
@@ -43,12 +44,16 @@ class OrdersController < ApplicationController
   end
   
   def update
-    @order.user ||= current_user
-    if @order.update_attributes(params[:order])
-      redirect_to order_path(@order)
+    if create_friendship
+      redirect_to invite_order_path(@order)
     else
-      flash[:error] = "Unable to save changes"
-      redirect_to edit_order_path(@order)
+      @order.user ||= current_user
+      if @order.update_attributes(params[:order])
+        redirect_to order_path(@order)
+      else
+        flash[:error] = "Unable to save changes"
+        redirect_to edit_order_path(@order)
+      end
     end
   end  
 
@@ -143,5 +148,19 @@ private
       redirect_to :back
     end
   end
+    
+  
+  def create_friendship
+    if params[:commit] == "Create Friendship"
+      if fp = params[:friendship]
+        current_user.friendships.create(fp)
+      end
+      true
+    else
+      false
+    end
+  end
+  
+  
 end
 
