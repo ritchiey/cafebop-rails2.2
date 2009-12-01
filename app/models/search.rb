@@ -1,6 +1,10 @@
 class Search
   
   attr_reader :term, :lat, :lng, :cuisine
+  
+  def id
+    nil
+  end
 
   def initialize(params={})
     @term = params[:term]

@@ -84,5 +84,8 @@ ActionMailer::Base.smtp_settings = {
    :password => "aafz9ungf",
 }
 
+# Uncomment the line below if you get one of those pesky
+# Object#id deprecated warnings and you want to find it
+#Object.send :undef_method, :id
 
 
