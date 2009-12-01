@@ -60,6 +60,9 @@ thead th {
   border-bottom-width: 1px;
   font-size: 2em; }
 
+.order-form thead th {
+  font-size: 1.5em; }
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
   background: transparent;

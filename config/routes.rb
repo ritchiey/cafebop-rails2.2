@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :menu_templates
   map.activate '/users/activate', :controller => 'users', :action => 'activate'
   map.resources :users do |users|
-    users.resources :friendships
+    users.resources :friendships, :only=>[:new, :create, :destroy]
   end
   map.resources :user_sessions
   map.register '/register', :controller=>:users, :action=>:new

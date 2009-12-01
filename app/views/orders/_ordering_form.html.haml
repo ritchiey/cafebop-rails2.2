@@ -5,7 +5,7 @@
     This shop hasn't published any menus yet. :(
   -else
     -@shop.effective_menus.each do |menu|
-      %h4=h menu.name
+      %h5=h menu.name
       %hr
       -menu.menu_items.each do |menu_item|
         -if menu_item.present_flavours
@@ -17,9 +17,9 @@
     
 
 -content_for :aside do        
-  %h3 Your Order
+  %h5 Your Order
   -form_for order do |form|
-    %table
+    %table.order.order-form
       %thead
         %tr
           %th Qty

@@ -7,18 +7,25 @@
 -# formlet
 -dialog_id = card_for.class.name + card_for.id.to_s
 
-.ordering-card
-  %h4=h card_for.name
-  =h card_for.description
-  -if card_for.respond_to?('flavours')
-    %ul.flavours
-    -card_for.flavours.each do |flavour|
-      %li=h flavour.name
-  -if item.sizes.empty?
-    =h item.price
-  -else
-    - item.sizes.each do |size|
-      =h size.name
-      =h size.price
-  =button_to_function "Add", "popup('#{card_for.ordering_json}')"
-%hr
+.ordering-card.span-15.last
+  .span-10
+    %h6=h card_for.name
+    =h card_for.description
+    %br
+    -if card_for.respond_to?('flavours')
+      %ul.flavours
+      -card_for.flavours.each do |flavour|
+        %li=h flavour.name
+      %br
+    -if item.sizes.empty?
+      =h item.price
+    -else
+      - item.sizes.each do |size|
+        =h size.name
+        =h size.price
+  .span-5.last
+    =button_to_function "Add", "popup('#{card_for.ordering_json}')"
+  .span-11
+    %hr
+  .span-4.last
+    %br
