@@ -2,9 +2,8 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 
-
-
 url = "http://www.bbscafe.com.au/bbs/stores/storeslist.asp?state=QLD&region=Brisbane"
+
 doc = Nokogiri::HTML(open(url))
 
 doc.css('.topbar .topbar table table p').each do |store|

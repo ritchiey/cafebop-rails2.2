@@ -2,6 +2,7 @@ class Shop < ActiveRecord::Base
   
   fields do
     name    :string
+    shortname :string
     phone   :string
     fax     :string
     website :string
@@ -20,7 +21,7 @@ class Shop < ActiveRecord::Base
     timestamps   
   end    
                         
-  attr_accessible :name, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
+  attr_accessible :name, :shortname, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :franchise_id
 
   validates_presence_of :name, :phone, :street_address

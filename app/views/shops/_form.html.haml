@@ -17,11 +17,20 @@
         geocode(address, $('#shop_name').val());
       })
       
-      $('#shop_name').change(function(e) {
-        website = $("#shop_website")
-        if (website.val() == "") {
-          website.val(toShopUrl($(this).val()));
+      function populateField(selector, value) {
+        field = $(selector)
+        if (field.val() == "") {
+          field.val(value);
         } 
+      }
+      
+      $('#shop_name').change(function(e) {
+        populateField("#shop_shortname", toShortName($(this).val()));
+        populateField("#shop_website", toShopUrl($(this).val()));
+      })
+      
+      $('#shop_shortname').change(function(e) {
+        populateField("#shop_website", toShopUrl($(this).val()));
       })
       
 
@@ -29,7 +38,9 @@
 
 -semantic_form_for @shop, :html=>{:multipart=>true} do |f|
   -f.inputs do
-    =f.input :name, :hint=>"Restaurant's full name"
+    =f.input :name, :hint=>"Restaurant's title as it will appear at top of page"
+    -if @shop.new_record?
+      =f.input :shortname, :hint=>"Unique name, no spaces. Can't be changed"
     =f.input :street_address, :hint=>"Physical location of the restaurant"
     =f.input :postal_address, :hint=>"For snail mail"
     =f.input :email_address, :hint=>"For enquiries or bookings"

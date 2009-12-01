@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091129082729) do
+ActiveRecord::Schema.define(:version => 20091201013344) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -164,7 +164,10 @@ ActiveRecord::Schema.define(:version => 20091129082729) do
     t.boolean  "accept_queued_orders",           :default => false
     t.boolean  "generic_orders",                 :default => true
     t.integer  "franchise_id"
+    t.string   "shortname"
   end
+
+  add_index "shops", ["shortname"], :name => "index_shops_on_shortname", :unique => true
 
   create_table "sizes", :force => true do |t|
     t.string   "name"
