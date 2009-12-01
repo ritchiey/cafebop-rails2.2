@@ -1,12 +1,12 @@
 class OperatingTimesController < ApplicationController
 
   def new
-    @shop = Shop.find(params[:shop_id])
+    @shop = Shop.find_by_permalink(params[:shop_id])
     @operating_time = @shop.operating_times.build
   end
   
   def create
-    @shop = Shop.find(params[:shop_id])
+    @shop = Shop.find_by_permalink(params[:shop_id])
     @operating_time = @shop.operating_times.build(params[:operating_time])
     if @operating_time.save
       flash[:notice] = "Successfully created operating times."

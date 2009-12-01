@@ -164,10 +164,10 @@ ActiveRecord::Schema.define(:version => 20091201013344) do
     t.boolean  "accept_queued_orders",           :default => false
     t.boolean  "generic_orders",                 :default => true
     t.integer  "franchise_id"
-    t.string   "shortname"
+    t.string   "permalink"
   end
 
-  add_index "shops", ["shortname"], :name => "index_shops_on_shortname", :unique => true
+  add_index "shops", ["permalink"], :name => "index_shops_on_permalink", :unique => true
 
   create_table "sizes", :force => true do |t|
     t.string   "name"

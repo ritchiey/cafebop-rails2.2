@@ -268,14 +268,14 @@ function geocode(address, shopName) {
   })
 }
 
-function toShortName(name) {
+function toPermalink(name) {
   name = name.replace(/[ _]/g, "-");
   name = name.replace(/[!@#$%^&*()\']/g, "");
   return name.toLowerCase();
 }     
 
 function toShopUrl(name) {
-  return "http://"+toShortName(name) + domain_name + "/";
+  return "http://"+toPermalink(name) + domain_name + "/";
 }     
 
 function initialize_geocoder() {

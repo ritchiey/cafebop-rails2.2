@@ -2,7 +2,7 @@ class Shop < ActiveRecord::Base
   
   fields do
     name    :string
-    shortname :string
+    permalink :string
     phone   :string
     fax     :string
     website :string
@@ -21,17 +21,21 @@ class Shop < ActiveRecord::Base
     timestamps   
   end    
 
-  before_validation_on_create :set_shortname
+  before_validation_on_create :set_permalink
                         
-  attr_accessible :name, :shortname, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
+  attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :franchise_id
 
-  validates_presence_of :name, :shortname, :phone, :street_address
+  validates_presence_of :name, :permalink, :phone, :street_address
+  validates_format_of :permalink, :with => /^[A-Za-z0-9-]+$/, :message => 'The permalink can only contain alphanumeric characters and dashes.', :allow_blank => true
+  validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
+  validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
 
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
   end 
-    
+                 
+  def to_param() permalink; end
   def to_s() name; end          
   
   has_many :orders, :dependent=>:destroy
@@ -200,9 +204,9 @@ class Shop < ActiveRecord::Base
   
   private
   
-  def set_shortname
+  def set_permalink
     if self[:name]
-      self[:shortname] ||= self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "")
+      self[:permalink] ||= self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "")
     end
   end
   

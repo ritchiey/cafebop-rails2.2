@@ -1,12 +1,12 @@
 class ItemQueuesController < ApplicationController
      
   def new
-    @shop = Shop.find(params[:shop_id])
+    @shop = Shop.find_by_permalink(params[:shop_id])
     @item_queue = @shop.item_queues.build
   end                                
   
   def create
-    @shop = Shop.find(params[:shop_id])
+    @shop = Shop.find_by_permalink(params[:shop_id])
     @item_queue = @shop.item_queues.build(params[:item_queue])
     if @item_queue.save
       flash[:notice] = "Queue created."

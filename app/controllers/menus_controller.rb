@@ -2,7 +2,7 @@ class MenusController < ApplicationController
   
   def new             
     if params[:shop_id] # Shop menu
-      @shop = Shop.find(params[:shop_id])
+      @shop = Shop.find_by_permalink(params[:shop_id])
       @menu = @shop.menus.build
     else
       @menu = Menu.new # Generic Menu (ie doesn't belong to a shop)
@@ -18,7 +18,7 @@ class MenusController < ApplicationController
     menu_template = MenuTemplate.find(template_id) if template_id
     menu_data = menu_template ? menu_template.menu_params : params[:menu]
     if params[:shop_id]
-      @shop = Shop.find(params[:shop_id])                      
+      @shop = Shop.find_by_permalink(params[:shop_id])                      
       @menu = @shop.menus.build(menu_data) 
     else
       @menu = Menu.new(menu_data)

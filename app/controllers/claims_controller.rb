@@ -4,7 +4,7 @@ class ClaimsController < ApplicationController
   before_filter :require_can_review_claims, :except=>[:create]
   
   def create
-    @shop = Shop.find(params[:shop_id])
+    @shop = Shop.find_by_permalink(params[:shop_id])
     @claim = @shop.claims.build(:user=>current_user)
     if @claim and @claim.save
       flash[:notice] = "Your claim for #{@shop.name} has been registered. We'll be in touch."

@@ -68,7 +68,7 @@ class OrderItemTest < ActiveSupport::TestCase
 
     context "with invalid data" do 
       
-      subject {OrderItem.make}  
+      subject {@item}  
 
       should_not_allow_values_for :state, BasicForgery.text, BasicForgery.text
       should_not_allow_values_for :quantity, BasicForgery.number(:at_least => -25, :at_most => 0), nil

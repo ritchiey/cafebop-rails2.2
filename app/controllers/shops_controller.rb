@@ -9,7 +9,6 @@ class ShopsController < ApplicationController
   end               
   
   def show
-    @shop = Shop.find(params[:id])
     redirect_to new_shop_order_path(@shop)
   end
   
@@ -36,7 +35,7 @@ class ShopsController < ApplicationController
   end        
   
   def edit
-    @shop = Shop.find(params[:id])
+    @shop = Shop.find_by_permalink(params[:id])
   end  
   
   def update
@@ -72,7 +71,7 @@ class ShopsController < ApplicationController
 private
 
     def find_instance
-      @shop = Shop.find(params[:id])
+      @shop = Shop.find_by_permalink(params[:id])
     end
 
     def can_edit
