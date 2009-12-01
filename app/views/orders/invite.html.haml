@@ -8,9 +8,9 @@
     See if you're friends or colleagues want anything while you're there. The email they receive will read:
 
   -form_for @order do |f|
-    -fields_for UserSession.new do |uf|   
+    -fields_for UserSession.new do |uf|
       .email-message
-        =current_user ? h(current_user) : "#{uf.text_field(:email, :value=>'your email')}" 
+        =current_user ? h(current_user) : "#{uf.text_field(:email, :value=>'your email')}"
         \ is going to #{h @order.shop} |
         in about #{f.select :minutes_til_close, [5, 10, 15, 20, 25, 30, 45, 60]} minutes and can bring you something back.
     -if current_user
@@ -18,16 +18,19 @@
         %thead
           %tr
             %th Offer
-            %th Email
+            %th Friend's Email
         %tbody
           -if current_user
             -current_user.friends.each do |friend|
               %tr
                 %td=check_box_tag "order[invited_user_attributes][]", friend.email, browser_session.was_invited?(friend), :id=>"invite_user_#{friend.id}" 
                 %td=h friend.email
-            -semantic_fields_for current_user.friendships.build do |ff|
-              =ff.input :friend_email
-              =ff.buttons
+            %tr
+              -fields_for current_user.friendships.build do |ff|
+                %td
+                %td
+                  =ff.text_field :friend_email
+                  =submit_tag "Add"
     %p
       =submit_tag "Continue"    
       

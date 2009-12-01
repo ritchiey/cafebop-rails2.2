@@ -22,7 +22,7 @@ class Order < ActiveRecord::Base
   named_scope :current, :conditions=>{:state=>%w/invited pending queued pending_paypal_auth/}
   named_scope :with_items, :joins=>:order_items
   named_scope :recent, :conditions=>["orders.created_at > ?", 36.hours.ago]
-  named_scope :by_age, :order=>:created_at
+  named_scope :newest_first, :order=>"created_at DESC"
   def minutes_til_close=(period)
     @minutes_til_close = period
     self[:close_time] = period.to_i.minutes.from_now

@@ -159,10 +159,10 @@ class OrderTest < ActiveSupport::TestCase
   
   context "an old order and a new order" do
     setup do
-      @new_order = Order.make
       @old_order = Order.make
       @old_order.created_at = 1.year.ago
       @old_order.save
+      @new_order = Order.make
     end
 
     should "be correctly distinguished by the recent named_scope" do
@@ -170,7 +170,7 @@ class OrderTest < ActiveSupport::TestCase
     end
     
     should "appear in the right order" do
-      assert_equal [@old_order, @new_order], Order.by_age.all
+      assert_equal [@new_order, @old_order], Order.newest_first.all
     end
   end
   

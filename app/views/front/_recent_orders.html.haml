@@ -1,4 +1,4 @@
--recent_orders = current_user.orders.recent.by_age
+-recent_orders = current_user.orders.recent.newest_first
 -unless recent_orders.empty?
   %h4 Recent Orders
   %table.my-orders
