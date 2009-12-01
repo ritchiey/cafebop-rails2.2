@@ -20,11 +20,13 @@ class Shop < ActiveRecord::Base
     header_background_file_size :integer
     timestamps   
   end    
+
+  before_validation_on_create :set_shortname
                         
   attr_accessible :name, :shortname, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :franchise_id
 
-  validates_presence_of :name, :phone, :street_address
+  validates_presence_of :name, :shortname, :phone, :street_address
 
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
@@ -194,6 +196,14 @@ class Shop < ActiveRecord::Base
    
   def has_item_queues?
     !item_queues.empty?
+  end
+  
+  private
+  
+  def set_shortname
+    if self[:name]
+      self[:shortname] ||= self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "")
+    end
   end
   
 end
