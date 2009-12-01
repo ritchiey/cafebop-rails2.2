@@ -1,31 +1,24 @@
 html {
-  background: #fefffe; }
+  background: #8cbad0; }
 
 body {
   background-color: transparent; }
 
 #account-nav {
-  background-color: #e3d882;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
+  background-color: #e3d882; }
 
 #content {
-  background-color: #ccd4a4;
+  background-color: #fefffe;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em; }
 
 #content-header {
-  background-color: #e3d882;
-  -moz-border-radius-topright: .5em;
-  -webkit-border-top-right-radius: .5em;
-  -moz-border-radius-topleft: .5em;
-  -webkit-border-top-left-radius: .5em; }
+  background-color: #e3d882; }
 
 #aside {
   min-height: 200px;
   height: auto !important;
   height: 200px;
-  background-color: #4f6354;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em; }
 
@@ -50,10 +43,42 @@ body, p, td, li, ul, ol {
 #page-footer {
   margin-top: 90px;
   width: 100%;
-  background: url(/gradient_images/54:FEFEFD:FEFEFD::18:666:555::27:555:AAA.png) repeat-x #FEFEFD; }
+  background: url(/gradient_images/54:8CBAD0:8CBAD0::18:666:555::27:555:AAA.png) repeat-x #FEFEFD; }
 
 .email-message {
   background-color: #FEFEFE;
   border-style: solid;
   border-color: black;
   border-width: 1px; }
+
+thead th {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A;
+  border-bottom-style: solid;
+  border-bottom-color: #B08B5E;
+  border-bottom-width: 1px;
+  font-size: 2em; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A; }
+
+h1 {
+  font-size: 3.5em; }
+
+h2 {
+  font-size: 3.2em; }
+
+h3 {
+  font-size: 3em; }
+
+h4 {
+  font-size: 2.5em; }
+
+h5 {
+  font-size: 2em; }
+
+h6 {
+  font-size: 1.5em; }

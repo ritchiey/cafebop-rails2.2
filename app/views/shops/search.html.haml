@@ -1,6 +1,6 @@
 = render :partial => 'shops/search_panel'
 
-%h2="#{pluralize @shops.size, 'restaurant'} found:"
+%h5="#{pluralize @shops.size, 'restaurant'} found:"
 
 %table
   -@shops.each_with_index do |shop, index|

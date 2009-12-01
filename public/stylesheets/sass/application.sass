@@ -3,7 +3,8 @@
 @import layout.sass
 //@import elements.sass
 //@import ordering.sass
-//@import invite_others.sass    
+//@import invite_others.sass              
+@import colours.sass
 
  
   
@@ -25,10 +26,46 @@ body, p, td, li, ul, ol
 #page-footer
   :margin-top 90px
   :width  100%
-  :background url(/gradient_images/54:FEFEFD:FEFEFD::18:666:555::27:555:AAA.png) repeat-x #FEFEFD
+  :background url(/gradient_images/54:8CBAD0:8CBAD0::18:666:555::27:555:AAA.png) repeat-x #FEFEFD
 
 .email-message
   :background-color #FEFEFE
   :border-style solid 
   :border-color black
-  :border-width 1px
+  :border-width 1px       
+  
+=header_font
+  :font-family "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif
+  :background  transparent
+  :color #50341A
+  
+=header_underline
+  :border-bottom-style solid 
+  :border-bottom-color #B08B5E
+  :border-bottom-width 1px
+
+thead th
+  +header_font
+  +header_underline
+  :font-size 2em    
+  
+h1,h2,h3,h4,h5,h6
+  +header_font
+
+h1
+  :font-size 3.5em    
+
+h2
+  :font-size 3.2em    
+
+h3
+  :font-size 3em    
+
+h4
+  :font-size 2.5em    
+
+h5
+  :font-size 2em
+  
+h6
+  :font-size 1.5em

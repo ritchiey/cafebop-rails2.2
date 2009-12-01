@@ -1,31 +1,24 @@
 html {
-  background: #fefffe; }
+  background: #8cbad0; }
 
 body {
   background-color: transparent; }
 
 #account-nav {
-  background-color: #e3d882;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
+  background-color: #e3d882; }
 
 #content {
-  background-color: #ccd4a4;
+  background-color: #fefffe;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em; }
 
 #content-header {
-  background-color: #e3d882;
-  -moz-border-radius-topright: .5em;
-  -webkit-border-top-right-radius: .5em;
-  -moz-border-radius-topleft: .5em;
-  -webkit-border-top-left-radius: .5em; }
+  background-color: #e3d882; }
 
 #aside {
   min-height: 200px;
   height: auto !important;
   height: 200px;
-  background-color: #4f6354;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em; }
 

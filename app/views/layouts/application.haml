@@ -14,19 +14,19 @@
 
   %body{:style=>"background: #{page_background}"}
     .container
-      #header.page-header.span-24.last
-        .span-18
-          =placeholder(:size=>'144x72')
-        .span-6.last
-          =render :partial=>'layouts/account_nav'
-
-      #content.span-16.last
+      #content.span-24.last
+        
+      
         -default_content_for :content do
-          #content-header.span-16{:style=>"background: #{header_background}"}
+          #content-header.span-24.last{:style=>"background: #{header_background}"}
+            .span-18
+              =placeholder(:size=>'144x72')
+            .span-6.last
+              =render :partial=>'layouts/account_nav'
             -default_content_for :content_header do
               =placeholder :width=>1, :height=>180
             
-          #content-body.span-16.last
+          #content-body.span-15
             - unless flash.empty?
               .flash
                 - if flash[:notice]
@@ -39,23 +39,23 @@
                   #error
                     =flash[:error]
             -default_content_for :content_body do
-              #main.span-16.last
+              #main.span-15.last
                 .span-1=placeholder
-                .span-15.last
+                .span-14.last
                   =yield
-              .span-16.last
+              .span-15.last
                 =placeholder :height=>54
                 
-      #side.span-8.last.no-print
-        .span-8.last
-          =placeholder :width=>1, :height=>180
-        #aside.span-8.last
-          =yield :aside || placeholder
+          #side.span-9.last.no-print
+            #aside.span-8
+              =yield :aside || placeholder
+            .span-1.last
+              =placeholder
 
     #page-footer
       .container
         .span-1
-          =placeholder :width=>1, :height=>99
+          =placeholder
         .span-23.last 
           =link_to(image_tag('logo.png', :size=>'200x90'), root_path)
           
