@@ -1,7 +1,5 @@
 class WorkContract < ActiveRecord::Base
 
-
-
   fields do
     role enum_string(:staff, :manager, :patron), :default=>'patron'
     timestamps

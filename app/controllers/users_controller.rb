@@ -1,5 +1,3 @@
-UserObserver.instance
-
 class UsersController < ApplicationController
 
   before_filter :require_login, :except=>[:new, :create, :activate]
