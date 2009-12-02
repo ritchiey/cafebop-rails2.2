@@ -21,7 +21,10 @@ class BrowserSession
     end                                        
     new_friend = params[:friendship]                                          
     new_friend and new_friend_email = new_friend[:friend_email]
-    new_friend_email and !new_friend_email.empty? and order_details[:invited_user_attributes] << new_friend_email
+    if new_friend_email and !new_friend_email.empty?
+      order_details[:invited_user_attributes] ||= []
+      order_details[:invited_user_attributes] << new_friend_email
+    end
   end
   
   def order_details
