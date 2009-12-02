@@ -15,29 +15,32 @@
   %body{:style=>"background: #{page_background}"}
     .container
       #content.span-24.last
-        
+        -unless flash.empty?
+          .flash
+            - if flash[:notice]
+              #notice
+                =flash[:notice]
+            - if flash[:warning]
+              #warning
+                =flash[:warning]
+            - if flash[:error]
+              #error
+                =flash[:error]
       
+        #content-header.span-24.last{:style=>"background: #{header_background}"}
+          .span-18.no-print
+            =placeholder(:size=>'144x72')
+          .span-6.last
+            =render :partial=>'layouts/account_nav'
+          -default_content_for :content_header do
+            =placeholder :width=>1, :height=>180
+        #print-header.print-only
+          -if @shop
+            %h1=h @shop.name
+            -if current_user
+              %h3=h "Order for #{current_user} at #{Time.now.to_s(:long)}"
         -default_content_for :content do
-          #content-header.span-24.last{:style=>"background: #{header_background}"}
-            .span-18
-              =placeholder(:size=>'144x72')
-            .span-6.last
-              =render :partial=>'layouts/account_nav'
-            -default_content_for :content_header do
-              =placeholder :width=>1, :height=>180
-            
           #content-body.span-15
-            - unless flash.empty?
-              .flash
-                - if flash[:notice]
-                  #notice
-                    =flash[:notice]
-                - if flash[:warning]
-                  #warning
-                    =flash[:warning]
-                - if flash[:error]
-                  #error
-                    =flash[:error]
             -default_content_for :content_body do
               #main.span-15.last
                 .span-1=placeholder
@@ -45,7 +48,7 @@
                   =yield
               .span-15.last
                 =placeholder :height=>54
-                
+              
           #side.span-9.last.no-print
             #aside.span-8
               =yield :aside || placeholder

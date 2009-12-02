@@ -1,7 +1,8 @@
 -shop = @order.shop 
 
--content_for :aside do
-  != render :partial => 'group_order_details'
+-if @order.pending?
+  -content_for :aside do
+    != render :partial => 'group_order_details'
   
 
 -content_for :content_header do
@@ -20,20 +21,18 @@
 
       -if shop.accepts_paypal_payments?
         =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
-
-  -elsif @order.printed?
-    =button_to_function "Click here to print", "window.print();"                
-    =link_to 'Home', root_path
+    != render :partial => 'order_summary'
+  
+  -else
+    -content_for :content do
+      -if @order.printed?
+        .no-print
+          =button_to_function "Click here to print", "window.print();"                
+          =link_to 'Home', root_path
     
-  -elsif @order.queued?
-    Your order has been sent to the shop.
-    Keep this screen open to watch its progress.
-    = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
-
-#order-summary
-  =render :partial=>'summary'   
-
-#friend-order-summary
-  
-  
-  =render :partial=>'price_warning'
+      -elsif @order.queued?
+        Your order has been sent to the shop.
+        Keep this screen open to watch its progress.
+        = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
+      != render :partial => 'order_summary'
+      

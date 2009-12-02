@@ -2,9 +2,7 @@
 
   -if @shop.community?
     %p
-      This order comes from the group ordering system you'll find at
-      =link_to root_url, root_url
-      \.
+      This order comes from the group ordering system you'll find at #{h root_url}.
     %p
       There you'll find a generically branded, community maintained store called
       %strong=h @shop.name

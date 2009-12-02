@@ -1,4 +1,4 @@
-%table
+%table.order-summary
   %thead
     %tr
       %th Qty
@@ -18,6 +18,5 @@
                                       
 -unless @order.state == "printed"
   =h "Order status: #{@order.state}"    
-%hr      
-="Last updated: #{Time.now}" 
+
 = render :partial => 'shop_blurb'
