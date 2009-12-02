@@ -12,7 +12,8 @@ class Notifications < ActionMailer::Base
     parent = order.parent
     subject    "Want anything from #{parent.shop}?"
     recipients order.user.email
-    from       parent.user.email
+    from       SUPPORT_EMAIL
+    reply_to   parent.user.email
     sent_on    Time.now
     body   :order => order,
            :parent => parent,
