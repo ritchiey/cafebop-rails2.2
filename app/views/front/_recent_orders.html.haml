@@ -1,8 +1,0 @@
--recent_orders = current_user.orders.recent.newest_first
--unless recent_orders.empty?
-  %table.my-orders
-    %thead
-      %tr
-        %th(colspan="3") Recent Orders
-    %tbody
-      !=render :partial=>'orders/current_order', :as=>:order, :collection=>recent_orders

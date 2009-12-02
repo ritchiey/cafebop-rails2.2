@@ -1,0 +1,4 @@
+-# A Shop as it appears in list of favourite shops    
+-content_tag_for :tr, shop do
+  %td=link_to shop.name, new_shop_order_path(shop)
+  %td=edit_shop_link(shop)

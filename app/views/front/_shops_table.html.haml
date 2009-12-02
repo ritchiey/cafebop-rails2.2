@@ -1,0 +1,6 @@
+%table
+  %thead
+    %tr
+      %th restaurants
+  %tbody
+    != render :partial => 'shops/favourite', :collection=>current_user.shops, :as=>:shop

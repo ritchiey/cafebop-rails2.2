@@ -1,5 +1,5 @@
 %tr
-  %td=h order.created_at
+  %td=h "#{time_ago_in_words(order.created_at)} ago"
   %td=link_to h(order.shop.name), order
   %td=h order.originator
   

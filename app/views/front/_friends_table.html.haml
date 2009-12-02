@@ -1,0 +1,8 @@
+%table.my-friends
+  %thead
+    %tr
+      %th friends
+  %tbody
+    =render :partial=>'friendships/friendship', :collection=>current_user.friendships
+    %tr
+      %td=link_to "Add Friend", new_user_friendship_path(current_user)
