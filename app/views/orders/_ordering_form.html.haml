@@ -57,9 +57,10 @@
           %td(colspan="3") Total
           -#FIXME calculate the total in edit view
           %td#total 0.00
-    =submit_tag "Continue", :disabled=>@order.order_items.empty?, :id=>'continue-order-button'
     != render :partial => 'price_warning'
-    != render :partial => 'close_time_counter'
+    != render :partial => 'close_time_counter' 
+    
+    =submit_tag "Continue", :disabled=>@order.order_items.empty?, :id=>'continue-order-button'
         
 
 .hidden

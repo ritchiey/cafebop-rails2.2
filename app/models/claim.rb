@@ -48,14 +48,18 @@ class Claim < ActiveRecord::Base
     if under_review?
       shop.claim!(user)
       self.state = 'confirmed'
-      self.save
+      if self.save
+        Notifications.deliver_claim_confirmed(self)
+      end
     end
   end
 
   def reject!
     if under_review?
       self.state = 'rejected'
-      self.save
+      if self.save
+        Notifications.deliver_claim_rejected(self)
+      end
     end
   end                        
   

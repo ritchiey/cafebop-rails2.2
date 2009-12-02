@@ -2,7 +2,8 @@
   -content_for :aside do
     != render :partial => 'shops_table'
     != render :partial => 'friends_table'
-  != render :partial => 'current_orders'
+  -content_for :content_top do  
+    != render :partial => 'current_orders'
   
 = render :partial => 'shops/search_panel'
 

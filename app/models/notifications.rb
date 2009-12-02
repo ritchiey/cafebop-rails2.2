@@ -20,5 +20,21 @@ class Notifications < ActionMailer::Base
            :accept_url => accept_orders_url(:token => order.perishable_token),
            :decline_url => decline_orders_url(:token => order.perishable_token)  
   end
+  
+  def claim_confirmed(claim)
+    subject    "Your claim for #{claim.shop}"
+    recipients claim.user.email
+    from       CLAIMS_EMAIL
+    sent_on    Time.now
+    body       :claim=>claim
+  end
+
+  def claim_rejected(claim)
+    subject    "Your claim for #{claim.shop}"
+    recipients claim.user.email
+    from       CLAIMS_EMAIL
+    sent_on    Time.now
+    body       :claim=>claim
+  end
 
 end

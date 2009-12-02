@@ -40,6 +40,8 @@
             -if current_user
               %h3=h "Order for #{current_user} at #{Time.now.to_s(:long)}"
         -default_content_for :content do
+          -default_content_for :content_top do
+            %span
           #content-body.span-15
             -default_content_for :content_body do
               #main.span-15.last
@@ -54,6 +56,10 @@
               =yield :aside || placeholder
             .span-1.last
               =placeholder
+        
+          #content-foot.span-24.last
+            -default_content_for :content_foot do
+              %span
 
     #page-footer
       .container

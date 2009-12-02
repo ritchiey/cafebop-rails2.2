@@ -1,0 +1,23 @@
+:plain
+  
+  Hello #{@claim.user},
+  
+  We are very pleased to inform you that your claim for #{h @claim.shop} was successful.
+
+  You can now log into Cafebop and set #{h @claim.shop} up with up to date menus and its own branding.
+
+  There are two main URLs for #{h @claim.shop}:
+
+  The customer facing-site is at:
+
+    #{shop_url(@claim.shop)}
+  
+  The management site (for you to manage it) is at:
+  
+    #{edit_shop_url(@claim.shop)}
+  
+  Welcome aboard!
+  
+  
+  \-The Cafebop Team
+  

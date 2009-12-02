@@ -8,21 +8,26 @@
 -content_for :content_header do
   = render :partial => 'shops/page_header', :locals=>{:shop=>shop}
 
+-content_for :content_foot do
+  .span-20
+    -if @order.pending?
+      =button_to "&lt;&lt; Change", edit_order_path(@order), :method=>:get
+  .span-4.last    
+    -if @order.pending?
+      -if @order.is_child?
+        =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
+      -else
+        -if shop.accepts_in_shop_payments?
+          =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
+          %br
+
+        -if shop.accepts_paypal_payments?
+          =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
+
 .no-print
   -if @order.pending?
-    =button_to "&lt;&lt; Change", edit_order_path(@order), :method=>:get
-    
-    -if @order.is_child?
-      =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
-    -else
-      -if shop.accepts_in_shop_payments?
-        =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
-        %br
-
-      -if shop.accepts_paypal_payments?
-        =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
-    != render :partial => 'order_summary'
-  
+    #order-summary.span-14.last
+      != render :partial => 'order_summary'
   -else
     -content_for :content do
       -if @order.printed?
@@ -34,5 +39,6 @@
         Your order has been sent to the shop.
         Keep this screen open to watch its progress.
         = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
+      #order-summary.span-24.last
       != render :partial => 'order_summary'
       
