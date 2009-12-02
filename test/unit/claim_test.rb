@@ -38,15 +38,19 @@ class ClaimTest < ActiveSupport::TestCase
       assert @reviewer.claims_to_review.include?(@claim)
     end
     
-    should "not be under_review after rejection" do
+    should "send and email and not be under_review after rejection" do
       @claim.reject!
+      @reject_email = ActionMailer::Base.deliveries.last
+      assert_match /Unfortunately, your claim for #{@claim.shop} was unsuccessful/, @reject_email.body
       assert !@claim.under_review?
       assert !@reviewer.claims_to_review.include?(@claim)
     end                 
     
-    should "call claim! on associated shop and create a work_contract record when confirmed" do
+    should "call claim! on associated shop, send an email and create a work_contract record when confirmed" do
       assert @shop.community?
       @claim.confirm!
+      @confirm_email = ActionMailer::Base.deliveries.last
+      assert_match /We are very pleased to inform you that your claim for #{@claim.shop} was successful/, @confirm_email.body
       assert @shop.express?
       assert @shop.managers.include? @claim.user
     end
