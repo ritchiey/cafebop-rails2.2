@@ -18,7 +18,7 @@ class Notifications < ActionMailer::Base
     body   :order => order,
            :parent => parent,
            :accept_url => accept_orders_url(:token => order.perishable_token),
-           :decline_url => decline_orders_url(:token => order.perishable_token)
+           :decline_url => decline_orders_url(:token => order.perishable_token)  
   end
 
 end

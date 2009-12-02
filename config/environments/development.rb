@@ -17,6 +17,8 @@ config.action_controller.perform_caching             = false
 config.action_mailer.raise_delivery_errors = false
 config.action_mailer.default_url_options = { :host => '127.0.0.1', :port=>3000 }
 
+
+
 config.gem "rails-footnotes-linux",  :lib => "rails-footnotes", :source => "http://gems.github.com" if RUBY_PLATFORM =~ /linux/
 
 class ActiveRecord::Base

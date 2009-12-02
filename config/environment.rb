@@ -75,13 +75,22 @@ Rails::Initializer.run do |config|
 end
 
 
+# ActionMailer::Base.smtp_settings = {
+#    :address => "mail.authsmtp.com",
+#    :port => 2525,
+#    :domain => "cafebop.com",
+#    :authentication => :login,
+#    :user_name => "ac43532",
+#    :password => "aafz9ungf",
+# }
+
 ActionMailer::Base.smtp_settings = {
-   :address => "mail.authsmtp.com",
-   :port => 2525,
-   :domain => "cafebop.com",
-   :authentication => :login,
-   :user_name => "ac43532",
-   :password => "aafz9ungf",
+  :address => "smtp.sendgrid.net",
+  :port => '25',
+  :domain => "cafebop.com",
+  :authentication => :plain,
+  :user_name => "mailer@cafebop.com",
+  :password => "Beaubaton8"
 }
 
 # Uncomment the line below if you get one of those pesky
