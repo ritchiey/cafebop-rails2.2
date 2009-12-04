@@ -4,7 +4,7 @@ class CuisineTest < ActiveSupport::TestCase
   
   context "A couple of cuisines" do
     setup do
-      @cuisine = Cuisine.make(:franchise=>false)
+      @cuisine = Cuisine.make
       @franchise = Cuisine.make(:franchise=>true)
     end
     

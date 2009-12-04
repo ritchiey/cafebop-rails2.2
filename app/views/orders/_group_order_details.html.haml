@@ -10,6 +10,6 @@
     %h6 At work?
     See if your friends or co-workers want anything from #{@order.shop}.
     =button_to "Offer Friends", invite_order_path(@order), :method=>:get, :id=>'offer-friends-button'
-  -else
+  -elsif @order.is_child?
     This order will be collected from #{@order.parent.shop} by #{@order.user}.
 != render :partial => 'close_time_counter'

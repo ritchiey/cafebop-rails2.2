@@ -3,8 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'mocha'
 require 'test_help'    
 require 'shoulda'
-#require 'fast_context'
-#require 'phocus'
+require 'fast_context'
+#require 'phocus'   
+require "authlogic/test_case" 
 
 require File.expand_path(File.dirname(__FILE__) + "/blueprints")
 
@@ -41,6 +42,18 @@ class ActiveSupport::TestCase
   #fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  def login_as_admin  
+    #TODO: Get this working
+    user = User.make(:active)
+    user.add_role('cafebop_admin')
+    login_as user
+  end               
+
+  def login_as user
+    UserSession.create(user)
+  end
+  
 end
 
 class ActionController::TestCase
