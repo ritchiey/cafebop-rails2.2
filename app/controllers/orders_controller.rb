@@ -42,14 +42,16 @@ class OrdersController < ApplicationController
   def edit
     @shop = @order.shop
   end
-  
-  def update
-    browser_session.record_order_details(params)
+
+
+  def update                                  
+    @order.attributes = params[:order]
+    browser_session.persist_order(@order)
     if create_friendship
       redirect_to invite_order_path(@order)
     else
       @order.user ||= current_user
-      if @order.update_attributes(params[:order])
+      if @order.save # updated attributes earlier
         redirect_to order_path(@order)
       else
         flash[:error] = "Unable to save changes"
@@ -76,7 +78,7 @@ class OrdersController < ApplicationController
 
   # Display the invitation form to invite others
   def invite 
-    browser_session.decorate_order(@order)
+    browser_session.restore_order(@order)
     @email = session[:email]
   end
 
@@ -153,8 +155,8 @@ private
     
   
   def create_friendship
-    if params[:commit] == "Create Friendship"
-      if fp = params[:friendship]
+    if params[:commit] == "Add"
+      if current_user and fp = params[:friendship]
         current_user.friendships.create(fp)
       end
       true

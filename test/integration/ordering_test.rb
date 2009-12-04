@@ -5,14 +5,16 @@ class OrderingTest < ActionController::IntegrationTest
   context "A signed in user" do
     
     setup do                       
-      @user = login
+      assert_not_nil @user = login, "Login failed"
     end
     
     context "with friends" do
       setup do
-        assert_no_difference "ActionMailer::Base.deliveries.count" do
-          add_friend 'bobo@cafebop.com'
-          add_friend 'mary@cafebop.com'
+        assert_difference "@user.friends.count", 2 do
+          assert_no_difference "ActionMailer::Base.deliveries.count" do
+            add_friend 'bobo@cafebop.com'
+            add_friend 'mary@cafebop.com'
+          end
         end
       end
 
@@ -35,8 +37,10 @@ class OrderingTest < ActionController::IntegrationTest
             click_button "Offer Friends"
             @user.friends.each {|friend| uncheck("invite_user_#{friend.id}")}
             check "invite_user_#{@invited.id}"
-            click_button 'Continue'
-            @invite_email = ActionMailer::Base.deliveries.last
+            assert_difference "@order.child_orders.count", 1 do
+              click_button 'Continue'
+            end
+            assert_not_nil(@invite_email = ActionMailer::Base.deliveries.last, "No invite email sent")
             assert_match /#{@user} is going to #{@order.shop} in about 10 minutes and can bring you something back/, @invite_email.body
             logout
           end

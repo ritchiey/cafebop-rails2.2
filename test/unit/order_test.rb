@@ -11,6 +11,14 @@ class OrderTest < ActiveSupport::TestCase
       @order = Order.make
     end                  
     
+    should "be able to send invites" do
+      assert @order.can_send_invites?
+    end
+    
+    should "not have it's timer started" do
+      assert !@order.close_timer_started?
+    end
+    
     should "default to pending" do
       assert_equal "pending", @order.state
     end                                   
@@ -107,42 +115,66 @@ class OrderTest < ActiveSupport::TestCase
       
     end
 
-    context "and a user set and one child order" do
+    context "and a user set" do
       setup do                 
-        @order.user = User.make              
-        @other_user = User.make
-        @child_order = @order.invite(@other_user)
+        assert @order.user = User.make(:active)
+        assert @order.save
       end
-
-      should "have respond correctly as parent and child" do
-        assert @order.is_parent?
-        assert !@order.is_child?
-        assert !@child_order.is_parent?
-        assert @child_order.is_child?
-        assert @order.is_in_group?
-        assert @child_order.is_in_group?
-      end
-
-      should "not be able to invite the same user again" do
-        assert_no_difference "Order.count" do
-          @order.update_attributes :invited_user_attributes=>[@other_user.email]
-        end
-      end
-      
-      should "be able to invite an exising user" do
-        assert_difference "Order.count", 1 do                      
-          email = User.make.email
-          assert_not_nil email
-          @order.update_attributes :invited_user_attributes=>[email]
-        end
-      end           
-      
-      should "have the same details on the child as the order" do
-        assert_equal @order.shop, @child_order.shop
-      end
-      
-    end
     
+      should "invite new users when saved" do
+        @current_user = User.make
+        @new_user_email = 'hagrid@cafebop.com'
+        assert_difference "Order.count", 2 do
+          assert_difference "User.count", 1 do
+            @order.attributes = {:invited_user_attributes=>[@new_user_email, @current_user.email]}
+            assert @order.save
+          end
+        end
+        assert_not_nil( @new_user = User.find_by_email(@new_user_email))
+        assert_equal @order, @current_user.orders.find(:last).parent
+        assert_equal @order, @new_user.orders.find(:last).parent
+      end     
+      
+      context "and one child order" do
+        setup do                 
+          @other_user = User.make
+          assert_difference "@order.child_orders.count", 1 do
+            @child_order = @order.invite(@other_user)
+          end
+        end  
+        
+        should "respond correctly as parent and child" do
+          assert @order.is_parent?, "Order not recognised as parent"
+          assert !@order.is_child?, "Order thinks it's a child"
+          assert !@child_order.is_parent?, "Child order thinks its a parent"
+          assert @child_order.is_child?, "Child order doesn't think it's  child"
+          assert @order.is_in_group?, "Order doesn't realise its in a group"
+          assert @child_order.is_in_group?, "Child order doesn't realise it's in a group"
+        end
+
+        should "not be able to invite the same user again" do
+          assert_same_elements [@other_user], @order.invited_users.all
+          assert_no_difference "Order.count" do
+            @order.update_attributes :invited_user_attributes=>[@other_user.email]
+          end
+        end
+      
+        should "be able to invite an exising user" do
+          assert_difference "Order.count", 1 do                      
+            email = User.make.email
+            assert_not_nil email
+            @order.update_attributes :invited_user_attributes=>[email]
+          end
+        end           
+      
+        should "have the same details on the child as the order" do
+          assert_not_nil @order.shop
+          assert_equal @order.shop, @child_order.shop
+        end
+      
+      end
+
+    end
   end
 
   context "a couple of orders one with order items" do

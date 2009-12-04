@@ -10,6 +10,10 @@ class Order < ActiveRecord::Base
     timestamps
   end
 
+  before_create :inherit_from_parent
+  before_save :start_close_timer
+  after_save :invite_additional_users
+  
   belongs_to :user
   belongs_to :shop
   has_many :order_items, :dependent=>:destroy
@@ -26,7 +30,6 @@ class Order < ActiveRecord::Base
 
   def minutes_til_close=(period)
     @minutes_til_close = period
-    self[:close_time] = period.to_i.minutes.from_now
   end
   
   def minutes_til_close
@@ -51,12 +54,28 @@ class Order < ActiveRecord::Base
     
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
+  # These are the emails of the users that are to be invited when
+  # the user is saved. Those not already invited (ie in invited_users)
+  # will be invited
   def invited_user_attributes=(emails)
-    if can_send_invites?                  
-      invitees = User.for_emails(emails)
-      invitees.each {|user| invite(user) unless invited_users.include?(user)}
-    end
+    @invited_user_attributes = emails
   end                       
+
+  def invited_user_attributes
+    @invited_user_attributes ||= self.invited_users.*.email
+  end                       
+  
+  def will_invite?(user)
+    invited_user_attributes.include?(user.email)
+  end                                        
+  
+  def have_invited?(user)
+    invited_users.include?(user)
+  end
+  
+  def invitee?(user)
+     will_invite?(user) or have_invited?(user)
+  end
         
   def set_user user
     unless self.user
@@ -71,7 +90,7 @@ class Order < ActiveRecord::Base
   end
 
   def is_child?
-    self.parent
+    parent
   end                 
   
   def is_parent?
@@ -93,11 +112,7 @@ class Order < ActiveRecord::Base
   end
 
   def invite invitee
-    if can_send_invites?
-      Order.invite!(:parent=>self, :user=>invitee).tap do |child_order|
-        child_orders << child_order
-      end
-    end
+      child_orders.create(:user=>invitee) unless is_child?
   end
 
   def total
@@ -129,9 +144,6 @@ class Order < ActiveRecord::Base
 
   def self.invite!(params={})
     self.new(params).tap do |order|
-      order.state = 'invited'   
-      order.shop = order.parent.shop
-      order.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
       order.save!
     end
   end
@@ -193,4 +205,24 @@ private
     end
   end
 
+  def invite_additional_users
+    if !is_child? and self[:user_id]
+      invitees = User.for_emails(invited_user_attributes)
+      (invitees - invited_users.all).each {|user| invite user}
+    end
+  end
+
+  def start_close_timer
+    if @minutes_til_close
+      self[:close_time] = @minutes_til_close.to_i.minutes.from_now
+    end
+  end
+
+  def inherit_from_parent
+    if is_child?
+      self.state = 'invited'   
+      self.shop = parent.shop
+      self.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
+    end
+  end
 end

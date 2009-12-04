@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'mocha'
 require 'test_help'    
 require 'shoulda'
-#require 'fast_context'
+require 'fast_context'
 #require 'phocus'   
 require "authlogic/test_case" 
 
@@ -47,9 +47,12 @@ class ActiveSupport::TestCase
     #TODO: Get this working
     user = User.make(:active)
     user.add_role('cafebop_admin')
-    UserSession.create(user)
+    login_as user
   end               
-  
+
+  def login_as user
+    UserSession.create(user)
+  end
   
 end
 
