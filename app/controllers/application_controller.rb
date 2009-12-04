@@ -9,6 +9,14 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   
   helper_method :current_user_session, :current_user
+  
+  def persist_to store, target, options={}
+    Persistence.persist_to store, target, options
+  end
+
+  def restore_from store, target, options={}
+    Persistence.restore_from store, target, options
+  end
 
   protected
   

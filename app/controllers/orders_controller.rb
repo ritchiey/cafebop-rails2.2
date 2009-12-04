@@ -46,7 +46,8 @@ class OrdersController < ApplicationController
 
   def update                                  
     @order.attributes = params[:order]
-    browser_session.persist_order(@order)
+    #browser_session.persist_order(@order)
+    persist_to session, @order
     if create_friendship
       redirect_to invite_order_path(@order)
     else
@@ -78,8 +79,9 @@ class OrdersController < ApplicationController
 
   # Display the invitation form to invite others
   def invite 
-    browser_session.restore_order(@order)
-    @email = session[:email]
+    #browser_session.restore_order(@order)
+    restore_from session, @order
+    @user_session = UserSession.new(:email=>flash[:email])
   end
 
   # Accept an invite that we were sent
@@ -136,8 +138,8 @@ private
             else
               flash[:error] = "Invalid email or password"
             end
-          else # active user but no password specified
-            session[:email] = user.email # the view should detect the email and just ask for the password
+          else # active user but no password specified     
+            flash[:email] = user.email # the view should detect the email and just ask for the password
           end
         else # exists but not active
           Notifications.deliver_activate(user)
