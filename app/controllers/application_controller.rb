@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
     return @current_user if defined?(@current_user)
     @current_user = current_user_session && current_user_session.user
   end
+  alias_method :"authenticated?", :current_user
   
   def require_login
     unless current_user

@@ -1,4 +1,6 @@
 -semantic_form_for form do |f|
   -f.inputs do
     =f.input :name, :hint=>"Title for this menu (Eg Drinks, Desserts, Breakfast)"
+    -if @menu and @menu.generic?
+      =f.input :permalink, :hint=>"Unique name for generic menus"
     =f.buttons

@@ -1,6 +1,6 @@
 %h3 Generic Menus
 
 
-%ul=render @menus
+%ul=render :partial=>'menus/menu', :collection=>@menus
 
 =link_to "Add Generic Menu", new_menu_path

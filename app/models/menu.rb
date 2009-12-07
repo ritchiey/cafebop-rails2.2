@@ -6,6 +6,7 @@ class Menu < ActiveRecord::Base
 
   fields do
     name      :string
+    permalink :string
     header    :string
     footer    :string
     is_extras :boolean

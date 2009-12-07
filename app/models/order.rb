@@ -28,6 +28,11 @@ class Order < ActiveRecord::Base
   named_scope :recent, :conditions=>["orders.created_at > ?", 4.hours.ago]
   named_scope :newest_first, :order=>"created_at DESC"
 
+
+  def persistent_attrs
+    [:minutes_til_close, :invited_user_attributes]
+  end
+
   def minutes_til_close=(period)
     @minutes_til_close = period
   end
@@ -51,7 +56,7 @@ class Order < ActiveRecord::Base
   def close_timer_started?
     close_time
   end
-    
+      
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
   # These are the emails of the users that are to be invited when
@@ -62,11 +67,11 @@ class Order < ActiveRecord::Base
   end                       
 
   def invited_user_attributes
-    @invited_user_attributes ||= self.invited_users.*.email
+    @invited_user_attributes || []# || self.invited_users.*.email
   end                       
   
-  def will_invite?(user)
-    invited_user_attributes.include?(user.email)
+  def will_invite?(user)      
+    @invited_user_attributes ? invited_user_attributes.include?(user.email) : true
   end                                        
   
   def have_invited?(user)
@@ -74,7 +79,7 @@ class Order < ActiveRecord::Base
   end
   
   def invitee?(user)
-     will_invite?(user) or have_invited?(user)
+    will_invite?(user) or have_invited?(user)
   end
         
   def set_user user

@@ -44,10 +44,9 @@ class OrdersController < ApplicationController
   end
 
 
-  def update                                  
+  def update
     @order.attributes = params[:order]
-    #browser_session.persist_order(@order)
-    persist_to session, @order
+    persist_to session, @order        
     if create_friendship
       redirect_to invite_order_path(@order)
     else
@@ -79,9 +78,8 @@ class OrdersController < ApplicationController
 
   # Display the invitation form to invite others
   def invite 
-    #browser_session.restore_order(@order)
     restore_from session, @order
-    @user_session = UserSession.new(:email=>flash[:email])
+#    @user_session = UserSession.new(:email=>flash[:email])
   end
 
   # Accept an invite that we were sent
@@ -159,7 +157,11 @@ private
   def create_friendship
     if params[:commit] == "Add"
       if current_user and fp = params[:friendship]
-        current_user.friendships.create(fp)
+        if current_user.friendships.create(fp)  
+          #Make sure the new friend is selected to be invited
+          @order.invited_user_attributes << fp[:friend_email]
+          persist_to session, @order
+        end
       end
       true
     else
@@ -167,6 +169,6 @@ private
     end
   end
   
-  
+
 end
 

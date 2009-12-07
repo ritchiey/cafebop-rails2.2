@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091201013344) do
+ActiveRecord::Schema.define(:version => 20091207022023) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20091201013344) do
     t.datetime "updated_at"
     t.integer  "shop_id"
     t.integer  "position"
+    t.string   "permalink"
   end
 
   create_table "operating_times", :force => true do |t|
