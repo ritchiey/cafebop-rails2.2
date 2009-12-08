@@ -2,7 +2,7 @@
 
 %h5="#{pluralize @shops.size, 'restaurant'} found:"
 
-%table
+%table.search
   -@shops.each_with_index do |shop, index|
     = render :partial=>"shop", :object=>shop, :locals=>{:index=>index}
 
