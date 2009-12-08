@@ -133,15 +133,27 @@ class OrderTest < ActiveSupport::TestCase
         assert_not_nil( @new_user = User.find_by_email(@new_user_email))
         assert_equal @order, @current_user.orders.find(:last).parent
         assert_equal @order, @new_user.orders.find(:last).parent
-      end     
+      end                                                
       
-      context "and one child order" do
+      context "and two child orders one of which is confirmed" do
         setup do                 
-          @other_user = User.make
+          @other_user = User.make(:email=>'other@cafebop.com')
           assert_difference "@order.child_orders.count", 1 do
             @child_order = @order.invite(@other_user)
           end
-        end  
+          @child_order.accept! 
+          # make an order_item but don't confirm the order so it shouldn't count
+          @child_order.order_items.make
+          @other_user_confirmed = User.make(:email=>'confirmed@cafebop.com')
+          assert_difference "@order.child_orders.count", 1 do
+            @child_order_confirmed = @order.invite(@other_user_confirmed)
+          end
+          @child_order_confirmed.accept!
+          @child_order_confirmed.order_items.make
+          assert_difference "@order.child_orders.state_eq('confirmed').count", 1 do
+            @child_order_confirmed.confirm!
+          end
+        end
         
         should "respond correctly as parent and child" do
           assert @order.is_parent?, "Order not recognised as parent"
@@ -153,7 +165,7 @@ class OrderTest < ActiveSupport::TestCase
         end
 
         should "not be able to invite the same user again" do
-          assert_same_elements [@other_user], @order.invited_users.all
+          assert_same_elements [@other_user, @other_user_confirmed], @order.invited_users.all
           assert_no_difference "Order.count" do
             @order.update_attributes :invited_user_attributes=>[@other_user.email]
           end
@@ -170,24 +182,69 @@ class OrderTest < ActiveSupport::TestCase
         should "have the same details on the child as the order" do
           assert_not_nil @order.shop
           assert_equal @order.shop, @child_order.shop
-        end
+        end 
+        
+        context "for a shop that queues pay-in-shop items" do
+          setup do
+            class << @order.shop
+              def queues_in_shop_payments?() true; end
+            end
+          end     
+
+          context "when queued" do
+            setup do
+              @order.order_items.each {|item| assert item.pending?}
+              @order.send 'print_or_queue!'
+              assert @order.queued?
+            end
+
+            should "queue all its order_items" do
+              @order.order_items.each {|item| assert item.queued?}
+            end           
+            
+            should "queue all its confirmed child_orders order items" do
+              @child_order_confirmed.order_items.each {|item| assert item.queued?}
+            end
+
+            should "not queue any of its unconfirmed child_orders order items" do
+              @child_order.order_items.each {|item| assert !item.queued?}
+            end
+
+            should "transition from queued to made on make!" do
+              assert @order.queued?
+              @order.make!
+              assert @order.made?
+            end
+
+            should "transition to made when last order_item is made" do
+              assert @order.queued?
+              @order.order_items.each do |item|
+                assert_equal @order, item.order
+                assert item.queued?
+                item.make!
+                assert @order.queued?
+                assert item.made?
+                if @order.order_items.any? {|item| !item.made?}
+                  assert @order.queued?
+                else  
+                  @order.reload
+                  assert @order.made?
+                end
+              end
+              assert @order.order_items.all? {|item| item.made?}
+              @order.reload
+              assert @order.made?, "order should have been made"
+            end
+
+          end
+
+        end        
       
       end
 
     end
   end
 
-  context "a couple of orders one with order items" do
-    setup do
-      @order_with_items = Order.make
-      @order_with_items.order_items.make
-      @order_without_items = Order.make
-    end
-
-    should "filter correctly through the with_items named_scope" do
-      assert_same_elements [@order_with_items], Order.with_items.all
-    end
-  end
   
   context "an old order and a new order" do
     setup do

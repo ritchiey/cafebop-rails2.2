@@ -1,12 +1,8 @@
 -order = summary_rows
-
--if order.is_in_group?
-  %tr.user-header
-    %td(colspan="4")=h order.user
-
 != render :partial => 'order_item', :collection=>order.order_items
 
 -if order.is_in_group?
   %tr.sub-total
-    %td(colspan="3") Sub Total
+    %td(colspan="2")  
+    %td #{h order.user} pays
     %td=h number_to_currency(order.total)

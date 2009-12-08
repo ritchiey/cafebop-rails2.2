@@ -3,7 +3,7 @@ UserObserver.instance
 
 class OrdersController < ApplicationController
 
-  before_filter :order_from_id, :except=>[:index, :new, :create, :accept, :decline]
+  before_filter :order_from_id, :except=>[:index, :new, :create, :accept, :decline, :show]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:create]
 
@@ -11,7 +11,8 @@ class OrdersController < ApplicationController
     @orders = Order.find :all
   end
 
-  def show
+  def show  
+    @order = Order.find(params[:id], :include=>:order_items)
     @shop = @order.shop
   end
 

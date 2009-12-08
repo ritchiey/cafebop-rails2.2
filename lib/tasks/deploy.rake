@@ -16,10 +16,7 @@ namespace :deploy do
     `git checkout work`
   end
 
-  desc "Deploy to the production Heroku environment"
-  task :production do
-    
-  end
+
 
 end
 

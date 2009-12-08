@@ -66,6 +66,15 @@ class UserTest < ActiveSupport::TestCase
 
   end
 
+  context "A user with a given email" do
+    setup do
+      @user = User.make(:email=>'hagrid@cafebop.com')
+    end
 
+    should "have an appropriate shortened email" do
+      assert_equal 'hagrid', @user.shortened_email
+    end
+  end
+  
 
 end

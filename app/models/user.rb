@@ -36,7 +36,13 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/io, :on => :create
   validates_uniqueness_of :email
                                            
-  def to_s() name || email; end 
+  def to_s() name || shortened_email; end 
+
+  def shortened_email    
+    e = email
+    i = e.index('@')
+    e[0,i]
+  end
   
   def active?
     active

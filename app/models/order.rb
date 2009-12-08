@@ -19,14 +19,14 @@ class Order < ActiveRecord::Base
   has_many :order_items, :dependent=>:destroy
 
   has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id'
-  has_many :invited_users, :through => :child_orders, :source => :user
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
+  has_many :invited_users, :through => :child_orders, :source => :user
   belongs_to :parent, :class_name=>'Order'
   
   named_scope :current, :conditions=>{:state=>%w/invited pending queued pending_paypal_auth/}
   named_scope :with_items, :joins=>:order_items
   named_scope :recent, :conditions=>["orders.created_at > ?", 4.hours.ago]
-  named_scope :newest_first, :order=>"created_at DESC"
+  named_scope :newest_first, :order=>"created_at DESC"    
 
 
   def persistent_attrs
@@ -170,6 +170,7 @@ class Order < ActiveRecord::Base
   def confirm!
     if pending? && is_child?
       self.state = 'confirmed'
+      save!
     end
   end
   
@@ -201,6 +202,9 @@ private
     if pending?
       if shop.queues_in_shop_payments?
         order_items.each {|item| item.queue!}
+        OrderItem.order_parent_id_eq(self.id).order_state_eq('confirmed').all(:readonly=>false).each do |item|
+          item.queue!
+        end
         self.state = 'queued'   
       else
         order_items.each {|item| item.print!}
