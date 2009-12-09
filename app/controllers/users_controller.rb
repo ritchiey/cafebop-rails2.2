@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @user.add_role('cafebop_admin') if User.count == 0
     if @user.save
       redirect_to root_path
-      flash[:notice] = "Thanks for signing up! Check your email to permanently activate your account. "
+      flash[:notice] = "Thanks for signing up! Check your email to permanently activate your account."
     else
       render :action => 'new'
     end
@@ -32,13 +32,17 @@ class UsersController < ApplicationController
     if @user = User.find_by_perishable_token(params[:token]) and @user.activate!
       @user.reset_perishable_token!
       UserSession.create(@user)
-      flash[:notice] = "Your account has been activated"
+      flash[:notice] = "Your Cafebop account is now active! Welcome aboard."
       redirect_to root_path
     else
       flash[:error] = 'Sorry, could not activate account'
       redirect_to new_user_path
     end
-  end  
+  end 
+  
+  def activation_sent
+    @user = User.find(params[:id])
+  end 
   
   private
   

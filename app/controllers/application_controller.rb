@@ -94,6 +94,17 @@ protected
     redirect_to :controller => :front, :action => "cookies_test"
   end
 
+  # If user_session parameters were passed and we're not currently
+  # authenticated, then attempt authenticate
+  def login_transparently
+    if !current_user && params[:user_session]
+      @user_session = UserSession.new(params[:user_session])
+      unless @user_session.save
+        flash[:error] = "Invalid email or password"
+      end
+    end
+  end
+
 
 private
 

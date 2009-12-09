@@ -1,3 +1,5 @@
+
+
 class InviteForm
 
   attr_accessor :email, :user, :invitees

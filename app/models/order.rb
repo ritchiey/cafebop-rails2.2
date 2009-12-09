@@ -1,6 +1,8 @@
 require 'digest/sha1'
 
 class Order < ActiveRecord::Base
+  
+  include OrderInvitation
         
   fields do
     notes :text    
@@ -12,6 +14,7 @@ class Order < ActiveRecord::Base
 
   before_create :inherit_from_parent
   before_save :start_close_timer
+  before_save :set_user_from_user_email
   after_save :invite_additional_users
   
   belongs_to :user
@@ -27,60 +30,9 @@ class Order < ActiveRecord::Base
   named_scope :with_items, :joins=>:order_items
   named_scope :recent, :conditions=>["orders.created_at > ?", 4.hours.ago]
   named_scope :newest_first, :order=>"created_at DESC"    
-
-
-  def persistent_attrs
-    [:minutes_til_close, :invited_user_attributes]
-  end
-
-  def minutes_til_close=(period)
-    @minutes_til_close = period
-  end
-  
-  def minutes_til_close
-    @minutes_til_close || 10
-  end
-  
-  def close_time
-    is_child? ? parent.close_time : self[:close_time]
-  end
-  
-  def closed?
-    Time.now >= close_time
-  end
-  
-  def waiting_for_close?
-    close_timer_started? and !closed?
-  end     
-  
-  def close_timer_started?
-    close_time
-  end
       
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
-  # These are the emails of the users that are to be invited when
-  # the user is saved. Those not already invited (ie in invited_users)
-  # will be invited
-  def invited_user_attributes=(emails)
-    @invited_user_attributes = emails
-  end                       
-
-  def invited_user_attributes
-    @invited_user_attributes || []# || self.invited_users.*.email
-  end                       
-  
-  def will_invite?(user)      
-    @invited_user_attributes ? invited_user_attributes.include?(user.email) : true
-  end                                        
-  
-  def have_invited?(user)
-    invited_users.include?(user)
-  end
-  
-  def invitee?(user)
-    will_invite?(user) or have_invited?(user)
-  end
         
   def set_user user
     unless self.user
@@ -89,11 +41,6 @@ class Order < ActiveRecord::Base
     end
   end
                 
-  # Can only send invites if not a child order
-  def can_send_invites?
-    !is_child? and !close_timer_started?
-  end
-
   def is_child?
     parent
   end                 

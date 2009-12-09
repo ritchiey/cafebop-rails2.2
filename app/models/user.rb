@@ -66,9 +66,13 @@ class User < ActiveRecord::Base
       :total => count
     }
   end
+
+  def self.for_email(email)
+    find_or_create_by_email({:email=>email}.merge(dummy_password_attributes))
+  end
   
   def self.for_emails(emails)
-    emails.map {|email| find_or_create_by_email({:email=>email}.merge(dummy_password_attributes))}.reject {|user| !user}
+    emails.map {|email| for_email(email)}.reject {|user| !user}
   end
 
   def self.create_without_password(params)

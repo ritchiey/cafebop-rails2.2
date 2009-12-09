@@ -8,11 +8,10 @@
     See if you're friends or colleagues want anything while you're there. The email they receive will read:
 
   -form_for @order do |f|
-    -fields_for UserSession.new do |uf|
-      .email-message
-        =current_user ? h(current_user) : "#{uf.text_field(:email, :value=>'your email')}"
-        \ is going to #{h @order.shop} |
-        in about #{f.select :minutes_til_close, [5, 10, 15, 20, 25, 30, 45, 60]} minutes and can bring you something back.
+    .email-message
+      =current_user ? h(current_user) : "#{f.text_field(:user_email, :value=>'your email')}"
+      \ is going to #{h @order.shop} |
+      in about #{f.select :minutes_til_close, [5, 10, 15, 20, 25, 30, 45, 60]} minutes and can bring you something back.
     -if current_user
       %table
         %thead

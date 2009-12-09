@@ -10,7 +10,6 @@ class ItemQueueTest < ActiveSupport::TestCase
       @menu = Menu.make(:shop=>@shop)
       @menu_item = MenuItem.make(:menu=>@menu, :item_queue=>@queue)
       @order_item = OrderItem.make(:menu_item=>@menu_item)
-      #debugger
       assert_equal @queue, @order_item.item_queue
     end
     

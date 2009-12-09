@@ -64,7 +64,7 @@ class OrderingTest < ActionController::IntegrationTest
 
             should "be able to edit and confirm their order" do
               add_to_last_order
-              click_button "Confirm Order"
+              click_button "Continue"
               # TODO Webrat doesn't seem to follow redirect here
               #assert_contain "Your order will be collected from #{@order.shop} by #{@order.user}."
             end
@@ -109,7 +109,7 @@ class OrderingTest < ActionController::IntegrationTest
 
     should "be able to enter login as an existing user on the invite others screen" do
       click_button "Offer Friends"
-      fill_in "user_session_email", :with=>@user.email
+      fill_in "order_user_email", :with=>@user.email
       click_button "Continue"
       # fill_in "user_session_password", :with=>@password
       # click_button "Continue"

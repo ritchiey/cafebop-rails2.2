@@ -1,4 +1,4 @@
 -semantic_fields_for @user_session do |uf| 
-  =uf.input :email#, :input_html=>{:disabled=>true}
-  =uf.input :password, :as=>:password, :hint=>"Your Cafebop password"
+  =uf.input :email, :required=>false
+  =uf.input :password, :as=>:password, :required=>false, :hint=>"Your Cafebop password"
   = submit_tag "Continue"

@@ -5,7 +5,8 @@ class OrdersController < ApplicationController
 
   before_filter :order_from_id, :except=>[:index, :new, :create, :accept, :decline, :show]
   before_filter :login_transparently, :only => [:update]
-  before_filter :create_friendship, :only=>[:create]
+  before_filter :create_friendship, :only=>[:update]
+
 
   def index
     @orders = Order.find :all
@@ -45,19 +46,16 @@ class OrdersController < ApplicationController
   end
 
 
-  def update
+  def update  
+    restore_from session, @order
     @order.attributes = params[:order]
-    persist_to session, @order        
-    if create_friendship
-      redirect_to invite_order_path(@order)
+    persist_to session, @order
+    @order.user ||= current_user
+    if @order.save # updated attributes earlier
+      redirect_to @order.inviting ? invite_order_path(@order) : order_path(@order)
     else
-      @order.user ||= current_user
-      if @order.save # updated attributes earlier
-        redirect_to order_path(@order)
-      else
-        flash[:error] = "Unable to save changes"
-        redirect_to edit_order_path(@order)
-      end
+      flash[:error] = "Unable to save changes"
+      redirect_to edit_order_path(@order)
     end
   end  
 
@@ -80,8 +78,12 @@ class OrdersController < ApplicationController
   # Display the invitation form to invite others
   def invite 
     restore_from session, @order
-#    @user_session = UserSession.new(:email=>flash[:email])
+    @order.inviting = true
+    persist_to session, @order
+    # If user's already specified email pre-populate login form
+    @user_session = UserSession.new(:email=>@order.user_email) if !authenticated? && @order.user_email
   end
+
 
   # Accept an invite that we were sent
   def accept
@@ -123,36 +125,36 @@ private
   def order_from_id
     @order = Order.find(params[:id])
   end
-  
-  def login_transparently
-    if !current_user && params[:user_session]
-      email = params[:user_session][:email] 
-      user = User.email_is(email).first
-      if user
-        if user.active?
-          if params[:user_session][:password]
-            @user_session = UserSession.new(params[:user_session])
-            if @user_session.save
-              @order.andand.set_user(user)
-            else
-              flash[:error] = "Invalid email or password"
-            end
-          else # active user but no password specified     
-            flash[:email] = user.email # the view should detect the email and just ask for the password
-          end
-        else # exists but not active
-          Notifications.deliver_activate(user)
-          flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
-          @order.andand.set_user(user)
-        end
-      else # new user
-        user = User.create_without_password(:email=>email)
-        flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
-        @order.andand.set_user(user)
-      end
-      redirect_to :back
-    end
-  end
+
+  # def login_transparently
+  #   if !current_user && params[:user_session]
+  #     email = params[:user_session][:email] 
+  #     user = User.email_is(email).first
+  #     if user
+  #       if user.active?
+  #         if params[:user_session][:password]
+  #           @user_session = UserSession.new(params[:user_session])
+  #           if @user_session.save
+  #             @order.andand.set_user(user)
+  #           else
+  #             flash[:error] = "Invalid email or password"
+  #           end
+  #         else # active user but no password specified     
+  #           flash[:email] = user.email # the view should detect the email and just ask for the password
+  #         end
+  #       else # exists but not active
+  #         Notifications.deliver_activate(user)
+  #         flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
+  #         @order.andand.set_user(user)
+  #       end
+  #     else # new user
+  #       user = User.create_without_password(:email=>email)
+  #       flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
+  #       @order.andand.set_user(user)
+  #     end
+  #     redirect_to :back
+  #   end
+  # end
     
   
   def create_friendship
@@ -164,12 +166,8 @@ private
           persist_to session, @order
         end
       end
-      true
-    else
-      false
+      redirect_to invite_order_path(@order)
     end
   end
-  
-
 end
 
