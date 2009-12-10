@@ -21,9 +21,10 @@
         %tbody
           -if current_user
             -current_user.friends.each do |friend|
-              %tr
-                %td=check_box_tag "order[invited_user_attributes][]", friend.email, @order.invitee?(friend), :id=>"invite_user_#{friend.id}" 
-                %td=h friend.email
+              %tr                                         
+                - check_box_id = "invite_user_#{friend.id}"
+                %td=check_box_tag "order[invited_user_attributes][]", friend.email, @order.invitee?(friend), :id=>check_box_id 
+                %td=label_tag check_box_id, friend.email
             %tr
               -fields_for current_user.friendships.build do |ff|
                 %td

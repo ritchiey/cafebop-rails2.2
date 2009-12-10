@@ -33,9 +33,10 @@ Feature: Invite others
     When I fill in "friendship[friend_email]" with "ron@hogwarts.edu"
     And I press "Add"
     Then I should see "ron@hogwarts.edu"
+    And the "ron@hogwarts.edu" checkbox should be checked
     When I press "Continue"
-    Then I should receive an email
-    When I open the email
+    # Then I should receive an email
+    # When I open the email
     #     Then I should see "harry is going to Gromits and can pick something up for you there." in the email body
     #     And I should see "If you would like anything, click the link below to place your order:" in the email body
     #     And I should see "This message was sent from Cafebop on behalf of" in the email body
