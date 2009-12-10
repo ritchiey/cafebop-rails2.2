@@ -1,2 +1,4 @@
-autotest: --color
-autotest-all: --color
+
+autotest: features -r features --format pretty --color
+
+autotest-all: features -r features --format pretty --color
