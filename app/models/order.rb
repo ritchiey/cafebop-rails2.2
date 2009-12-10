@@ -171,6 +171,7 @@ private
   def start_close_timer
     if @minutes_til_close
       self[:close_time] = @minutes_til_close.to_i.minutes.from_now
+      inviting = false
     end
   end
 
