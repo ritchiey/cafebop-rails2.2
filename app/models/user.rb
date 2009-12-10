@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 
   acts_as_authentic
   easy_roles :roles
+  include Gravatar
   
   def self.possible_roles
     %w/cafebop_admin claim_approver/

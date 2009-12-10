@@ -1,8 +1,9 @@
 require 'digest/sha1'
 
+
 class Order < ActiveRecord::Base
   
-  include OrderInvitation
+  include OrderInvitation      
         
   fields do
     notes :text    
