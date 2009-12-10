@@ -58,6 +58,3 @@ Feature: Invite others
       # And I should receive an email    
       
       
-    Scenario: Logging in with an active user
-  	  When I am logged in as "harry@hogwarts.edu" with password "Quiddich"
-  	  Then I should see "Logged in as harry"

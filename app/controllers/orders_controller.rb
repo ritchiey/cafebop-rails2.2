@@ -162,6 +162,7 @@ private
       if current_user and fp = params[:friendship]
         if current_user.friendships.create(fp)  
           #Make sure the new friend is selected to be invited
+          @order.attributes = params[:order]
           @order.invited_user_attributes << fp[:friend_email]
           persist_to session, @order
         end

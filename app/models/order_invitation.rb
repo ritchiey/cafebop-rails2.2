@@ -61,7 +61,7 @@ module OrderInvitation
   end                       
 
   def invited_user_attributes
-    @invited_user_attributes || []# || self.invited_users.*.email
+    @invited_user_attributes ||= []# || self.invited_users.*.email
   end                       
   
   def will_invite?(user)      
