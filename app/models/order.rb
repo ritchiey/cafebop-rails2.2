@@ -173,6 +173,7 @@ private
       self[:close_time] = @minutes_til_close.to_i.minutes.from_now
       inviting = false
     end
+    true
   end
 
   def inherit_from_parent
