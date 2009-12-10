@@ -14,7 +14,7 @@
 
   %body{:style=>"background: #{page_background}"}
     .container
-      #content.span-24.last
+      .span-24.last
         -unless flash.empty?
           .flash
             - if flash[:notice]
@@ -27,39 +27,43 @@
               #error
                 =flash[:error]
       
-        #content-header.span-24.last{:style=>"background: #{header_background}"}
+        #page-header.span-24.last
           .span-18.no-print
             =placeholder(:size=>'144x72')
           .span-6.last
-            =render :partial=>'layouts/account_nav'
-          -default_content_for :content_header do
-            =placeholder :width=>1, :height=>180
-        #print-header.print-only
-          -if @shop
-            %h1=h @shop.name
-            -if current_user
-              %h3=h "Order for #{current_user} at #{Time.now.to_s(:long)}"
-        -default_content_for :content do
-          -default_content_for :content_top do
-            %span
-          #content-body.span-15
-            -default_content_for :content_body do
-              #main.span-15.last
-                .span-1=placeholder
-                .span-14.last
-                  =yield
-              .span-15.last
-                =placeholder :height=>54
-              
-          #side.span-9.last.no-print
-            #aside.span-8
-              =yield :aside || placeholder
-            .span-1.last
-              =placeholder
-        
-          #content-foot.span-24.last
-            -default_content_for :content_foot do
+            =render :partial=>'layouts/account_nav' 
+          
+        #content.span-24.last
+          #print-header.print-only
+            -if @shop
+              %h1=h @shop.name
+              -if current_user
+                %h3=h "Order for #{current_user} at #{Time.now.to_s(:long)}"
+          -default_content_for :content do
+            -default_content_for :content_top do
               %span
+            #content-body.span-15
+              -default_content_for :content_body do
+                #main.span-15.last  
+                  .main-header.span-15.last{:style=>"background: #{header_background}"}
+                    -default_content_for :content_header do
+                      =placeholder :width=>1, :height=>180
+                  .main-body.span-15.last
+                    .span-1=placeholder
+                    .span-14.last
+                      =yield
+                  .span-15.last
+                    =placeholder :height=>54
+              
+            #side.span-9.last.no-print
+              #aside.span-8
+                =yield :aside || placeholder
+              .span-1.last
+                =placeholder
+        
+            #content-foot.span-24.last
+              -default_content_for :content_foot do
+                %span
 
     #page-footer
       .container

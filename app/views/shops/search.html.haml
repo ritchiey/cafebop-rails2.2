@@ -1,9 +1,21 @@
+-if current_user
+  -content_for :aside do
+    != render :partial => 'front/shops_table'
+    != render :partial => 'front/friends_table'
+
 = render :partial => 'shops/search_panel'
 
-%h5="#{pluralize @shops.size, 'restaurant'} found:"
+.search-results.span-14.last
+  .span-14.last
+    %h6="#{pluralize @shops.size, 'restaurant'} found:"
 
-%table.search
-  -@shops.each_with_index do |shop, index|
-    = render :partial=>"shop", :object=>shop, :locals=>{:index=>index}
+  .span-7
+    %table.search
+      -@shops.each_with_index do |shop, index|
+        = render :partial=>"shop", :object=>shop, :locals=>{:index=>index}
 
-!= render :partial => 'add_shop_blurb'
+    != render :partial => 'add_shop_blurb'
+
+  .span-7.last
+  -if @shops
+    =static_map :places=>@shops, :center=>@search, :width=>260, :height=>260

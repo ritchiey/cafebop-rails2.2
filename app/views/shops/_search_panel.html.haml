@@ -33,9 +33,7 @@
     google.load("maps", "2");
     google.setOnLoadCallback(initialize_geocoder);
 
--content_for :aside do
-  -if @shops
-    =static_map :places=>@shops, :center=>@search, :width=>310, :height=>500
+
 
 .search-panel
   %h3.title Locate a Restaurant near you...

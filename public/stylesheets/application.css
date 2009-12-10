@@ -12,9 +12,6 @@ body {
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em; }
 
-#content-header {
-  background-color: #e3d882; }
-
 #aside {
   min-height: 200px;
   height: auto !important;
