@@ -8,8 +8,8 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
     
-    when /the homepage/
-      '/'           
+    when /the home\s?page/
+      '/'
     
     when /the shop (.+)'s edit page/
       shop = Shop.find_by_name($1)
@@ -25,7 +25,6 @@ module NavigationHelpers
     when /^the ordering screen for (.*)$/
       shop = Shop.find_by_name($1)
       "/shops/#{shop.permalink}/orders/new"  
-
     # Add more mappings here.
     # Here is a more fancy example:
     #

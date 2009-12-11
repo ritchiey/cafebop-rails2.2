@@ -5,6 +5,7 @@ Feature: Invite others
 
   Background:
     Given there is an active user with email "harry@hogwarts.edu" and password "Quiddich"
+    And "harry@hogwarts.edu" has a friend with email "hermione@hogwarts.edu"
 	  And there is a shop named "Gromits"
 		And Gromits has a menu called "Breakfast"
 		And the Breakfast menu has the following menu items:
@@ -13,9 +14,7 @@ Feature: Invite others
 	 | toast  | Straight from our toaster      | 200  |
 
 	Scenario: Sending and accepting an order as an existing user
-	  Given I have a pending order with items at Gromits
-	  Then I should see "At work?"
-	  When I press "Offer Friends"
+    Given I am inviting my friends to order at Gromits
 	  # Initial invite page
 	  Then I should see "See if you're friends or colleagues want anything while you're there. The email they receive will read"
 	  And I should see "is going to Gromits"
@@ -55,5 +54,8 @@ Feature: Invite others
       And I press "Continue"
       # And I should see "An activation email has been sent to harry@hogwarts.edu."
       # And I should receive an email    
+      
+    Scenario: Sending and accepting an order as an authenticated user
+      Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
       
       

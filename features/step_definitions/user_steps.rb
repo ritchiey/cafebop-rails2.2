@@ -21,3 +21,10 @@ Given /^I am logged in as "(.+?)" with password "(.+?)"$/ do |email, password|
   click_button "Login"
 end
 
+Given /^"([^\"]*)" has a friend with email "([^\"]*)"$/ do |user_email, friend_email|
+  user = User.email_eq(user_email).first
+  user or raise "No existing user with email #{user_email}"
+  friend = User.make(:active=>true, :email=>friend_email)
+  user.friends << friend
+  user.save!
+end
