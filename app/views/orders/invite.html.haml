@@ -13,6 +13,7 @@
       \ is going to #{h @order.shop} |
       in about #{f.select :minutes_til_close, [5, 10, 15, 20, 25, 30, 45, 60]} minutes and can bring you something back.
     -if current_user
+      =f.hidden_field :start_close_timer
       %table
         %thead
           %tr

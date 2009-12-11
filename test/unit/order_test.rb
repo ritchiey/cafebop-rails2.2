@@ -27,7 +27,7 @@ class OrderTest < ActiveSupport::TestCase
       assert @order.order_items.empty?
     end
     
-    should "not be in considered part of a group order" do
+    should "not be considered part of a group order" do
       assert !@order.is_in_group?
     end                         
     
@@ -116,17 +116,41 @@ class OrderTest < ActiveSupport::TestCase
     end
 
     context "and a user set" do
-      setup do                 
-        assert @order.user = User.make(:active)
+      setup do
+        @user = User.make(:active)
+        assert @order.user = @user
         assert @order.save
       end
+      
+      context "who has friends" do
+        setup do
+          assert_difference "@user.friends.count", 1 do
+            @friend = User.make
+            assert @user.friends << @friend
+            @user.save
+          end
+        end
+
+        should "invite the friend by default" do
+          @order.will_invite?(@friend)
+        end
+        
+        should "include the user in the list to invite" do
+          assert_same_elements [@friend], @order.possible_invitees
+        end
+        
+        should "show the friends email as a possible invitee" do
+          assert_same_elements [@friend], @order.possible_invitees
+        end
+      end
+      
     
       should "invite new users when saved" do
         @current_user = User.make
         @new_user_email = 'hagrid@cafebop.com'
         assert_difference "Order.count", 2 do
           assert_difference "User.count", 1 do
-            @order.attributes = {:invited_user_attributes=>[@new_user_email, @current_user.email]}
+            @order.attributes = {:start_close_timer=>"true", :invited_user_attributes=>[@new_user_email, @current_user.email]}
             assert @order.save
           end
         end
@@ -175,7 +199,7 @@ class OrderTest < ActiveSupport::TestCase
           assert_difference "Order.count", 1 do                      
             email = User.make.email
             assert_not_nil email
-            @order.update_attributes :invited_user_attributes=>[email]
+            @order.update_attributes :start_close_timer=>'yes', :invited_user_attributes=>[email]
           end
         end           
       

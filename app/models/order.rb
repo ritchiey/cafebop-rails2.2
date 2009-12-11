@@ -163,15 +163,15 @@ private
   end
 
   def invite_additional_users
-    if !is_child? and self[:user_id]
+    if !is_child? and self[:user_id] and close_timer_started?
       invitees = User.for_emails(invited_user_attributes)
       (invitees - invited_users.all).each {|user| invite user}
     end
   end
 
   def start_close_timer
-    if @minutes_til_close
-      self[:close_time] = @minutes_til_close.to_i.minutes.from_now
+    if @start_close_timer and !close_timer_started?
+      self[:close_time] = minutes_til_close.to_i.minutes.from_now
       inviting = false
     end
     true

@@ -36,6 +36,15 @@ module OrderInvitation
     @minutes_til_close || 10
   end
 
+  def start_close_timer
+    "yes" # the default value that will appear on forms.
+    # internally, we'll check the instance variable instead
+  end
+    
+  def start_close_timer=(value)
+    @start_close_timer = value
+  end                   
+  
   def close_time
     is_child? ? parent.close_time : self[:close_time]
   end
@@ -61,11 +70,15 @@ module OrderInvitation
   end                       
 
   def invited_user_attributes
-    @invited_user_attributes ||= []# || self.invited_users.*.email
+    @invited_user_attributes ||= possible_invitees.*.email
   end                       
   
+  def possible_invitees
+    user ? user.friends : []
+  end
+  
   def will_invite?(user)      
-    @invited_user_attributes ? invited_user_attributes.include?(user.email) : true
+    invited_user_attributes.include?(user.email)
   end                                        
   
   def have_invited?(user)
