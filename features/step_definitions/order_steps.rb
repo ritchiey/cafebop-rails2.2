@@ -18,6 +18,7 @@ Given /^I am inviting my friends to order at (.+)$/ do |shop|
   }
 end
 
+
 Then /^I add "([^\"]*)" as a friend during the invitation$/ do |email|
   steps %Q{
     And I should see "Friend's Email"
@@ -25,5 +26,24 @@ Then /^I add "([^\"]*)" as a friend during the invitation$/ do |email|
     And I press "Add"
     Then I should see "#{email}"
     And the "#{email}" checkbox should be checked
+  }
+end
+
+
+Then /^"([^\"]*)" should receive and invitation from "([^\"]*)" to order from "([^\"]*)" with a "([^\"]*)" minute limit$/ do |recipient, originator, shop, minutes|
+  steps %Q{
+    Then "#{recipient}" should receive an email
+    When they open the email
+    Then they should see "#{originator} is going to #{shop} in about #{minutes} minutes and can bring you something back" in the email body
+    And they should see "If you'd like to take up the offer, go here:" in the email body
+    And they should see "This message was sent on behalf of #{originator} by the Cafebop social food ordering system" in the email body
+    And they should see "If you don't know who #{originator} is, you can safely ignore this message" in the email body
+  }
+end
+
+Then /^they should be able to accept the invitation$/ do
+  steps %Q{
+    When they click the first link in the email
+    Then I should see "Your Order"
   }
 end

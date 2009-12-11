@@ -28,3 +28,18 @@ Given /^"([^\"]*)" has a friend with email "([^\"]*)"$/ do |user_email, friend_e
   user.friends << friend
   user.save!
 end
+
+Then /^"([^\"]*)" should receive an activation email$/ do |email|
+  steps %Q{
+    Then "#{email}" should receive an email
+    When they open the email
+    Then they should see "Please visit the following web address to activate your cafebop.com account" in the email body
+  }
+end
+
+When /^I activate the account for "([^\"]*)"$/ do |email|
+  steps %Q{
+    When I click the first link in the email
+    Then I should see "Your Cafebop account is now active! Welcome aboard."
+  }
+end

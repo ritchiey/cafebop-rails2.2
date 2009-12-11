@@ -9,6 +9,7 @@ class Order < ActiveRecord::Base
     notes :text    
     state :string, :default=>'pending'
     perishable_token :string
+    minutes_til_close :integer
     close_time :datetime
     timestamps
   end

@@ -14,10 +14,13 @@ Feature: Invite others
 	 | toast  | Straight from our toaster      | 200  |
       
 
-   Scenario: Sending and accepting an order as an authenticated user
-     Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
-     And I am inviting my friends to order at Gromits
-     Then the "hermione@hogwarts.edu" checkbox should be checked
+  Scenario: Sending and accepting an order as an authenticated user
+    Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
+    And I am inviting my friends to order at Gromits
+    Then the "hermione@hogwarts.edu" checkbox should be checked
+    When I select "5" from "order[minutes_til_close]"
+    And I press "Continue"
+    Then "hermione@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
      
 
 
@@ -32,25 +35,24 @@ Feature: Invite others
     And I fill in "user_session_password" with "Quiddich"
     And I press "Continue"
     Then I should see "Logged in as harry"
-    # Add a friend
+    #And the "minutes" field should contain "5" # doesn't work
     And I add "ron@hogwarts.edu" as a friend during the invitation
     When I press "Continue"
-    # Then I should receive an email
-    # When I open the email
-    #     Then I should see "harry is going to Gromits and can pick something up for you there." in the email body
-    #     And I should see "If you would like anything, click the link below to place your order:" in the email body
-    #     And I should see "This message was sent from Cafebop on behalf of" in the email body
-    #     When I click the first link in the email
-    #     Then I should see "Respond to Invitation"
+    Then "ron@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
+    And they should be able to accept the invitation
     #     When I press "Show Me the Menu"
     #     Then I should see "Gromits"
 
   	Scenario: Sending and accepting an order as an new user
       Given I am inviting my friends to order at Gromits
-      And I fill in "order[user_email]" with "neville@cafebop.com"
+      And I fill in "order[user_email]" with "neville@hogwarts.edu"
       And I select "5" from "order[minutes_til_close]"
-      And I press "Continue"
-      # And I should see "An activation email has been sent to harry@hogwarts.edu."
-      # And I should receive an email    
+      And I press "Continue"  
+      Then "neville@hogwarts.edu" should receive an activation email
+      When I activate the account for "neville@hogwarts.edu"
+      Then I should see "You have Outstanding Orders..."   
+      #When I follow "Gromits" within "my-orders"
+      
+      
       
       

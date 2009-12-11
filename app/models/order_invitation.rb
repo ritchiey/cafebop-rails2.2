@@ -27,13 +27,9 @@ module OrderInvitation
   def persistent_scope
     :global
   end
-
-  def minutes_til_close=(period)
-    @minutes_til_close = period
-  end
   
   def minutes_til_close
-    @minutes_til_close || 10
+    self[:minutes_til_close] || 10
   end
 
   def start_close_timer
