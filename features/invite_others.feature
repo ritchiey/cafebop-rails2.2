@@ -12,12 +12,18 @@ Feature: Invite others
 	 | name   | description                    | price |
 	 | coffee | Delicious Cafeine Laden coffee | 380  |
 	 | toast  | Straight from our toaster      | 200  |
+      
+
+   Scenario: Sending and accepting an order as an authenticated user
+     Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
+     And I am inviting my friends to order at Gromits
+     Then the "hermione@hogwarts.edu" checkbox should be checked
+     
+
 
 	Scenario: Sending and accepting an order as an existing user
     Given I am inviting my friends to order at Gromits
 	  # Initial invite page
-	  Then I should see "See if you're friends or colleagues want anything while you're there. The email they receive will read"
-	  And I should see "is going to Gromits"
     And I fill in "order[user_email]" with "harry@hogwarts.edu"
     And I select "5" from "order[minutes_til_close]"
     And I press "Continue"
@@ -27,11 +33,7 @@ Feature: Invite others
     And I press "Continue"
     Then I should see "Logged in as harry"
     # Add a friend
-    And I should see "Friend's Email"
-    When I fill in "friendship[friend_email]" with "ron@hogwarts.edu"
-    And I press "Add"
-    Then I should see "ron@hogwarts.edu"
-    And the "ron@hogwarts.edu" checkbox should be checked
+    And I add "ron@hogwarts.edu" as a friend during the invitation
     When I press "Continue"
     # Then I should receive an email
     # When I open the email
@@ -44,18 +46,11 @@ Feature: Invite others
     #     Then I should see "Gromits"
 
   	Scenario: Sending and accepting an order as an new user
-  	  Given I have a pending order with items at Gromits
-  	  Then I should see "At work?"
-  	  When I press "Offer Friends"
-  	  Then I should see "See if you're friends or colleagues want anything while you're there. The email they receive will read"
-  	  And I should see "is going to Gromits"
-      And I fill in "order[user_email]" with "hermione@cafebop.com"
+      Given I am inviting my friends to order at Gromits
+      And I fill in "order[user_email]" with "neville@cafebop.com"
       And I select "5" from "order[minutes_til_close]"
       And I press "Continue"
       # And I should see "An activation email has been sent to harry@hogwarts.edu."
       # And I should receive an email    
-      
-    Scenario: Sending and accepting an order as an authenticated user
-      Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
       
       

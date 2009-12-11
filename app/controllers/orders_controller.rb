@@ -76,7 +76,8 @@ class OrdersController < ApplicationController
   end
 
   # Display the invitation form to invite others
-  def invite 
+  def invite    
+    current_user and @order.user ||= current_user
     restore_from session, @order
     @order.inviting = true
     persist_to session, @order
