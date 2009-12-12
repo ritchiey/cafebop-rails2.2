@@ -1,5 +1,5 @@
 
-Given /^I have a pending order with items at (.+?)$/ do |shop|
+Given(/^I have a pending order with items at (.+?)$/) do |shop|
   shop = Shop.find_by_name(shop)
   order = Order.make(:shop=>shop, :state=>'pending')
   # Factory(:order_item, :order=>order)
@@ -8,7 +8,7 @@ Given /^I have a pending order with items at (.+?)$/ do |shop|
 end            
 
 
-Given /^I am inviting my friends to order at (.+)$/ do |shop|
+Given(/^I am inviting my friends to order at (.+)$/) do |shop|
   steps %Q{
     Given I have a pending order with items at #{shop}
     Then I should see "At work?"
@@ -19,7 +19,7 @@ Given /^I am inviting my friends to order at (.+)$/ do |shop|
 end
 
 
-Then /^I add "([^\"]*)" as a friend during the invitation$/ do |email|
+Then(/^I add "([^\"]*)" as a friend during the invitation$/) do |email|
   steps %Q{
     And I should see "Friend's Email"
     When I fill in "friendship[friend_email]" with "#{email}"
@@ -30,7 +30,7 @@ Then /^I add "([^\"]*)" as a friend during the invitation$/ do |email|
 end
 
 
-Then /^"([^\"]*)" should receive and invitation from "([^\"]*)" to order from "([^\"]*)" with a "([^\"]*)" minute limit$/ do |recipient, originator, shop, minutes|
+Then(/^"([^\"]*)" should receive and invitation from "([^\"]*)" to order from "([^\"]*)" with a "([^\"]*)" minute limit$/) do |recipient, originator, shop, minutes|
   steps %Q{
     Then "#{recipient}" should receive an email
     When they open the email
@@ -41,9 +41,15 @@ Then /^"([^\"]*)" should receive and invitation from "([^\"]*)" to order from "(
   }
 end
 
-Then /^they should be able to accept the invitation$/ do
+Then(/^they should be able to accept the invitation$/) do
   steps %Q{
     When they click the first link in the email
     Then I should see "Your Order"
   }
+end        
+
+Then(/^I should see invited friends table$/) do |expected_table|  
+  html_table = table_at("#invited-friends").to_a
+  html_table.map! { |r| r.map! { |c| c.gsub(/<.+?>/, '') } }  
+  expected_table.diff!(html_table)  
 end

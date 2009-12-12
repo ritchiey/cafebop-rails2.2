@@ -20,8 +20,13 @@ module NavigationHelpers
       
     when /the login page/
       '/login'
+    
+    when /path "(.+)"/
+      $1
       
-
+    when /the show page for (.+)/
+      polymorphic_path(model($1))        
+      
     when /^the ordering screen for (.*)$/
       shop = Shop.find_by_name($1)
       "/shops/#{shop.permalink}/orders/new"  

@@ -20,9 +20,10 @@ Feature: Invite others
     Then the "hermione@hogwarts.edu" checkbox should be checked
     When I select "5" from "order[minutes_til_close]"
     And I press "Continue"
+    # Then I should see invited friends table
+    #   | Friend                | Status  |
+    #   | hermione@hogwarts.edu | invited |    
     Then "hermione@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
-     
-
 
 	Scenario: Sending and accepting an order as an existing user
     Given I am inviting my friends to order at Gromits
