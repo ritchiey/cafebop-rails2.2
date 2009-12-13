@@ -17,6 +17,8 @@ var dialog, quantity_field, size_field, notes_field, details_field, order_items,
 
 
 $(function() { // page ready   
+  $('body').supersleight({shim: '/images/transparent.gif'});
+
 	jQuery(".hjq-accordion").accordion(); 
 	          
   dialog = $('#dialog');
