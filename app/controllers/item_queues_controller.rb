@@ -1,12 +1,13 @@
 class ItemQueuesController < ApplicationController
+  
+  before_filter :shop_from_permalink, :only => [:new, :create]
+  before_filter :item_queue_from_id, :except => [:new, :create]
      
   def new
-    @shop = Shop.find_by_permalink(params[:shop_id])
     @item_queue = @shop.item_queues.build
   end                                
   
   def create
-    @shop = Shop.find_by_permalink(params[:shop_id])
     @item_queue = @shop.item_queues.build(params[:item_queue])
     if @item_queue.save
       flash[:notice] = "Queue created."
@@ -17,24 +18,32 @@ class ItemQueuesController < ApplicationController
   end
 
   def show
-    @item_queue = ItemQueue.find(params[:id])
   end
 
   def current_items
-    @item_queue = ItemQueue.find(params[:id])
     render :partial=>"current_items"
   end
 
   def start
-    @item_queue = ItemQueue.find(params[:id])
     @item_queue.start!
     render :partial=>'status'
   end
 
   def stop
-    @item_queue = ItemQueue.find(params[:id])
     @item_queue.stop!
     render :partial=>'status'
   end
 
 end
+
+
+private
+
+  def shop_from_permalink
+    @shop = Shop.find_by_permalink(params[:shop_id])
+  end
+
+  def item_queue_from_id
+    @item_queue = ItemQueue.find(params[:id])
+    @shop = @item_queue.shop
+  end
