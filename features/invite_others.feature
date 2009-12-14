@@ -69,6 +69,14 @@ Feature: Invite others
       | harry@hogwarts.edu    | invited |
     
       
-      
+  Scenario: Resuming and completing order without inviting anyone
+    Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
+    And I have a pending order with items at Gromits
+    When I follow "home"
+    # Then I should see "You have Outstanding Orders..."   
+    # When I follow "Gromits" within "#my-orders"  
+    # And I press "Pay in Shop"
+    # Then I should not send any invites
+  
       
       

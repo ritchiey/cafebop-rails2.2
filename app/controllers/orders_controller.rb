@@ -69,6 +69,7 @@ class OrdersController < ApplicationController
   end
 
   def summary
+    @shop = @order.shop
     render :partial=>'summary'
   end
 

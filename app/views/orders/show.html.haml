@@ -36,7 +36,7 @@
           =link_to 'Home', root_path
     
       -elsif @order.queued?
-        Your order has been sent to the shop.
+        Your order has been sent to #{h @order.shop}.
         Keep this screen open to watch its progress.
         = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
       #order-summary.span-24.last

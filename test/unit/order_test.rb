@@ -199,7 +199,7 @@ class OrderTest < ActiveSupport::TestCase
           assert_difference "Order.count", 1 do                      
             email = User.make.email
             assert_not_nil email
-            @order.update_attributes :start_close_timer=>'yes', :invited_user_attributes=>[email]
+            @order.update_attributes :start_close_timer=>'true', :invited_user_attributes=>[email]
           end
         end           
       
