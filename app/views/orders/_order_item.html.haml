@@ -8,5 +8,8 @@
   %td=h order_item.quantity
   %td=h order_item.description
   %td=h number_to_currency(order_item.cost)
-  %td=(@order.printed? ? check_box_tag('x') : order_item.state)
+  -if @order.printed?
+    %td.print-only=check_box_tag('x')
+  -else
+    %td=order_item.state
   %td=h order_item.notes

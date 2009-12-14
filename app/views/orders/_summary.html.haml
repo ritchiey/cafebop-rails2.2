@@ -6,7 +6,10 @@
       %th Qty
       %th Description
       %th Cost($)
-      %th Status
+      -if @order.printed?
+        %th.print-only Made
+      -else
+        %th Status
       %th
 
   %tbody#order_items
@@ -15,7 +18,8 @@
     
   %tfoot
     %tr.total
-      %td(colspan="3") Total
+      %td
+      %td Total
       %td=h number_to_currency(@order.grand_total)
                                       
 -unless @order.state == "printed"
