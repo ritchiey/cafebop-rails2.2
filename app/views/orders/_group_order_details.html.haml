@@ -10,6 +10,14 @@
     %h6 At work?
     See if your friends or co-workers want anything from #{@order.shop}.
     =button_to "Offer Friends", invite_order_path(@order), :method=>:get, :id=>'offer-friends-button'
-  -elsif @order.is_child?
-    This order will be collected from #{@order.parent.shop} by #{@order.user}.
+  
 != render :partial => 'close_time_counter'
+
+-if @order.is_child?
+  -originator = @order.parent.user
+  %table
+    %tr
+      %td=image_tag originator.gravatar_url, :alt=>originator.to_s
+      %td You must confirm you order below for #{h originator.to_s} to collect it for you.
+      
+  

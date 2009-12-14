@@ -1,3 +1,6 @@
+-state_description = case child_order.state
+  -when 'pending': 'ordering...'
+  -else child_order.state
 %tr
   %td=h child_order.user.email
-  %td=h child_order.state
+  %td=h state_description

@@ -9,7 +9,7 @@
       %td
       %td{:span=>"2"} No Items
     -else
-      = render :partial => @item_queue.current_items
+      = render :partial=>'order_items/order_item', :collection=>@item_queue.current_items
 
 = "Last Updated: #{Time.now}"
                                                    

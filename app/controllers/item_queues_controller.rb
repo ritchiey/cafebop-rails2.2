@@ -22,9 +22,7 @@ class ItemQueuesController < ApplicationController
 
   def current_items
     @item_queue = ItemQueue.find(params[:id])
-    respond_to do |wants|
-      wants.html { render :partial=>"current_items" }
-    end
+    render :partial=>"current_items"
   end
 
   def start
