@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
 
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary]
-  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm]
+  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close]
   before_filter :unless_invitation_closed, :only=>[:show, :edit]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:update]
@@ -115,10 +115,14 @@ class OrdersController < ApplicationController
     flash[:notice] = "Thanks for letting us know. Maybe next time."
     redirect_to root_path
   end
+
+  def close
+    @order.close_early!
+    redirect_to @order
+  end
   
   # User tried to accept or confirm their order but parent had already closed
   def closed
-    
   end
 
   def confirm

@@ -1,0 +1,8 @@
+%h3 Too late!
+
+-parent = @order.parent
+%h6 The ship has sailed, the horse has bolted and #{h parent.user} has closed the order.
+%p
+  %br
+  
+%h6 Of course, you could always #{link_to "start a new order", new_shop_order_path(@order.shop)} for #{h @order.shop}.

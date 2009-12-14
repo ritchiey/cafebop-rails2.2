@@ -81,7 +81,12 @@ class Order < ActiveRecord::Base
     total +
     child_order_items.inject(0) {|sum, item| sum + item.cost}
   end
-    
+  
+  def close_early!
+    self.close_time = Time.now if waiting_for_close?
+    self.save!
+  end
+
   # Called by an order_item of this order when its state changes to made
   def order_item_made(order_item)
     make! if order_items.all? {|item| item.made?}
@@ -185,7 +190,7 @@ private
     end
     true
   end
-
+  
   def inherit_from_parent
     if is_child?
       self.state = 'invited'   

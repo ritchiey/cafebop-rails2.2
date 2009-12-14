@@ -2,7 +2,7 @@
   .order_close_time
     -if @order.closed?
       .closed-message
-        Order is closing
+        Order is about to close!
     -else
       #close_time_countdown
       :javascript
@@ -11,8 +11,10 @@
         	jQuery("#close_time_countdown").countdown({
         	  until: order_close_time,
         	  format: 'dhmS',
-            description: 'Until order closes',
-            expiryText: 'Order is closing',
+            description: 'Until order closes.',
+            expiryText: 'Order is about to close!',
             onExpiry: order_timer_expired
         	  });
         }); 
+      -unless @order.is_child?
+        =link_to "[Close Order Early]", close_order_path(@order), :method=>:put, :confirm=>"Are you sure?"
