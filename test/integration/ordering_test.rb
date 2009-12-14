@@ -64,7 +64,7 @@ class OrderingTest < ActionController::IntegrationTest
 
             should "be able to edit and confirm their order" do
               add_to_last_order
-              click_button "Continue"
+              click_button "Confirm Order"
               # TODO Webrat doesn't seem to follow redirect here
               #assert_contain "Your order will be collected from #{@order.shop} by #{@order.user}."
             end

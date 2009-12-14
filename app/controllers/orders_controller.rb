@@ -52,7 +52,10 @@ class OrdersController < ApplicationController
     persist_to session, @order
     @order.user ||= current_user
     if @order.save # updated attributes earlier
-      redirect_to @order.inviting ? invite_order_path(@order) : order_path(@order)
+      redirect_to case @order.page
+      when 'inviting': invite_order_path(@order)
+      else order_path(@order)
+      end
     else
       flash[:error] = "Unable to save changes"
       redirect_to edit_order_path(@order)
@@ -79,8 +82,9 @@ class OrdersController < ApplicationController
   def invite    
     current_user and @order.user ||= current_user
     restore_from session, @order
-    @order.inviting = true
+    @order.page = 'inviting'
     persist_to session, @order
+    @order.page = 'summary' # If the form includes this field, it will override the version in the session
     # If user's already specified email pre-populate login form
     @user_session = UserSession.new(:email=>@order.user_email) if !authenticated? && @order.user_email
   end

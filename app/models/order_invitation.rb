@@ -1,6 +1,10 @@
 module OrderInvitation
 
-  attr_accessor :user_email, :inviting
+  attr_accessor :user_email                     
+  
+  attr_accessor :page # Current page to display (ie :invite, :summary)
+  
+  
                    
   # def invitation_state() @invitation_state || :get_email; end
 
@@ -21,7 +25,7 @@ module OrderInvitation
   end
 
   def persistent_attrs
-    [:minutes_til_close, :invited_user_attributes, :user_email, :inviting]
+    [:minutes_til_close, :invited_user_attributes, :user_email, :page]
   end                          
   
   def persistent_scope

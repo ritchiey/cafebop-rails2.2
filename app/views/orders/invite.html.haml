@@ -14,6 +14,7 @@
       in about #{f.select :minutes_til_close, [5, 10, 15, 20, 25, 30, 45, 60]} #{f.label :minutes_til_close, "minutes"} and can bring you something back.
     -if current_user
       =f.hidden_field :start_close_timer
+      =f.hidden_field :page
       %table
         %thead
           %tr
