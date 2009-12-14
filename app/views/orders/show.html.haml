@@ -1,12 +1,11 @@
--shop = @order.shop 
-
 -if @order.pending?
   -content_for :aside do
     != render :partial => 'group_order_details'
   
 
 -content_for :content_header do
-  = render :partial => 'shops/page_header', :locals=>{:shop=>shop}
+  .no-print
+    = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
 
 -content_for :content_foot do
   .span-20
@@ -17,11 +16,11 @@
       -if @order.is_child?
         =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
       -else
-        -if shop.accepts_in_shop_payments?
+        -if @shop.accepts_in_shop_payments?
           =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
           %br
 
-        -if shop.accepts_paypal_payments?
+        -if @shop.accepts_paypal_payments?
           =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
 
 .no-print
@@ -29,11 +28,10 @@
     #order-summary.span-14.last
       != render :partial => 'order_summary'
   -else
-    -content_for :content do
+    -content_for :content_foot do
       -if @order.printed?
         .no-print
           =button_to_function "Click here to print", "window.print();"                
-          =link_to 'Home', root_path
     
       -elsif @order.queued?
         Your order has been sent to #{h @order.shop}.
