@@ -47,7 +47,7 @@
                 #main.span-15.last  
                   .main-header.span-15.last{:style=>"background: #{header_background}"}
                     -default_content_for :content_header do
-                      =placeholder :width=>1, :height=>180
+                      = @shop ? render(:partial => 'shops/page_header', :locals=>{:shop=>@shop}) : placeholder(:width=>1, :height=>180)
                   .main-body.span-15.last
                     .span-1=placeholder
                     .span-14.last
