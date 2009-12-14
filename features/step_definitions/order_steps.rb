@@ -11,6 +11,12 @@ end
 Given(/^I am inviting my friends to order at (.+)$/) do |shop|
   steps %Q{
     Given I have a pending order with items at #{shop}
+    Then I choose to invite others to order from "#{shop}"
+  }
+end
+
+Then(/^I choose to invite others to order from "(.+?)"/) do |shop|
+  steps %Q{
     Then I should see "At work?"
     When I press "Offer Friends"
 	  Then I should see "See if you're friends or colleagues want anything while you're there. The email they receive will read"
@@ -18,8 +24,7 @@ Given(/^I am inviting my friends to order at (.+)$/) do |shop|
   }
 end
 
-
-Then(/^I add "([^\"]*)" as a friend during the invitation$/) do |email|
+Then(/^I add "(.*?)" as a friend during the invitation$/) do |email|
   steps %Q{
     And I should see "Friend's Email"
     When I fill in "friendship[friend_email]" with "#{email}"

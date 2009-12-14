@@ -48,15 +48,26 @@ Feature: Invite others
     #     When I press "Show Me the Menu"
     #     Then I should see "Gromits"
 
-  	Scenario: Sending and accepting an order as an new user
-      Given I am inviting my friends to order at Gromits
-      And I fill in "order[user_email]" with "neville@hogwarts.edu"
-      And I select "5" from "order[minutes_til_close]"
-      And I press "Continue"  
-      Then "neville@hogwarts.edu" should receive an activation email
-      When I activate the account for "neville@hogwarts.edu"
-      Then I should see "You have Outstanding Orders..."   
-      When I follow "Gromits" within "#my-orders"
+	Scenario: Sending and accepting an order as an new user
+    Given I am inviting my friends to order at Gromits
+    And I fill in "order[user_email]" with "neville@hogwarts.edu"
+    And I select "5" from "order[minutes_til_close]"
+    And I press "Continue"  
+    Then "neville@hogwarts.edu" should receive an activation email
+    When I activate the account for "neville@hogwarts.edu"
+    Then I should see "You have Outstanding Orders..."   
+    When I follow "Gromits" within "#my-orders"  
+    Then I choose to invite others to order from "Gromits"
+    And I add "ron@hogwarts.edu" as a friend during the invitation
+    And I add "hermione@hogwarts.edu" as a friend during the invitation
+    And I uncheck "ron@hogwarts.edu"
+    And I add "harry@hogwarts.edu" as a friend during the invitation
+    When I press "Continue"
+    Then I should see invited friends table
+      | Friend                | Status  |
+      | hermione@hogwarts.edu | invited |
+      | harry@hogwarts.edu    | invited |
+    
       
       
       
