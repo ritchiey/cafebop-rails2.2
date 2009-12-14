@@ -52,7 +52,6 @@ class ActionController::IntegrationTest
   
   def add_friend email
     visit root_path
-    click_link "Add Friend"
     fill_in "friendship_friend_email", :with=>email
     click_button "Add"   
   end
