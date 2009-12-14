@@ -39,6 +39,10 @@ Feature: Invite others
     #And the "minutes" field should contain "5" # doesn't work
     And I add "ron@hogwarts.edu" as a friend during the invitation
     When I press "Continue"
+    Then I should see invited friends table
+      | Friend                | Status  |
+      | hermione@hogwarts.edu | invited |
+      | ron@hogwarts.edu      | invited |
     Then "ron@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
     And they should be able to accept the invitation
     #     When I press "Show Me the Menu"
@@ -52,7 +56,7 @@ Feature: Invite others
       Then "neville@hogwarts.edu" should receive an activation email
       When I activate the account for "neville@hogwarts.edu"
       Then I should see "You have Outstanding Orders..."   
-      #When I follow "Gromits" within "my-orders"
+      When I follow "Gromits" within "#my-orders"
       
       
       
