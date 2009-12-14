@@ -35,6 +35,10 @@ class Order < ActiveRecord::Base
       
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
+  # Parent order invitation closed
+  def invite_closed?
+    (invited? or pending?) and parent and !parent.pending?
+  end
         
   def set_user user
     unless self.user

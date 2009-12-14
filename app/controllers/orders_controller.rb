@@ -3,7 +3,10 @@ UserObserver.instance
 
 class OrdersController < ApplicationController
 
-  before_filter :order_from_id, :except=>[:index, :new, :create, :accept, :decline, :show]
+  around_filter :with_order_from_token, :only => [:accept, :decline]
+  before_filter :order_with_items_from_id, :only => [:show, :edit, :summary]
+  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm]
+  before_filter :unless_invitation_closed, :only=>[:show, :edit]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:update]
 
@@ -13,7 +16,6 @@ class OrdersController < ApplicationController
   end
 
   def show  
-    @order = Order.find(params[:id], :include=>:order_items)
     @shop = @order.shop
   end
 
@@ -93,10 +95,7 @@ class OrdersController < ApplicationController
 
   # Accept an invite that we were sent
   def accept
-    @order = Order.find_by_perishable_token(params[:token])
     if @order.invited?
-      # authenticate the user
-      login_as @order.user
       @order.accept!
       redirect_to edit_order_path(@order)
     elsif @order.declined?
@@ -110,13 +109,16 @@ class OrdersController < ApplicationController
 
   # Decline an invite that we were sent
   def decline
-    @order = Order.find_by_perishable_token(params[:token])
-    if @order.invited?
-      login_as @order.user
+    if @order
       @order.decline!
     end
     flash[:notice] = "Thanks for letting us know. Maybe next time."
     redirect_to root_path
+  end
+  
+  # User tried to accept or confirm their order but parent had already closed
+  def closed
+    
   end
 
   def confirm
@@ -132,36 +134,9 @@ private
     @order = Order.find(params[:id])
   end
 
-  # def login_transparently
-  #   if !current_user && params[:user_session]
-  #     email = params[:user_session][:email] 
-  #     user = User.email_is(email).first
-  #     if user
-  #       if user.active?
-  #         if params[:user_session][:password]
-  #           @user_session = UserSession.new(params[:user_session])
-  #           if @user_session.save
-  #             @order.andand.set_user(user)
-  #           else
-  #             flash[:error] = "Invalid email or password"
-  #           end
-  #         else # active user but no password specified     
-  #           flash[:email] = user.email # the view should detect the email and just ask for the password
-  #         end
-  #       else # exists but not active
-  #         Notifications.deliver_activate(user)
-  #         flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
-  #         @order.andand.set_user(user)
-  #       end
-  #     else # new user
-  #       user = User.create_without_password(:email=>email)
-  #       flash[:notice] = "An account activation email has been sent to '#{user.email}'. Please check your inbox to continue."
-  #       @order.andand.set_user(user)
-  #     end
-  #     redirect_to :back
-  #   end
-  # end
-    
+  def order_with_items_from_id
+    @order = Order.find(params[:id], :include=>:order_items)
+  end
   
   def create_friendship
     if params[:commit] == "Add"
@@ -176,5 +151,20 @@ private
       redirect_to invite_order_path(@order)
     end
   end
+  
+  def unless_invitation_closed
+    if @order.invite_closed?
+      render :action=>:closed if @order.invite_closed?
+    end
+  end        
+  
+  def with_order_from_token
+    @order = Order.find_by_perishable_token(params[:token])
+    if @order
+      login_as @order.user if @order.invited?
+      yield
+    end
+  end
+  
 end
 
