@@ -1,3 +1,7 @@
 %h3 New Claim
 
-  
+%p By pressing Claim Now below, you are asserting that you are legally entitled to manage #{h @shop.name}
+
+-semantic_form_for [@shop, @claim] do |f|
+  -f.buttons do
+    =f.commit_button :button_html=>{:value=>'Claim Now'}

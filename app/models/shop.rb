@@ -99,8 +99,12 @@ class Shop < ActiveRecord::Base
     managers.include?(user)
   end
   
+  def can_be_claimed?
+    self.community?
+  end
+  
   def can_be_claimed_by?(user)
-    self.community? && user && !user.claims.any? {|claim| claim.shop == self}
+    can_be_claimed? && user && !user.claims.any? {|claim| claim.shop == self}
   end
 
   def can_have_queues?
@@ -155,6 +159,19 @@ class Shop < ActiveRecord::Base
   def community?() state == 'community'; end
   def express?() state == 'express'; end
   def professional?() state == 'professional'; end
+
+  def transition_to desired_state
+    states = %w/community express professional/
+    raise "Invalid state for shop" unless states.include?(desired_state)
+    current_index = states.index(self.state)
+    desired_index = states.index(desired_state)
+    if current_index < desired_index
+      (current_index+1).upto(desired_index) {|i| self.send "go_#{states[i]}!" }
+    elsif current_index > desired_index
+      (current_index-1).downto(desired_index) {|i| self.send "go_#{states[i]}!" }
+    end
+  end
+  
   
 # def go_community!
 #   self.state = 'community'
@@ -209,5 +226,5 @@ class Shop < ActiveRecord::Base
       self[:permalink] ||= self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "")
     end
   end
-  
+
 end

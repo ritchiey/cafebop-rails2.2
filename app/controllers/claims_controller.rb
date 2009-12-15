@@ -1,7 +1,12 @@
 class ClaimsController < ApplicationController
 
-  before_filter :require_login
-  before_filter :require_can_review_claims, :except=>[:create]
+  before_filter :require_login_for_claim
+  before_filter :require_can_review_claims, :except=>[:new, :create]
+  
+  def new
+    @shop = Shop.find_by_permalink(params[:shop_id])
+    @claim = @shop.claims.build(:user=>current_user)
+  end
   
   def create
     @shop = Shop.find_by_permalink(params[:shop_id])
@@ -9,7 +14,7 @@ class ClaimsController < ApplicationController
     if @claim and @claim.save
       flash[:notice] = "Your claim for #{@shop.name} has been registered. We'll be in touch."
     end
-    redirect_to :back
+    redirect_to new_shop_order_path(@shop)
   end          
   
   def index
@@ -48,6 +53,12 @@ class ClaimsController < ApplicationController
     else
       render @claim
     end
+  end
+
+private
+
+  def require_login_for_claim
+    require_login "Please login or register to lodge a claim."
   end
   
 end

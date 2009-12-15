@@ -11,19 +11,9 @@ Given /^I am logged in as a (.+?) of (.+?)$/ do |role, shop_name|
   Given %Q{I am logged in as "#{user.email}" with password "#{password}"}
 end
 
-Given /^(.+?) is an (.+?) shop$/ do |shop_name, state|
+Given /^(.+?) is an? (.+?) shop$/ do |shop_name, state|
   shop = Shop.find_by_name shop_name
-  states = %w/community express professional/
-  raise "Invalid state for shop" unless states.include?(state)
-  above = false
-  states.each do |s|
-    if above
-      shop.send "go_#{s}!"
-      break if s == state
-    else
-      above = (shop.state == s)
-    end
-  end
+  shop.transition_to(state)
 end
 
 Given /^(.*) has a menu called "([^\"]*)"$/ do |shop_name, menu_name|

@@ -1,8 +1,10 @@
 class ShopsController < ApplicationController      
   
   before_filter :require_login, :except=>[:search]
-
   before_filter :find_instance, :except=>[:new, :create, :index, :search]          
+  before_filter :require_manager_or_admin, :only=>[:edit, :update]
+  before_filter :require_admin, :only => [:destroy]
+
   def new
     @shop = Shop.new
     @shop.menus.build
@@ -67,6 +69,12 @@ class ShopsController < ApplicationController
   def reorder_operating_times
     reorder_child_items(:operating_time)
   end
+  
+  def destroy
+    @shop.destroy
+    flash[:notice] = "Successfully destroyed shop."
+    redirect_to root_path
+  end
     
 private
 
@@ -81,4 +89,18 @@ private
       end
     end  
     
+    
+    def require_manager_or_admin
+      unless current_user.is_admin? or @shop.is_manager?(current_user)
+        flash[:error] = "You're not authorised to do that."
+        redirect_to new_shop_order_path(@shop)
+      end
+    end
+    
+    def require_admin
+      unless current_user.is_admin?
+        flash[:error] = "You're not authorised to do that."
+        redirect_to new_shop_order_path(@shop)
+      end
+    end
 end

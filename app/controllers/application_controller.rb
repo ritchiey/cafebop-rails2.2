@@ -40,10 +40,10 @@ class ApplicationController < ActionController::Base
   end
   alias_method :"authenticated?", :current_user
   
-  def require_login
+  def require_login message = 'Please login'
     unless current_user
-      flash[:notice] = 'Please login'
-      redirect_to new_user_session_path
+      flash[:notice] = message
+      redirect_to login_path
     end
   end      
   
