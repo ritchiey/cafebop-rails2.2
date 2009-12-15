@@ -16,6 +16,21 @@ class ItemQueuesController < ApplicationController
       render :action=>:new
     end
   end
+       
+
+  def update
+    unless @item_queue.update_attributes(params[:item_queue])
+      flash[:error] = "Couldn't update item_queue"
+    end
+    redirect_to edit_shop_path(@shop)
+  end
+
+  def destroy
+    @item_queue.destroy
+    flash[:notice] = "Successfully destroyed queue"
+    redirect_to edit_shop_path(@shop)
+  end
+
 
   def show
   end
@@ -24,7 +39,7 @@ class ItemQueuesController < ApplicationController
     render :partial=>"current_items"
   end
 
-  def start
+  def start           
     @item_queue.start!
     render :partial=>'status'
   end
