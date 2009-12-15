@@ -44,12 +44,13 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   def login_as_admin  
-    #TODO: Get this working
-    user = User.make(:active)
-    user.add_role('cafebop_admin')
-    login_as user
+    make_admin.tap {|user| login_as user}
   end               
 
+  def make_admin
+    User.make(:active).tap { |user| user.add_role('cafebop_admin') }   
+  end
+  
   def login_as user
     UserSession.create(user)
   end
