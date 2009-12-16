@@ -59,19 +59,6 @@ class ActiveSupport::TestCase
     UserSession.find.andand.destroy
   end
   
-  def place_order options={}
-    menu_item = options[:for] || MenuItem.make
-    quantity = options[:quantity] || 1
-    # TODO:can't currently test this easily because it requires javascript
-    # so we'll fake it by creating the order
-    #visit shop_path(menu_item.menu.shop)
-    post shop_orders_path(menu_item.shop),
-      'order[order_items_attributes][][quantity]' => '1',
-      'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
-      'order[order_items_attributes][][notes]' => 'from functional test'
-    Order.last # TODO: this could be more robust   
-  end
-  
 end
 
 class ActionController::TestCase
