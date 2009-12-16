@@ -2,24 +2,47 @@ require 'test_helper'
 
 class OrdersControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  
-  context "With an order" do
-    setup do
-      @order = Order.make
-    end
-    
-    context "when logged in" do
-      setup do
-        login_as User.make(:active)
-      end
-    
-      context "show action" do
-        should "render show template" do
-          get :show, :id =>@order
-          assert_template 'show'
-        end
-      end
-      
-    end
-  end
+
+  # context "an order created anonymously" do
+  #   setup do
+  #     @order = place_order
+  #   end
+  # 
+  #   should "be able to be shown" do
+  #   
+  #   end                        
+  # 
+  #   should "be able to be edited" do
+  #   
+  #   end
+  # 
+  #   should "be able to be updated" do
+  #   
+  #   end                        
+  # 
+  #   should "be able to invite" do
+  #   
+  #   end
+  # 
+  #   should "be able to confirmed" do
+  #   
+  #   end
+  # 
+  #   should "be able to be summarised" do
+  #   
+  #   end
+  # 
+  #   should "not be able to be accepted" do
+  #   
+  #   end
+  # 
+  #   should "not be able to be declined" do
+  #   
+  #   end
+  # 
+  #   should "not be able to be closed when not invited" do
+  #   
+  #   end
+  # 
+  # end  
 end

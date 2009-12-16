@@ -20,7 +20,7 @@ class OrderingTest < ActionController::IntegrationTest
 
       context "who places an order" do
         setup do
-          @order = place_order
+          @order = place_webrat_order
         end
 
         should "be the user for that order" do
@@ -63,7 +63,7 @@ class OrderingTest < ActionController::IntegrationTest
             end
 
             should "be able to edit and confirm their order" do
-              add_to_last_order
+              add_to_last_webrat_order
               click_button "Confirm Order"
               # TODO Webrat doesn't seem to follow redirect here
               #assert_contain "Your order will be collected from #{@order.shop} by #{@order.user}."
@@ -99,7 +99,7 @@ class OrderingTest < ActionController::IntegrationTest
       @password = 'heehaw!!'
       @user = User.make(:active=>true, :password=>@password, :password_confirmation=>@password)
       visit root_path
-      @order = place_order
+      @order = place_webrat_order
       assert_have_selector "#offer-friends-button"
     end
     

@@ -14,6 +14,8 @@ class Order < ActiveRecord::Base
     timestamps
   end
 
+  
+  before_create :init_perishable_token
   before_create :inherit_from_parent
   before_save :start_close_timer
   before_save :set_user_from_user_email
@@ -111,6 +113,12 @@ class Order < ActiveRecord::Base
     end
   end
   
+  
+  def mine? claimant, token
+    (user and claimant == user) or token == perishable_token
+  end
+  
+  
   def accept!
     if invited?
       self.state = 'pending'
@@ -195,7 +203,10 @@ private
     if is_child?
       self.state = 'invited'   
       self.shop = parent.shop
-      self.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
     end
+  end  
+  
+  def init_perishable_token
+    self.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
   end
 end

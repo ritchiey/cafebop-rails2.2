@@ -6,10 +6,12 @@ class OrdersController < ApplicationController
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary]
   before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close]
+  before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index]
   before_filter :unless_invitation_closed, :only=>[:show, :edit]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:update]
 
+  after_filter :mark_as_mine, :only=>[:create, :accept]
 
   def index
     @orders = Order.find :all
@@ -170,5 +172,17 @@ private
     end
   end
   
+  # An order is considered yours if you are authenticated as order.user
+  # or if the you have the perishable_token of that order in your session.
+  def only_if_mine
+    unless @order.mine?(current_user, session[:order_token])
+      flash[:error] = "Whoa! That's not yours."
+      redirect_to new_shop_order_path(@order.shop)
+    end
+  end
+  
+  def mark_as_mine
+    session[:order_token] = @order.perishable_token
+  end
 end
 

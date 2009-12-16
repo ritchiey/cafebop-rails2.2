@@ -26,20 +26,20 @@ class ActionController::IntegrationTest
     click_link "Logout"
   end
 
-  def place_order options={}
+  def place_webrat_order options={}
     menu_item = options[:for] || MenuItem.make
     quantity = options[:quantity] || 1
     # TODO:can't currently test this easily because it requires javascript
     # so we'll fake it by creating the order
     #visit shop_path(menu_item.menu.shop)
     visit shop_orders_path(menu_item.shop), :post,
-      'order[order_items_attributes][][quantity]' => '1',
+      'order[order_items_attributes][][quantity]' => quantity.to_s,
       'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
       'order[order_items_attributes][][notes]' => 'from integration test'
     Order.last # TODO: this could be more robust   
   end
 
-  def add_to_last_order options={}
+  def add_to_last_webrat_order options={}
     menu_item = options[:for] || MenuItem.make
     quantity = options[:quantity] || 1
     Order.last.tap do |order|

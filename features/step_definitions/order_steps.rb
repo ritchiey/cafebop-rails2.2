@@ -1,8 +1,15 @@
 
 Given(/^I have a pending order with items at (.+?)$/) do |shop|
   shop = Shop.find_by_name(shop)
-  order = Order.make(:shop=>shop, :state=>'pending')
-  order.order_items.make
+  menu = shop.menus.make
+  menu_item = menu.menu_items.make
+  quantity = 1
+  visit root_path # initialize cookies
+  visit shop_orders_path(menu_item.shop), :post,
+    'order[order_items_attributes][][quantity]' => quantity.to_s,
+    'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
+    'order[order_items_attributes][][notes]' => 'from integration test'
+  order = Order.last # TODO: this could be more robust   
   visit "/orders/#{order.id}"
 end            
 
