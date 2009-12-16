@@ -55,6 +55,10 @@ class ActiveSupport::TestCase
     UserSession.create(user)
   end
   
+  def logout
+    UserSession.find.andand.destroy
+  end
+  
 end
 
 class ActionController::TestCase

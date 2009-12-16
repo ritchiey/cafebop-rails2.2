@@ -99,6 +99,10 @@ class Shop < ActiveRecord::Base
     managers.include?(user)
   end
   
+  def is_staff?(user)
+    staff.include?(user) || is_manager?(user)
+  end
+  
   def can_be_claimed?
     self.community?
   end

@@ -1,9 +1,9 @@
 class ItemQueuesController < ApplicationController
-  
+
   before_filter :shop_from_permalink, :only => [:new, :create]
   before_filter :item_queue_from_id, :except => [:new, :create]
-  before_filter :require_manager, :except => [:show]
-  before_filter :require_staff, :only => [:show]
+  before_filter :require_manager, :except => [:show, :start, :stop, :current_items]
+  before_filter :require_staff, :only => [:show, :start, :stop, :current_items]
      
   def new
     @item_queue = @shop.item_queues.build
@@ -20,7 +20,7 @@ class ItemQueuesController < ApplicationController
   end
        
 
-  def update
+  def update       
     unless @item_queue.update_attributes(params[:item_queue])
       flash[:error] = "Couldn't update item_queue"
     end
@@ -71,7 +71,7 @@ private
     end
   end
   
-  def require_staff
+  def require_staff  
     if !current_user || !@shop.is_staff?(current_user)
       redirect_to new_shop_order_path(@shop)
     end
