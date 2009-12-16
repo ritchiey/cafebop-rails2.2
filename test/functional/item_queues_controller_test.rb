@@ -57,8 +57,52 @@ class ItemQueuesControllerTest < ActionController::TestCase
         @item_queue.reload
         assert !@item_queue.active
       end
+    end
+
+    context "as an active user" do
+      setup do
+        @user = User.make(:active)
+        login_as @user
+      end
+
+
+      should "not be able to create a new item_queue" do
+        assert_no_difference "@shop.item_queues.count" do
+          post :create, :shop_id=>@shop.permalink, :item_queue=>{:name=>"barrista"}
+        end
+      end
+
+      should "not be able to update the item_queue" do
+        assert_no_difference "ItemQueue.name_eq('barry').count" do
+          put :update, :id=>@item_queue.id, :item_queue=>{:name=>"barry"}
+          assert_redirected_to new_shop_order_path(@shop)
+        end
+      end
+
+      should "not be able to delete the item_queue" do
+        assert_no_difference "ItemQueue.count" do
+          delete :destroy, :id=>@item_queue.id
+          assert_redirected_to new_shop_order_path(@shop)
+        end
+      end
+
+      should "not be able to start item_queue" do
+        @item_queue.stop!
+        assert !@item_queue.active
+        put :start, :id=>@item_queue.id
+        @item_queue.reload
+        assert !@item_queue.active
+      end
       
-      
+      should "not be able to stop the item_queue" do
+        @item_queue.start!
+        assert @item_queue.active
+        put :stop, :id=>@item_queue.id
+        @item_queue.reload
+        assert @item_queue.active
+      end
+
+
     end
     
     
