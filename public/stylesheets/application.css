@@ -85,3 +85,50 @@ h6 {
 
 .sub-total td, .total td, td.user-header {
   font-weight: bold; }
+
+#user_submit:hover {
+  background-image: url(../images/arrow-right-hover.gif);
+  border: 5px solid #494848;
+  cursor: pointer; }
+
+#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit {
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  background-color: #E76F00;
+  background-image: url(../images/arrow-right.gif);
+  background-position: 85% 50%;
+  background-repeat: no-repeat;
+  border: 5px solid #D8DECD;
+  clear: both;
+  color: #FFFFFF;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  padding: 15px 65px 15px 25px;
+  text-shadow: 0 0 5px #000000; }
+
+#search_form, #new_user_session, #new_user {
+  -moz-border-radius-bottomleft: 15px;
+  -moz-border-radius-bottomright: 15px;
+  -moz-border-radius-topleft: 15px;
+  -moz-border-radius-topright: 15px;
+  background-color: #B0B6A6;
+  border: 5px solid #D8DECD;
+  color: #4A4D46;
+  margin-bottom: 50px;
+  margin-top: 40px;
+  padding: 20px 50px;
+  position: relative; }
+
+#content {
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-box-shadow: 0 0 8px #888888;
+  background-color: #FFFFFF;
+  border: 5px solid #E3E7DB;
+  padding: 50px; }
