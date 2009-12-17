@@ -18,10 +18,10 @@ class OrderOwnershipTest < ActionController::IntegrationTest
     assert_not_nil(anons_order = @anon.creates_an_order)
     assert @anon.can_see?(anons_order)
     assert @anon.can_edit?(anons_order)
-    # assert anon.can_add_an_item_to?(anons_order)
+    assert @anon.can_update?(anons_order)
     assert !@harry.can_see?(anons_order)
     assert !@harry.can_edit?(anons_order)
-    # assert !harry.can_add_an_item_to?(anons_order)
+    assert !@harry.can_update?(anons_order)
     # assert anon.can_invite(anons_order)
     assert !@anon.can_destroy?(anons_order)
     assert !@harry.can_destroy?(anons_order) 
@@ -61,6 +61,18 @@ private
         'order[order_items_attributes][][notes]' => 'from functional test'
       Order.last
     end    
+    
+    def can_update? order, options={}
+      menu_item = options[:for] || MenuItem.make
+      quantity = options[:quantity] || 1   
+      put_via_redirect order_path(order),
+        'order[order_items_attributes][][quantity]' => '1',
+        'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
+        'order[order_items_attributes][][notes]' => 'from functional test' 
+      order.reload
+      order.order_items.*.menu_item.include?(menu_item)
+    end    
+    
     
     
     def can_destroy?(order)
