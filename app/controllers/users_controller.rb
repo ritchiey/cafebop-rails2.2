@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(params[:user])
-    @user.add_role('cafebop_admin') if User.count == 0
+    @user.make_admin if User.count == 0
     if @user.save
       redirect_to root_path
       flash[:notice] = "Thanks for signing up! Check your email to permanently activate your account."

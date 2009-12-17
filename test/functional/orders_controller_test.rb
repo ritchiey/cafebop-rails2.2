@@ -7,7 +7,7 @@ require 'test_helper'
 class OrdersControllerTest < ActionController::TestCase
   setup :activate_authlogic                                  
   
-  # context "an order created anonymously" do
+  # context "Given an order created anonymously" do
   #   setup do
   #     @order = place_order
   #   end

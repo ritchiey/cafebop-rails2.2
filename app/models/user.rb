@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
                                            
   def to_s() name || shortened_email; end 
 
+  def make_admin
+    add_role('cafebop_admin')
+  end
+
   def shortened_email    
     e = email
     i = e.index('@')

@@ -18,7 +18,6 @@ class OrderItemsControllerTest < ActionController::TestCase
 
       should "not be able to make it" do
         assert_no_difference "OrderItem.state_eq('made').count" do
-          assert_not_nil @order_item.order
           put :make, :id=>@order_item.id
         end
       end

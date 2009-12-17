@@ -1,0 +1,11 @@
+Logged in as #{current_user}
+\|
+=link_to_unless_current("Home", root_path) 
+\|
+-if current_user.is_admin?
+  =link_to_unless_current("Admin Dashboard", dashboard_path)
+  \|
+-if current_user.can_review_claims?
+  =link_to_unless_current "Review Claims", claims_path
+  \|
+=link_to "Logout", logout_path
