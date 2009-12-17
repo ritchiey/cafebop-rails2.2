@@ -74,16 +74,18 @@ private
     open_session do |sess|
       sess.extend(CustomAssertions)
       sess.get root_path # get past the whole cookies_required thing
-      sess.post user_sessions_path, :user_session=>{:email=>email, :password=>password}
-      #assert assigns(:current_user)
+      sess.post_via_redirect user_sessions_path, :user_session=>{:email=>email, :password=>password}
+      sess.assert_template :partial=>'_authenticated_nav'
+      assert sess.assigns(:current_user)
     end
   end
   
   def anonymously
     open_session do |sess|
       sess.extend(CustomAssertions)
-      sess.get root_path # get past the whole cookies_required thing
-      #assert !assigns(:current_user)
+      sess.get_via_redirect root_path # get past the whole cookies_required thing
+      sess.assert_template :partial=>'_unauthenticated_nav'
+      assert !sess.assigns(:current_user)
     end
   end
 end
