@@ -29,3 +29,12 @@ Given /^the (.+?) menu has the following menu items:$/ do |menu_name, table|
   end
 end    
    
+Given /^(.+?) has queuing (.+?)$/ do |shop_name, state|
+  shop = Shop.find_by_name(shop_name)
+  case state 
+    when 'enabled': shop.start_accepting_queued_orders!
+    when 'disabled': shop.stop_accepting_queued_orders!
+  else
+    raise "Unknown state for shop queuing '#{state}'"
+  end
+end
