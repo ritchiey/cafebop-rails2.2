@@ -14,11 +14,17 @@ class OrderOwnershipTest < ActionController::IntegrationTest
     @admin = as(admin_user.email, password)
   end
 
+  def test_listing_orders
+    assert !@anon.can_list_orders?
+    assert !@harry.can_list_orders?
+    assert @admin.can_list_orders?
+  end
+
   def test_authenticated_cant_access_anonymous_order
     assert_not_nil(anons_order = @anon.creates_an_order)
     assert @anon.can_see?(anons_order)
     assert @anon.can_edit?(anons_order)
-    assert @anon.can_update?(anons_order)
+    assert @anon.can_update?(anons_order) 
     assert !@harry.can_see?(anons_order)
     assert !@harry.can_edit?(anons_order)
     assert !@harry.can_update?(anons_order)
@@ -41,6 +47,11 @@ class OrderOwnershipTest < ActionController::IntegrationTest
 private
 
   module CustomAssertions
+    
+    def can_list_orders?
+      get orders_path
+      @response.success?
+    end
                       
     def can_see? order
       get order_url(order)
