@@ -21,6 +21,18 @@ Feature: Ordering
     And I should see "toast"
     And I should see "Straight from our toaster"
     And I should see "2.00"
-  
-  
-  
+    When I place an order at Gromits for the following items:
+      | quantity | item_name | notes       |
+      | 1        | coffee    | extra sugar |
+      | 2        | toast     |             |
+    Then I should see this order summary table:
+      | Qty | Description | Cost($) | Status  |             |
+      | 1   | coffee      | $3.80   | pending | extra sugar |
+      | 2   | toast       | $4.00   | pending |             |
+      |     | Total       | $7.80   |         |             |
+    When I press "Pay In Shop >>"
+    Then I should see this order summary table:
+      | Qty | Description | Cost($) |             | Made |
+      | 1   | coffee      | $3.80   | extra sugar |      |
+      | 2   | toast       | $4.00   |             |      |
+      |     | Total       | $7.80   |             |      |

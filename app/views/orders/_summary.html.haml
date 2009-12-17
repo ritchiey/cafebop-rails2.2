@@ -1,4 +1,4 @@
-%table.order-summary#order-summary
+%table.order-summary#order-summary-table
   %thead
     %tr
       -if @order.is_parent?
@@ -21,7 +21,8 @@
       %td
       %td Total
       %td=h number_to_currency(@order.grand_total)
-                                      
+      %td
+      %td                                
 -unless @order.state == "printed"
   =h "Order status: #{@order.state}"    
 

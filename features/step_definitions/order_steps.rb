@@ -6,13 +6,34 @@ Given(/^I have a pending order with items at (.+?)$/) do |shop|
   quantity = 1
   visit root_path # initialize cookies
   visit shop_orders_path(menu_item.shop), :post,
-    'order[order_items_attributes][][quantity]' => quantity.to_s,
-    'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
-    'order[order_items_attributes][][notes]' => 'from integration test'
+  [
+    {'order[order_items_attributes][][quantity]' => quantity.to_s},
+    {'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s},
+    {'order[order_items_attributes][][notes]' => 'from integration test'},
+  ]
   order = Order.last # TODO: this could be more robust   
   visit "/orders/#{order.id}"
 end            
+                    
+When(/^I place an order at (.+?) for the following items:$/) do |shop_name, table|
+  # table is a Cucumber::Ast::Table
+  shop = Shop.find_by_name(shop_name)
+  order_item_attributes = table.hashes.map do |hash|
+    menu_item = MenuItem.find_by_name(hash[:item_name]) or raise "Are you sure '#{hash[:item_name]}' is on the menu?"
+    [
+      {'quantity' => hash[:quantity]},
+      {'menu_item_id' => menu_item.id},
+      {'notes' => hash[:notes]}
+    ]
+  end.flatten
+  visit shop_orders_path(shop), :post, :order=>{:order_items_attributes=>order_item_attributes}
+end
 
+Then(/^I should see this order summary table:$/) do |expected_table|  
+  html_table = table_at("#order-summary-table").to_a
+  html_table.map! { |r| r.map! { |c| c.gsub(/<.+?>/, '') } }  
+  expected_table.diff!(html_table)  
+end
 
 Given(/^I am inviting my friends to order at (.+)$/) do |shop|
   steps %Q{
