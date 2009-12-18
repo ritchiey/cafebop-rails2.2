@@ -27,6 +27,8 @@
   -if @order.pending?
     #order-summary.span-14.last
       != render :partial => 'order_summary'
+    -if @order.is_parent?
+      = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>10, :method=>'GET'
   -else
     -content_for :content_foot do
       -if @order.printed?
