@@ -1,6 +1,14 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def button_link_to name, url, html_options={}
+    link_to name, url,{:class=>'btn'}.merge(html_options)
+  end
+
+  def button_link_to_unless_current name, url, html_options={}
+    link_to_unless_current(name, url,{:class=>'btn'}.merge(html_options)) {""}
+  end
+
   def doctype_header
     '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">'
   end
@@ -20,7 +28,7 @@ module ApplicationHelper
 #8CBAD0          
                                             
   def page_background
-    "url(/gradient_images/250:3E84BC:8CBAD0.png) repeat-x #8CBAD0"
+    "url(/gradient_images/250:B9C2A0:D0D4C2.png) repeat-x #D0D4C2"
   end
   
   def header_background

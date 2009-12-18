@@ -13,26 +13,22 @@
     = yield(:head)
 
   %body{:style=>"background: #{page_background}"}
+    -unless flash.empty?
+      .flash
+        - if flash[:notice]
+          #notice
+            =flash[:notice]
+        - if flash[:warning]
+          #warning
+            =flash[:warning]
+        - if flash[:error]
+          #error
+            =flash[:error]
+
+    #page-header
+      =render :partial=>'layouts/page_header'
     .container
       .span-24.last
-        -unless flash.empty?
-          .flash
-            - if flash[:notice]
-              #notice
-                =flash[:notice]
-            - if flash[:warning]
-              #warning
-                =flash[:warning]
-            - if flash[:error]
-              #error
-                =flash[:error]
-      
-        #page-header.span-24.last
-          .span-18.no-print
-            =placeholder(:size=>'144x72')
-          .span-6.last
-            =render :partial=>'layouts/account_nav' 
-          
         #content.span-24.last
           #print-header.print-only
             -if @shop
@@ -49,9 +45,10 @@
                     -default_content_for :content_header do
                       = @shop ? render(:partial => 'shops/page_header', :locals=>{:shop=>@shop}) : placeholder(:width=>1, :height=>180)
                   .main-body.span-15.last
-                    .span-1=placeholder
-                    .span-14.last
+                    .span-14
                       =yield
+                    .span-1.last
+                      =placeholder
                   .span-15.last
                     =placeholder :height=>54
               

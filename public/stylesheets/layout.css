@@ -9,18 +9,18 @@ body {
 
 #content {
   background-color: #fefffe;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px; }
 
 #aside {
   min-height: 200px;
   height: auto !important;
   height: 200px;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px; }
 
 #footer {
   margin-top: 18px;
   background-color: #e3d882;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px; }

@@ -1,30 +1,3 @@
-html {
-  background: #8cbad0; }
-
-body {
-  background-color: transparent; }
-
-#account-nav {
-  background-color: #e3d882; }
-
-#content {
-  background-color: #fefffe;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
-
-#aside {
-  min-height: 200px;
-  height: auto !important;
-  height: 200px;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
-
-#footer {
-  margin-top: 18px;
-  background-color: #e3d882;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em; }
-
 .print-only, .hidden {
   display: none; }
 
@@ -92,10 +65,8 @@ h6 {
   cursor: pointer; }
 
 #search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit {
-  -moz-border-radius-bottomleft: 10px;
-  -moz-border-radius-bottomright: 10px;
-  -moz-border-radius-topleft: 10px;
-  -moz-border-radius-topright: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
   background-color: #E76F00;
   background-image: url(../images/arrow-right.gif);
   background-position: 85% 50%;
@@ -111,10 +82,8 @@ h6 {
   text-shadow: 0 0 5px #000000; }
 
 #search_form, #new_user_session, #new_user {
-  -moz-border-radius-bottomleft: 15px;
-  -moz-border-radius-bottomright: 15px;
-  -moz-border-radius-topleft: 15px;
-  -moz-border-radius-topright: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
   background-color: #B0B6A6;
   border: 5px solid #D8DECD;
   color: #4A4D46;
@@ -123,12 +92,75 @@ h6 {
   padding: 20px 50px;
   position: relative; }
 
+#search_form label, #new_user_session label, #new_user label {
+  margin-right: 20px;
+  font-size: 17px; }
+
+#search_form input, #new_user_session select {
+  background-color: #666699; }
+
+#search_form input, #new_user_session input, #new_user input {
+  margin: 10px 0px 5px;
+  background-color: #FFF;
+  border: none;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 5px; }
+
 #content {
-  -moz-border-radius-bottomleft: 10px;
-  -moz-border-radius-bottomright: 10px;
-  -moz-border-radius-topleft: 10px;
-  -moz-border-radius-topright: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
   -moz-box-shadow: 0 0 8px #888888;
   background-color: #FFFFFF;
   border: 5px solid #E3E7DB;
   padding: 50px; }
+
+#account-status {
+  float: left; }
+
+#account-nav {
+  float: right;
+  margin-top: -10px; }
+
+#page-header {
+  margin: 0 auto;
+  width: 950px;
+  display: block; }
+  #page-header p {
+    margin-top: 20px; }
+  #page-header a.btn {
+    background-color: #e76f00;
+    border: #d8e0ca 5px solid;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: #FFF;
+    padding: 10px;
+    text-decoration: none;
+    margin: 9px 15px 9px 0;
+    display: block;
+    float: left; }
+    #page-header a.btn:hover {
+      border: #FFF 5px solid; }
+
+table {
+  border-collapse: separate;
+  border: #d8decd 1px solid;
+  border-top: none;
+  background-color: #eef5e1;
+  width: 100%;
+  margin-bottom: 40px;
+  position: relative; }
+
+p {
+  letter-spacing: 0;
+  line-height: 1.5em;
+  margin-bottom: 20px; }
+
+a.remove-btn {
+  background-image: url(../images/x.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: #FFFFFF;
+  margin-left: 15px;
+  padding: 5px;
+  display: none; }

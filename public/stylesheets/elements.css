@@ -34,8 +34,8 @@
   float: right;
   margin: 1em 5% 0;
   padding: 5px;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
   text-align: center; }
   .sign-up button {
     font: 1.5em Georgia, "Lucida Grande", "Lucida Sans Unicode", helvetica, verdana, arial, times, "Times New Roman", sans-serif; }
@@ -48,8 +48,8 @@
     display: inline-block;
     padding: 5px;
     background: #fff;
-    -moz-border-radius: .5em;
-    -webkit-border-radius: .5em; }
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px; }
     .search-panel .form .search {
       white-space: nowrap; }
   .search-panel input {

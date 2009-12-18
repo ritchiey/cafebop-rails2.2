@@ -1,6 +1,6 @@
-=rounded-corners
-  :-moz-border-radius .5em
-  :-webkit-border-radius .5em
+=rounded-corners(!radius=15px) 
+  :-moz-border-radius = !radius
+  :-webkit-border-radius = !radius
   
 =rounded-top-corners
   :-moz-border-radius-topright .5em
@@ -17,3 +17,12 @@
 =float-left-shrink-wrapped
   :float  left
   :display  inline-block
+  
+// From Fernando's design
+
+=right_arrow_icon
+  background-image: url(../images/arrow-right.gif)
+  background-position: 85% 50%
+  background-repeat: no-repeat
+  border: 5px solid #D8DECD
+  

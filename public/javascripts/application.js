@@ -19,6 +19,16 @@ var dialog, quantity_field, size_field, notes_field, details_field, order_items,
 $(function() { // page ready   
   $('body').supersleight({shim: '/images/transparent.gif'});
 
+
+  $('tr.friend').hover(
+    function() {
+      $(this).find('.remove-btn').show();
+    },
+    function() {
+      $(this).find('.remove-btn').hide();
+    }
+  );
+
 	jQuery(".hjq-accordion").accordion(); 
 	          
   dialog = $('#dialog');
