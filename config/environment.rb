@@ -43,7 +43,7 @@ Rails::Initializer.run do |config|
   config.gem 'raganwald-andand', :lib => 'andand', :source => 'http://gems.github.com'
   config.gem "josevalim-rails-footnotes",  :lib => "rails-footnotes", :source => "http://gems.github.com"
   config.gem 'easy_roles', :source => 'http://gemcutter.org'  
-  config.gem 'justinfrench-formtastic', :lib=>'formtastic', :source=>'http://gems.github.com'
+  config.gem 'formtastic', :lib=>'formtastic', :version => ">= 0.9.7"
   config.gem 'geokit'     
   config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
   config.gem "aws-s3", :version => ">= 0.6.2", :lib => "aws/s3"

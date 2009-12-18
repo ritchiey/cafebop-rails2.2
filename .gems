@@ -12,4 +12,4 @@ easy_roles --source gemcutter.org
 authlogic --version '>= 2.1.1'
 ambethia-recaptcha --source "http://gems.github.com"
 aws-s3
-
+formtastic --version '>= 0.9.7'

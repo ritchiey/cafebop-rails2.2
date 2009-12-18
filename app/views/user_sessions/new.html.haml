@@ -1,7 +1,8 @@
 - semantic_form_for @user_session do |f|
   = f.error_messages
-  = f.input :email
-  = f.input :password, :as=>:password
+  -f.inputs do
+    = f.input :email, :required=>false
+    = f.input :password, :as=>:password, :required=>false
 
   - f.buttons do
     =f.commit_button "Login"
