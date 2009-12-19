@@ -4,7 +4,7 @@ UserObserver.instance
 class OrdersController < ApplicationController
 
   around_filter :with_order_from_token, :only => [:accept, :decline]
-  before_filter :order_with_items_from_id, :only => [:show, :edit, :summary]
+  before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending]
   before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close, :destroy]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy]
   before_filter :require_admin_rights, :only => [:index, :destroy]
@@ -76,6 +76,14 @@ class OrdersController < ApplicationController
   def summary
     @shop = @order.shop
     render :partial=>'summary'
+  end
+
+  def status_of_pending
+    @shop = @order.shop
+  end
+
+  def status_of_queued
+    @shop = @order.shop
   end
 
   # Authorize payment through Paypal

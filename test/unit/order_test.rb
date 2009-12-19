@@ -11,6 +11,10 @@ class OrderTest < ActiveSupport::TestCase
       @order = Order.make
     end                  
     
+    should "be its own group" do
+      assert_equal @order, @order.group
+    end
+    
     should "be able to send invites" do
       assert @order.can_send_invites?
     end
@@ -177,6 +181,12 @@ class OrderTest < ActiveSupport::TestCase
           assert_difference "@order.child_orders.state_eq('confirmed').count", 1 do
             @child_order_confirmed.confirm!
           end
+        end
+        
+        should "all have the correct group" do
+          assert_equal @order, @order.group
+          assert_equal @order, @child_order.group
+          assert_equal @order, @child_order_confirmed.group
         end
         
         should "respond correctly as parent and child" do

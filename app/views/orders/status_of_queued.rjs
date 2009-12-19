@@ -1,0 +1,2 @@
+# page.alert('This is status of pending!!') 
+page.replace 'order-summary-table', :partial=>'summary' 

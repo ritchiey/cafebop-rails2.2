@@ -4,7 +4,8 @@
       %tr
         %th Friend
         %th Status
-    != render :partial => 'child_order', :collection=>@order.child_orders
+    %tbody#invited-friends-entries
+      != render :partial => 'child_order', :collection=>@order.child_orders
 -else
   -if @order.can_send_invites?
     %h6 At work?

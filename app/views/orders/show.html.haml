@@ -28,7 +28,7 @@
     #order-summary.span-14.last
       != render :partial => 'order_summary'
     -if @order.is_parent?
-      = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>10, :method=>'GET'
+      = periodically_call_remote :url=>status_of_pending_order_path(@order), :frequency=>10, :method=>'GET'
   -else
     -content_for :content_foot do
       -if @order.printed?
@@ -38,7 +38,8 @@
       -elsif @order.queued?
         Your order has been sent to #{h @order.shop}.
         Keep this screen open to watch its progress.
-        = periodically_call_remote :update=>'order_summary', :url=>summary_order_path(@order), :frequency=>30, :method=>'GET'
+        -if @order.is_parent?
+          = periodically_call_remote :url=>summary_order_path(@order), :frequency=>10, :method=>'GET'
       #order-summary.span-24.last
       != render :partial => 'order_summary'
       

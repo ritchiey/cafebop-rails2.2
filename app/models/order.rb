@@ -59,7 +59,11 @@ class Order < ActiveRecord::Base
   
   def is_in_group?
     is_child? or is_parent?
-  end
+  end             
+  
+  def group
+    is_child? ? parent : self
+  end                      
   
   def can_confirm?
     return false unless pending?

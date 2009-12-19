@@ -8,7 +8,7 @@
       %th Cost($)
       -if @order.printed?
         %th.print-only Made
-      -else
+      -elsif !@order.group.pending?
         %th Status
       %th
 
@@ -19,10 +19,12 @@
   %tfoot
     %tr.total
       %td
+      -if @order.is_parent?
+        %td
       %td Total
       %td=h number_to_currency(@order.grand_total)
       %td
-      %td                                
+      %td
 -unless @order.state == "printed"
   =h "Order status: #{@order.state}"    
 

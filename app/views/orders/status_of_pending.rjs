@@ -1,0 +1,4 @@
+# page.alert('This is status of pending!!') 
+#page.replace_html 'order-summary', :partial=>'order_summary' 
+page.replace 'order-summary', :partial=>'summary' 
+page.replace_html 'invited-friends-entries', :partial => 'child_order', :collection=>@order.child_orders

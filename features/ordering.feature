@@ -26,10 +26,10 @@ Feature: Ordering
       | 1        | coffee    | extra sugar |
       | 2        | toast     |             |
     Then I should see this order summary table:
-      | Qty | Description | Cost($) | Status  |             |
-      | 1   | coffee      | $3.80   | pending | extra sugar |
-      | 2   | toast       | $4.00   | pending |             |
-      |     | Total       | $7.80   |         |             |
+      | Qty | Description | Cost($) |             |
+      | 1   | coffee      | $3.80   | extra sugar |
+      | 2   | toast       | $4.00   |             |
+      |     | Total       | $7.80   |             |
     When I press "Pay In Shop >>"
     Then I should see this order summary table:
       | Qty | Description | Cost($) |             | Made |
@@ -52,10 +52,10 @@ Feature: Ordering
           | 1        | coffee    | extra sugar |
           | 2        | toast     |             |
         Then I should see this order summary table:
-          | Qty | Description | Cost($) | Status  |             |
-          | 1   | coffee      | $3.80   | pending | extra sugar |
-          | 2   | toast       | $4.00   | pending |             |
-          |     | Total       | $7.80   |         |             |
+          | Qty | Description | Cost($) |             |
+          | 1   | coffee      | $3.80   | extra sugar |
+          | 2   | toast       | $4.00   |             |
+          |     | Total       | $7.80   |             |
         When I press "Pay In Shop >>"
         Then I should see this order summary table:
           | Qty | Description | Cost($) | Status |             |
