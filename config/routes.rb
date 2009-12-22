@@ -21,7 +21,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :menus, :only=>[:new, :create, :index] # for generic menus
 
-  map.resources :shops, :shallow=>true, :collection=>{:search=>:get}, :member=>{:reorder_menus=>:post, :reorder_item_queues=>:post, :reorder_operating_times=>:post, :start_queuing=>:put, :stop_queuing=>:put} do |shops|
+  map.resources :shops, :shallow=>true, :collection=>{:search=>:get},
+    :member=>{
+      :reorder_menus=>:post,
+      :reorder_item_queues=>:post,
+      :reorder_operating_times=>:post,
+      :start_queuing=>:put,
+      :stop_queuing=>:put,
+      :start_paypal=>:put,
+      :stop_paypal=>:put
+      } do |shops|
     shops.resources :operating_times
     shops.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
     shops.resources :claims, :only=>[:new, :create]

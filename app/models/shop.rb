@@ -8,7 +8,8 @@ class Shop < ActiveRecord::Base
     website :string
     state   :string, :default=>'community'
     email_address :email_address
-    accept_queued_orders :boolean, :default=>false
+    accept_queued_orders :boolean, :default=>false 
+    accept_paypal_orders :boolean, :default=>false
     street_address  :string
     postal_address  :string
     lat     :float
@@ -130,6 +131,22 @@ class Shop < ActiveRecord::Base
     self.accept_queued_orders = false
     save!
   end
+                    
+  def can_enable_paypal_payments?
+    !community? and accepts_queued_orders?
+  end
+
+  def enable_paypal_payments!
+    if can_enable_paypal_payments?
+      self.accept_paypal_orders = true
+      save!
+    end
+  end
+        
+  def disable_paypal_payments!
+    self.accept_queued_orders = false
+    save!
+  end
         
   def queues_in_shop_payments?
     accepts_queued_orders? and accepts_in_shop_payments?
@@ -143,9 +160,8 @@ class Shop < ActiveRecord::Base
   end   
   
   def accepts_paypal_payments?
-    return false if community? or express?
-    false
-    # TODO: Allow pro shops to enable this
+    return false if community?
+    accept_paypal_orders
   end
 
   def claim!(user)

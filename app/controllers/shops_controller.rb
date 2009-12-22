@@ -58,6 +58,16 @@ class ShopsController < ApplicationController
     render :partial=>'queuing_status'
   end
 
+  def start_paypal
+    @shop.enable_paypal_payments!
+    render :partial=>'paypal_status'
+  end
+
+  def stop_paypal
+    @shop.disable_paypal_payments!
+    render :partial=>'paypal_status'
+  end
+
   def reorder_menus
     reorder_child_items(:menu)
   end                 

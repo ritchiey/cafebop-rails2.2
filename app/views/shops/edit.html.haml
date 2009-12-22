@@ -48,6 +48,9 @@
     Queues are lists of order items that your customers have placed. If queuing is enabled below, you must monitor your queues during business hours so that you can make the items your customers order.
     #queuing-status
       = render :partial => 'queuing_status'
+  -if @shop.can_enable_paypal_payments?
+    #paypal-status
+      = render :partial => 'paypal_status'
 -else
   =placeholder
   

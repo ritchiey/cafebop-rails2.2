@@ -7,6 +7,13 @@ class ShopTest < ActiveSupport::TestCase
       @shop = Shop.make
     end                
     
+    should "not be able to enable queuing" do
+      assert !@shop.accepts_queued_orders?
+      @shop.start_accepting_queued_orders!
+      @shop.reload
+      assert !@shop.accepts_queued_orders?
+    end
+    
     should "default to community managed" do
       assert @shop.community?
       assert !@shop.express?
@@ -89,7 +96,7 @@ class ShopTest < ActiveSupport::TestCase
         assert @shop.menus.empty?
       end
 
-      context "goes express" do
+      context "which goes express" do
         setup do
           @shop.go_express!
           @shop.reload
@@ -99,6 +106,24 @@ class ShopTest < ActiveSupport::TestCase
           assert_equal @shop.virtual_menus.*.name, @shop.menus.*.name
           assert_not_equal @shop.virtual_menus.*.id, @shop.menus.*.id
         end
+        
+        should "be able to enable queuing" do
+          assert !@shop.accepts_queued_orders?
+          @shop.start_accepting_queued_orders!
+          @shop.reload
+          assert @shop.accepts_queued_orders?
+        end
+
+        should "not be able to enable paypal because queues aren't enabled" do
+          assert !@shop.accepts_queued_orders?
+          assert !@shop.accepts_paypal_payments?
+          @shop.enable_paypal_payments!
+          @shop.reload
+          assert !@shop.accepts_paypal_payments?
+        end
+
+        
+        
       end
     end
     

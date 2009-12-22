@@ -3,7 +3,8 @@ require 'digest/sha1'
 
 class Order < ActiveRecord::Base
   
-  include OrderInvitation      
+  include OrderInvitation       
+  include PaypalEnabled
         
   fields do
     notes :text    
@@ -149,13 +150,6 @@ class Order < ActiveRecord::Base
       print_or_queue!
     else
       raise "Shop doesn't accept in-shop payment"
-    end
-  end
-
-  def request_paypal_authorization!
-    if pending?
-      # TODO: request paypal authorization
-      self.state = 'pending_paypal_auth'
     end
   end
 

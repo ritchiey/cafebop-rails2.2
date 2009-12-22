@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091211073627) do
+ActiveRecord::Schema.define(:version => 20091221035432) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(:version => 20091211073627) do
     t.boolean  "generic_orders",                 :default => true
     t.integer  "franchise_id"
     t.string   "permalink"
+    t.boolean  "accept_paypal_orders",           :default => false
   end
 
   add_index "shops", ["permalink"], :name => "index_shops_on_permalink", :unique => true
