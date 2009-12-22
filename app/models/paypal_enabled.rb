@@ -25,20 +25,25 @@ module PaypalEnabled
   def request_paypal_authorization!
     if pending?
       http_response = http.request_post(paypal_url('Pay'), payment_json, http_headers)
-      PaypalResponse.new(http_response.body).tap do |response|
+      @response = PaypalResponse.new(http_response.body).tap do |response|
         if response.succeeded?
           self.state = 'pending_paypal_auth'
           save!
         end
       end
     end
+  end 
+  
+  # The URL that the user should be redirected to
+  def paypal_auth_url return_url
+    "https://www.#{paypal_base_hostname}/webscr?cmd=_ap-payment&paykey=#{@response.pay_key}"
   end
 
 
 protected
 
   def http
-    @http ||= Net::HTTP.new(paypal_hostname, paypal_port).tap do |http|
+    @http ||= Net::HTTP.new(paypal_services_hostname, paypal_port).tap do |http|
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
@@ -50,7 +55,8 @@ protected
       :currencyCode => 'USD',
       :receiverList => {
         :receiver => [
-            {:email=>'paypal_1261211817_biz@cafebop.com', :amount=>'10.00'}
+            {:email=>'us_1261469612_biz@cafebop.com', :amount=>'1.00', :primary=>'true'},
+            {:email=>'paypal_1261211817_biz@cafebop.com', :amount=>'1.00', :primary=>'false'},
           ]
       },
       :requestEnvelope => {
@@ -83,11 +89,15 @@ protected
   end
 
   def paypal_url(command)
-    "https://#{paypal_hostname}:#{paypal_port}/AdaptivePayments/#{command}"
+    "https://#{paypal_services_hostname}:#{paypal_port}/AdaptivePayments/#{command}"
   end
   
-  def paypal_hostname
-    "svcs.sandbox.paypal.com"
+  def paypal_services_hostname
+    "svcs.#{paypal_base_hostname}"
+  end
+  
+  def paypal_base_hostname
+    "sandbox.paypal.com"
   end
   
   def paypal_port
@@ -95,15 +105,15 @@ protected
   end    
   
   def api_username
-    'paypal_1261211817_biz_api1.cafebop.com'
+    'us_1261469612_biz_api1.cafebop.com'
   end    
   
   def api_password
-    '1261211823'
+    '1261469614'
   end
 
   def signature
-    'ADh04iX7rBFjHo95xYz0duNBBfQ3AkZYxa4p-E6cfOK9rOgGxcebjHuU'
+    'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB'
   end                                            
   
   def application_id

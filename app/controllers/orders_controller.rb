@@ -89,7 +89,9 @@ class OrdersController < ApplicationController
   # Authorize payment through Paypal
   def pay_paypal
     @order.request_paypal_authorization!
-    #TODO: Redirect appropriately to Paypal
+    if @order.pending_paypal_auth?
+      redirect_to @order.paypal_auth_url(order_url(@order))
+    end
   end
 
   # Display the invitation form to invite others
