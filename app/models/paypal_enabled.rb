@@ -22,9 +22,9 @@ module PaypalEnabled
     end
   end
     
-  def request_paypal_authorization!
+  def request_paypal_authorization!(arguments={})
     if pending?
-      http_response = http.request_post(paypal_url('Pay'), payment_json, http_headers)
+      http_response = http.request_post(paypal_url('Pay'), payment_json(arguments), http_headers)
       @response = PaypalResponse.new(http_response.body).tap do |response|
         if response.succeeded?
           self.state = 'pending_paypal_auth'
@@ -35,7 +35,7 @@ module PaypalEnabled
   end 
   
   # The URL that the user should be redirected to
-  def paypal_auth_url return_url
+  def paypal_auth_url
     "https://www.#{paypal_base_hostname}/webscr?cmd=_ap-payment&paykey=#{@response.pay_key}"
   end
 
@@ -49,9 +49,11 @@ protected
     end
   end
 
-  def payment_json
+  def payment_json(arguments={})
     {
-      :returnUrl => return_url,
+      :actionType => 'PAY',
+      :returnUrl => default_return_url,
+      :cancelUrl => default_cancel_url,
       :currencyCode => 'USD',
       :receiverList => {
         :receiver => [
@@ -62,16 +64,14 @@ protected
       :requestEnvelope => {
         :errorLanguage => 'en_US',
       },
-      :cancelUrl => cancel_url,
-      :actionType => 'PAY'
-    }.to_json
+    }.merge(arguments).to_json
   end    
   
-  def return_url
+  def default_return_url
     'http://localhost:3000/paypal_success'
   end
   
-  def cancel_url
+  def default_cancel_url
     'http://localhost:3000/paypal_cancelled'
   end
 
