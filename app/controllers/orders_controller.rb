@@ -88,11 +88,15 @@ class OrdersController < ApplicationController
 
   # Authorize payment through Paypal
   def pay_paypal
-    @order.request_paypal_authorization!
-    if @order.pending_paypal_auth?(:returnUrl=>order_url(@order), :cancelUrl=>order_url(@order))
-      redirect_to @order.paypal_auth_url
+    response = @order.request_paypal_authorization!(
+      :returnUrl=>order_url(@order),
+      :cancelUrl=>order_url(@order)
+      )
+    if @order.pending_paypal_auth?
+      redirect_to @order.paypal_auth_url(response)
     end
   end
+  
 
   # Display the invitation form to invite others
   def invite    

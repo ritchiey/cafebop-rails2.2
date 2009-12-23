@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091221035432) do
+ActiveRecord::Schema.define(:version => 20091223074910) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -130,6 +130,16 @@ ActiveRecord::Schema.define(:version => 20091221035432) do
     t.string   "perishable_token"
     t.datetime "close_time"
     t.integer  "minutes_til_close"
+    t.datetime "paid_at"
+  end
+
+  create_table "payment_notifications", :force => true do |t|
+    t.text     "params"
+    t.string   "status"
+    t.string   "transaction_id"
+    t.integer  "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "service_areas", :force => true do |t|

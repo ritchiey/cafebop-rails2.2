@@ -5,13 +5,15 @@ class Order < ActiveRecord::Base
   
   include OrderInvitation       
   include PaypalEnabled
-        
+                        
+  #TODO: Add field to differentiate paid confirmed orders from unpaid confirmed
   fields do
     notes :text    
     state :string, :default=>'pending'
     perishable_token :string
     minutes_til_close :integer
     close_time :datetime
+    paid_at :datetime
     timestamps
   end
 
@@ -137,6 +139,14 @@ class Order < ActiveRecord::Base
       save!
     end
   end
+
+  def confirm_paid!
+    if pending_paypal_auth?
+      self.paid_at = Time.now
+      self.state = 'confirmed'
+      save!
+    end
+  end
       
   def confirm!
     if pending? && is_child?
@@ -207,4 +217,5 @@ private
   def init_perishable_token
     self.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
   end
+  
 end

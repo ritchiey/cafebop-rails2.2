@@ -1,0 +1,19 @@
+- title "Payment Notifications"
+
+%table
+  %tr
+    %th Params
+    %th Status
+    %th Transaction
+    %th Order
+  - for payment_notification in @payment_notifications
+    %tr
+      %td= h payment_notification.params
+      %td= h payment_notification.status
+      %td= h payment_notification.transaction_id
+      %td= h payment_notification.order_id
+      %td= link_to 'Show', payment_notification
+      %td= link_to 'Edit', edit_payment_notification_path(payment_notification)
+      %td= link_to 'Destroy', payment_notification, :confirm => 'Are you sure?', :method => :delete
+
+%p= link_to "New Payment Notification", new_payment_notification_path

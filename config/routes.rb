@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :payment_notifications
 
   map.resources :operating_times
   map.resources :cuisines, :collection=>{:import_form=>:get, :import=>:post}

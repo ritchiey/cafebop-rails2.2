@@ -35,8 +35,9 @@ module PaypalEnabled
   end 
   
   # The URL that the user should be redirected to
-  def paypal_auth_url
-    "https://www.#{paypal_base_hostname}/webscr?cmd=_ap-payment&paykey=#{@response.pay_key}"
+  def paypal_auth_url(response)
+    response ||= @response
+    "https://www.#{paypal_base_hostname}/webscr?cmd=_ap-payment&paykey=#{response.pay_key}"
   end
 
 
@@ -52,6 +53,7 @@ protected
   def payment_json(arguments={})
     {
       :actionType => 'PAY',
+      :ipnNotificationUrl => default_ipn_url,
       :returnUrl => default_return_url,
       :cancelUrl => default_cancel_url,
       :currencyCode => 'USD',
@@ -73,6 +75,10 @@ protected
   
   def default_cancel_url
     'http://localhost:3000/paypal_cancelled'
+  end                        
+  
+  def default_ipn_url
+    'http://209.40.206.88:5555/payment_notifications'
   end
 
   def http_headers
