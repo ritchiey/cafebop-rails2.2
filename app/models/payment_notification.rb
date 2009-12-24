@@ -12,7 +12,7 @@ class PaymentNotification < ActiveRecord::Base
   
   belongs_to :order
   serialize :params
-  
+
   after_create :confirm_order
   
 private
@@ -22,4 +22,5 @@ private
       order.confirm_paid!
     end
   end
+    
 end

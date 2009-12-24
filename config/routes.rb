@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :payment_notifications
+  map.resources :payment_notifications, :only=>[:create]
 
   map.resources :operating_times
   map.resources :cuisines, :collection=>{:import_form=>:get, :import=>:post}
@@ -106,6 +106,6 @@ ActionController::Routing::Routes.draw do |map|
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
   map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  map.connect ':controller/:action/:id.:format'     
 end
 
