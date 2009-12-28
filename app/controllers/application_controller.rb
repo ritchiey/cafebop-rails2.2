@@ -20,6 +20,15 @@ class ApplicationController < ActionController::Base
 
   protected
   
+  def gateway
+    @gateway ||= ActiveMerchant::Billing::PaypalAdaptivePaymentGateway.new(
+     :login => 'us_1261469612_biz_api1.cafebop.com',
+     :password => '1261469614',
+     :signature => 'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB',
+     :appid => 'APP-80W284485P519543T'
+    )
+  end
+
   def browser_session
     @browser_session ||= BrowserSession.new(session)
   end        

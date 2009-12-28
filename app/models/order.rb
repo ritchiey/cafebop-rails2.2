@@ -91,6 +91,18 @@ class Order < ActiveRecord::Base
     child_order_items.inject(0) {|sum, item| sum + item.cost}
   end
   
+  def commission_rate
+    0.01
+  end   
+
+  def commission
+    (total * 100 * commission_rate).ceil / 100.0 
+  end
+                       
+  def net_total
+    total - commission
+  end
+  
   def close_early!
     self.close_time = Time.now if waiting_for_close?
     self.save!

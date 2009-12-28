@@ -5,6 +5,8 @@ class OrderTest < ActiveSupport::TestCase
   
   should_allow_mass_assignment_of :user, :order_item_attributes
 
+
+
   context "a new order" do
     
     setup do
@@ -295,6 +297,36 @@ class OrderTest < ActiveSupport::TestCase
     should "appear in the right order" do
       assert_equal [@new_order, @old_order], Order.newest_first.all
     end
+  end
+  
+  
+  context "An order with a 1% commission" do
+    setup do
+      @order = Order.make
+      class << @order
+        def commission_rate() 0.01; end
+      end
+      assert_equal 0.01, @order.commission_rate
+    end
+
+
+    should "calculate correct commission and net total values" do
+      [
+        [100.00, 1.00, 99.00],
+        [99.99, 1.00, 98.99],
+        [3.80, 0.04, 3.76]
+      ].each do |row|
+        expected_total, commission, net_total = *row
+        @order.stubs(:total).returns(expected_total)
+        assert_equal expected_total, @order.total
+        assert_equal commission, @order.commission
+        assert_equal net_total, @order.net_total
+        assert_equal expected_total, @order.net_total + @order.commission
+      end
+    end
+
+    
+
   end
   
 end

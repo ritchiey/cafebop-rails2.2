@@ -87,16 +87,34 @@ class OrdersController < ApplicationController
   end
 
   # Authorize payment through Paypal
+  # def pay_paypal
+  #   response = @order.request_paypal_authorization!(
+  #     :returnUrl=>order_url(@order),
+  #     :cancelUrl=>order_url(@order)
+  #     )
+  #   if @order.pending_paypal_auth?
+  #     redirect_to @order.paypal_auth_url(response)
+  #   end
+  # end       
+  #for chained payments
   def pay_paypal
-    response = @order.request_paypal_authorization!(
-      :returnUrl=>order_url(@order),
-      :cancelUrl=>order_url(@order)
-      )
-    if @order.pending_paypal_auth?
-      redirect_to @order.paypal_auth_url(response)
-    end
-  end
-  
+    recipients = [{:email => 'paypal_1261211817_biz@cafebop.com',
+                   :amount => sprintf("%0.2f", @order.net_total),
+                   :invoice_id => @order.id.to_s,
+                   :primary => true},
+                  {:email => 'us_1261469612_biz@cafebop.com',
+                   :amount => sprintf("%0.2f", @order.commission),
+                   :primary => false}
+                   ]      
+    options = {
+      :return_url => order_url(@order),
+      :cancel_url => order_url(@order),
+      :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}?order_id=#{@order.id}",
+      :receiver_list => recipients
+    }           
+    response = gateway.pay(options)
+    redirect_to response.redirect_url_for
+  end  
 
   # Display the invitation form to invite others
   def invite    

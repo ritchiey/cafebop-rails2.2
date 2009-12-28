@@ -100,3 +100,7 @@ ActionMailer::Base.smtp_settings = {
 #Object.send :undef_method, :id
 
 
+# Ensure the gateway is in test mode
+ActiveMerchant::Billing::Base.gateway_mode = :test
+ActiveMerchant::Billing::Base.integration_mode = :test
+

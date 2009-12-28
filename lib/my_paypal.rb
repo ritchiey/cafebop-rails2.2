@@ -1,4 +1,4 @@
-module Paypal
+module MyPaypal
   
   protected
 

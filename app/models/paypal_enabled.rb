@@ -4,7 +4,7 @@ require 'uri'
 
 module PaypalEnabled    
   
-  include Paypal
+  include MyPaypal
   
   class PaypalResponse
     def initialize(json_data)
@@ -22,7 +22,9 @@ module PaypalEnabled
     def [](key)
       @data[key]
     end
-  end
+  end      
+  
+  
     
   def request_paypal_authorization!(arguments={})
     if pending?

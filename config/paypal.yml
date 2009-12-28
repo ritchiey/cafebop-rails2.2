@@ -1,0 +1,23 @@
+development:
+  login: 'us_1261469612_biz_api1.cafebop.com'
+  signature: 'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB'
+  password: '1261469614'
+  appid: 'APP-80W284485P519543T'
+
+test:
+  login: 'us_1261469612_biz_api1.cafebop.com'
+  signature: 'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB'
+  password: '1261469614'
+  appid: 'APP-80W284485P519543T'
+
+staging:
+  login: 'us_1261469612_biz_api1.cafebop.com'
+  signature: 'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB'
+  password: '1261469614'
+  appid: 'APP-80W284485P519543T'
+
+production:
+  login: 'us_1261469612_biz_api1.cafebop.com'
+  signature: 'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB'
+  password: '1261469614'
+  appid: 'APP-80W284485P519543T'
