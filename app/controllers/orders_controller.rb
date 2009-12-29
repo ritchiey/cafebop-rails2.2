@@ -87,7 +87,7 @@ class OrdersController < ApplicationController
   end
 
   def pay_paypal
-    @order.
+    @order.pay_paypal!
     recipients = [{:email => @order.paypal_recipient,
                    :amount => sprintf("%0.2f", @order.grand_total),
                    :invoice_id => @order.id.to_s,
