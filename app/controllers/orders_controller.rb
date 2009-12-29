@@ -91,10 +91,12 @@ class OrdersController < ApplicationController
     recipients = [{:email => @order.paypal_recipient,
                    :amount => sprintf("%0.2f", @order.grand_total),
                    :invoice_id => @order.id.to_s,
-                   :primary => true},
-                  {:email => 'us_1261469612_biz@cafebop.com', #TODO: Move to config
-                   :amount => sprintf("%0.2f", @order.commission),
-                   :primary => false}
+                 ### Uncomment these lines to enable chained payments
+                  # :primary => true},
+                  # {:email => 'us_1261469612_biz@cafebop.com',
+                  #  :amount => sprintf("%0.2f", @order.commission),
+                  #  :primary => false
+                  }       
                    ]      
     options = {
       :fees_payer => @order.paypal_fees_payer,

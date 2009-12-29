@@ -110,7 +110,7 @@ class Order < ActiveRecord::Base
   end      
   
   def paypal_fees_payer
-    grand_total >= shop.fee_threshold ? 'PRIMARYRECEIVER' : 'SENDER'
+    grand_total >= shop.fee_threshold.to_f ? 'EACHRECEIVER' : 'SENDER'
   end
   
   def close_early!
