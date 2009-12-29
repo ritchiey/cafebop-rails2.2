@@ -2,10 +2,15 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ShopTest < ActiveSupport::TestCase
 
+  
   context "a shop" do
     setup do
       @shop = Shop.make
-    end                
+    end   
+    
+    should "not have a paypal recipient by default" do
+      assert_nil @shop.paypal_recipient
+    end             
     
     should "not be able to enable queuing" do
       assert !@shop.accepts_queued_orders?

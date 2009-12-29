@@ -183,6 +183,13 @@ class OrderTest < ActiveSupport::TestCase
           assert_difference "@order.child_orders.state_eq('confirmed').count", 1 do
             @child_order_confirmed.confirm!
           end
+        end   
+        
+        should "calculate the grand_total correctly" do
+          expected = @order.total + @child_order_confirmed.total
+          assert expected > 0
+          assert expected > @order.total
+          assert_equal expected, @order.grand_total
         end
         
         should "all have the correct group" do
@@ -303,12 +310,10 @@ class OrderTest < ActiveSupport::TestCase
   context "An order with a 1% commission" do
     setup do
       @order = Order.make
-      class << @order
-        def commission_rate() 0.01; end
-      end
+      @order.stubs(:commission_rate).returns(0.01)
       assert_equal 0.01, @order.commission_rate
     end
-
+                                                  
 
     should "calculate correct commission and net total values" do
       [
@@ -317,8 +322,8 @@ class OrderTest < ActiveSupport::TestCase
         [3.80, 0.04, 3.76]
       ].each do |row|
         expected_total, commission, net_total = *row
-        @order.stubs(:total).returns(expected_total)
-        assert_equal expected_total, @order.total
+        @order.stubs(:grand_total).returns(expected_total)
+        assert_equal expected_total, @order.grand_total
         assert_equal commission, @order.commission
         assert_equal net_total, @order.net_total
         assert_equal expected_total, @order.net_total + @order.commission

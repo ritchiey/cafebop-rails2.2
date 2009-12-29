@@ -86,23 +86,13 @@ class OrdersController < ApplicationController
     @shop = @order.shop
   end
 
-  # Authorize payment through Paypal
-  # def pay_paypal
-  #   response = @order.request_paypal_authorization!(
-  #     :returnUrl=>order_url(@order),
-  #     :cancelUrl=>order_url(@order)
-  #     )
-  #   if @order.pending_paypal_auth?
-  #     redirect_to @order.paypal_auth_url(response)
-  #   end
-  # end       
-  #for chained payments
   def pay_paypal
-    recipients = [{:email => 'paypal_1261211817_biz@cafebop.com',
-                   :amount => sprintf("%0.2f", @order.net_total),
+    @order.
+    recipients = [{:email => @order.paypal_recipient,
+                   :amount => sprintf("%0.2f", @order.grand_total),
                    :invoice_id => @order.id.to_s,
                    :primary => true},
-                  {:email => 'us_1261469612_biz@cafebop.com',
+                  {:email => 'us_1261469612_biz@cafebop.com', #TODO: Move to config
                    :amount => sprintf("%0.2f", @order.commission),
                    :primary => false}
                    ]      

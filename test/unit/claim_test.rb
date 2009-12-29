@@ -52,7 +52,8 @@ class ClaimTest < ActiveSupport::TestCase
       @confirm_email = ActionMailer::Base.deliveries.last
       assert_match /We are very pleased to inform you that your claim for #{@claim.shop} was successful/, @confirm_email.body
       assert @shop.express?
-      assert @shop.managers.include? @claim.user
+      assert @shop.managers.include? @claim.user  
+      assert_equal @shop.paypal_recipient, @claim.user.email
     end
   end
   

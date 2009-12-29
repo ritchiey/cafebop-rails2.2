@@ -10,6 +10,8 @@ class Shop < ActiveRecord::Base
     email_address :email_address
     accept_queued_orders :boolean, :default=>false 
     accept_paypal_orders :boolean, :default=>false
+    paypal_recipient  :string    
+    fee_threshold_in_cents :integer
     street_address  :string
     postal_address  :string
     lat     :float
@@ -22,10 +24,13 @@ class Shop < ActiveRecord::Base
     timestamps   
   end    
 
+  treat_as_currency :fee_threshold
+
   before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :franchise_id
+        :header_background, :franchise_id, :fee_threshold_in_cents
+   
 
   validates_presence_of :name, :permalink, :phone, :street_address
   validates_format_of :permalink, :with => /^[A-Za-z0-9-]+$/, :message => 'The permalink can only contain alphanumeric characters and dashes.', :allow_blank => true
@@ -94,6 +99,10 @@ class Shop < ActiveRecord::Base
     province ? "#{province} " : "" +
     country ? "#{country} " : "" +
     postcode ? "#{postcode} " : ""
+  end            
+  
+  def commission_rate
+    0.01
   end
   
   def is_manager?(user)
@@ -170,6 +179,7 @@ class Shop < ActiveRecord::Base
       wc ||= work_contracts.build(:user=>user, :role=>'manager')
       wc.role = 'manager'
       wc.save!
+      self.paypal_recipient = user.email
       go_express!
       #TODO Send claimed email
     end

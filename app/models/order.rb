@@ -8,7 +8,7 @@ class Order < ActiveRecord::Base
                         
   #TODO: Add field to differentiate paid confirmed orders from unpaid confirmed
   fields do
-    notes :text    
+    notes :text
     state :string, :default=>'pending'
     perishable_token :string
     minutes_til_close :integer
@@ -30,6 +30,7 @@ class Order < ActiveRecord::Base
 
   has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id'
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
+  has_many :confirmed_child_order_items, :through => :child_orders, :source => :order_items, :conditions=>{"orders.state" => "confirmed"}
   has_many :invited_users, :through => :child_orders, :source => :user
   belongs_to :parent, :class_name=>'Order'
   
@@ -86,21 +87,26 @@ class Order < ActiveRecord::Base
     order_items.inject(0) {|sum, item| sum + item.cost}
   end
   
+  #TODO: This currently counts items for unconfirmed child orders
   def grand_total
     total +
-    child_order_items.inject(0) {|sum, item| sum + item.cost}
+    confirmed_child_order_items.inject(0) {|sum, item| sum + item.cost}
   end
   
   def commission_rate
-    0.01
+    shop.commission_rate
   end   
 
   def commission
-    (total * 100 * commission_rate).ceil / 100.0 
+    (grand_total * 100 * commission_rate).ceil / 100.0 
   end
                        
   def net_total
-    total - commission
+    grand_total - commission
+  end
+  
+  def paypal_recipient
+    shop.paypal_recipient
   end
   
   def close_early!
@@ -172,6 +178,15 @@ class Order < ActiveRecord::Base
       print_or_queue!
     else
       raise "Shop doesn't accept in-shop payment"
+    end
+  end
+  
+  def pay_paypal!
+    if shop.accepts_paypal_payments?
+      self.state = 'pending_paypal_auth'
+      save
+    else
+      raise "Shop doesn't accept paypal payment"
     end
   end
 
