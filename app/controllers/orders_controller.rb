@@ -97,6 +97,7 @@ class OrdersController < ApplicationController
                    :primary => false}
                    ]      
     options = {
+      :fees_payer => @order.paypal_fees_payer,
       :return_url => order_url(@order),
       :cancel_url => order_url(@order),
       :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}?order_id=#{@order.id}",

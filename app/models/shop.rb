@@ -11,7 +11,7 @@ class Shop < ActiveRecord::Base
     accept_queued_orders :boolean, :default=>false 
     accept_paypal_orders :boolean, :default=>false
     paypal_recipient  :string    
-    fee_threshold_in_cents :integer
+    fee_threshold_in_cents :integer, :default=>1500
     street_address  :string
     postal_address  :string
     lat     :float
@@ -29,7 +29,7 @@ class Shop < ActiveRecord::Base
   before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :franchise_id, :fee_threshold_in_cents
+        :header_background, :franchise_id, :fee_threshold
    
 
   validates_presence_of :name, :permalink, :phone, :street_address

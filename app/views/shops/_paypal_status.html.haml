@@ -1,3 +1,5 @@
+Paypal payments for this shop will go to this PayPal account: #{h @shop.paypal_recipient}
+
 -if @shop.accepts_paypal_payments?
   Online payment with PayPal is currently enabled for this shop
   =button_to_remote "Disable PayPal", :url=>stop_paypal_shop_path, :method=>:put, :confirm=>"If you proceed, customers no longer be able to pay online with PayPal. Are you sure you want to do this?", :update=>'paypal-status'
