@@ -22,7 +22,7 @@
       -if @order.is_parent?
         %td
       %td Total
-      %td=h number_to_currency(@order.grand_total)
+      %td="#{h number_to_currency(@order.grand_total)}"
       %td
       %td
 -unless @order.state == "printed"
