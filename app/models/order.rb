@@ -175,7 +175,7 @@ class Order < ActiveRecord::Base
   end
       
   def confirm!
-    if pending? && is_child?
+    if pending? && is_child? && parent.pending?
       self.state = 'confirmed'
       save!
     end

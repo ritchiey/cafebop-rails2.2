@@ -251,6 +251,23 @@ class OrderTest < ActiveSupport::TestCase
 
             should "not queue any of its unconfirmed child_orders order items" do
               @child_order.order_items.each {|item| assert !item.queued?}
+            end         
+            
+            should "not allow the unconfirmed order to confirm" do
+              assert_no_difference "@order.confirmed_child_order_items.count" do
+                @child_order.reload
+                @child_order.confirm!
+              end
+            end            
+            
+            should "not allow the confirmed child order to add more items" do
+              assert_no_difference "@child_order_confirmed.order_items.count" do
+                begin
+                  @child_order_confirmed.order_items.make
+                  @child_order_confirmed.save
+                rescue Exception => e
+                end
+              end
             end
 
             should "transition from queued to made on make!" do

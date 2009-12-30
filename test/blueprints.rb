@@ -33,7 +33,7 @@ Order.blueprint do
 end           
 
 OrderItem.blueprint do
-  order
+  order {Order.make :state=>"pending"}
   menu_item
   quantity { BasicForgery.number }
 end

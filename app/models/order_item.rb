@@ -20,6 +20,7 @@ class OrderItem < ActiveRecord::Base
                   :menu_item_id, :size_id, :flavour_id
 
   before_validation_on_create :set_values_from_menu_item
+  before_create :only_if_order_pending  
 
   treat_as_currency :price
   
@@ -85,10 +86,15 @@ class OrderItem < ActiveRecord::Base
 
 private
 
+  def only_if_order_pending
+    order.pending?
+  end
+
   def set_values_from_menu_item
     self[:item_queue_id] = menu_item.item_queue_id
     self.price_in_cents = size ? size.price_in_cents : menu_item.price_in_cents
     self.description = calc_description
+    true
   end
 
   def calc_description
