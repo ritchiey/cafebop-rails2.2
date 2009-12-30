@@ -1,7 +1,10 @@
-require 'test_helper'
+require 'test_helper'   
+require 'interactions'
 
 class OrderOwnershipTest < ActionController::IntegrationTest
-  setup :activate_authlogic
+  setup :activate_authlogic 
+  
+  include Interactions
 
   def setup
     password = "quiddich"
@@ -44,71 +47,5 @@ class OrderOwnershipTest < ActionController::IntegrationTest
     assert @harry_again.can_edit?(harrys_order)
   end
 
-private
 
-  module CustomAssertions
-    
-    def can_list_orders?
-      get orders_path
-      @response.success?
-    end
-                      
-    def can_see? order
-      get order_url(order)
-      @response.success?
-    end
-    
-    def can_edit? order
-      get edit_order_url(order)
-      @response.success?
-    end     
-    
-    def creates_an_order options={}
-      menu_item = options[:for] || MenuItem.make
-      quantity = options[:quantity] || 1   
-      post shop_orders_path(menu_item.shop),
-        'order[order_items_attributes][][quantity]' => '1',
-        'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
-        'order[order_items_attributes][][notes]' => 'from functional test'
-      Order.last
-    end    
-    
-    def can_update? order, options={}
-      menu_item = options[:for] || MenuItem.make
-      quantity = options[:quantity] || 1   
-      put_via_redirect order_path(order),
-        'order[order_items_attributes][][quantity]' => '1',
-        'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
-        'order[order_items_attributes][][notes]' => 'from functional test' 
-      order.reload
-      order.order_items.*.menu_item.include?(menu_item)
-    end    
-    
-    
-    
-    def can_destroy?(order)
-      count = Order.count
-      delete_via_redirect order_path(order)
-      Order.count == count - 1
-    end
-  end
-
-  def as(email, password)
-    open_session do |sess|
-      sess.extend(CustomAssertions)
-      sess.get root_path # get past the whole cookies_required thing
-      sess.post_via_redirect user_sessions_path, :user_session=>{:email=>email, :password=>password}
-      sess.assert_template :partial=>'_authenticated_nav'
-      assert sess.assigns(:current_user)
-    end
-  end
-  
-  def anonymously
-    open_session do |sess|
-      sess.extend(CustomAssertions)
-      sess.get_via_redirect root_path # get past the whole cookies_required thing
-      sess.assert_template :partial=>'_unauthenticated_nav'
-      assert !sess.assigns(:current_user)
-    end
-  end
 end
