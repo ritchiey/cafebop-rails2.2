@@ -63,11 +63,8 @@
                 %span
 
     #page-footer
-      .container
-        .span-1
-          =placeholder
-        .span-23.last 
-          =link_to(image_tag('logo.gif', :size=>'200x90'), root_path)
+      .logo
+        =link_to(image_tag('logo.gif', :size=>'200x92'), root_path)
           
 
     =yield :javascript

@@ -11,9 +11,11 @@ body, p, td, li, ul, ol {
   font-weight: bold; }
 
 #page-footer {
-  margin-top: 90px;
-  width: 100%;
-  background: url(/gradient_images/54:8CBAD0:8CBAD0::18:666:555::27:555:AAA.png) repeat-x #FEFEFD; }
+  margin: 2em auto;
+  width: 950px;
+  display: block; }
+  #page-footer .logo {
+    float: right; }
 
 .email-message {
   background-color: #FEFEFE;
@@ -123,7 +125,7 @@ h6 {
   margin-top: -10px; }
 
 #page-header {
-  margin: 0 auto;
+  margin: 1em auto;
   width: 950px;
   display: block; }
   #page-header p {
