@@ -28,7 +28,11 @@ class ClaimsController < ApplicationController
     redirect_to @claim
   end                 
   
-  def show
+  def show     
+    @user = @claim.user :include=>[:claims]
+    @confirmed_claims = @user.claims.select {|c| c.confirmed?}.size
+    @outstanding_claims = @user.claims.select {|c| c.outstanding?}.size
+    @rejected_claims = @user.claims.select {|c| c.rejected?}.size
   end                               
   
   def confirm

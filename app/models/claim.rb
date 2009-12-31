@@ -34,7 +34,8 @@ class Claim < ActiveRecord::Base
   def pending?() self.state == 'pending'; end
   def under_review?() self.state == 'under_review'; end
   def confirmed?() self.state == 'confirmed'; end
-  def rejected?() self.state == 'rejected'; end
+  def rejected?() self.state == 'rejected'; end   
+  def outstanding?() pending? or under_review?; end
 
   def review!(reviewer)
     if pending?

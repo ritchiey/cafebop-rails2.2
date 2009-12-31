@@ -48,12 +48,9 @@
         %ul#item-queues-list= render :partial => @shop.item_queues
       =link_to "Add Queue", new_shop_item_queue_path(@shop)       
   .span-7.last
-    -if @shop.can_enable_paypal_payments?
-      #paypal-status
-        %h4 PayPal
-        = render :partial => 'paypal_status'
-    -else
-      =placeholder
+    #paypal-status
+      %h4 PayPal
+      = render :partial => 'paypal_status'
 -else
   =placeholder
   
