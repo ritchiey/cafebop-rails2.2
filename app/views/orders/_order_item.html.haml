@@ -1,6 +1,6 @@
 %tr
   -order = order_item.order
-  -if order.is_in_group?
+  -if show_user
     -if order_item_counter == 0
       %td.user-header="#{h order.user}"
     -else
