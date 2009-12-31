@@ -46,7 +46,7 @@ module ActiveMerchant #:nodoc:
           
           # Was the transaction complete?
           def complete?
-            status == "Completed"
+            status.downcase == "completed"
           end
 
           # When was this payment received by the client. 
@@ -71,7 +71,7 @@ module ActiveMerchant #:nodoc:
           # <tt>Reversed</tt>::
           # <tt>Voided</tt>::
           def status
-            params['payment_status']
+            params['payment_status'] || params['status']
           end
 
           # Id of this transaction (paypal number)

@@ -16,7 +16,7 @@ class PaymentNotificationsController < ApplicationController
     if notify.acknowledge
       begin
         if notify.complete? # TODO and order.total == notify_amount
-          order.confirm_paid!
+          order.pay_and_queue!
           PaymentNotification.create!(:params => params, :order_id => params[:invoice], 
           :status => params[:payment_status], :transaction_id => params[:txn_id])  
         end        

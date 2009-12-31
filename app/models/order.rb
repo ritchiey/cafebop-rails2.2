@@ -166,11 +166,10 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def confirm_paid!
+  def pay_and_queue!
     if pending_paypal_auth?
       self.paid_at = Time.now
-      self.state = 'confirmed'
-      save!
+      queue!
     end
   end
       
@@ -187,7 +186,7 @@ class Order < ActiveRecord::Base
     else
       raise "Shop doesn't accept in-shop payment"
     end
-  end
+  end         
   
   def pay_paypal!
     if shop.accepts_paypal_payments?
@@ -210,18 +209,26 @@ private
   def print_or_queue!
     if pending?
       if shop.queues_in_shop_payments?
-        order_items.each {|item| item.queue!}
-        OrderItem.order_parent_id_eq(self.id).order_state_eq('confirmed').all(:readonly=>false).each do |item|
-          item.queue!
-        end
-        self.state = 'queued'   
+        queue!
       else
         order_items.each {|item| item.print!}
         self.state = 'printed'
+        save
       end
-      save
     end
   end  
+
+  def queue!
+    transaction do
+      order_items.each {|item| item.queue!}
+#     OrderItem.order_parent_id_eq(self.id).order_state_eq('confirmed').all(:readonly=>false).each {|item| item.queue!} 
+      confirmed_child_order_items.each {|item| item.queue!}
+      self.state = 'queued'
+      save
+    end
+  end
+  
+
   
   def should_start_close_timer?
     @start_close_timer == 'true'

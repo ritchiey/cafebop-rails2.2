@@ -8,12 +8,13 @@ class PaymentNotification < ActiveRecord::Base
     timestamps
   end
   
-  attr_accessible :params, :status, :transaction_id, :order_id
   
   belongs_to :order
   serialize :params
 
   after_create :confirm_order
+
+  attr_accessible :params, :status, :transaction_id, :order_id
   
 private
 
