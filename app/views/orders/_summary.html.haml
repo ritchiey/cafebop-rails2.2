@@ -14,7 +14,8 @@
 
   %tbody#order_items
     != render :partial => 'summary_rows', :object=>@order, :locals=>{:show_user=>@order.is_parent?}
-    != render :partial => 'summary_rows', :collection=>@order.child_orders.state_eq('confirmed').all(:include=>:order_items), :locals=>{:show_user=>true}, :spacer_template=>'empty_row'
+    -if @order.is_parent?
+      != render :partial => 'summary_rows', :collection=>@order.child_orders.state_eq('confirmed').all(:include=>:order_items), :locals=>{:show_user=>true}, :spacer_template=>'empty_row'
     
   %tfoot
     %tr.total
