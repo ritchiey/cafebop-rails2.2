@@ -22,7 +22,7 @@
           %br
 
         -if @shop.accepts_paypal_payments?
-          Note: A PayPal fee is applicable for orders under $#{h @shop.fee_threshold}.
+          Note: A transaction fee of #{number_to_currency @order.effective_processing_fee} applies for orders under $#{h @shop.fee_threshold}.
           =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
 
 .no-print

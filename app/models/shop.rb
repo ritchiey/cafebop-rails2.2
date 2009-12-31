@@ -40,6 +40,10 @@ class Shop < ActiveRecord::Base
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
   end 
+  
+  def processing_fee
+    0.30
+  end
                  
   def to_param() permalink; end
   def to_s() name; end          

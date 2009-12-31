@@ -93,6 +93,10 @@ class Order < ActiveRecord::Base
     confirmed_child_order_items.inject(0) {|sum, item| sum + item.cost}
   end
   
+  def grand_total_with_fees
+    grand_total + effective_processing_fee
+  end
+  
   def commission_rate
     shop.commission_rate
   end   
@@ -105,16 +109,16 @@ class Order < ActiveRecord::Base
     grand_total - commission
   end
   
+  def effective_processing_fee
+    shop_pays_fee? ? 0 : shop.processing_fee
+  end
+  
   def paypal_recipient
     shop.paypal_recipient
   end      
   
   def shop_pays_fee?
     grand_total >= shop.fee_threshold.to_f    
-  end
-  
-  def paypal_fees_payer
-    shop_pays_fee? ? 'EACHRECEIVER' : 'SENDER'
   end
   
   def close_early!

@@ -88,17 +88,16 @@ class OrdersController < ApplicationController
   def pay_paypal
     @order.pay_paypal!
     recipients = [{:email => @order.paypal_recipient,
-                   :amount => sprintf("%0.2f", @order.grand_total),
+                   :amount => sprintf("%0.2f", @order.grand_total_with_fees),
                    :invoice_id => @order.id.to_s,
-                 ### Uncomment these lines to enable chained payments
-                  # :primary => true},
-                  # {:email => 'us_1261469612_biz@cafebop.com',
-                  #  :amount => sprintf("%0.2f", @order.commission),
-                  #  :primary => false
+                   :primary => true},
+                  {:email => 'us_1261469612_biz@cafebop.com',
+                   :amount => sprintf("%0.2f", @order.commission),
+                   :primary => false  
                   }       
-                   ]      
+                 ]      
     options = {
-      :fees_payer => @order.paypal_fees_payer,
+      :fees_payer => 'PRIMARYRECEIVER',
       :return_url => order_url(@order),
       :cancel_url => order_url(@order),
       :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}?order_id=#{@order.id}",
