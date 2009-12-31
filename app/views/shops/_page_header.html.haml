@@ -1,7 +1,7 @@
-#shop-header.span-18.last
+#shop-header.span-24.last
   .span-1
     =placeholder :size=>"1x180"
-  .span-8
+  .span-10
     -if shop.new_record?
       %h1 New Shop
     -else
@@ -10,13 +10,20 @@
         =h shop.state
         =claim_shop_link(shop)
         =edit_shop_link(shop)
-  #opening-times.span-9.last
-    -unless shop.operating_times.empty?
-      %h3 Opening Times
-      %table
+  #opening-times
+    %table
+      -unless shop.operating_times.empty?
+        %thead
+          %tr
+            %th Opening Times
+      %tbody
         -shop.operating_times.each do |opening|
           %tr
             %td
               =h opening.days
             %td
               =h opening.opens_and_closes
+      %tfoot
+        %tr
+          %td
+            =h @shop.street_address

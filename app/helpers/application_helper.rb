@@ -57,7 +57,7 @@ module ApplicationHelper
     places = options[:places] || []                    
     width = options[:width] || 300
     height = options[:height] || width
-    markers = []
+    markers = options[:markers] || []
     places.each_with_index {|p,i| markers<<"#{p.lat},#{p.lng},blue#{i+1}"}  
     valid_location?(center) and markers << "#{center.lat},#{center.lng},red"
     params = [

@@ -91,15 +91,7 @@ class Shop < ActiveRecord::Base
   # the be generic or specific to this shop
   def effective_menus
     community? ? virtual_menus : menus 
-  end
-
-  def address
-    street ? "#{street} " : "" +
-    suburb ? "#{suburb} " : "" +
-    province ? "#{province} " : "" +
-    country ? "#{country} " : "" +
-    postcode ? "#{postcode} " : ""
-  end            
+  end       
   
   def commission_rate
     0.01

@@ -166,3 +166,10 @@ a.remove-btn {
   margin-left: 15px;
   padding: 5px;
   display: none; }
+
+#opening-times {
+  float: right;
+  display: block; }
+  #opening-times table {
+    background-color: transparent;
+    border-style: none; }

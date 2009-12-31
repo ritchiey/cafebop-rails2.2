@@ -1,8 +1,9 @@
 -if @order.pending?
   -content_for :aside do
     != render :partial => 'group_order_details'
-  
 
+
+            
 -content_for :content_header do
   .no-print
     = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}

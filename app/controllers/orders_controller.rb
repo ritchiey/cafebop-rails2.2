@@ -19,7 +19,6 @@ class OrdersController < ApplicationController
   end
 
   def show  
-    @shop = @order.shop
   end
 
   def new
@@ -168,11 +167,13 @@ class OrdersController < ApplicationController
 private
 
   def order_from_id
-    @order = Order.find(params[:id])
+    @order = Order.find(params[:id])  
+    @shop = @order.shop
   end
 
   def order_with_items_from_id
     @order = Order.find(params[:id], :include=>:order_items)
+    @shop = @order.shop
   end
   
   def create_friendship
