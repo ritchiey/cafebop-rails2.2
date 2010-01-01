@@ -11,6 +11,9 @@ class OrderObserver < ActiveRecord::Observer
   
   def after_save order
     case order.changes['state']
+    when ['confirmed', 'made']
+      RAILS_DEFAULT_LOGGER.info "Child order #{order.id} has been made."
+      Notifications.deliver_child_order_made(order) if order.user
     when ['queued', 'made']
       RAILS_DEFAULT_LOGGER.info "Order #{order.id} has been made."
       Notifications.deliver_order_made(order) if order.user

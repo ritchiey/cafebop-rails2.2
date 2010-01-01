@@ -128,7 +128,15 @@ class Order < ActiveRecord::Base
 
   # Called by an order_item of this order when its state changes to made
   def order_item_made(order_item)
-    make! if order_items.all? {|item| item.made?}
+    if is_child?
+      parent.order_item_made(order_item)
+    else
+      make! if all_order_items_made?
+    end
+  end
+  
+  def parent_order_made
+    make!
   end
 
   # State related methods
@@ -205,7 +213,7 @@ class Order < ActiveRecord::Base
     if queued? or confirmed?
       self.state = 'made'
       save
-      child_orders.each {|o| o.make!} if is_parent?
+      child_orders.each {|o| o.parent_order_made}
     end
   end
   # End state related methods
@@ -265,4 +273,8 @@ private
     self.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
   end
   
+  def all_order_items_made?
+    order_items.all? {|item| item.made?} and
+    confirmed_child_order_items.all? {|item| item.made?}
+  end
 end

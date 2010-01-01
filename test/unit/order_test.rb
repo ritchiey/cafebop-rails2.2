@@ -282,16 +282,43 @@ class OrderTest < ActiveSupport::TestCase
                 assert_equal @order, item.order
                 assert item.queued?
                 item.make!
-                assert @order.queued?
                 assert item.made?
-                if @order.order_items.any? {|item| !item.made?}
-                  assert @order.queued?
-                else  
-                  @order.reload
-                  assert @order.made?
-                end
               end
+              @order.reload
               assert @order.order_items.all? {|item| item.made?}
+              @child_order_confirmed.reload
+              assert @child_order_confirmed.confirmed?
+              assert @order.queued? # shouldn't be made because the child items haven't been
+              @order.confirmed_child_order_items.each do |item|
+                assert item.queued?
+                item.make!
+                assert item.made?
+              end
+              @order.reload
+              assert @order.made?, "order should have been made"
+              @child_order_confirmed.reload
+              assert @child_order_confirmed.made?, "child order should have been flagged as made"
+            end
+
+            should "only transition to made when the parent is made" do 
+              assert @order.queued?
+              assert @child_order_confirmed.confirmed?
+              @order.confirmed_child_order_items.each do |item|
+                assert item.queued?
+                item.make!
+                assert item.made?
+              end
+              @order.reload
+              assert @order.confirmed_child_order_items.all? {|item| item.made?}
+              @child_order_confirmed.reload
+              assert @child_order_confirmed.confirmed?
+              assert @order.queued? # shouldn't be made because the child items haven't been
+              @order.order_items.each do |item|
+                assert_equal @order, item.order
+                assert item.queued?
+                item.make!
+                assert item.made?
+              end
               @order.reload
               assert @order.made?, "order should have been made"
               @child_order_confirmed.reload
