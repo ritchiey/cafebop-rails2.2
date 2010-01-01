@@ -202,7 +202,7 @@ class Order < ActiveRecord::Base
   end
 
   def make!
-    if queued?
+    if queued? or confirmed?
       self.state = 'made'  
       save
     end

@@ -37,4 +37,20 @@ class Notifications < ActionMailer::Base
     body       :claim=>claim
   end
 
+  def order_made(order)
+    subject    "Your #{order.shop} order is ready"
+    recipients order.user.email
+    from       ORDERING_EMAIL
+    sent_on    Time.now
+    body       :order=>order
+  end
+  
+  def order_cancelled(order)
+    subject    "Your #{order.shop} order has been cancelled"
+    recipients order.user.email
+    from       ORDERING_EMAIL
+    sent_on    Time.now
+    body       :order=>order
+  end
+
 end

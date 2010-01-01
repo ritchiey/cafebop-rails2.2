@@ -4,7 +4,7 @@ UserObserver.instance
 class OrdersController < ApplicationController
 
   around_filter :with_order_from_token, :only => [:accept, :decline]
-  before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending]
+  before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
   before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close, :destroy]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy]
   before_filter :require_admin_rights, :only => [:index, :destroy]

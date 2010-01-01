@@ -23,7 +23,7 @@
 
         -if @shop.accepts_paypal_payments?
           Note: A transaction fee of #{number_to_currency @order.effective_processing_fee} applies for orders under $#{h @shop.fee_threshold}.
-          =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put
+          =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
 
 .no-print
   -if @order.pending?
@@ -40,8 +40,7 @@
       -elsif @order.queued?
         Your order has been sent to #{h @order.shop}.
         Keep this screen open to watch its progress.
-        -if @order.is_parent?
-          = periodically_call_remote :url=>summary_order_path(@order), :frequency=>10, :method=>'GET'
+        = periodically_call_remote :url=>status_of_queued_order_path(@order), :frequency=>10, :method=>'GET'
       #order-summary.span-24.last
         != render :partial => 'order_summary'
       
