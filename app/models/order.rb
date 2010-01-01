@@ -203,8 +203,9 @@ class Order < ActiveRecord::Base
 
   def make!
     if queued? or confirmed?
-      self.state = 'made'  
+      self.state = 'made'
       save
+      child_orders.each {|o| o.make!} if is_parent?
     end
   end
   # End state related methods

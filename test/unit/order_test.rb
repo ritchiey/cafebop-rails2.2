@@ -294,6 +294,8 @@ class OrderTest < ActiveSupport::TestCase
               assert @order.order_items.all? {|item| item.made?}
               @order.reload
               assert @order.made?, "order should have been made"
+              @child_order_confirmed.reload
+              assert @child_order_confirmed.made?, "child order should have been flagged as made"
             end
 
           end
