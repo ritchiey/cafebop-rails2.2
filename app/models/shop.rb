@@ -135,6 +135,7 @@ class Shop < ActiveRecord::Base
   end
         
   def stop_accepting_queued_orders!
+    disable_paypal_payments! if accepts_paypal_payments?
     self.accept_queued_orders = false
     save!
     RAILS_DEFAULT_LOGGER.info "Queuing disabled for shop #{id}"
@@ -155,7 +156,7 @@ class Shop < ActiveRecord::Base
   end
         
   def disable_paypal_payments!
-    self.accept_queued_orders = false
+    self.accept_paypal_orders = false
     save!
     RAILS_DEFAULT_LOGGER.info "PayPal disabled for shop #{id}"
     Notifications.deliver_paypal_disabled(self)

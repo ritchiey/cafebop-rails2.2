@@ -36,21 +36,8 @@
 
 -if @shop.can_have_queues?
   %hr
-  .span-7
-    .queues
-      %h4 Queues
-      Queues are lists of order items that your customers have placed. If queuing is enabled below, you must monitor your queues during business hours so that you can make the items your customers order.
-      #queuing-status
-        = render :partial => 'queuing_status'
-      -if @shop.item_queues.empty?
-        No queues yet.
-      -else
-        %ul#item-queues-list= render :partial => @shop.item_queues
-      =link_to "Add Queue", new_shop_item_queue_path(@shop)       
-  .span-7.last
-    #paypal-status
-      %h4 PayPal
-      = render :partial => 'paypal_status'
+  #queuing-status
+    != render :partial => 'queuing_status'
 -else
   =placeholder
   

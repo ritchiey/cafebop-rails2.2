@@ -1,6 +1,16 @@
--if @shop.accepts_queued_orders?
-  Item queueing is currently enabled for this shop
-  =button_to_remote "Disable Queuing", :url=>stop_queuing_shop_path, :method=>:put, :confirm=>"If you proceed, customers will only be able to place printed orders. Normally, you would just stop each queue from accepting orders. Are you sure you want to do this?", :update=>'queuing-status'
--else
-  Item queueing is currently disabled for this shop
-  =button_to_remote "Enable Queuing", :url=>start_queuing_shop_path, :method=>:put, :confirm=>"Only proceed if you are ready to monitor your queues on an on-going basis. Are you sure?", :update=>'queuing-status'
+.span-7
+  .queues
+    %h4 Queues
+    %p Queues are lists of order items that your customers have placed.
+    %p If queuing is enabled below, you must monitor your queues during business hours so that you can make the items your customers order.
+    != render :partial => 'queuing_enabled_status'
+    %p
+      -if @shop.item_queues.empty?
+        No queues yet.
+      -else
+        %ul#item-queues-list= render :partial => @shop.item_queues
+      %p=link_to "Add Queue", new_shop_item_queue_path(@shop)       
+.span-7.last
+  %h4 PayPal
+  #paypal-status
+  != render :partial => 'paypal_status'
