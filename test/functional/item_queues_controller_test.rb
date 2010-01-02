@@ -14,6 +14,7 @@ class ItemQueuesControllerTest < ActionController::TestCase
       @item_queue = ItemQueue.make(:shop=>@shop, :name=>"Pancakes")
       @manager = User.make(:active)
       @shop.work_contracts.make(:user=>@manager, :role=>'manager')
+      @shop.reload
       assert @shop.is_manager?(@manager)
     end     
     

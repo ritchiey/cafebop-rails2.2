@@ -129,12 +129,16 @@ class Shop < ActiveRecord::Base
     if can_have_queues?
       self.accept_queued_orders = true
       save!
+      RAILS_DEFAULT_LOGGER.info "Queuing enabled for shop #{id}"
+      Notifications.deliver_queuing_enabled(self)
     end
   end
         
   def stop_accepting_queued_orders!
     self.accept_queued_orders = false
     save!
+    RAILS_DEFAULT_LOGGER.info "Queuing disabled for shop #{id}"
+    Notifications.deliver_queuing_disabled(self)
   end
                     
   def can_enable_paypal_payments?
@@ -145,12 +149,16 @@ class Shop < ActiveRecord::Base
     if can_enable_paypal_payments?
       self.accept_paypal_orders = true
       save!
+      RAILS_DEFAULT_LOGGER.info "PayPal enabled for shop #{id}"
+      Notifications.deliver_paypal_enabled(self)
     end
   end
         
   def disable_paypal_payments!
     self.accept_queued_orders = false
     save!
+    RAILS_DEFAULT_LOGGER.info "PayPal disabled for shop #{id}"
+    Notifications.deliver_paypal_disabled(self)
   end
         
   def queues_in_shop_payments?

@@ -59,6 +59,37 @@ class Notifications < ActionMailer::Base
     from       ORDERING_EMAIL
     sent_on    Time.now
     body       :order=>order
+  end     
+  
+  def queuing_enabled(shop)
+    subject    "Queuing enabled for #{shop}"
+    recipients shop.managers.*.email
+    from       SUPPORT_EMAIL
+    sent_on    Time.now
+    body       :shop=>shop
   end
-
+    
+  def queuing_disabled(shop)
+    subject    "Queuing disabled for #{shop}"
+    recipients shop.managers.*.email
+    from       SUPPORT_EMAIL
+    sent_on    Time.now
+    body       :shop=>shop
+  end
+  
+  def paypal_enabled(shop)
+    subject    "PayPal enabled for #{shop}"
+    recipients shop.managers.*.email
+    from       SUPPORT_EMAIL
+    sent_on    Time.now
+    body       :shop=>shop
+  end
+  
+  def paypal_disabled(shop)
+    subject    "PayPal disabled for #{shop}"
+    recipients shop.managers.*.email
+    from       SUPPORT_EMAIL
+    sent_on    Time.now
+    body       :shop=>shop
+  end
 end
