@@ -47,6 +47,10 @@ class Shop < ActiveRecord::Base
                  
   def to_param() permalink; end
   def to_s() name; end          
+
+  def validate
+    errors.add('street_address', 'Must be able to be located on map.') unless (lat and lng)
+  end
   
   has_many :orders, :dependent=>:destroy
   has_many :item_queues, :dependent=>:destroy, :order=>:position 
