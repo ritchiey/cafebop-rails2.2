@@ -15,23 +15,76 @@ function showControlsAsNeeded() {
 
 var dialog, quantity_field, size_field, notes_field, details_field, order_items, total;
 
+$.fn.qtip.styles.cafebop = {
+    width: 200,
+    textAlign: 'left',
+    border: {
+      width: 7,
+      radius: 5
+    },
+    name: 'dark'
+};
 
 $(function() { // page ready   
   $('body').supersleight({shim: '/images/transparent.gif'});
 
-  $("td").hover(function() {
-   $(this).parent().find("div.tooltip-wrapper").fadeIn("fast");
+  // $(".search-result").tooltip({position: 'center right'});
+  // $(".search-result").tooltip();  
+  // $(".shop-entry").tooltip();
+  
+  var qtipShow = {    
+    solo: true,
+    type: 'fade',
+    length: 400
+  };
+  
+  var qtipHide = {
+    delay: "1000",
+    fixed: true, 
+    type: 'fade',
+    length: 400
+  };                   
+  
+  var qtipRight = {
+    corner: {
+      target: 'rightMiddle',
+      tooltip: 'leftMiddle'
+    }
+  };
+  
+  var qtipLeft = {
+    corner: {
+      target: 'leftMiddle',
+      tooltip: 'rightMiddle'
+    }
+  };
+  
+  $(".search-result").each(function(i) {
+    $(this).qtip({
+    content: $(this).siblings(".tooltip"),
+    position: qtipRight,   
+    style: {
+      tip: 'leftMiddle',
+      name: 'cafebop'
+    },
+    show: qtipShow,
+    hide: qtipHide,
+    });
+    });  
+    
+  $(".shop-entry").each(function(i) {
+    $(this).qtip({
+    content: $(this).siblings(".tooltip"),
+    position: qtipLeft,   
+    style: {
+      tip: 'rightMiddle',
+      name: 'cafebop'
+    },
+    show: qtipShow,
+    hide: qtipHide,
+    });
+    });  
 
-   $(this).parent().hover(function() {
-   }, function(){
-   $(this).parent().find("div.tooltip-wrapper").fadeOut('fast'); 
-   });
-
-   }).hover(function() {
-   $(this).addClass("subhover"); 
-   }, function(){ 
-   $(this).removeClass("subhover"); 
-   }); 
 
 
 

@@ -2,20 +2,19 @@
 -content_tag_for :tr, shop, :class=>"#{shop.state}" do
   %td=link_to "#{index + 1}", new_shop_order_path(shop)
   %td
-    =link_to shop.name, new_shop_order_path(shop)
-    .td-wrapper
-      .tooltip-wrapper
-        .tooltip
-          %h3
-            Address
-          %p
-            =h shop.street_address
-          %p
-            
-          %p.edit-shop
-            =edit_shop_link(shop)
-            |
-            =link_to "Claim this shop", shop_claims_path(shop), :method=>:post, :confirm=>"Only click ok if you are the owner or manager of #{h shop.name}"
+    .search-result
+      =link_to shop.name, new_shop_order_path(shop)
+    .tooltip
+      %h3
+        Address
+      %p
+        =h shop.street_address
+      %p
+        
+      %p.edit-shop
+        =edit_shop_link(shop)
+        |
+        =link_to "Claim this shop", shop_claims_path(shop), :method=>:post, :confirm=>"Only click ok if you are the owner or manager of #{h shop.name}"
             
   / %td
   /   =shop.express? ? image_tag('express_icon', :alt=>"Express") : ""
