@@ -15,6 +15,42 @@ function showControlsAsNeeded() {
 
 var dialog, quantity_field, size_field, notes_field, details_field, order_items, total;
 
+function qtipShow() {
+  return {
+    solo: true,
+    type: 'fade',
+    length: 400
+  };
+};
+
+function qtipHide() {
+  return {
+    delay: "1000",
+    fixed: true, 
+    type: 'fade',
+    length: 400
+  };
+};                   
+
+function qtipRight() {
+  return {
+    corner: {
+      target: 'rightMiddle',
+      tooltip: 'leftMiddle'
+    }
+  };
+};
+
+function qtipLeft() {
+  return {
+    corner: {
+      target: 'leftMiddle',
+      tooltip: 'rightMiddle'
+    }
+  };
+};
+
+
 $.fn.qtip.styles.cafebop = {
     width: 200,
     textAlign: 'left',
@@ -27,65 +63,34 @@ $.fn.qtip.styles.cafebop = {
 
 $(function() { // page ready   
   $('body').supersleight({shim: '/images/transparent.gif'});
-
-  // $(".search-result").tooltip({position: 'center right'});
-  // $(".search-result").tooltip();  
-  // $(".shop-entry").tooltip();
-  
-  var qtipShow = {    
-    solo: true,
-    type: 'fade',
-    length: 400
-  };
-  
-  var qtipHide = {
-    delay: "1000",
-    fixed: true, 
-    type: 'fade',
-    length: 400
-  };                   
-  
-  var qtipRight = {
-    corner: {
-      target: 'rightMiddle',
-      tooltip: 'leftMiddle'
-    }
-  };
-  
-  var qtipLeft = {
-    corner: {
-      target: 'leftMiddle',
-      tooltip: 'rightMiddle'
-    }
-  };
   
   $(".search-result").each(function(i) {
     $(this).qtip({
     content: $(this).siblings(".tooltip"),
-    position: qtipRight,   
+    position: qtipRight(),   
     style: {
       tip: 'leftMiddle',
       name: 'cafebop'
     },
-    show: qtipShow,
-    hide: qtipHide,
+    show: qtipShow(),
+    hide: qtipHide()
     });
     });  
-    
+        
   $(".shop-entry").each(function(i) {
     $(this).qtip({
     content: $(this).siblings(".tooltip"),
-    position: qtipLeft,   
+    position: qtipLeft(),   
     style: {
       tip: 'rightMiddle',
       name: 'cafebop'
     },
-    show: qtipShow,
-    hide: qtipHide,
+    show: qtipShow(),
+    hide: qtipHide()
     });
     });  
-
-
+  
+         
 
 
   $('tr.friend').hover(
@@ -97,7 +102,6 @@ $(function() { // page ready
     }
   );
 
-	jQuery(".hjq-accordion").accordion(); 
 	          
   dialog = $('#dialog');
   quantity_field = $('#quantity_field');
