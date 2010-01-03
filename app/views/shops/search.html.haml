@@ -3,9 +3,10 @@
     != render :partial => 'front/shops_table'
     != render :partial => 'front/friends_table'
 
-= render :partial => 'shops/search_panel'
+
 
 .search-results.span-14.last
+  %h3.title Locate a Restaurant near you...
   .span-14.last
     %h6="#{pluralize @shops.size, 'restaurant'} found:"
 
@@ -19,3 +20,5 @@
   .span-7.last
   -if @shops
     =static_map :places=>@shops, :center=>@search, :width=>260, :height=>260
+
+= render :partial => 'shops/search_panel'

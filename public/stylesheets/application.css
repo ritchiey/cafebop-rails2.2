@@ -62,7 +62,7 @@ h6 {
   font-weight: bold; }
 
 #user_submit:hover {
-  background-image: url(../images/arrow-right-hover.gif);
+  background-image: url(/images/arrow-right-hover.gif);
   border: 5px solid #494848;
   cursor: pointer; }
 
@@ -159,7 +159,7 @@ p {
   margin-bottom: 20px; }
 
 a.remove-btn {
-  background-image: url(../images/x.gif);
+  background-image: url(/images/x.gif);
   background-position: center center;
   background-repeat: no-repeat;
   color: #FFFFFF;
@@ -173,3 +173,66 @@ a.remove-btn {
   #opening-times table {
     background-color: transparent;
     border-style: none; }
+
+.td-wrapper {
+  position: relative; }
+
+td {
+  border-top: #bbc3ad 1px solid;
+  border-bottom: #FFF 1px solid;
+  vertical-align: middle;
+  min-height: 20px;
+  padding-left: 15px;
+  position: relative; }
+  td .tooltip-wrapper {
+    background-image: url(/images/tooltip-arrow.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    position: absolute;
+    display: block;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: -123px;
+    right: 20px;
+    color: #FFF;
+    padding: 15px;
+    display: none; }
+  td .tooltip {
+    display: block;
+    background-image: url(/images/transparent-bkg.png);
+    color: #FFF;
+    -webkit-box-shadow: 0px 0px 8px #000;
+    -moz-box-shadow: 0px 0px 8px #000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 15px 15px 15px 15px;
+    margin-left: -2px; }
+    td .tooltip h3 {
+      color: #FFF;
+      margin: 0px 0px 10px 0px;
+      font-size: 18px; }
+    td .tooltip p {
+      font-weight: 100;
+      font-size: 12px; }
+
+.search td .tooltip-wrapper {
+  background-image: url(/images/tooltip-arrow-left.png);
+  background-position: left;
+  background-repeat: no-repeat;
+  position: absolute;
+  display: block;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: -123px;
+  left: 200px;
+  color: #FFF;
+  padding: 15px;
+  display: none; }
+
+a {
+  color: #e76f00;
+  text-decoration: none; }
+  a:hover {
+    border-bottom: 1px solid; }

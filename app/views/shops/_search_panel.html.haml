@@ -35,8 +35,8 @@
 
 
 
-.search-panel
-  %h3.title Locate a Restaurant near you...
+.search-panel       
+  &nbsp;
   -semantic_form_for @search, :url=>search_shops_path, :html=>{:id=>'search_form', :method=>'get'} do |f|
     -f.inputs do
       = f.input :cuisine, :required=>false, :as=>:select, :include_blank=>'-- Any --', :collection=>cuisines_for_select, :hint=>"Type of food"

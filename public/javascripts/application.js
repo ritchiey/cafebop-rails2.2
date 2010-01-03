@@ -19,6 +19,21 @@ var dialog, quantity_field, size_field, notes_field, details_field, order_items,
 $(function() { // page ready   
   $('body').supersleight({shim: '/images/transparent.gif'});
 
+  $("td").hover(function() {
+   $(this).parent().find("div.tooltip-wrapper").fadeIn("fast");
+
+   $(this).parent().hover(function() {
+   }, function(){
+   $(this).parent().find("div.tooltip-wrapper").fadeOut('fast'); 
+   });
+
+   }).hover(function() {
+   $(this).addClass("subhover"); 
+   }, function(){ 
+   $(this).removeClass("subhover"); 
+   }); 
+
+
 
   $('tr.friend').hover(
     function() {
@@ -336,3 +351,4 @@ function order_timer_expired() {
   $('.order-closed').show("slow");   
   $('.order-closed').removeAttr('disabled')
 }
+
