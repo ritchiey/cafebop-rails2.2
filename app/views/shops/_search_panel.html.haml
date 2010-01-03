@@ -39,7 +39,7 @@
   &nbsp;
   -semantic_form_for @search, :url=>search_shops_path, :html=>{:id=>'search_form', :method=>'get'} do |f|
     -f.inputs do
-      = f.input :cuisine, :required=>false, :as=>:select, :include_blank=>'-- Any --', :collection=>cuisines_for_select, :hint=>"Type of food"
+      = f.input :cuisine, :required=>false, :as=>:select, :include_blank=>'-- Any --', :collection=>cuisines_for_select, :hint=>"...or franchise"
       = f.input :term, :required=>false, :label=>'Location:', :hint=>"Town, Suburb or Address"
       = f.input :lat, :as=>'hidden'
       = f.input :lng, :as=>'hidden'

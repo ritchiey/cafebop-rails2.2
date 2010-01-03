@@ -1,6 +1,14 @@
 -friend = friendship.friend
 %tr.friend
   %td
-    =image_tag friend.gravatar_url, :alt=>friend.to_s
-    = h(friend)
-  %td= link_to 'X', user_friendship_path(friendship.user, friendship), :confirm => 'Really remove friend?', :method => :delete, :class =>'remove-btn'
+    .friend-entry
+      =image_tag friend.gravatar_url, :alt=>friend.to_s
+      = h(friend)
+    .tooltip
+      =image_tag friend.gravatar_url, :alt=>friend.to_s
+      %p
+        =h(friend)
+        %br
+        =h(friend.email)
+      %p
+        = link_to 'Delete', user_friendship_path(friendship.user, friendship), :confirm => 'Really remove friend?', :method => :delete, :class =>'remove-btn'

@@ -90,6 +90,19 @@ $(function() { // page ready
     });
     });  
   
+    $(".friend-entry").each(function(i) {
+      $(this).qtip({
+      content: $(this).siblings(".tooltip"),
+      position: qtipLeft(),   
+      style: {
+        tip: 'rightMiddle',
+        name: 'cafebop'
+      },
+      show: qtipShow(),
+      hide: qtipHide()
+      });
+      });  
+
          
 
 
