@@ -14,6 +14,7 @@ class OrderingTest < ActionController::IntegrationTest
           assert_no_difference "ActionMailer::Base.deliveries.count" do
             add_friend 'bobo@cafebop.com'
             add_friend 'mary@cafebop.com'
+            @user.reload
           end
         end
       end

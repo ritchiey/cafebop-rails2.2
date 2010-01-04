@@ -5,6 +5,12 @@ class FriendshipTest < ActiveSupport::TestCase
   context "A user" do
     setup do
       @user = User.make
+    end              
+    
+    should "not be able to create a friendship with an invalid email" do
+      assert_no_difference "Friendship.count" do
+        @user.friendships.create(:friend_email=>"fklajlkjlk")
+      end
     end
 
     should "be able to create a friendship with a non-existing user" do
@@ -35,7 +41,7 @@ class FriendshipTest < ActiveSupport::TestCase
         end
       end
       
-      should "be not be able to create another friendship with the same user" do
+      should "not be able to create another friendship with the same user" do
         assert_no_difference "Friendship.count" do
           @user.friendships.create(:friend_email=>"bob@cafebop.com")
         end
