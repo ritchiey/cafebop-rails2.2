@@ -144,6 +144,14 @@ h6 {
     #page-header a.btn:hover {
       border: #FFF 5px solid; }
 
+#opening-times {
+  float: right;
+  display: block; }
+  #opening-times table, #opening-times td, #opening-times tr {
+    background-color: transparent;
+    border-style: none;
+    border: 0; }
+
 table {
   border-collapse: separate;
   border: #d8decd 1px solid;
@@ -157,13 +165,6 @@ p {
   letter-spacing: 0;
   line-height: 1.5em;
   margin-bottom: 20px; }
-
-#opening-times {
-  float: right;
-  display: block; }
-  #opening-times table {
-    background-color: transparent;
-    border-style: none; }
 
 .td-wrapper {
   position: relative; }
