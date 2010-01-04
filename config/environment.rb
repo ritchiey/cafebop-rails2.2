@@ -48,7 +48,8 @@ Rails::Initializer.run do |config|
   config.gem 'formtastic', :lib=>'formtastic', :version => ">= 0.9.7"
   config.gem 'geokit'     
   config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
-  config.gem "aws-s3", :version => ">= 0.6.2", :lib => "aws/s3"
+  config.gem "aws-s3", :version => ">= 0.6.2", :lib => "aws/s3"  
+  config.gem 'will_paginate', :version => '~> 2.3.11', :source => 'http://gemcutter.org'
   
   
 

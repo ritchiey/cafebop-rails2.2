@@ -76,6 +76,7 @@ $(function() { // page ready
     hide: qtipHide()
     });
     });  
+
         
   $(".shop-entry").each(function(i) {
     $(this).qtip({

@@ -8,13 +8,13 @@
 .search-results.span-14.last
   %h3.title Locate a Restaurant near you...
   .span-14.last
-    %h6="#{pluralize @shops.size, 'restaurant'} found:"
+    %h6="#{pluralize @shops.total_entries, 'restaurant'} found:"
 
   .span-7
+    =will_paginate @shops
     %table.search
       -@shops.each_with_index do |shop, index|
         = render :partial=>"shop", :object=>shop, :locals=>{:index=>index}
-
     != render :partial => 'add_shop_blurb'
 
   .span-7.last
