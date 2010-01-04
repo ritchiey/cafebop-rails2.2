@@ -1,5 +1,5 @@
 - semantic_form_for @user_session do |f|
-  = f.error_messages
+  = f.error_messages :header_message=>nil, :message=>nil
   -f.inputs do
     = f.input :email, :required=>false
     = f.input :password, :as=>:password, :required=>false
