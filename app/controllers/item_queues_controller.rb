@@ -35,6 +35,8 @@ class ItemQueuesController < ApplicationController
 
 
   def show
+    @item_queue.shop.accepts_queued_orders? or
+    flash.now[:error] = "Queuing for #{@item_queue.shop.name} is currently disabled. You won't receive any orders."
   end
 
   def current_items
