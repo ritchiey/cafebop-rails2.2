@@ -19,10 +19,22 @@ module ApplicationHelper
     concat(out || capture(&block))
   end
 
-
   def shop_with_header?
     @shop and @shop.header_background.file?
   end                  
+
+  def claim_shop_link(shop)
+    shop.can_be_claimed? ? (link_to_unless_current('Claim this Shop', new_shop_claim_path(shop)) {""} ) : nil
+  end
+
+  def edit_shop_link(shop) 
+    shop.can_edit?(current_user) ? ( link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
+  end                            
+  
+  def separated links, separator=' | '
+    links.select {|l| l and l.length > 0}.join(separator)
+  end
+
           
 #3E84BC
 #8CBAD0          

@@ -91,5 +91,14 @@ class Notifications < ActionMailer::Base
     from       SUPPORT_EMAIL
     sent_on    Time.now
     body       :shop=>shop
+  end       
+  
+  def new_claim(claim)
+    subject    "[claim] #{claim.user.email} claims #{claim.shop}"
+    recipients 'claims@cafebop.com'
+    from       SUPPORT_EMAIL
+    sent_on    Time.now
+    body       :claim=>claim
   end
+    
 end

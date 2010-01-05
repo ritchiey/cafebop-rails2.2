@@ -12,9 +12,8 @@
       %p
         
       %p.edit-shop
-        =edit_shop_link(shop)
-        |
-        =link_to "Claim this shop", shop_claims_path(shop), :method=>:post, :confirm=>"Only click ok if you are the owner or manager of #{h shop.name}"
+        =separated([edit_shop_link(shop), claim_shop_link(shop)])
+        
             
   / %td
   /   =shop.express? ? image_tag('express_icon', :alt=>"Express") : ""
