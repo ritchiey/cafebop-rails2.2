@@ -17,7 +17,7 @@
 
   %body{:style=>"background: #{page_background}"}
     -unless flash.empty?
-      .flash
+      #flash
         - if flash[:notice]
           #notice
             =flash[:notice]

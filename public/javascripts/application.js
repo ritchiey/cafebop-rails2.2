@@ -110,6 +110,14 @@ $(function() { // page ready
           return false;
       });
   });
+  
+  $('#flash').click(function() {
+    $(this).slideUp();
+    return false;
+  })
+  
+  setTimeout(function() {$('#flash').slideDown();}, 2000);
+  
     
     // $("a.info").each(function(i) {    
     //   $(this).bind('click', function() {return false;});
