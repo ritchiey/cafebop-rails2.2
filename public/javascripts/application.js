@@ -117,7 +117,9 @@ $(function() { // page ready
   })
   
   setTimeout(function() {$('#flash').slideDown();}, 500);
-  
+
+  $("#search_term").select();
+  $("#search_term").focus();
     
     // $("a.info").each(function(i) {    
     //   $(this).bind('click', function() {return false;});
