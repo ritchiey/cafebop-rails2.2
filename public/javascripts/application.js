@@ -118,8 +118,11 @@ $(function() { // page ready
   
   setTimeout(function() {$('#flash').slideDown();}, 500);
 
-  $("#search_term").select();
-  $("#search_term").focus();
+  $("#friendship_friend_email").val('email').focus(function () {
+    $(this).select();
+  });
+  $("#search_term").select().focus();
+  
     
     // $("a.info").each(function(i) {    
     //   $(this).bind('click', function() {return false;});
