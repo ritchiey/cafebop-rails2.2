@@ -1,7 +1,7 @@
 class OrderObserver < ActiveRecord::Observer
   
   def after_create order
-    order.invited? and Notifications.deliver_invite(order)
+    order.invited? and Notifications.send_later(:deliver_invite, order)
     
     if user = order.user
       user.work_contracts.find_or_create_by_shop_id(order.shop_id)
@@ -13,13 +13,13 @@ class OrderObserver < ActiveRecord::Observer
     case order.changes['state']
     when ['confirmed', 'made']
       RAILS_DEFAULT_LOGGER.info "Child order #{order.id} has been made."
-      Notifications.deliver_child_order_made(order) if order.user
+      Notifications.send_later(:deliver_child_order_made, order) if order.user
     when ['queued', 'made']
       RAILS_DEFAULT_LOGGER.info "Order #{order.id} has been made."
-      Notifications.deliver_order_made(order) if order.user
+      Notifications.send_later(:deliver_order_made, order) if order.user
     when ['queued', 'cancelled']
       RAILS_DEFAULT_LOGGER.info "Order #{order.id} has been cancelled."
-      Notifications.deliver_order_cancelled(order) if order.user
+      Notifications.send_later(:deliver_order_cancelled, order) if order.user
     end
   end
   

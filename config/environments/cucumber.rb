@@ -34,4 +34,5 @@ class ActiveRecord::Base
       :path=>":rails_root/public/assets/#{type}/:id/:style/:basename.:extension"
     }
   end
-end
+end    
+

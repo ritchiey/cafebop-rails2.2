@@ -9,6 +9,14 @@ require "authlogic/test_case"
 
 require File.expand_path(File.dirname(__FILE__) + "/blueprints")
 
+
+# Disable transparent delayed_job methods in test mode
+module Delayed::MessageSending
+  def send_later(method, *args)
+    send(method, *args)
+  end
+end
+
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the

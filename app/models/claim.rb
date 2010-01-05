@@ -50,7 +50,7 @@ class Claim < ActiveRecord::Base
       shop.claim!(user)
       self.state = 'confirmed'
       if self.save
-        Notifications.deliver_claim_confirmed(self)
+        Notifications.send_later(:deliver_claim_confirmed, self)
       end
     end
   end
@@ -59,38 +59,11 @@ class Claim < ActiveRecord::Base
     if under_review?
       self.state = 'rejected'
       if self.save
-        Notifications.deliver_claim_rejected(self)
+        Notifications.send_later(:deliver_claim_rejected, self)
       end
     end
   end                        
   
-  #TODO Reimplement lifecycle
-  # lifecycle do
-  #   state :pending, :default=>true
-  #   state :under_review, :confirmed, :rejected
-  # 
-  #   transition :review, {:pending => :under_review},
-  #     :available_to=>"User.administrator",
-  #     :user_becomes=>:reviewer      
-  # 
-  #   transition :reject, {:under_review=>:rejected},
-  #     :available_to=>:reviewer do
-  #       UserMailer.deliver_claim_rejected(self)
-  #     end
-  # 
-  #   transition :confirm, {:under_review=>:confirmed},
-  #     :available_to=>:reviewer do  
-  #     wc= shop.work_contracts.find(:first, :conditions=>{:user_id=>acting_user})
-  #     wc ||= shop.work_contracts.build(:user=>acting_user, :role=>'manager')
-  #     wc.role = 'manager'
-  #     wc.save!
-  #     shop.lifecycle.confirm_claim!(acting_user,{})
-  #     UserMailer.deliver_claim_confirmed(self)
-  #   end
-  # 
-  # end   
-
-
   # --- Permissions --- #
 
   def create_permitted?

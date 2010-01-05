@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091229032104) do
+ActiveRecord::Schema.define(:version => 20100105053900) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -34,6 +34,19 @@ ActiveRecord::Schema.define(:version => 20091229032104) do
     t.datetime "updated_at"
     t.boolean  "franchise",  :default => false
     t.string   "url"
+  end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.text     "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "flavours", :force => true do |t|
@@ -131,7 +144,6 @@ ActiveRecord::Schema.define(:version => 20091229032104) do
     t.datetime "close_time"
     t.integer  "minutes_til_close"
     t.datetime "paid_at"
-    t.string   "paypal_recipient"
   end
 
   create_table "payment_notifications", :force => true do |t|
@@ -180,7 +192,7 @@ ActiveRecord::Schema.define(:version => 20091229032104) do
     t.string   "permalink"
     t.boolean  "accept_paypal_orders",           :default => false
     t.string   "paypal_recipient"
-    t.integer  "fee_threshold_in_cents"
+    t.integer  "fee_threshold_in_cents",         :default => 1500
   end
 
   add_index "shops", ["permalink"], :name => "index_shops_on_permalink", :unique => true
