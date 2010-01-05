@@ -89,20 +89,54 @@ $(function() { // page ready
     show: qtipShow(),
     hide: qtipHide()
     });
-    });  
+  });  
   
-    $(".friend-entry").each(function(i) {
-      $(this).qtip({
-      content: $(this).siblings(".tooltip"),
-      position: qtipLeft(),   
-      style: {
-        tip: 'rightMiddle',
-        name: 'cafebop'
-      },
-      show: qtipShow(),
-      hide: qtipHide()
+  $(".friend-entry").each(function(i) {
+    $(this).qtip({
+    content: $(this).siblings(".tooltip"),
+    position: qtipLeft(),   
+    style: {
+      tip: 'rightMiddle',
+      name: 'cafebop'
+    },
+    show: qtipShow(),
+    hide: qtipHide()
+    });
+  });     
+    
+  $(function(){
+      $('a.info').click(function(){
+          window.open(this.href);
+          return false;
       });
-      });  
+  });
+    
+    // $("a.info").each(function(i) {    
+    //   $(this).bind('click', function() {return false;});
+    //   $(this).qtip({
+    //     content: {
+    //       text: "Loading...",
+    //       url: $(this).attr("href") + "?no_frame=true"
+    //     },   
+    //     style: {      
+    //       width: 600,
+    //       name: 'cafebop'
+    //     },    
+    //     position: {  
+    //       target: $('#content-body'),
+    //       corner: {
+    //         tooltip: 'topLeft',
+    //         target: 'topLeft'
+    //       },
+    //       adjust: {screen: true}
+    //     },
+    //     show: {
+    //       when: {event: 'click'}
+    //     },
+    //     hide: qtipHide()
+    //   });
+    // }
+    //   );
 
          
 
@@ -422,4 +456,5 @@ function order_timer_expired() {
   $('.order-closed').show("slow");   
   $('.order-closed').removeAttr('disabled')
 }
+    
 

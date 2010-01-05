@@ -14,7 +14,6 @@ Feature: Claiming Shops
     Given I am logged in as "fred@hogwarts.edu" with password "shortcut"
     And I am on the ordering screen for WWW
     Then I should see "WWW"
-    And I should see "community"
     When I follow "Claim this Shop"
     Then I should see "By pressing Claim Now below, you are asserting that you are legally entitled to manage"
     When I press "Claim Now"
