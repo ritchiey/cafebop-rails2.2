@@ -116,7 +116,7 @@ $(function() { // page ready
     return false;
   })
   
-  setTimeout(function() {$('#flash').slideDown();}, 2000);
+  setTimeout(function() {$('#flash').slideDown();}, 500);
   
     
     // $("a.info").each(function(i) {    

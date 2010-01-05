@@ -196,7 +196,7 @@ a {
     font-weight: bold; }
 
 #flash {
-  background: #fff url(/gradient_images/80:DDDDDD:222222.png) repeat-x scroll 0 0;
+  background: #fff url(/gradient_images/80:DDDDDD:888888.png) repeat-x scroll 0 0;
   _background-color: #fff;
   overflow: visible;
   position: fixed;
@@ -209,3 +209,6 @@ a {
   width: 100%;
   z-index: 2;
   display: none; }
+
+#error {
+  color: red; }
