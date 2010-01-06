@@ -2,7 +2,7 @@ class ShopsController < ApplicationController
   
   before_filter :require_login, :except=>[:search]
   before_filter :find_instance, :except=>[:new, :create, :index, :search]          
-  before_filter :require_manager_or_admin, :only=>[:edit, :update]
+  before_filter :require_manager_or_admin, :only=>[:edit]
   before_filter :require_admin, :only => [:destroy]
 
   def new
@@ -42,7 +42,11 @@ class ShopsController < ApplicationController
   end  
   
   def update
-    if @shop.update_attributes(params[:shop])
+    changes = params[:shop]
+    unless @shop.community? and (changes.keys - %w/franchise_id cuisine_ids/).empty?
+      require_manager_or_admin and return
+    end
+    if @shop.update_attributes(changes)
       redirect_to new_shop_order_path(@shop)
     else
       render :action=>:edit

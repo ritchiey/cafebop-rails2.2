@@ -59,6 +59,18 @@ class ShopsControllerTest < ActionController::TestCase
         end
       end
       
+      should "be able to update the franchise and cuisine on a community shop" do
+        @shop.state = 'community'
+        @shop.save!
+        assert @shop.community?
+        Cuisine.make
+        assert_difference "@shop.cuisines.count", 1 do
+          put :update, :id=>@shop.permalink, :shop=>{:cuisine_ids=>[Cuisine.first.id]}
+          assert_redirected_to new_shop_order_url(@shop)
+          @shop.reload
+        end
+      end
+      
       should "be able to create a shop" do
         assert_difference "Shop.count", 1 do
           post :create, :shop=>{:name=>"Sniggles", :phone=>"22222", :street_address=>"987 slkdjlksdjdakl", :lat=>-31.9678531, :lng=>115.8909351}

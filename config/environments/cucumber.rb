@@ -36,3 +36,9 @@ class ActiveRecord::Base
   end
 end    
 
+# Mock out the geocoding
+class Geokit::Geocoders::MultiGeocoder
+  def self.geocode(address)
+    return  Geokit::GeoLoc.new(:lat=>-31.952381, :lng=>115.8688224, :accuracy=>8)
+  end
+end

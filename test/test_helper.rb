@@ -81,3 +81,10 @@ Webrat.configure do |config|
   config.mode = :rails
   config.open_error_files = false
 end
+
+# Mock out the geocoding
+class Geokit::Geocoders::MultiGeocoder
+  def self.geocode(address)
+    return  Geokit::GeoLoc.new(:lat=>-31.952381, :lng=>115.8688224, :accuracy=>8)
+  end
+end

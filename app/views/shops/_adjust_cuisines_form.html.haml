@@ -1,0 +1,5 @@
+-semantic_form_for @shop do |f|
+  -f.inputs do
+    =f.input :franchise, :hint=>"Does the shop belong to one of these franchises?", :collection=>Cuisine.is_franchise
+    =f.input :cuisines, :as=>:check_boxes, :hint=>"What are your specialities", :collection=>Cuisine.is_not_franchise
+  =f.buttons

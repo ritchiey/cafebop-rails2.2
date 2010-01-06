@@ -2,7 +2,7 @@
 
 %ul
   -if @shop.effective_menus.empty?
-    This shop hasn't published any menus yet. :(
+    != render :partial => 'shops/adjust_cuisines_form'
   -else
     -@shop.effective_menus.each do |menu|
       %h5=h menu.name
