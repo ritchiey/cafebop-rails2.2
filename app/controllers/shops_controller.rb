@@ -17,7 +17,7 @@ class ShopsController < ApplicationController
   def create
     @shop = Shop.new(params[:shop])
     if @shop.save
-      redirect_to root_path
+      redirect_to new_shop_order_path(@shop)
     else                   
       render :action=>'new'
     end

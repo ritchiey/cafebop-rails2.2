@@ -94,6 +94,7 @@ class ShopsControllerTest < ActionController::TestCase
       should "be able to create a shop" do
         assert_difference "Shop.count", 1 do
           post :create, :shop=>{:name=>"Sniggles", :phone=>"22222", :street_address=>"987 slkdjlksdjdakl", :lat=>-31.9678531, :lng=>115.8909351}
+          assert_redirected_to new_shop_order_path(Shop.last)
         end
       end     
               
