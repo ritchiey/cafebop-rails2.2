@@ -56,6 +56,11 @@ class User < ActiveRecord::Base
   def activate!
     self.active = true
     save
+  end        
+  
+  def deliver_password_reset_instructions!  
+    reset_perishable_token!  
+    Notifications.deliver_password_reset_instructions(self)  
   end
   
   def can_review_claims?() is_cafebop_admin?; end

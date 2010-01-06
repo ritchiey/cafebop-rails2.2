@@ -1,0 +1,10 @@
+-semantic_form_for @password_reset do |f|
+  = f.error_messages :header_message=>nil, :message=>nil
+  -f.inputs do
+    = f.input :token,:as=>:hidden
+    = f.input :password, :as=>:password, :required=>true
+    = f.input :password_confirmation, :as=>:password, :required=>true
+
+  - f.buttons do
+    =f.commit_button "Reset Password"
+  
