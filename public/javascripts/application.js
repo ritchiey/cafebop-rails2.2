@@ -103,6 +103,27 @@ $(function() { // page ready
     hide: qtipHide()
     });
   });     
+
+  $(".add-btn").each(function(i) {
+    $(this).click(function() {return false;})
+    $(this).qtip({
+    content: $('#quick-add-shop'),
+    position: qtipRight(),   
+    style: {   
+      width: 400,
+      tip: 'leftMiddle',
+      name: 'cafebop'
+    },
+    show: jQuery.extend(qtipShow(), {
+      when: {
+        event: 'click'
+      }
+    }),
+    hide: qtipHide()
+    });
+    });  
+
+  
     
   $(function(){
       $('a.info').click(function(){

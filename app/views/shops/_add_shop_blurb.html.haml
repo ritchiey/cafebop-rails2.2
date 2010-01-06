@@ -1,3 +1,13 @@
-%h6 Are we missing something here?
-%p If you know of a restaurant or cafe that we don't have listed, please add it.
-%p=button_to "Add Shop", new_shop_path, :class=>'add-btn'
+.add-shop
+  %h6 Are we missing something here?
+  %p If you know of a restaurant or cafe that we don't have listed, please add it.
+  =button_to "Add Shop", new_shop_path, :class=>'add-btn', :id=>'add-shop-button'
+  #quick-add-shop.tooltip
+    -semantic_form_for Shop.new(:street_address=>@search.term) do |f|
+      -f.inputs do
+        =f.input :name, :hint=>"Restaurant's proper name"
+        =f.input :street_address, :hint=>"Physical location of the restaurant"
+        =f.input :permalink
+      =f.buttons
+        
+

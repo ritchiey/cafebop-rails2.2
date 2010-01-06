@@ -16,6 +16,7 @@ class Shop < ActiveRecord::Base
     postal_address  :string
     lat     :float
     lng     :float
+    location_accuracy :integer # Google's GGeoAddressAccuracy
     generic_orders :boolean, :default=>true
     header_background_updated_at :datetime
     header_background_file_name :string
@@ -32,7 +33,7 @@ class Shop < ActiveRecord::Base
         :header_background, :franchise_id, :fee_threshold
    
 
-  validates_presence_of :name, :permalink, :phone, :street_address
+  validates_presence_of :name, :permalink, :street_address
   validates_format_of :permalink, :with => /^[A-Za-z0-9-]+$/, :message => 'The permalink can only contain alphanumeric characters and dashes.', :allow_blank => true
   validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
   validates_uniqueness_of :permalink, :on => :create, :message => "already exists"

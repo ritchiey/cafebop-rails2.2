@@ -8,7 +8,6 @@ end
 Shop.blueprint do     
   name { Sham.company_name }
   street_address { "#{AddressForgery.street_address} #{AddressForgery.city}"  }
-  phone {AddressForgery.phone}
   lat { -31.9678531 }
   lng { 115.8909351 }
 end
