@@ -21,8 +21,9 @@
           =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
           %br
 
-        -if @shop.accepts_paypal_payments?
-          Note: A transaction fee of #{number_to_currency @shop.processing_fee} applies for orders under $#{h @shop.fee_threshold}.
+        -if @shop.accepts_paypal_payments? 
+          -if @shop.ever_charges_processing_fee?
+            Note: A transaction fee of #{number_to_currency @shop.processing_fee} applies for orders under $#{h @shop.fee_threshold}.
           =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
 
 .no-print

@@ -42,6 +42,10 @@ class Shop < ActiveRecord::Base
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
   end 
   
+  def ever_charges_processing_fee?
+    fee_threshold_in_cents > 0
+  end
+  
   def processing_fee
     0.30
   end
