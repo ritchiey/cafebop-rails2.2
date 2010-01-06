@@ -84,20 +84,16 @@ h6
   border: 5px solid #494848
   cursor: pointer
 
-
-#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit
+#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, .confirm-link 
   +rounded-corners(10px)
-  background-color: #E76F00
+  +nav_button
   +right_arrow_icon
-  clear: both
-  color: #FFFFFF
-  font-family: Helvetica
-  font-size: 20px
-  font-weight: bold
-  letter-spacing: -1px
-  padding: 15px 65px 15px 25px
-  text-shadow: 0 0 5px #000000
-  
+
+#change-button
+  +rounded-corners(10px)
+  +nav_button
+  +left_arrow_icon
+
 #search_form, #new_user_session, #new_user
   +rounded-corners
   background-color: #B0B6A6
@@ -164,6 +160,29 @@ h6
 
     &:hover
       border: #FFF 5px solid     
+
+.add-btn
+  -moz-border-radius: 10px
+  -webkit-border-radius: 10px
+  background-color: #00c6ff
+  background-image: url(/images/plus.gif)
+  background-position: 85%
+  background-repeat: no-repeat
+  font-size: 20px
+  font-family: Helvetica
+  font-weight: bold
+  letter-spacing: -1px
+  color: #FFF
+  padding: 15px 65px 15px 25px
+  text-shadow: 0px 0px 5px #000
+  border: #d8decd 5px solid
+  clear: both
+
+  &:hover
+    cursor: pointer
+    background-image: url(/images/plus-hover.gif)
+    border: #494848 5px solid
+
     
 #opening-times
   :float  right    
@@ -242,26 +261,4 @@ a
 #error
   :color red             
   
-  
-.add-btn
-  -moz-border-radius: 10px
-  -webkit-border-radius: 10px
-  background-color: #00c6ff
-  background-image: url(/images/plus.gif)
-  background-position: 85%
-  background-repeat: no-repeat
-  font-size: 20px
-  font-family: Helvetica
-  font-weight: bold
-  letter-spacing: -1px
-  color: #FFF
-  padding: 15px 65px 15px 25px
-  text-shadow: 0px 0px 5px #000
-  border: #d8decd 5px solid
-  clear: both
-
-  &:hover
-    cursor: pointer
-    background-image: url(/images/plus-hover.gif)
-    border: #494848 5px solid
   

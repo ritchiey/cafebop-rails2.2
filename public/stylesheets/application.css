@@ -66,22 +66,41 @@ h6 {
   border: 5px solid #494848;
   cursor: pointer; }
 
-#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit {
+#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, .confirm-link {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  background-color: #E76F00;
-  background-image: url(../images/arrow-right.gif);
-  background-position: 85% 50%;
-  background-repeat: no-repeat;
-  border: 5px solid #D8DECD;
   clear: both;
   color: #FFFFFF;
   font-family: Helvetica;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -1px;
-  padding: 15px 65px 15px 25px;
-  text-shadow: 0 0 5px #000000; }
+  text-shadow: 0 0 5px #000000;
+  padding: 5px 25px 5px 15px;
+  background-color: #E76F00;
+  border: 5px solid #D8DECD;
+  background-image: url(../images/arrow-right.gif);
+  background-position: 85% 50%;
+  background-repeat: no-repeat;
+  padding: 5px 55px 5px 15px; }
+
+#change-button {
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  clear: both;
+  color: #FFFFFF;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  text-shadow: 0 0 5px #000000;
+  padding: 5px 25px 5px 15px;
+  background-color: #E76F00;
+  border: 5px solid #D8DECD;
+  background-image: url(../images/arrow-left.gif);
+  background-position: 15% 50%;
+  background-repeat: no-repeat;
+  padding: 5px 15px 5px 55px; }
 
 #search_form, #new_user_session, #new_user {
   -moz-border-radius: 15px;
@@ -143,6 +162,27 @@ h6 {
     float: left; }
     #page-header a.btn:hover {
       border: #FFF 5px solid; }
+
+.add-btn {
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  background-color: #00c6ff;
+  background-image: url(/images/plus.gif);
+  background-position: 85%;
+  background-repeat: no-repeat;
+  font-size: 20px;
+  font-family: Helvetica;
+  font-weight: bold;
+  letter-spacing: -1px;
+  color: #FFF;
+  padding: 15px 65px 15px 25px;
+  text-shadow: 0px 0px 5px #000;
+  border: #d8decd 5px solid;
+  clear: both; }
+  .add-btn:hover {
+    cursor: pointer;
+    background-image: url(/images/plus-hover.gif);
+    border: #494848 5px solid; }
 
 #opening-times {
   float: right;
@@ -212,24 +252,3 @@ a {
 
 #error {
   color: red; }
-
-.add-btn {
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  background-color: #00c6ff;
-  background-image: url(/images/plus.gif);
-  background-position: 85%;
-  background-repeat: no-repeat;
-  font-size: 20px;
-  font-family: Helvetica;
-  font-weight: bold;
-  letter-spacing: -1px;
-  color: #FFF;
-  padding: 15px 65px 15px 25px;
-  text-shadow: 0px 0px 5px #000;
-  border: #d8decd 5px solid;
-  clear: both; }
-  .add-btn:hover {
-    cursor: pointer;
-    background-image: url(/images/plus-hover.gif);
-    border: #494848 5px solid; }

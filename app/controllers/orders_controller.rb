@@ -9,6 +9,7 @@ class OrdersController < ApplicationController
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy]
   before_filter :require_admin_rights, :only => [:index, :destroy]
   before_filter :unless_invitation_closed, :only=>[:show, :edit]
+  before_filter :only_if_pending, :only=>[:edit, :invite]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:update]
 
@@ -108,7 +109,7 @@ class OrdersController < ApplicationController
   end  
 
   # Display the invitation form to invite others
-  def invite    
+  def invite
     current_user and @order.user ||= current_user
     restore_from session, @order
     @order.page = 'inviting'
@@ -194,6 +195,11 @@ private
       render :action=>:closed if @order.invite_closed?
     end
   end        
+  
+  def only_if_pending
+    no_cache
+    redirect_to order_path(@order) unless @order.pending?
+  end
   
   def with_order_from_token
     @order = Order.find_by_perishable_token(params[:token])

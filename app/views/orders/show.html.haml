@@ -9,22 +9,22 @@
     = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
 
 -content_for :content_foot do
-  .span-20
+  .span-16
     -if @order.pending?
-      =button_to "&lt;&lt; Change", edit_order_path(@order), :method=>:get
-  .span-4.last    
+      =button_to "Change", edit_order_path(@order), :method=>:get, :id=>'change-button'
+  .span-8.last    
     -if @order.pending?
       -if @order.is_child?
         =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
       -else
         -if @shop.accepts_in_shop_payments?
-          =button_to "Pay In Shop &gt;&gt;", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
+          =button_to "Pay In Shop", pay_in_shop_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
           %br
 
         -if @shop.accepts_paypal_payments? 
           -if @shop.ever_charges_processing_fee?
             Note: A transaction fee of #{number_to_currency @shop.processing_fee} applies for orders under $#{h @shop.fee_threshold}.
-          =button_to "Pay with PayPal &gt;&gt;", pay_paypal_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
+          =button_to "Pay with PayPal", pay_paypal_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
 
 .no-print
   -if @order.pending?
