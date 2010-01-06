@@ -45,7 +45,7 @@ end
 Then(/^I choose to invite others to order from "(.+?)"/) do |shop|
   steps %Q{
     Then I should see "At work?"
-    When I press "Offer Friends"
+    When I press "Invite Friends"
 	  Then I should see "See if you're friends or colleagues want anything while you're there. The email they receive will read"
 	  And I should see "is going to #{shop}"
   }

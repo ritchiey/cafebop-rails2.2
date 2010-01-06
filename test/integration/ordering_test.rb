@@ -34,7 +34,7 @@ class OrderingTest < ActionController::IntegrationTest
             @invited = @user.friends.last
             assert_not_nil @invited 
             assert_have_selector "#offer-friends-button" 
-            click_button "Offer Friends"
+            click_button "Invite Friends"
             @user.friends.each {|friend| uncheck("invite_user_#{friend.id}")}
             check "invite_user_#{@invited.id}"
             assert_difference "@order.child_orders.count", 1 do
@@ -108,7 +108,7 @@ class OrderingTest < ActionController::IntegrationTest
     end
 
     should "be able to enter login as an existing user on the invite others screen" do
-      click_button "Offer Friends"
+      click_button "Invite Friends"
       fill_in "order_user_email", :with=>@user.email
       click_button "Continue"
       # fill_in "user_session_password", :with=>@password
