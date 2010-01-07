@@ -104,7 +104,7 @@ $(function() { // page ready
     });
   });     
 
-  $(".add-btn").each(function(i) {
+  $(".add-shop .add-btn").each(function(i) {
     $(this).click(function() {return false;})
     $(this).qtip({
     content: $('#quick-add-shop'),
