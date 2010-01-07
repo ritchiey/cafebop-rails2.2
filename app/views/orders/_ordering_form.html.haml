@@ -18,6 +18,7 @@
 
 -content_for :aside do        
   %h5 Your Order
+  / -form_for order, :url=>(order.is_child? ? confirm_order_path(order) : order_path(order)) do |form|
   -form_for order do |form|
     %table.order.order-form
       %thead
@@ -60,7 +61,7 @@
     != render :partial => 'price_warning'
     != render :partial => 'close_time_counter' 
     
-    =submit_tag "Continue", :disabled=>@order.order_items.empty?, :id=>'continue-order-button'
+    =submit_tag((@order.is_child? ? "Confirm" : "Continue"), :disabled=>@order.order_items.empty?, :id=>'continue-order-button')
         
 
 .hidden

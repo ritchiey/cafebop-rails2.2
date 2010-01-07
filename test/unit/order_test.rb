@@ -246,10 +246,12 @@ class OrderTest < ActiveSupport::TestCase
             end           
             
             should "queue all its confirmed child_orders order items" do
+              @child_order_confirmed.reload
               @child_order_confirmed.order_items.each {|item| assert item.queued?}
             end
 
             should "not queue any of its unconfirmed child_orders order items" do
+              @child_order.reload
               @child_order.order_items.each {|item| assert !item.queued?}
             end         
             

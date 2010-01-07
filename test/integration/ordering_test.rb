@@ -62,13 +62,6 @@ class OrderingTest < ActionController::IntegrationTest
               assert_contain 'Sorry, you can only accept an invitation once'
             end
 
-            should "be able to edit and confirm their order" do
-              add_to_last_webrat_order
-              click_button "Confirm Order"
-              # TODO Webrat doesn't seem to follow redirect here
-              #assert_contain "Your order will be collected from #{@order.shop} by #{@order.user}."
-            end
-
           end
           
 

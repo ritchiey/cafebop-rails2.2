@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
   before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close, :destroy]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy]
   before_filter :require_admin_rights, :only => [:index, :destroy]
-  before_filter :unless_invitation_closed, :only=>[:show, :edit]
+  before_filter :unless_invitation_closed, :only=>[:show, :edit] #TODO: :update?, :confirm?
   before_filter :only_if_pending, :only=>[:edit, :invite]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:update]
@@ -154,7 +154,7 @@ class OrdersController < ApplicationController
 
   def confirm
     @order.confirm!
-    @order.save
+    # @order.save
     redirect_to @order
   end
 

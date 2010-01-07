@@ -6,7 +6,6 @@ class Order < ActiveRecord::Base
   include OrderInvitation       
   include PaypalEnabled
                         
-  #TODO: Add field to differentiate paid confirmed orders from unpaid confirmed
   fields do
     notes :text
     state :string, :default=>'pending'
@@ -17,11 +16,11 @@ class Order < ActiveRecord::Base
     timestamps
   end
 
-  
   before_create :init_perishable_token
   before_create :inherit_from_parent
   before_save :start_close_timer
   before_save :set_user_from_user_email
+  after_save :confirm_if_child
   after_save :invite_additional_users
   
   belongs_to :user
@@ -216,7 +215,16 @@ class Order < ActiveRecord::Base
       child_orders.each {|o| o.parent_order_made}
     end
   end
+  
+  def confirm_if_child
+    if pending? && is_child? && parent.pending? and !order_items.empty?
+      self.state = 'confirmed'
+      save!
+    end
+  end
+  
   # End state related methods
+  
 private
 
   def print_or_queue!
@@ -277,4 +285,6 @@ private
     order_items.all? {|item| item.made?} and
     confirmed_child_order_items.all? {|item| item.made?}
   end
+  
+  
 end
