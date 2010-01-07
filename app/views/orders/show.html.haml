@@ -34,7 +34,7 @@
       = periodically_call_remote :url=>status_of_pending_order_path(@order), :frequency=>10, :method=>'GET'
   -else
     -content_for :content_foot do
-      -if @order.queued?
+      -if @order.queued? or @order.pending_paypal_auth?
         = periodically_call_remote :url=>status_of_queued_order_path(@order), :frequency=>10, :method=>'GET'
 
       #order-summary.span-24.last

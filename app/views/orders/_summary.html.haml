@@ -30,6 +30,8 @@
 #order-status.no-print
   -case @order.state
     -when 'queued'
+      -if @order.paid_at
+        Payment accepted.
       Your order has been sent to #{h @order.shop}.
       Keep this screen open to watch its progress.
     -when 'made'
@@ -40,6 +42,6 @@
     -when 'confirmed'
       #{@order.parent.user} will pickup your order for you.
     -when 'pending_paypal_auth'
-      Waiting for approval from PayPal
+      Waiting for payment confirmation from PayPal
 
 = render :partial => 'shop_blurb'
