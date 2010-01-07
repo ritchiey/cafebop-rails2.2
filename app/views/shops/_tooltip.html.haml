@@ -1,0 +1,13 @@
+-shop = tooltip
+.tooltip
+  %h3=h shop.name
+  %p
+    =h shop.street_address
+  -if shop.can_have_queues? and shop.is_staff?(current_user)
+    %h6 Queues
+    =separated(shop.item_queues.map {|q| link_to(q.name,q)})
+  
+  %p
+  
+  %p.edit-shop
+    =separated([edit_shop_link(shop), claim_shop_link(shop)])

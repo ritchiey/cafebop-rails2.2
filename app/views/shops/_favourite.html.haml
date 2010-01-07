@@ -2,6 +2,4 @@
 -content_tag_for :tr, shop do
   %td
     =link_to shop.name, new_shop_order_path(shop), :class=>"shop-entry"
-    .tooltip
-      %h3=h shop.name
-      %p=edit_shop_link(shop)
+    != render :partial => 'shops/tooltip', :object=>shop
