@@ -49,7 +49,7 @@
     =f.input :website, :hint=>"If one exists"
     =f.input :phone, :hint=>"To call for bookings"
     =f.input :fax, :hint=>"If available"
-    =f.input :fee_threshold, :hint=>"Customer must pay the transaction fees on orders less than this amount"
+    / =f.input :fee_threshold, :hint=>"Customer must pay the transaction fees on orders less than this amount"
     =f.input :header_background, :hint=>"Upload an image to appear above the shop's menu"
     =f.input :franchise, :hint=>"Does the shop belong to one of these franchises?", :collection=>Cuisine.is_franchise
     =f.input :cuisines, :as=>:check_boxes, :hint=>"What are your specialities", :collection=>Cuisine.is_not_franchise
