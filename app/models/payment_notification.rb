@@ -9,7 +9,16 @@ class PaymentNotification < ActiveRecord::Base
   end
   
   
-  serialize :params
+  # serialize :params
+  
+  def params
+    self[:params] ? YAML.load(self[:params]) : nil
+  end
+  
+  def params=(p)
+    self[:params] = YAML.dump(p)
+  end
+  
   belongs_to :order
 
   after_create :confirm_order
