@@ -34,14 +34,15 @@
       = periodically_call_remote :url=>status_of_pending_order_path(@order), :frequency=>10, :method=>'GET'
   -else
     -content_for :content_foot do
-      -if @order.printed?
-        .no-print
-          =button_to_function "Click here to print", "window.print();"                
-    
-      -elsif @order.queued?
+      -if @order.queued?
         Your order has been sent to #{h @order.shop}.
         Keep this screen open to watch its progress.
         = periodically_call_remote :url=>status_of_queued_order_path(@order), :frequency=>10, :method=>'GET'
+
       #order-summary.span-24.last
         != render :partial => 'order_summary'
+
+      -if @order.printed?
+        .no-print
+          =button_to_function "Click here to print", "window.print();", :id=>'print-btn'                
       

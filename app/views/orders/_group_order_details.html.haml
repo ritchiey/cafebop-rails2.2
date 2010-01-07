@@ -8,9 +8,10 @@
       != render :partial => 'child_order', :collection=>@order.child_orders
 -else
   -if @order.can_send_invites?
-    %h6 At work?
-    See if your friends or co-workers want anything from #{@order.shop}.
-    =button_to "Invite Friends", invite_order_path(@order), :method=>:get, :id=>'offer-friends-button'
+    #invite-friends-blurb
+      %h6 At work?
+      See if your friends or co-workers want anything from #{@order.shop}.
+      =button_to "Invite Friends", invite_order_path(@order), :method=>:get, :id=>'offer-friends-button'
   
 != render :partial => 'close_time_counter'
 
