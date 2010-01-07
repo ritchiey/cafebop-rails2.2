@@ -5,10 +5,10 @@
   
   You should receive:
 
-  \----------------------------
+\-------------------------------------------------------
 -@order.order_items.each do |i|
   ="#{i.quantity} x #{h i.description} @#{number_to_currency i.price}"
-  \----------------------------
+\-------------------------------------------------------
 :plain
   You will owe #{h @order.parent.user} #{number_to_currency @order.total}.
     

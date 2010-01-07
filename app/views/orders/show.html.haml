@@ -35,8 +35,6 @@
   -else
     -content_for :content_foot do
       -if @order.queued?
-        Your order has been sent to #{h @order.shop}.
-        Keep this screen open to watch its progress.
         = periodically_call_remote :url=>status_of_queued_order_path(@order), :frequency=>10, :method=>'GET'
 
       #order-summary.span-24.last

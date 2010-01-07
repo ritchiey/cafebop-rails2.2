@@ -280,3 +280,9 @@ a {
 
 #error {
   color: red; }
+
+#order-status {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A;
+  font-size: 2.5em; }
