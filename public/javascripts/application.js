@@ -273,7 +273,7 @@ function add_to_order() {
                       ""
                     )+"</td>" +
                     "</td><td class='cost'>"+cost(menu_item)+
-                    "</td><td class='remove'>x</td></tr>");
+                    "</td><td class='remove'><img src='/images/remove.gif' alt='remove' /></td></tr>");
   update_continue_order_button();
   update_total();
 }

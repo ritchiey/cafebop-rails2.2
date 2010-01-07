@@ -30,7 +30,7 @@ Feature: Ordering
       | 1   | coffee      | $3.80   | extra sugar |
       | 2   | toast       | $4.00   |             |
       |     | Total       | $7.80   |             |
-    When I press "Pay In Shop >>"
+    When I press "Pay In Shop"
     Then I should see this order summary table:
       | Qty | Description | Cost($) |             | Made |
       | 1   | coffee      | $3.80   | extra sugar |      |
@@ -56,7 +56,7 @@ Feature: Ordering
           | 1   | coffee      | $3.80   | extra sugar |
           | 2   | toast       | $4.00   |             |
           |     | Total       | $7.80   |             |
-        When I press "Pay In Shop >>"
+        When I press "Pay In Shop"
         Then I should see this order summary table:
           | Qty | Description | Cost($) | Status |             |
           | 1   | coffee      | $3.80   | queued | extra sugar |
