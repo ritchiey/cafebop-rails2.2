@@ -1,3 +1,9 @@
+-if iphone_user_agent?
+  .iphone-message
+    %p
+      Using an iPhone?
+      =link_to 'Use the optimised version', 'http://iphone.localhost.local:3000/'
+
 -if current_user
   -content_for :aside do
     != render :partial => 'shops_table'

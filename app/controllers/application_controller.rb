@@ -3,9 +3,10 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
+  helper_method :'iphone_user_agent?'
   before_filter :cookies_required, :except => [:cookies_test]
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-
+  before_filter :adjust_format_for_iphone
   filter_parameter_logging :password, :password_confirmation
   
   helper_method :current_user_session, :current_user
@@ -17,6 +18,7 @@ class ApplicationController < ActionController::Base
   def restore_from store, target, options={}
     Persistence.restore_from store, target, options
   end
+  
 
   protected
   
@@ -126,5 +128,16 @@ private
     flash[:notice] = "You're not authorized to do that."
     redirect_to root_path
   end    
+
+  # Set iPhone format if request to iphone.trawlr.com
+  def adjust_format_for_iphone
+    request.format = :iphone if iphone_user_agent?
+  end
+
+  # Return true for requests to iphone.trawlr.com
+  def iphone_user_agent?
+    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
+    # return (request.subdomains.first == "iphone" || params[:format] == "iphone")
+  end
                      
 end

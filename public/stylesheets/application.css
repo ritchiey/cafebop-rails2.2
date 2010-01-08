@@ -287,6 +287,12 @@ a {
   color: #50341A;
   font-size: 2.5em; }
 
+.iphone-message {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A;
+  font-size: 4.5em; }
+
 [disabled] {
   filter: alpha(opacity=35);
   -moz-opacity: 0.35;

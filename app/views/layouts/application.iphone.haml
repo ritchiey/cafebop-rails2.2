@@ -1,0 +1,14 @@
+!!! Strict
+%html{ "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }
+    %meta#viewport{ :name => "viewport", :content => "width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" }
+    %title
+      = @page_title
+    = stylesheet_link_tag '/iui/iui.css', 'formtastic'
+    = javascript_include_tag '/iui/iui.js'
+  %body
+    .toolbar
+      %h1#pageTitle
+      %a#backButton.button{ :href => "#" }
+    = yield

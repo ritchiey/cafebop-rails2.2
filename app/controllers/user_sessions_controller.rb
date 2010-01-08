@@ -2,6 +2,12 @@ class UserSessionsController < ApplicationController
   def new
     @user_session = UserSession.new
     @user_session.errors.clear
+    respond_to do |format|
+        format.iphone do 
+          render :layout => false
+        end
+        format.html
+    end
   end
 
   def create

@@ -491,4 +491,29 @@ function order_timer_expired() {
   $('.order-closed').removeAttr('disabled')
 }
     
+function keyCode(str) {
+  return str.charCodeAt(0);
+}                          
 
+function printable(code) {
+  return (32 <= code && code <= 126) ? String.fromCharCode(code) : false;
+}
+ 
+// Queue Navigation
+// $('#collection-section table tbody tr:first').focus();
+// 
+// $('#collection-section table').keypress(function(e) {
+//   switch (printable(e.which)) {
+//     case 'J': // down
+//     case 'j': // down
+//       alert("You pressed 'j'")
+//       break;
+//     case keyCode('K'): // up
+//     case keyCode('k'): // up
+//       alert("You pressed 'k'")
+//       break;
+//   };
+// });
+
+
+  
