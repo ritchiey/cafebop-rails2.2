@@ -5,10 +5,17 @@
     %meta#viewport{ :name => "viewport", :content => "width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" }
     %title
       = @page_title
-    = stylesheet_link_tag '/iui/iui.css', 'formtastic'
-    = javascript_include_tag '/iui/iui.js'
-  %body
-    .toolbar
-      %h1#pageTitle
-      %a#backButton.button{ :href => "#" }
-    = yield
+    %script{ :src => "http://www.google.com/jsapi", :type => "text/javascript" }
+    %script{ :type => "text/javascript" }
+      google.load("jquery", "1.3.2");
+    = javascript_include_tag '/jqtouch/jqtouch.min.js', 'mobile.js'
+    = stylesheet_link_tag '/jqtouch/jqtouch.min.css', '/themes/jqt/theme.min.css', 'mobile'    
+    %body
+      != render :partial => 'layouts/about'
+      != render :partial => 'user_sessions/login_form'
+    #home.current
+      .toolbar
+        %h1#pageTitle Cafebop
+        %a.button.slideup{ :href => "#about" } About
+      = yield
+      

@@ -1,0 +1,11 @@
+#login.selectable
+  %form{:action=>'/user_sessions', :method=>'post', :"accept-charset"=>'utf-8'}
+    %ul.rounded
+      %li
+        %input{ :name => "email", :type => "text", :value => "", :placeholder => "Email" }
+      %li
+        %input{ :name => "password", :type => "password", :value => "", :placeholder => "Password" }
+    %a.whiteButton.login{:href=>'#'} Login
+    %a.grayButton.goback{:href=>'#'} Cancel
+
+    = link_to "Forgot password", new_password_reset_path
