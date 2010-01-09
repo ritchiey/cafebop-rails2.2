@@ -5,11 +5,11 @@
       %th Item
       %th Notes
   %tbody
-    -if @queue.current_orders.empty?
+    -if @orders.empty?
       %td
       %td{:span=>"2"} No Pending Orders
     -else
-      = render :partial=>'orders/order', :collection=>@queue.current_orders
+      = render :partial=>'orders/order', :collection=>@orders
 
 = "Last Updated: #{Time.now}"
                                                    

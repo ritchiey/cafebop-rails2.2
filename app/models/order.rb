@@ -54,6 +54,10 @@ class Order < ActiveRecord::Base
       save
     end
   end
+
+  def paid?
+    paid_at
+  end
                 
   def is_child?
     parent
@@ -144,6 +148,11 @@ class Order < ActiveRecord::Base
   def parent_order_made
     make!
   end
+  
+  def summarized_order_items
+    OrderItem.summarize([order_items,
+      child_orders.map {|o| o.order_items}].flatten.select {|o| o.queued? or o.made?})
+  end
 
   # State related methods
   def pending?() state == 'pending'; end  
@@ -222,6 +231,14 @@ class Order < ActiveRecord::Base
       child_orders.each {|o| o.parent_order_made}
     end
   end
+
+  def deliver!
+    if made?
+      self.state = 'delivered'
+      save
+    end
+  end
+
   
   def confirm_if_child
     if pending? && is_child? && parent.pending? and !order_items.empty?

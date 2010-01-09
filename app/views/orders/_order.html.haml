@@ -1,10 +1,25 @@
-%tr.order
+%tr{:class=>"order #{order.state}"}
+  %td="Order for #{h order.user}"
   %td
-    Order for #{h order.user}
--order.order_items.each do |order_item|
-  %tr{:id=>"order-item-#{order_item.id}"}
-    %td= order_item.quantity
-    %td= link_to_remote order_item.description, :url=>make_order_item_path(order_item), :method=>'PUT'
-    %td=h order_item.notes
+    -if order.made?
+      =link_to_remote "deliver", :url=>deliver_order_path(order), :method=>'PUT'
     
+  -if order.paid?
+    %td=h "number_to_currency(order.grand_total) (paid)"
+  -else
+    %td=h number_to_currency(order.grand_total)
+  
+-order.summarized_order_items.each do |order_item|
+  -case order_item.state
+    -when 'queued'
+      %tr.queued{:id=>"order-item-#{order_item.id}"}
+        %td=h order_item.quantity
+        %td=link_to_remote order_item.description, :url=>make_order_item_path(order_item), :method=>'PUT'
+        %td=h order_item.notes
+    -when 'made'
+      %tr.made{:id=>"order-item-#{order_item.id}"}
+        %td=h order_item.quantity
+        %td=h order_item.description
+        %td=h order_item.notes
+  
     

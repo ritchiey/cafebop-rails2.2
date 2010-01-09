@@ -5,8 +5,9 @@ class OrdersController < ApplicationController
 
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
-  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close, :destroy]
-  before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy]
+  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
+  before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
+  before_filter :only_if_staff, :only=>[:deliver]
   before_filter :require_admin_rights, :only => [:index, :destroy]
   before_filter :unless_invitation_closed, :only=>[:show, :edit] #TODO: :update?, :confirm?
   before_filter :only_if_pending, :only=>[:edit, :invite]
@@ -148,6 +149,11 @@ class OrdersController < ApplicationController
     redirect_to @order
   end
   
+  def deliver
+    @order.deliver!
+    render :nothing=>true
+  end
+  
   # User tried to accept or confirm their order but parent had already closed
   def closed
   end
@@ -218,6 +224,14 @@ private
       redirect_to new_shop_order_path(@order.shop)
     end
   end
+  
+  def only_if_staff
+    unless @shop.is_staff?(current_user)
+      flash[:error] = "Ummm... no."
+      redirect_to new_shop_order_path(shop)
+    end
+  end
+    
   
   def mark_as_mine
     session[:order_token] = @order.perishable_token

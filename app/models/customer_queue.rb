@@ -13,7 +13,7 @@ class CustomerQueue < ActiveRecord::Base
           :class_name=>'Order',
           :foreign_key=>'customer_queue_id',
           :order=>"created_at ASC",
-          :conditions=>{:state =>'queued'},
+          :conditions=>{:state =>['queued', 'made']},
           :include=>[:order_items]
 
   attr_accessible :name, :active

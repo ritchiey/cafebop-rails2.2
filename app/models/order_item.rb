@@ -32,7 +32,13 @@ class OrderItem < ActiveRecord::Base
   validates_numericality_of :quantity, :greater_than => 0, :message => 'is minimum 1'
   validates_numericality_of :price_in_cents, :greater_than => 0#, :allow_nil => true
   
-
+  
+  # Given a list of order items, compress duplicates into
+  # individual line items
+  def self.summarize(items)
+    #TODO: make this happen
+    items
+  end
 
   def user() order.user; end
 
