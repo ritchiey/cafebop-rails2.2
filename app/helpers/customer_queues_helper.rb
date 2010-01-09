@@ -1,0 +1,2 @@
+module CustomerQueuesHelper
+end

@@ -18,6 +18,7 @@ class Order < ActiveRecord::Base
 
   before_create :init_perishable_token
   before_create :inherit_from_parent
+  before_create :add_to_customer_queue
   before_save :start_close_timer
   before_save :set_user_from_user_email
   after_save :confirm_if_child
@@ -25,6 +26,7 @@ class Order < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :shop
+  belongs_to :customer_queue
   has_many :order_items, :dependent=>:destroy
 
   has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id'
@@ -32,6 +34,7 @@ class Order < ActiveRecord::Base
   has_many :confirmed_child_order_items, :through => :child_orders, :source => :order_items, :conditions=>{"orders.state" => "confirmed"}
   has_many :invited_users, :through => :child_orders, :source => :user
   belongs_to :parent, :class_name=>'Order'
+  belongs_to :customer_queue
   
   named_scope :current, :conditions=>{:state=>%w/invited pending queued pending_paypal_auth/}
   named_scope :with_items, :joins=>:order_items
@@ -67,6 +70,10 @@ class Order < ActiveRecord::Base
   def group
     is_child? ? parent : self
   end                      
+  
+  def queued_order_items
+    order_items.queued.all + child_order_items.queued.all
+  end
   
   def can_confirm?
     return false unless pending?
@@ -286,5 +293,8 @@ private
     confirmed_child_order_items.all? {|item| item.made?}
   end
   
+  def add_to_customer_queue
+    is_child? or self.customer_queue = shop.customer_queues.first
+  end
   
 end

@@ -21,6 +21,8 @@ class OrderItem < ActiveRecord::Base
 
   before_validation_on_create :set_values_from_menu_item
   before_create :only_if_order_pending  
+  
+  named_scope :queued, :conditions=>{:state=>'queued'}
 
   treat_as_currency :price
   

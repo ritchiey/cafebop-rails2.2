@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100106062538) do
+ActiveRecord::Schema.define(:version => 20100109015615) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(:version => 20100106062538) do
     t.datetime "updated_at"
     t.boolean  "franchise",  :default => false
     t.string   "url"
+  end
+
+  create_table "customer_queues", :force => true do |t|
+    t.string   "name",       :default => "Front counter"
+    t.boolean  "active",     :default => false
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "shop_id"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -144,6 +153,7 @@ ActiveRecord::Schema.define(:version => 20100106062538) do
     t.datetime "close_time"
     t.integer  "minutes_til_close"
     t.datetime "paid_at"
+    t.integer  "customer_queue_id"
   end
 
   create_table "payment_notifications", :force => true do |t|
@@ -192,7 +202,7 @@ ActiveRecord::Schema.define(:version => 20100106062538) do
     t.string   "permalink"
     t.boolean  "accept_paypal_orders",           :default => false
     t.string   "paypal_recipient"
-    t.integer  "fee_threshold_in_cents",         :default => 1500
+    t.integer  "fee_threshold_in_cents",         :default => 0
     t.integer  "location_accuracy"
   end
 

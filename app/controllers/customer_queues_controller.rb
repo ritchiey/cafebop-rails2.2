@@ -1,11 +1,11 @@
-class ItemQueuesController < QueuesController
+class CustomerQueuesController < QueuesController
 
   def new
-    @queue = @shop.item_queues.build
+    @queue = @shop.customer_queues.build
   end                                
   
   def create
-    @queue = @shop.item_queues.build(params[:item_queue])
+    @queue = @shop.customer_queues.build(params[:customer_queue])
     if @queue.save
       flash[:notice] = "Queue created."
       redirect_to edit_shop_path(@shop)
@@ -15,8 +15,8 @@ class ItemQueuesController < QueuesController
   end
        
   def update       
-    unless @queue.update_attributes(params[:item_queue])
-      flash[:error] = "Couldn't update item queue"
+    unless @queue.update_attributes(params[:customer_queue])
+      flash[:error] = "Couldn't update customer queue"
     end
     redirect_to edit_shop_path(@shop)
   end
@@ -33,8 +33,8 @@ class ItemQueuesController < QueuesController
     flash.now[:error] = "Queuing for #{@queue.shop.name} is currently disabled. You won't receive any orders."
   end
 
-  def current_items
-    render :partial=>"current_items"
+  def current_orders
+    render :partial=>"current_orders"
   end
 
   def start           
@@ -51,8 +51,7 @@ class ItemQueuesController < QueuesController
 private
 
   def model_class
-    ItemQueue
+    CustomerQueue
   end
 
 end
-

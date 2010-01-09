@@ -60,6 +60,7 @@ class Shop < ActiveRecord::Base
   
   has_many :orders, :dependent=>:destroy
   has_many :item_queues, :dependent=>:destroy, :order=>:position 
+  has_many :customer_queues, :dependent=>:destroy, :order=>:position 
   has_many :menus, :dependent=>:destroy, :order=>:position 
   has_many :menu_items, :through => :menus
   has_many :operating_times, :dependent=>:destroy, :order=>:position 
@@ -234,10 +235,12 @@ class Shop < ActiveRecord::Base
   def go_express!
     if community?
       self.menus = virtual_menus.map {|menu| menu.deep_clone }
-      queue = item_queues.create({:name=>'Default'})
-      menu_items.each do |item|
-        item.item_queue = queue
-        item.save
+      customer_queues.create
+      item_queues.create({:name=>'Default'}).tap do |queue|
+        menu_items.each do |item|
+          item.item_queue = queue
+          item.save
+        end
       end
     end
     self.state = 'express'

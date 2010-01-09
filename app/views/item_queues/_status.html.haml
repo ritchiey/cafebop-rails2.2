@@ -1,6 +1,6 @@
--if @item_queue.active
+-if @queue.active
   Queue is currently accepting orders.
-  =button_to_remote "Stop Accepting Orders", :url=>stop_item_queue_path(@item_queue), :method=>:put, :update=>'queue_status'
+  =button_to_remote "Stop Accepting Orders", :url=>stop_item_queue_path(@queue), :method=>:put, :update=>'queue_status'
 -else
   Queue is not accepting orders.
-  =button_to_remote "Start Accepting Orders", :url=>start_item_queue_path(@item_queue), :method=>:put, :update=>'queue_status'
+  =button_to_remote "Start Accepting Orders", :url=>start_item_queue_path(@queue), :method=>:put, :update=>'queue_status'

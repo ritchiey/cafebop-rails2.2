@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.resources :payment_notifications, :only=>[:create]
   map.resources :password_resets
 
@@ -35,6 +36,7 @@ ActionController::Routing::Routes.draw do |map|
       } do |shops|
     shops.resources :operating_times
     shops.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
+    shops.resources :customer_queues, :member=>{:current_orders=>:get, :stop=>:put, :start=>:put}
     shops.resources :claims, :only=>[:new, :create]
     shops.resources :orders, :shallow => true, :member => {
         :status_of_pending => :get,
