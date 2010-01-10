@@ -143,7 +143,32 @@ $(function() { // page ready
     $(this).select();
   });
   $("#search_term").select().focus();
-  
+
+
+  $("form.made-order").live('click', function(e) {
+    $(this).ajaxSubmit({
+      dataType: 'json',
+      success: function(json) {},
+      beforeSubmit: function(formData, jqForm, options) {
+        jqForm.closest('tbody').hide();
+        alert("jqForm.closest('tbody'): "+ jqForm.closest('tbody').html());
+      }
+    });
+
+    return false;
+  });
+    
+  $("form.order-item").submit(function(e) {
+    $(this).ajaxSubmit({
+      success: function(json) {},
+      dataType: 'json',
+      beforeSubmit: function(formData, jqForm, options) {
+        jqForm.children('input').replaceWith('<span>(made)</span>');
+        $('#output').replaceWith('<span>(made)</span>');
+      }
+    });
+    return false;
+  });
     
     // $("a.info").each(function(i) {    
     //   $(this).bind('click', function() {return false;});
@@ -490,6 +515,8 @@ function order_timer_expired() {
   $('.order-closed').show("slow");   
   $('.order-closed').removeAttr('disabled')
 }
+
+
     
 function keyCode(str) {
   return str.charCodeAt(0);

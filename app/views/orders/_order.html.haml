@@ -1,25 +1,29 @@
-%tr{:class=>"order #{order.state}"}
-  %td="Order for #{h order.user}"
-  %td
-    -if order.made?
-      =link_to_remote "deliver", :url=>deliver_order_path(order), :method=>'PUT'
+-# Make one tbody for each order to make it easier to remove an order with jquery
+%tbody
+  %tr{:class=>"order #{order.state}"}
+    %td="Order for #{h order.user}"
+    %td
+      -form_tag deliver_order_path(order), :method=>:put, :class=>"#{order.state}-order" do |f|
+        =submit_tag "Deliver", :disabled=>!order.made?
     
-  -if order.paid?
-    %td=h "number_to_currency(order.grand_total) (paid)"
-  -else
-    %td=h number_to_currency(order.grand_total)
+    -if order.paid?
+      %td=h "number_to_currency(order.grand_total) (paid)"
+    -else
+      %td=h number_to_currency(order.grand_total)
   
--order.summarized_order_items.each do |order_item|
-  -case order_item.state
-    -when 'queued'
-      %tr.queued{:id=>"order-item-#{order_item.id}"}
-        %td=h order_item.quantity
-        %td=link_to_remote order_item.description, :url=>make_order_item_path(order_item), :method=>'PUT'
-        %td=h order_item.notes
-    -when 'made'
-      %tr.made{:id=>"order-item-#{order_item.id}"}
-        %td=h order_item.quantity
-        %td=h order_item.description
-        %td=h order_item.notes
+  -order.summarized_order_items.each do |order_item|
+    -case order_item.state
+      -when 'queued'
+        %tr.queued{:id=>"order-item-#{order_item.id}"}
+          %td=h order_item.quantity
+          %td
+            -form_tag make_order_item_path(order_item), :method=>:put, :class=>'order-item' do |f|
+              =h order_item.description
+              =submit_tag "Make"
+          %td=h order_item.notes
+      -when 'made'
+        %tr.made{:id=>"order-item-#{order_item.id}"}
+          %td=h order_item.quantity
+          %td=h order_item.description
+          %td=h order_item.notes
   
-    

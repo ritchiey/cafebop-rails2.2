@@ -71,6 +71,12 @@ class ApplicationController < ActionController::Base
      flash[:error] = "The Captcha words you entered weren't right."
      redirect_to :back
     end
+  end        
+  
+  def redirect_back_or_default(path=root_path)
+    redirect_to :back
+  rescue
+    redirect_to path
   end
   
   def reorder_child_items(child)

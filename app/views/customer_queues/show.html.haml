@@ -3,5 +3,7 @@
 
 #collection-section
   =render :partial=>'current_orders'
-= periodically_call_remote :update=>'collection-section', :url=>current_orders_customer_queue_path(@queue), :frequency=>20, :method=>'GET'
+/ = periodically_call_remote :update=>'collection-section', :url=>current_orders_customer_queue_path(@queue), :frequency=>20, :method=>'GET'
   
+#output
+  This is where the the form submit output will go

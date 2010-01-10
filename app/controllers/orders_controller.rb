@@ -151,7 +151,10 @@ class OrdersController < ApplicationController
   
   def deliver
     @order.deliver!
-    render :nothing=>true
+    respond_to do |format|
+      format.html {redirect_back_or_default}
+      format.json {@order_item.to_json}
+    end
   end
   
   # User tried to accept or confirm their order but parent had already closed

@@ -4,12 +4,13 @@
       %th Qty
       %th Item
       %th Notes
-  %tbody
-    -if @orders.empty?
-      %td
-      %td{:span=>"2"} No Pending Orders
-    -else
-      = render :partial=>'orders/order', :collection=>@orders
+  -if @orders.empty?
+    %tbody
+      %tr
+        %td
+        %td{:span=>"2"} No Pending Orders
+  -else
+    = render :partial=>'orders/order', :collection=>@orders
 
 = "Last Updated: #{Time.now}"
                                                    

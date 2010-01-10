@@ -5,6 +5,11 @@ class OrderItemsController < ApplicationController
   
   def make
     @order_item.make!
+    respond_to do |format|
+      format.html {redirect_back_or_default}
+      format.json {@order_item.to_json}
+    end
+    
   end
 
 

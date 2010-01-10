@@ -31,6 +31,10 @@ module ApplicationHelper
     shop.can_edit?(current_user) ? ( link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
   end                            
   
+  def place_order_link(shop) 
+    (link_to_unless_current('Place Order', new_shop_order_path(shop)) {""} )
+  end                            
+  
   def separated links, separator=' | '
     links.select {|l| l and l.length > 0}.join(separator)
   end
