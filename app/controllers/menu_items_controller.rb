@@ -2,6 +2,7 @@ class MenuItemsController < ApplicationController
             
   before_filter :get_menu, :only=>[:new, :create]
   
+  
   def new
     @menu_item = @menu.menu_items.build
   end    

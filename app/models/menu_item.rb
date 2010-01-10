@@ -10,7 +10,7 @@ class MenuItem < ActiveRecord::Base
   end
 
   validates_length_of :name, :minimum => 1
-  validates_numericality_of :price_in_cents, :greater_than => 0, :allow_nil => true
+  validates_numericality_of :price_in_cents, :greater_than_or_equal_to => 0, :allow_nil => true
   validates_presence_of :price, :on => :create, :message => "must be specified"
                         
   has_many :flavours, :dependent=>:destroy, :order=>:position 

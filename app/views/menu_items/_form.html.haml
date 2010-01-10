@@ -1,5 +1,6 @@
 -menu = @menu || @menu_item.menu
--semantic_form_for form do |f|                               
+-semantic_form_for form do |f| 
+  =f.error_messages :header_message=>nil, :message=>nil
   -f.inputs do
     =f.input :name, :hint=>"As it will appear on the menu"
     =f.input :description, :hint=>"Sounds delicious"
