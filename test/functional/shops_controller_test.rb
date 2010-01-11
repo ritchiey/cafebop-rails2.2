@@ -98,8 +98,8 @@ class ShopsControllerTest < ActionController::TestCase
               
       should "be able to update a shop" do
         put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
-        assert_redirected_to new_shop_order_url(@shop)
         @shop.reload
+        assert_redirected_to new_shop_order_url(@shop)
         assert_equal "Sniggles", @shop.name
       end     
               

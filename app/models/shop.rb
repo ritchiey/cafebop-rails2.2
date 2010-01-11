@@ -27,7 +27,7 @@ class Shop < ActiveRecord::Base
   
   def self.find_by_id_or_permalink(term, options=nil)
     term = term.to_s
-    (term =~ /^[0-9]/o) ?  find_by_id(term, options) : find_by_permalink(term, options)
+    (term =~ /^[0-9]/o) ?  find(term, options) : find_by_permalink(term, options)
   end
 
   treat_as_currency :fee_threshold
@@ -57,7 +57,10 @@ class Shop < ActiveRecord::Base
     0.30
   end
                  
-  def to_param() permalink || id.to_s; end
+  def to_param()
+     permalink || "#{id}-#{calc_permalink}"
+  end
+  
   def to_s() name; end          
 
   def validate
@@ -277,8 +280,12 @@ class Shop < ActiveRecord::Base
   
   def set_permalink
     if self[:name]
-      self[:permalink] ||= self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "")
+      self[:permalink] ||= calc_permalink
     end
+  end
+  
+  def calc_permalink
+    self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "").downcase
   end
 
 end
