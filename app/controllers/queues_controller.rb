@@ -5,7 +5,7 @@ protected
   
 
   def shop_from_permalink
-    @shop = Shop.find_by_permalink(params[:shop_id])
+    @shop = Shop.find_by_id_or_permalink(params[:shop_id])
   end
 
   def queue_from_id

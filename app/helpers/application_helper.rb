@@ -27,7 +27,7 @@ module ApplicationHelper
     shop.can_be_claimed? ? (link_to_unless_current('Claim this Shop', new_shop_claim_path(shop)) {""} ) : nil
   end
 
-  def edit_shop_link(shop) 
+  def edit_shop_link(shop)
     shop.can_edit?(current_user) ? ( link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
   end                            
   

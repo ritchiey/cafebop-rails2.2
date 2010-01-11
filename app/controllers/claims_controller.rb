@@ -72,7 +72,7 @@ private
   end
   
   def find_shop
-    @shop = Shop.find_by_permalink(params[:shop_id])
+    @shop = Shop.find_by_id_or_permalink(params[:shop_id])
   end
   
 end

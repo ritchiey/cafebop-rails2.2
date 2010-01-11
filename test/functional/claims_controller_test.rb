@@ -42,7 +42,7 @@ class ClaimsControllerTest < ActionController::TestCase
            should "not be able to lodge a claim" do
              assert_no_difference "Claim.count" do                           
                @user= User.make(:active)
-               post :create, :shop_id=>@shop.permalink, :claim=>{:user=>@user}
+               post :create, :shop_id=>@shop.to_param, :claim=>{:user=>@user}
              end
            end                                 
 
@@ -80,7 +80,7 @@ class ClaimsControllerTest < ActionController::TestCase
            should "be able to lodge a claim" do
              assert_difference "Claim.count", 1 do                           
                @user= User.make(:active)
-               post :create, :shop_id=>@shop.permalink, :claim=>{:user=>@user}
+               post :create, :shop_id=>@shop.to_param, :claim=>{:user=>@user}
              end
            end                                 
 
@@ -119,7 +119,7 @@ class ClaimsControllerTest < ActionController::TestCase
            should "be able to lodge a claim" do
              assert_difference "Claim.count", 1 do                           
                @user= User.make(:active)
-               post :create, :shop_id=>@shop.permalink, :claim=>{:user=>@user}
+               post :create, :shop_id=>@shop.to_param, :claim=>{:user=>@user}
              end
            end                                 
 

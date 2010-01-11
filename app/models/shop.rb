@@ -24,20 +24,26 @@ class Shop < ActiveRecord::Base
     header_background_file_size :integer
     timestamps   
   end    
+  
+  def self.find_by_id_or_permalink(term, options=nil)
+    term = term.to_s
+    (term =~ /^[0-9]/o) ?  find_by_id(term, options) : find_by_permalink(term, options)
+  end
 
   treat_as_currency :fee_threshold
 
-  before_validation_on_create :set_permalink
+  # permalinks are now optionally set as/after stores are claimed.
+  # before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :franchise_id
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
-  validates_presence_of :name, :permalink, :street_address
+  #validates_presence_of :name, :permalink, :street_address
   validates_format_of :permalink, :with => /^[A-Za-z0-9-]+$/, :message => 'The permalink can only contain alphanumeric characters and dashes.', :allow_blank => true
   validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
-  validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
+  # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
 
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
@@ -51,7 +57,7 @@ class Shop < ActiveRecord::Base
     0.30
   end
                  
-  def to_param() permalink; end
+  def to_param() permalink || id.to_s; end
   def to_s() name; end          
 
   def validate

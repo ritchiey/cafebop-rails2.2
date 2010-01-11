@@ -18,12 +18,12 @@ class ShopsControllerTest < ActionController::TestCase
     context "when unauthenticated" do
 
       should "not be able to edit shop" do
-        get :edit, :id => @shop.permalink    
+        get :edit, :id => @shop.to_param    
         assert_redirected_to login_url
       end
 
       should "not be able to update a shop" do
-        put :update, :id=>@shop.permalink, :shop=>{:name=>"Sniggles"}
+        put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
         assert_redirected_to login_url
       end
       
@@ -35,7 +35,7 @@ class ShopsControllerTest < ActionController::TestCase
       end     
       
       should "not be able to delete a shop" do
-        delete :destroy, :id => @shop.permalink
+        delete :destroy, :id => @shop.to_param
         assert_redirected_to login_url
       end
       
@@ -48,13 +48,13 @@ class ShopsControllerTest < ActionController::TestCase
       end
 
       should "not be able to edit shop" do
-        get :edit, :id => @shop.permalink    
+        get :edit, :id => @shop.to_param    
         assert_redirected_to new_shop_order_url(@shop)
       end
 
       should "not be able to update a shop" do
         assert_no_difference "Shop.name_eq('Sniggles').count" do
-          put :update, :id=>@shop.permalink, :shop=>{:name=>"Sniggles"}
+          put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
           assert_redirected_to new_shop_order_url(@shop)
         end
       end
@@ -65,7 +65,7 @@ class ShopsControllerTest < ActionController::TestCase
         assert @shop.community?
         Cuisine.make
         assert_difference "@shop.cuisines.count", 1 do
-          put :update, :id=>@shop.permalink, :shop=>{:cuisine_ids=>[Cuisine.first.id]}
+          put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>[Cuisine.first.id]}
           assert_redirected_to new_shop_order_url(@shop)
           @shop.reload
         end
@@ -79,7 +79,7 @@ class ShopsControllerTest < ActionController::TestCase
       
       should "not be able to delete a shop" do
         assert_no_difference "Shop.count" do
-          delete :destroy, :id => @shop.permalink
+          delete :destroy, :id => @shop.to_param
           assert_redirected_to new_shop_order_url(@shop)
         end
       end
@@ -92,12 +92,12 @@ class ShopsControllerTest < ActionController::TestCase
       end
       
       should "be able to edit shop" do
-        get :edit, :id => @shop.permalink    
+        get :edit, :id => @shop.to_param
         assert_template 'edit'
       end     
               
       should "be able to update a shop" do
-        put :update, :id=>@shop.permalink, :shop=>{:name=>"Sniggles"}
+        put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
         assert_redirected_to new_shop_order_url(@shop)
         @shop.reload
         assert_equal "Sniggles", @shop.name
@@ -112,7 +112,7 @@ class ShopsControllerTest < ActionController::TestCase
               
       should "be able to delete a shop" do
         assert_difference "Shop.count", -1 do
-          delete :destroy, :id => @shop.permalink
+          delete :destroy, :id => @shop.to_param
           assert_redirected_to root_url
         end
       end

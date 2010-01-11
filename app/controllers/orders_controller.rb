@@ -24,12 +24,12 @@ class OrdersController < ApplicationController
   end
 
   def new
-    @shop = Shop.find_by_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
+    @shop = Shop.find_by_id_or_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
     @order = @shop.orders.build
   end
 
   def create
-    @shop = Shop.find_by_permalink(params[:shop_id])
+    @shop = Shop.find_by_id_or_permalink(params[:shop_id])
     if @shop and params[:order]
       logger.info "Creating order for user '#{current_user}'"
       @order = @shop.orders.build(params[:order].merge(:user_id=>current_user.andand.id))

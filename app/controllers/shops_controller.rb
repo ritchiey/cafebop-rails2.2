@@ -38,7 +38,7 @@ class ShopsController < ApplicationController
   end        
   
   def edit
-    @shop = Shop.find_by_permalink(params[:id])
+    @shop = Shop.find_by_id_or_permalink(params[:id])
   end  
   
   def update
@@ -94,7 +94,7 @@ class ShopsController < ApplicationController
 private
 
     def find_instance
-      @shop = Shop.find_by_permalink(params[:id])
+      @shop = Shop.find_by_id_or_permalink(params[:id])
     end
 
     def can_edit

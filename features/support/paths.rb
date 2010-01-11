@@ -13,7 +13,7 @@ module NavigationHelpers
     
     when /the shop (.+)'s edit page/
       shop = Shop.find_by_name($1)
-      "/shops/#{shop.permalink}/edit"
+      "/shops/#{shop.to_param}/edit"
       
     when /the signup page/
       '/register'   
@@ -29,7 +29,7 @@ module NavigationHelpers
       
     when /^the ordering screen for (.*)$/
       shop = Shop.find_by_name($1)
-      "/shops/#{shop.permalink}/orders/new"  
+      "/shops/#{shop.to_param}/orders/new"  
     # Add more mappings here.
     # Here is a more fancy example:
     #

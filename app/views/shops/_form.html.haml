@@ -25,7 +25,7 @@
       }
       
       $('#shop_name').change(function(e) {
-        populateField("#shop_permalink", toPermalink($(this).val()));
+        //populateField("#shop_permalink", toPermalink($(this).val()));
         populateField("#shop_website", toShopUrl($(this).val()));
       })
       
@@ -39,8 +39,8 @@
 -semantic_form_for @shop, :html=>{:multipart=>true} do |f|
   -f.inputs do
     =f.input :name, :hint=>"Restaurant's title as it will appear at top of page"
-    -if @shop.new_record?
-      =f.input :permalink, :hint=>"Unique name, no spaces. Can't be changed"
+    / -if @shop.new_record?
+    /   =f.input :permalink, :hint=>"Unique name, no spaces. Can't be changed"
     =f.input :street_address, :hint=>"Physical location of the restaurant"
     =f.input :lat, :as=>:hidden
     =f.input :lng, :as=>:hidden 

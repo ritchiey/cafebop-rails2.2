@@ -25,7 +25,7 @@ class ItemQueuesControllerTest < ActionController::TestCase
 
       should "be able to create a new item_queue" do
         assert_difference "@shop.item_queues.count", 1 do
-          post :create, :shop_id=>@shop.permalink, :item_queue=>{:name=>"barrista"}
+          post :create, :shop_id=>@shop.to_param, :item_queue=>{:name=>"barrista"}
         end
       end  
 
@@ -82,7 +82,7 @@ class ItemQueuesControllerTest < ActionController::TestCase
       
       should "not be able to create a new item_queue" do
         assert_no_difference "@shop.item_queues.count" do
-          post :create, :shop_id=>@shop.permalink, :item_queue=>{:name=>"barrista"}
+          post :create, :shop_id=>@shop.to_param, :item_queue=>{:name=>"barrista"}
         end
       end
 
@@ -136,7 +136,7 @@ class ItemQueuesControllerTest < ActionController::TestCase
 
       should "not be able to create a new item_queue" do
         assert_no_difference "@shop.item_queues.count" do
-          post :create, :shop_id=>@shop.permalink, :item_queue=>{:name=>"barrista"}
+          post :create, :shop_id=>@shop.to_param, :item_queue=>{:name=>"barrista"}
         end
       end
 
@@ -188,7 +188,7 @@ class ItemQueuesControllerTest < ActionController::TestCase
 
       should "not be able to create a new item_queue" do
         assert_no_difference "@shop.item_queues.count" do
-          post :create, :shop_id=>@shop.permalink, :item_queue=>{:name=>"barrista"}
+          post :create, :shop_id=>@shop.to_param, :item_queue=>{:name=>"barrista"}
         end
       end
 
