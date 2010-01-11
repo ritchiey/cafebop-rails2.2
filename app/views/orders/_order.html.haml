@@ -3,7 +3,7 @@
   %tr{:class=>"order #{order.state}"}
     %td="Order for #{h order.user}"
     %td
-      -form_tag deliver_order_path(order), :method=>:put, :class=>"#{order.state}-order" do |f|
+      -form_tag deliver_order_path(order), :method=>:put, :class=>"#{order.state}-order" do
         =submit_tag "Deliver", :disabled=>!order.made?
     
     -if order.paid?
@@ -17,13 +17,13 @@
         %tr.queued{:id=>"order-item-#{order_item.id}"}
           %td=h order_item.quantity
           %td
-            -form_tag make_order_item_path(order_item), :method=>:put, :class=>'order-item' do |f|
+            -form_tag make_order_item_path(order_item), :method=>:put, :class=>'order-item' do
               =h order_item.description
               =submit_tag "Make"
           %td=h order_item.notes
       -when 'made'
         %tr.made{:id=>"order-item-#{order_item.id}"}
           %td=h order_item.quantity
-          %td=h order_item.description
+          %td=h "#{order_item.description} (made)"
           %td=h order_item.notes
   

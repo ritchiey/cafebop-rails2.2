@@ -5,11 +5,15 @@ class OrderItemsController < ApplicationController
   
   def make
     @order_item.make!
-    respond_to do |format|
-      format.html {redirect_back_or_default}
-      format.json {@order_item.to_json}
+    case params[:fragment]
+    when 'order': render :partial=>'orders/order', :object=>@order_item.order
+    else
+      respond_to do |format|
+        format.html {redirect_back_or_default}
+        format.json {"{#{@order_item.order.to_json(:include=>[:order_items])}}"}
+        format.xml {@order_item.order.to_xml(:include=>[:order_items])}
+      end
     end
-    
   end
 
 

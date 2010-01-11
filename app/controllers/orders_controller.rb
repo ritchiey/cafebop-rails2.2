@@ -153,7 +153,10 @@ class OrdersController < ApplicationController
     @order.deliver!
     respond_to do |format|
       format.html {redirect_back_or_default}
-      format.json {@order_item.to_json}
+      format.json do
+        cq = @order.customer_queue
+        (cq ? cq.current_orders.count : 0).to_json
+      end
     end
   end
   

@@ -150,23 +150,32 @@ $(function() { // page ready
       dataType: 'json',
       success: function(json) {},
       beforeSubmit: function(formData, jqForm, options) {
-        jqForm.closest('tbody').hide();
-        alert("jqForm.closest('tbody'): "+ jqForm.closest('tbody').html());
+        jqForm.closest('tbody').fadeOut();
       }
     });
 
     return false;
   });
     
+  function ajaxSubmitError(data, status, e) {
+    alert('Error submitting form'+
+    'data: '+ data +
+    'status: ' + status +
+    'e : '+ e
+    );
+  }
+      
   $("form.order-item").submit(function(e) {
-    $(this).ajaxSubmit({
-      success: function(json) {},
-      dataType: 'json',
+    options = {
+      url: $(e.target).attr('action') + '?fragment=order',
+      dataType: 'html',
+      success: function(html) {$(e.target).closest('tbody').replaceWith(html);},
+      error: ajaxSubmitError,
       beforeSubmit: function(formData, jqForm, options) {
         jqForm.children('input').replaceWith('<span>(made)</span>');
-        $('#output').replaceWith('<span>(made)</span>');
       }
-    });
+    };
+    $(this).ajaxSubmit(options);
     return false;
   });
     
