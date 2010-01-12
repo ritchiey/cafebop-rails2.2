@@ -3,5 +3,9 @@
 %p By pressing Claim Now below, you are asserting that you are legally entitled to manage #{h @shop.name}
 
 -semantic_form_for [@shop, @claim] do |f|
+  -f.inputs do
+    =f.input :first_name
+    =f.input :last_name
+    =f.input :agreement, :hint=>"Enter the words 'I agree' above to indicate that you accept the agreement.", :required=>true
   -f.buttons do
     =f.commit_button :button_html=>{:value=>'Claim Now'}

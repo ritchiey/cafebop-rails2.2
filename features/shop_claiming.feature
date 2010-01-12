@@ -16,7 +16,10 @@ Feature: Claiming Shops
     Then I should see "WWW"
     When I follow "Claim this Shop"
     Then I should see "By pressing Claim Now below, you are asserting that you are legally entitled to manage"
-    When I press "Claim Now"
+    When I fill in "First name" with "Fred"
+    And I fill in "Last name" with "Weasley"
+    And I fill in "Agreement" with "i agree"
+    And I press "Claim Now"
     Then I should be on the ordering screen for WWW
     And I should see "Your claim for WWW has been registered. We'll be in touch."
 

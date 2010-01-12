@@ -3,6 +3,8 @@ class Claim < ActiveRecord::Base
   fields do     
     notes :text    
     state :string, :default=>'pending'
+    first_name  :string
+    last_name   :string
     timestamps
   end
 
@@ -17,12 +19,24 @@ class Claim < ActiveRecord::Base
   named_scope :rejected, :conditions=>{:state=>'rejected'}
   named_scope :outstanding, :conditions=>{:state=>['pending', 'under_review']}
   named_scope :for_shop, lambda {|shop| {:conditions=>{:shop=>shop}}}
+
+  attr_accessor :agreement
+  
+  attr_accessible :user, :notes, :first_name, :last_name, :agreement
   
   def validate_on_create
     unless shop.can_be_claimed_by?(user)
       errors.add_to_base("#{shop} can't be claimed by #{user}")
     end
+    unless agreement =~ /i agree/oi
+      errors.add_to_base("You must enter 'I Agree' in the agreement box.")
+    end
+    unless !notes or notes.empty?
+      errors.add_to_base("Now why would you do that?")
+    end
   end
+
+  validates_presence_of :first_name, :last_name, :on=>:create
 
   def to_s
     "#{user.to_s} claims #{shop.to_s}"

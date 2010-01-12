@@ -75,11 +75,11 @@ class ShopTest < ActiveSupport::TestCase
     should "only be claimable by a an appropriate user" do
       user = User.make
       assert @shop.can_be_claimed_by?(user) 
-      assert @shop.claims.create(:user=>user)  
+      assert @shop.claims.make(:user=>user)  
       @shop.reload
       user.reload
       assert !@shop.can_be_claimed_by?(user)
-      claim = @shop.claims.build(:user=>user)
+      claim = @shop.claims.make_unsaved(:user=>user)
       assert !claim.save
     end
 

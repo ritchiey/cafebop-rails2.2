@@ -58,6 +58,9 @@ end
 Claim.blueprint do
   shop
   user
+  first_name { NameForgery.first_name}
+  last_name { NameForgery.last_name}
+  agreement { 'i agree' }
 end   
 
 User.blueprint do

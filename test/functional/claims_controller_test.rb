@@ -78,9 +78,9 @@ class ClaimsControllerTest < ActionController::TestCase
            end
 
            should "be able to lodge a claim" do
-             assert_difference "Claim.count", 1 do                           
+             assert_difference "Claim.count", 1 do
                @user= User.make(:active)
-               post :create, :shop_id=>@shop.to_param, :claim=>{:user=>@user}
+               post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :last_name=>'Riddle', :agreement=>'i agree'}
              end
            end                                 
 
@@ -117,11 +117,27 @@ class ClaimsControllerTest < ActionController::TestCase
            end
 
            should "be able to lodge a claim" do
-             assert_difference "Claim.count", 1 do                           
+             assert_difference "Claim.count", 1 do
                @user= User.make(:active)
-               post :create, :shop_id=>@shop.to_param, :claim=>{:user=>@user}
+               post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :last_name=>'Riddle', :agreement=>'i agree'}
              end
            end                                 
+
+           should "not be able to lodge a claim without agreeing" do
+             assert_no_difference "Claim.count" do
+               @user= User.make(:active)
+               post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :last_name=>'Riddle'}
+             end
+           end                                 
+
+           should "not be able to lodge a claim without specifying both names" do
+             assert_no_difference "Claim.count" do
+               @user= User.make(:active)
+               post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :agreement=>'i agree'}
+               post :create, :shop_id=>@shop.to_param, :claim=>{:last_name=>'Riddle', :agreement=>'i agree'}
+             end
+           end                                 
+
 
            should "be able to confirm a claim" do
              assert_difference "Claim.state_eq('confirmed').count", 1 do
