@@ -2,10 +2,13 @@
 
 %h4 User
 
+%p name: #{h @claim.first_name} #{@claim.last_name}
+
 %p email: #{h @user.email}
 
 %p claims: #{@confirmed_claims} successful,  #{@rejected_claims}  rejected, #{@outstanding_claims} outstanding
 
+%p= link_to "Lookup in whitepages", "http://www.whitepages.com/business?key=#{CGI.escape(@claim.shop.name)}&where=#{CGI.escape(@claim.shop.street_address)}", :target=>'_new'
  
 =link_to "All Claims", claims_path
 =link_to "Confirm", confirm_claim_path, :method=>:put, :confirm=>"Really confirm claim?"

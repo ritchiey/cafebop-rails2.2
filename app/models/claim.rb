@@ -39,7 +39,7 @@ class Claim < ActiveRecord::Base
   validates_presence_of :first_name, :last_name, :on=>:create
 
   def to_s
-    "#{user.to_s} claims #{shop.to_s}"
+    "#{first_name} #{last_name} claims #{shop.to_s}"
   end
 
 
