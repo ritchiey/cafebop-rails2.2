@@ -98,6 +98,4 @@ class Claim < ActiveRecord::Base
     acting_user.administrator?
   end
 
-
-
 end

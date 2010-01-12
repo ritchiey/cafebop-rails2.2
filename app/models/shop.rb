@@ -276,6 +276,11 @@ class Shop < ActiveRecord::Base
     !item_queues.empty?
   end
   
+  def is_monitoring_queues?
+    if accepts_queued_orders?
+      customer_queues.any? {|q| q.active}
+    end
+  end
   private
   
   def set_permalink

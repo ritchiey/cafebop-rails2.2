@@ -31,10 +31,23 @@ end
    
 Given /^(.+?) has queuing (.+?)$/ do |shop_name, state|
   shop = Shop.find_by_name(shop_name)
-  case state 
+  case state
     when 'enabled': shop.start_accepting_queued_orders!
     when 'disabled': shop.stop_accepting_queued_orders!
   else
     raise "Unknown state for shop queuing '#{state}'"
+  end
+end
+
+
+Given /^the customer queue for (.+?) is (.+?)$/ do |shop_name, state|
+  shop = Shop.find_by_name(shop_name)
+  customer_queue = shop.customer_queues.first 
+  customer_queue or raise "#{shop.name} doesn't seem to have a customer queue"
+  case state 
+    when 'enabled': customer_queue.start!
+    when 'disabled': customer_queue.stop!
+  else
+    raise "Unknown state for customer queue '#{state}'"
   end
 end

@@ -18,4 +18,18 @@ class CustomerQueue < ActiveRecord::Base
 
   attr_accessible :name, :active
 
+  def start!
+    unless active
+      self.active = true
+      save
+    end
+  end
+
+  def stop!
+    if active
+      self.active = false
+      save
+    end
+  end
+
 end

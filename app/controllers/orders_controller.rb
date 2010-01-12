@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
   before_filter :only_if_pending, :only=>[:edit, :invite]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:update]
-
+  before_filter :only_if_shop_monitoring_queues, :only => [:pay_in_shop, :pay_with_paypal]
   after_filter :mark_as_mine, :only=>[:create, :accept]
 
   def index
@@ -242,5 +242,15 @@ private
   def mark_as_mine
     session[:order_token] = @order.perishable_token
   end
+  
+  def only_if_shop_monitoring_queues
+    if @shop.accepts_queued_orders? and !@shop.is_monitoring_queues?
+      flash[:notice] = "#{@shop} doesn't seem to be monitoring its queues at present. " +
+      "If they should be open according to their opening hours, you may like to call them on #{@shop.phone}."
+      redirect_to @order
+    end
+  end
+  
 end
 
+ 
