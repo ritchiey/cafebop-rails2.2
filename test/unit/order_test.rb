@@ -60,6 +60,16 @@ class OrderTest < ActiveSupport::TestCase
     
     should "calculate total correctly" do
       assert_equal 6.00, @order.total
+    end       
+    
+    should "remove an order item when instructed" do
+      assert_difference "@order.order_items.count", -1 do
+        items = @order.order_items.all.map do |item|
+          {"menu_item_id"=>item.menu_item_id, "quantity"=>item.quantity, "flavour_id"=>item.flavour_id, "size_id"=>item.size_id, "id"=>item.id}
+        end
+        items[1]['_delete'] = 1
+        @order.update_attributes(:order_items_attributes=>items)
+      end
     end
 
     should "print all its order_items on pay_in_shop if shop doesn't queue pay in shop items" do

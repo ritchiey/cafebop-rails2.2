@@ -36,7 +36,7 @@ class PasswordReset < ActiveRecord::Base
   
   
   def self.find_using_perishable_token(token)
-    if user = User.find_using_perishable_token(token)
+    if user = User.find_using_perishable_token(token, 4.hours)
       self.new(:token=>token, :email=>user.email).tap do |pr|
         pr.user = user
       end

@@ -18,7 +18,7 @@
 
 -content_for :aside do        
   %h5 Your Order
-  / -form_for order, :url=>(order.is_child? ? confirm_order_path(order) : order_path(order)) do |form|
+
   -form_for order do |form|
     %table.order.order-form
       %thead
@@ -28,6 +28,12 @@
           %th Notes
           %th Cost($)
           %th
+
+      %tfoot
+        %tr
+          %td(colspan="3") Total
+          -#FIXME calculate the total in edit view
+          %td#total 0.00
 
       %tbody#order_items
         -@order.order_items.each do |order_item|
@@ -46,18 +52,13 @@
                 %td.notes
                   =h form.object.notes
                 %td.cost
-                  =h item_form.object.cost
+                  =h number_to_currency(item_form.object.cost, :unit=>'')
                 %td.remove
                   =image_tag '/images/remove.gif', :alt=>'remove'
             -else
               %tr
                 %td
           
-      %tfoot
-        %tr
-          %td(colspan="3") Total
-          -#FIXME calculate the total in edit view
-          %td#total 0.00
     != render :partial => 'price_warning'
     != render :partial => 'close_time_counter' 
     

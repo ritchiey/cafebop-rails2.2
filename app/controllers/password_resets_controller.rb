@@ -40,10 +40,9 @@ class PasswordResetsController < ApplicationController
   def load_user_using_perishable_token  
     @password_reset = PasswordReset.find_using_perishable_token(params[:id])
     unless @password_reset
-      flash[:notice] = "We're sorry, but we could not locate your account. " +  
-      "If you are having issues try copying and pasting the URL " +  
-      "from your email into your browser or restarting the " +  
-      "reset password process."  
+      flash[:notice] = "We're sorry but that doesn't appear to be a valid" +
+      "password reset token or it may have timed out. Try copying and pasting the" +
+      "url from the email to your browser."  
       redirect_to root_url  
     end  
   end

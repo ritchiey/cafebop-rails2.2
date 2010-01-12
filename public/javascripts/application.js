@@ -208,15 +208,15 @@ $(function() { // page ready
 
          
 
-
-  $('tr.friend').hover(
-    function() {
-      $(this).find('.remove-btn').show();
-    },
-    function() {
-      $(this).find('.remove-btn').hide();
-    }
-  );
+// TODO: Remove this, no longer needed
+  // $('tr.friend').hover(
+  //   function() {
+  //     $(this).find('.remove-btn').show();
+  //   },
+  //   function() {
+  //     $(this).find('.remove-btn').hide();
+  //   }
+  // );
 
 	          
   dialog = $('#dialog');
@@ -245,13 +245,21 @@ $(function() { // page ready
   $('.remove').live('click', function(e) {
     var tr = $(this).closest('tr');
     var id = $(tr).find('input#order_order_items_attributes__id').attr('value');
+    var menu_item_id = $(tr).find('input#order_order_items_attributes__id').attr('value');
+    var quantity = $(tr).find('input#order_order_items_attributes__quantity').attr('value');
+    var size_id = $(tr).find('input#order_order_items_attributes__size_id').attr('value');
+    var flavour_id = $(tr).find('input#order_order_items_attributes__flavour_id').attr('value');
     var form = $(this).closest('form');
     tr.remove();  
     update_continue_order_button();
     update_total();
     if (id) {
-      form.append("<input type='hidden' name='order[order_items_attributes][][id]' value='"+id+"'");
-      form.append("<input type='hidden' name='order[order_items_attributes][][_delete]' value='true'");
+      form.prepend("<input type='hidden' name='order[order_items_attributes][][id]' value='"+id+"' />");
+      form.prepend("<input type='hidden' name='order[order_items_attributes][][menu_item_id]' value='"+menu_item_id+"' />");
+      form.prepend("<input type='hidden' name='order[order_items_attributes][][quantity]' value='"+quantity+"' />");
+      form.prepend("<input type='hidden' name='order[order_items_attributes][][size_id]' value='"+size_id+"' />");
+      form.prepend("<input type='hidden' name='order[order_items_attributes][][flavour_id]' value='"+flavour_id+"' />");
+      form.prepend("<input type='hidden' name='order[order_items_attributes][][_delete]' value='true' />");
     }
   });
 
