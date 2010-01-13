@@ -45,8 +45,8 @@ private
       
     end
   
-    def can_list_orders?
-      get orders_path
+    def can_list_orders?(shop)
+      get shop_orders_path(shop)
       @response.success?
     end
                     

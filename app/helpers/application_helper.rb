@@ -30,6 +30,10 @@ module ApplicationHelper
   def edit_shop_link(shop)
     shop.can_edit?(current_user) ? ( link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
   end                            
+
+  def order_history_link(shop)
+    shop.is_staff?(current_user) ? ( link_to_unless_current('Order History', shop_orders_path(shop)) {""} ) : nil
+  end                            
   
   def place_order_link(shop) 
     (link_to_unless_current('Place Order', new_shop_order_path(shop)) {""} )

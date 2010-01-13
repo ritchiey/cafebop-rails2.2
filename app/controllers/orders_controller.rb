@@ -7,8 +7,8 @@ class OrdersController < ApplicationController
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
   before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
-  before_filter :only_if_staff, :only=>[:deliver]
-  before_filter :require_admin_rights, :only => [:index, :destroy]
+  before_filter :only_if_staff_or_admin, :only=>[:deliver, :index]
+  before_filter :require_admin_rights, :only => [:destroy]
   before_filter :unless_invitation_closed, :only=>[:show, :edit] #TODO: :update?, :confirm?
   before_filter :only_if_pending, :only=>[:edit, :invite]
   before_filter :login_transparently, :only => [:update]
@@ -17,7 +17,8 @@ class OrdersController < ApplicationController
   after_filter :mark_as_mine, :only=>[:create, :accept]
 
   def index
-    @orders = Order.find :all
+    @page = params[:page]
+    @orders = @shop.orders.paginate(:per_page=>20, :page=>@page)
   end
 
   def show  
@@ -239,8 +240,8 @@ private
     end
   end
   
-  def only_if_staff
-    unless @shop.is_staff?(current_user)
+  def only_if_staff_or_admin
+    unless current_user and (current_user.is_admin? or @shop.is_staff?(current_user))
       flash[:error] = "Ummm... no."
       redirect_to new_shop_order_path(shop)
     end

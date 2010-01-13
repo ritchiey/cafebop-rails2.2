@@ -67,7 +67,7 @@ class Shop < ActiveRecord::Base
     errors.add('street_address', 'Must be able to be located on map.') unless (lat and lng)
   end
   
-  has_many :orders, :dependent=>:destroy
+  has_many :orders, :dependent=>:destroy, :order=>'created_at DESC'
   has_many :item_queues, :dependent=>:destroy, :order=>:position 
   has_many :customer_queues, :dependent=>:destroy, :order=>:position 
   has_many :menus, :dependent=>:destroy, :order=>:position 
@@ -268,9 +268,15 @@ class Shop < ActiveRecord::Base
     return false unless acting_user
     return true if acting_user.is_admin?
     return true if (acting_user.manages? self)
-   false
+    false
   end     
   
+  def can_view_history?
+    return false unless acting_user
+    return true if acting_user.is_admin?
+    return true if (acting_user.manages? self)
+    false
+  end
    
   def has_item_queues?
     !item_queues.empty?

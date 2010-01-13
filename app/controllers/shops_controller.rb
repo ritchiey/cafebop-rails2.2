@@ -12,7 +12,7 @@ class ShopsController < ApplicationController
   
   def show
     redirect_to new_shop_order_path(@shop)
-  end
+  end    
   
   def create
     @shop = Shop.new(params[:shop])

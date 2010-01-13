@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   helper_method :'iphone_user_agent?'
   before_filter :cookies_required, :except => [:cookies_test]
+  before_filter :find_shop, :except => [:cookies_test]
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :adjust_format_for_iphone
   filter_parameter_logging :password, :password_confirmation
@@ -144,6 +145,11 @@ private
   def iphone_user_agent?
     request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
     # return (request.subdomains.first == "iphone" || params[:format] == "iphone")
+  end
+  
+  def find_shop
+    shop_id = params[:shop_id]
+    shop_id and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])
   end
                      
 end

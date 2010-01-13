@@ -39,6 +39,7 @@ ActionController::Routing::Routes.draw do |map|
     shops.resources :customer_queues, :member=>{:current_orders=>:get, :stop=>:put, :start=>:put}
     shops.resources :claims, :only=>[:new, :create]
     shops.resources :orders, :shallow => true, :member => {
+        :review => :get,
         :status_of_pending => :get,
         :status_of_queued => :get,
         :summary => :get,

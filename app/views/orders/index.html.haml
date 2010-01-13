@@ -1,3 +1,15 @@
-%ul           
+=will_paginate @orders
+%table.orders           
+  %thead
+    %tr
+      %th ID
+      %th Customer
+      %th Status
+      %th Amount
   - @orders.each do |order|
-    %li=link_to "#{order.id}", order
+    %tr.order
+      %td=link_to "#{order.id}", order
+      %td #{order.user}
+      %td #{order.state}
+      %td #{number_to_currency order.grand_total}
+        

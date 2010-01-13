@@ -85,6 +85,28 @@ class ShopsControllerTest < ActionController::TestCase
       end
     end
     
+    context "when logged in as a manager of the shop" do
+      setup do
+        @manager = User.make(:active)
+        @shop.work_contracts.make(:user=>@manager, :role=>'manager')
+        assert @shop.save
+        login_as @manager   
+      end
+
+      should "be able to edit shop" do
+        get :edit, :id => @shop.to_param
+        assert_template 'edit'
+      end     
+              
+      should "be able to update a shop" do
+        put :update, :id=>@shop.to_param, :shop=>{:name=>"Gumbys"}
+        @shop.reload
+        assert_redirected_to new_shop_order_url(@shop)
+        assert_equal "Gumbys", @shop.name
+      end     
+            
+    end
+    
     
     context "when logged in as an administrator" do
       setup do

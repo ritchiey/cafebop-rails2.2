@@ -9,18 +9,25 @@ class OrderOwnershipTest < ActionController::IntegrationTest
   def setup
     password = "quiddich"
     @harry_user = User.make(:active=>true, :email=>"harry@hogwarts.edu", :password=>password, :password_confirmation=>password)
+    @shop_owner_user = User.make(:active=>true, :email=>"blotts@hogwarts.edu", :password=>password, :password_confirmation=>password)
     admin_user = User.make(:active=>true, :roles=>['cafebop_admin'], :email=>"snape@hogwarts.edu", :password=>password, :password_confirmation=>password)
+    @shop = Shop.make
+    @shop.work_contracts.make(:user=>@shop_owner_user, :role=>'manager')
+    @shop_owner_user.reload
+    assert @shop_owner_user.manages?(@shop)
     assert admin_user.is_admin?
     @anon = anonymously
     @harry = as(@harry_user.email, password)
+    @shop_owner = as(@shop_owner_user.email, password)
     @harry_again = as(@harry_user.email, password)
     @admin = as(admin_user.email, password)
   end
 
   def test_listing_orders
-    assert !@anon.can_list_orders?
-    assert !@harry.can_list_orders?
-    assert @admin.can_list_orders?
+    assert !@anon.can_list_orders?(@shop)
+    assert !@harry.can_list_orders?(@shop)
+    assert @admin.can_list_orders?(@shop)
+    assert @shop_owner.can_list_orders?(@shop)
   end
 
   def test_authenticated_cant_access_anonymous_order
