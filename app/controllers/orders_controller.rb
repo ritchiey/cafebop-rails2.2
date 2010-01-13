@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
 
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
-  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
+  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
   before_filter :only_if_staff, :only=>[:deliver]
   before_filter :require_admin_rights, :only => [:index, :destroy]
@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
   before_filter :only_if_pending, :only=>[:edit, :invite]
   before_filter :login_transparently, :only => [:update]
   before_filter :create_friendship, :only=>[:update]
-  before_filter :only_if_shop_monitoring_queues, :only => [:pay_in_shop, :pay_with_paypal]
+  before_filter :only_if_shop_monitoring_queues, :only => [:pay_in_shop, :pay_paypal]
   after_filter :mark_as_mine, :only=>[:create, :accept]
 
   def index
@@ -101,13 +101,21 @@ class OrdersController < ApplicationController
     options = {
       :fees_payer => 'PRIMARYRECEIVER',
       :return_url => order_url(@order),
-      :cancel_url => order_url(@order),
+      :cancel_url => cancel_paypal_order_url(@order),
       :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}?order_id=#{@order.id}",
       :receiver_list => recipients
     }           
     response = gateway.pay(options)
     redirect_to response.redirect_url_for
-  end  
+  end   
+  
+  # Not happy about this because I'm changing the state of the order based
+  # on a GET request but that seems to be how PayPal rolls.
+  def cancel_paypal
+    @order.cancel_paypal!
+    flash[:notice] = "PayPal payment cancelled."
+    redirect_to order_path(@order)
+  end
 
   # Display the invitation form to invite others
   def invite

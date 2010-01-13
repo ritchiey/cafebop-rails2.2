@@ -47,6 +47,7 @@ ActionController::Routing::Routes.draw do |map|
         :pay_in_shop => :put,
         :deliver => :put,
         :pay_paypal => :put,
+        :cancel_paypal => :get,
         :invite=>:get,
         :confirm => :put,
         :close=>:put,

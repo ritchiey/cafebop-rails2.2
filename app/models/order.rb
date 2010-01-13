@@ -200,6 +200,13 @@ class Order < ActiveRecord::Base
     end
   end
       
+  def cancel_paypal!
+    if pending_paypal_auth?
+      self.state = 'pending'
+      save
+    end
+  end
+      
   def confirm!
     if pending? && is_child? && parent.pending?
       self.state = 'confirmed'

@@ -7,7 +7,7 @@
         =submit_tag "Deliver", :disabled=>!order.made?
     
     -if order.paid?
-      %td=h "number_to_currency(order.grand_total) (paid)"
+      %td=h "#{number_to_currency(order.grand_total)} (paid)"
     -else
       %td=h number_to_currency(order.grand_total)
   

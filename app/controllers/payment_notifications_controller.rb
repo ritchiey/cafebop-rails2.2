@@ -18,7 +18,10 @@ class PaymentNotificationsController < ApplicationController
         if notify.complete? # TODO and order.total == notify_amount
           order.pay_and_queue!
           PaymentNotification.create!(:params => params, :order_id => params[:invoice], 
-          :status => params[:payment_status], :transaction_id => params[:txn_id])  
+          :status => params[:payment_status], :transaction_id => params[:txn_id])
+        else
+          logger.debug_variables(binding)
+          debugger
         end        
       rescue Exception => e
         log_error e

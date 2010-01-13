@@ -13,12 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/orders/304</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Home</td>
+	<td>/</td>
 	<td></td>
 </tr>
 <tr>
@@ -43,7 +38,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//input[@value='Pay with PayPal &gt;&gt;']</td>
+	<td>//input[@value='Pay with PayPal']</td>
 	<td></td>
 </tr>
 <tr>
