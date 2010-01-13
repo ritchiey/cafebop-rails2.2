@@ -21,7 +21,6 @@ class PaymentNotificationsController < ApplicationController
           :status => params[:payment_status], :transaction_id => params[:txn_id])
         else
           logger.debug_variables(binding)
-          debugger
         end        
       rescue Exception => e
         log_error e
