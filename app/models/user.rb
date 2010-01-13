@@ -9,14 +9,20 @@ class User < ActiveRecord::Base
   end
   
   fields do  
-    name      :string
-    email     :string 
-    active    :boolean, :default=>false, :null=>false
-    crypted_password  :string
-    password_salt :string
-    persistence_token :string   
-    perishable_token :string  
-    roles           :string, :default=>"--- []"
+    name                :string
+    email               :string 
+    active              :boolean, :default=>false, :null=>false
+    crypted_password    :string
+    password_salt       :string
+    persistence_token   :string   
+    perishable_token    :string  
+    roles               :string, :default=>"--- []"
+    login_count         :integer, :null=>false, :default=>0
+    failed_login_count  :integer, :null=>false, :default=>0
+    last_login_at       :datetime
+    last_login_ip       :string
+    current_login_at    :datetime
+    current_login_ip    :string
     timestamps
   end                          
   

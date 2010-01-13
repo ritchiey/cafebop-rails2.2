@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100112020013) do
+ActiveRecord::Schema.define(:version => 20100113003240) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -247,8 +247,14 @@ ActiveRecord::Schema.define(:version => 20100112020013) do
     t.datetime "updated_at"
     t.string   "name"
     t.string   "perishable_token"
-    t.string   "roles",             :default => "--- []"
-    t.boolean  "active",            :default => false,    :null => false
+    t.string   "roles",              :default => "--- []"
+    t.boolean  "active",             :default => false,    :null => false
+    t.integer  "login_count",        :default => 0,        :null => false
+    t.integer  "failed_login_count", :default => 0,        :null => false
+    t.datetime "last_login_at"
+    t.string   "last_login_ip"
+    t.datetime "current_login_at"
+    t.string   "current_login_ip"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

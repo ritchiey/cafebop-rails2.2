@@ -25,7 +25,9 @@
           -if @shop.ever_charges_processing_fee?
             Note: A transaction fee of #{number_to_currency @shop.processing_fee} applies for orders under $#{h @shop.fee_threshold}.
           =button_to "Pay with PayPal", pay_paypal_order_path(@order), :method=>:put, :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
-
+    -elsif @order.confirmed?
+      %h3 Order confirmed
+      
 .no-print
   -if @order.pending?
     #order-summary.span-14.last
