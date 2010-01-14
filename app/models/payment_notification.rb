@@ -4,10 +4,8 @@ class PaymentNotification < ActiveRecord::Base
     params :text
     status :string
     transaction_id :string
-    order_id :integer
     timestamps
   end
-  
   
   # serialize :params
   

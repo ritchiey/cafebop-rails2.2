@@ -1,0 +1,7 @@
+%h4 Order ##{@order.id}
+
+%p Customer: #{@order.user || 'unknown'}
+%p Status: #{@order.state}
+%p Payment method: #{@order.payment_method}
+-if @order.payment_method.downcase == 'paypal'
+  %p PayPal transaction id: #{@order.payment_notifications.last.andand.transaction_id}

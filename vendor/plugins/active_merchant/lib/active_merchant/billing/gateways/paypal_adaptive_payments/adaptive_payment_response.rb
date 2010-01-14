@@ -27,6 +27,14 @@ module ActiveMerchant
           
         end
         
+        ## Ritchie added
+        
+        def [](key)
+          @params[key]
+        end
+
+        ## end Ritchie added
+        
       end
       
       class AdaptivePaypalErrorResponse

@@ -1,13 +1,13 @@
 OrderObserver.instance
 UserObserver.instance
 
-class OrdersController < ApplicationController
+class OrdersController < OrdersRelatedController
 
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
   before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
-  before_filter :only_if_staff_or_admin, :only=>[:deliver, :index]
+  before_filter :only_if_staff_or_admin, :only=>[:deliver]
   before_filter :require_admin_rights, :only => [:destroy]
   before_filter :unless_invitation_closed, :only=>[:show, :edit] #TODO: :update?, :confirm?
   before_filter :only_if_pending, :only=>[:edit, :invite]
@@ -16,13 +16,19 @@ class OrdersController < ApplicationController
   before_filter :only_if_shop_monitoring_queues, :only => [:pay_in_shop, :pay_paypal]
   after_filter :mark_as_mine, :only=>[:create, :accept]
 
-  def index
-    @page = params[:page]
-    @orders = @shop.orders.paginate(:per_page=>20, :page=>@page)
-  end
-
   def show  
+    # in the unlikely case that the paypal request is still being processed,
+    # the order status will still be updated either when the user refreshes
+    # the page or when the IPN notification comes in
+    if @order.pending_paypal_auth? and @order.paypal_paykey
+      paypal_response = gateway.details_for_payment({:paykey=>@order.paypal_paykey})
+      case paypal_response['status']
+      when 'COMPLETED': @order.pay_and_queue!
+      when 'EXPIRED':   @order.cancel_paypal!
+      end
+    end
   end
+  
 
   def new
     @shop = Shop.find_by_id_or_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
@@ -92,21 +98,23 @@ class OrdersController < ApplicationController
     @order.pay_paypal!
     recipients = [{:email => @order.paypal_recipient,
                    :amount => sprintf("%0.2f", @order.grand_total_with_fees),
-                   :invoice_id => @order.id.to_s,
-                   :primary => true},
-                  {:email => 'us_1261469612_biz@cafebop.com',
-                   :amount => sprintf("%0.2f", @order.commission),
-                   :primary => false  
+                   :invoice_id => @order.id.to_s #,
+                  #  :primary => true},
+                  # {:email => 'us_1261469612_biz@cafebop.com',
+                  #  :amount => sprintf("%0.2f", @order.commission),
+                  #  :primary => false  
                   }       
                  ]      
     options = {
-      :fees_payer => 'PRIMARYRECEIVER',
+      # :fees_payer => 'PRIMARYRECEIVER',
       :return_url => order_url(@order),
       :cancel_url => cancel_paypal_order_url(@order),
-      :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}?order_id=#{@order.id}",
+      :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}",
       :receiver_list => recipients
     }           
     response = gateway.pay(options)
+    @order.paypal_paykey = response.paykey
+    @order.save!
     redirect_to response.redirect_url_for
   end   
   
@@ -187,16 +195,6 @@ class OrdersController < ApplicationController
 
 private
 
-  def order_from_id
-    @order = Order.find(params[:id])  
-    @shop = @order.shop
-  end
-
-  def order_with_items_from_id
-    @order = Order.find(params[:id], :include=>:order_items)
-    @shop = @order.shop
-  end
-  
   def create_friendship
     if params[:commit] == "Add"
       if current_user and fp = params[:friendship]
@@ -240,13 +238,6 @@ private
     end
   end
   
-  def only_if_staff_or_admin
-    unless current_user and (current_user.is_admin? or @shop.is_staff?(current_user))
-      flash[:error] = "Ummm... no."
-      redirect_to new_shop_order_path(shop)
-    end
-  end
-    
   
   def mark_as_mine
     session[:order_token] = @order.perishable_token

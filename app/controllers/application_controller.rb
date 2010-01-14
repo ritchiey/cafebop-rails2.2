@@ -147,6 +147,9 @@ private
     # return (request.subdomains.first == "iphone" || params[:format] == "iphone")
   end
   
+  
+  # Find the shop by the shop_id parameter if specified in the request and
+  # if the @shop instance variable hasn't already been set.
   def find_shop
     shop_id = params[:shop_id]
     shop_id and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])

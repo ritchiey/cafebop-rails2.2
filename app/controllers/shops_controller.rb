@@ -24,7 +24,8 @@ class ShopsController < ApplicationController
   end
             
   def index
-    @shops = Shop.all
+    @page = params[:page]
+    @shops = Shop.all.shops.paginate(:per_page=>20, :page=>@page)
   end
               
   def search

@@ -3,9 +3,9 @@
     =placeholder :size=>"1x180"
   .span-10
     -if shop.new_record?
-      %h1 New Shop
+      %h2 New Shop
     -else
-      %h1=h shop.name
+      %h2=h shop.name
       .no-print
         %p=separated([claim_shop_link(shop), edit_shop_link(shop), order_history_link(shop), place_order_link(shop)])
         -if shop.can_have_queues? and shop.is_staff?(current_user)
@@ -17,8 +17,8 @@
         %thead
           %tr
             %th Opening Times
-      %tbody
-        -shop.operating_times.each do |opening|
+      -shop.operating_times.each do |opening|
+        %tbody
           %tr
             %td
               =h opening.days
@@ -28,3 +28,6 @@
         %tr
           %td
             =h @shop.street_address
+          %td
+            != render :partial => 'shops/now_accepting_paypal'
+          

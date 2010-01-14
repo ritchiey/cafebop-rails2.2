@@ -5,11 +5,16 @@
       %th ID
       %th Customer
       %th Status
+      %th
+        Payment
+        %br
+        Method
       %th Amount
   - @orders.each do |order|
     %tr.order
-      %td=link_to "#{order.id}", order
+      %td=link_to "#{order.id}", past_order_path(order)
       %td #{order.user}
       %td #{order.state}
+      %td #{order.payment_method}
       %td #{number_to_currency order.grand_total}
         

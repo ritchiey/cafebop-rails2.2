@@ -12,6 +12,7 @@ class Order < ActiveRecord::Base
     perishable_token :string
     minutes_til_close :integer
     close_time :datetime
+    paypal_paykey :string
     paid_at :datetime
     timestamps
   end
@@ -28,6 +29,7 @@ class Order < ActiveRecord::Base
   belongs_to :shop
   belongs_to :customer_queue
   has_many :order_items, :dependent=>:destroy
+  has_many :payment_notifications, :dependent=>:destroy
 
   has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id'
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
@@ -152,6 +154,14 @@ class Order < ActiveRecord::Base
   def summarized_order_items
     OrderItem.summarize([order_items,
       child_orders.map {|o| o.order_items}].flatten.select {|o| o.queued? or o.made?})
+  end
+
+  def payment_method
+    if paid_at
+      'PayPal'
+    else
+      'In shop'
+    end
   end
 
   # State related methods

@@ -271,7 +271,7 @@ class Shop < ActiveRecord::Base
     false
   end     
   
-  def can_view_history?
+  def can_view_history?(acting_user)
     return false unless acting_user
     return true if acting_user.is_admin?
     return true if (acting_user.manages? self)
