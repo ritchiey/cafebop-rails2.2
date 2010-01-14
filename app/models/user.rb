@@ -17,8 +17,10 @@ class User < ActiveRecord::Base
     persistence_token   :string   
     perishable_token    :string  
     roles               :string, :default=>"--- []"
-    login_count         :integer, :null=>false, :default=>0
-    failed_login_count  :integer, :null=>false, :default=>0
+    # Disabling because Heroku seems to return the failed_login_count as a string
+    # which then crashes the brute force protection in authlogic
+    # login_count         :integer, :null=>false, :default=>0
+    # failed_login_count  :integer, :null=>false, :default=>0
     last_login_at       :datetime
     last_login_ip       :string
     current_login_at    :datetime
