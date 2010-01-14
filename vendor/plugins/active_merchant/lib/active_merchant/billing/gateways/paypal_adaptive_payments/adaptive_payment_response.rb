@@ -33,6 +33,10 @@ module ActiveMerchant
           @params[key]
         end
 
+        def status
+          @params['status']
+        end
+
         ## end Ritchie added
         
       end

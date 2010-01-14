@@ -31,7 +31,7 @@ class ShopsController < ApplicationController
   def search
     @search = Search.new(params[:search])
     @page = params[:page]
-    @shops = @search.shops.paginate(:per_page=>5, :page=>@page)
+    @shops = @search.shops.paginate(:per_page=>10, :page=>@page)
     respond_to do |wants|
       wants.html
       wants.json {render_json @shops.to_json(:only=>[:id, :name])}

@@ -2,7 +2,7 @@ OrderObserver.instance
 UserObserver.instance
 
 class OrdersController < OrdersRelatedController
-
+                                          
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
   before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
@@ -22,7 +22,7 @@ class OrdersController < OrdersRelatedController
     # the page or when the IPN notification comes in
     if @order.pending_paypal_auth? and @order.paypal_paykey
       paypal_response = gateway.details_for_payment({:paykey=>@order.paypal_paykey})
-      case paypal_response['status']
+      case paypal_response.status
       when 'COMPLETED': @order.pay_and_queue!
       when 'EXPIRED':   @order.cancel_paypal!
       end
