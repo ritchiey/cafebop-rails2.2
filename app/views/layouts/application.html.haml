@@ -16,7 +16,7 @@
     = yield(:head)
 
   %body{:style=>"background: #{page_background}"}
-    -unless flash.empty?
+    -if flash[:notice] or flash[:warning] or flash[:error]
       #flash
         - if flash[:notice]
           #notice
