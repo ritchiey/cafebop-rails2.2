@@ -1,0 +1,7 @@
+%h2 Name for Order
+
+-semantic_form_for @order, :url=>pay_in_shop_order_path(@order) do |f|
+  -f.inputs do
+    =f.input :name, :hint=>"Name to go on the order"
+  -f.buttons do
+    =f.commit_button "Continue"

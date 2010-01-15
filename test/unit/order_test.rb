@@ -91,6 +91,9 @@ class OrderTest < ActiveSupport::TestCase
       @order.order_items.each {|item| assert item.printed?}
     end
 
+    should "not be able to be queued" do
+      assert !@order.can_be_queued?
+    end
 
     context "for a shop that queues pay-in-shop items" do
       setup do
@@ -103,19 +106,33 @@ class OrderTest < ActiveSupport::TestCase
         setup do
           @order.order_items.each {|item| assert item.pending?}
           @order.send 'print_or_queue!'
-          assert @order.queued?
+        end                   
+        
+        should "not become queued because no name has been specified" do
+          assert @order.pending?
+          @order.order_items.each {|item| assert item.pending?}
         end
-    
+      end
+        
+      context "when queued after specifying a name" do
+        setup do
+          @order.order_items.each {|item| assert item.pending?}
+          @order.name = 'Harry'
+          assert @order.save
+          @order.send 'print_or_queue!'
+        end
+  
         should "queue all its order_items" do
+          assert @order.queued?
           @order.order_items.each {|item| assert item.queued?}
         end   
-                                               
+                                             
         should "transition from queued to made on make!" do
           assert @order.queued?
           @order.make!
           assert @order.made?
         end
-      
+    
         should "transition to made when last order_item is made" do
           assert @order.queued?
           @order.order_items.each do |item|
@@ -135,7 +152,6 @@ class OrderTest < ActiveSupport::TestCase
           @order.reload
           assert @order.made?, "order should have been made"
         end
-
       end
       
     end
@@ -147,6 +163,11 @@ class OrderTest < ActiveSupport::TestCase
         assert @order.save
       end
       
+
+      should "be able to be queued" do
+        assert @order.can_be_queued?
+      end
+
       context "who has friends" do
         setup do
           assert_difference "@user.friends.count", 1 do

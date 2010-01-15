@@ -47,6 +47,15 @@ class Order < ActiveRecord::Base
       
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
+  
+  def name
+    self[:name] || (user && user.to_s)
+  end                                
+
+  def can_be_queued?
+    self.name
+  end
+
   # Parent order invitation closed
   def invite_closed?
     (invited? or pending?) and parent and !parent.pending?
@@ -268,7 +277,7 @@ class Order < ActiveRecord::Base
   
   # End state related methods
   
-private
+private  
 
   def print_or_queue!
     if pending?
@@ -284,11 +293,12 @@ private
 
   def queue!
     transaction do
-      order_items.each {|item| item.queue!}
-#     OrderItem.order_parent_id_eq(self.id).order_state_eq('confirmed').all(:readonly=>false).each {|item| item.queue!} 
-      confirmed_child_order_items.each {|item| item.queue!}
-      self.state = 'queued'
-      save
+      if can_be_queued?
+        order_items.each {|item| item.queue!}
+        confirmed_child_order_items.each {|item| item.queue!}
+        self.state = 'queued'
+        save
+      end
     end
   end
   

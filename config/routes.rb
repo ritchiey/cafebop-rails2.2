@@ -50,7 +50,8 @@ ActionController::Routing::Routes.draw do |map|
         :pay_paypal => :put,
         :cancel_paypal => :get,
         :invite=>:get,
-        :send_invitations=>:put,
+        :send_invitations => :put,
+        :get_name_for => :get,
         :confirm => :put,
         :close=>:put,
         :closed=>:get

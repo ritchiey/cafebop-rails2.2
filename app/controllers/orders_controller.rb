@@ -5,7 +5,7 @@ class OrdersController < OrdersRelatedController
                                           
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
-  before_filter :order_from_id, :only=>[:update, :send_invitations, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
+  before_filter :order_from_id, :only=>[:update, :send_invitations, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver, :get_name_for]
   before_filter :check_paypal_status, :only => [:show]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
   before_filter :only_if_staff_or_admin, :only=>[:deliver]
@@ -58,10 +58,17 @@ class OrdersController < OrdersRelatedController
     end
   end  
 
-  def pay_in_shop
-    @order.pay_in_shop!
-    @order.save
-    redirect_to @order
+  def get_name_for
+  end
+
+  def pay_in_shop 
+    @order.update_attributes(params[:order])
+    if @order.can_be_queued?
+      @order.pay_in_shop!
+      redirect_to @order
+    else
+      redirect_to get_name_for_order_path(@order)
+    end
   end
 
   def summary
