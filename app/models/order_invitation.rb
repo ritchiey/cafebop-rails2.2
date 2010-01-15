@@ -1,37 +1,6 @@
 module OrderInvitation
 
-  attr_accessor :user_email                     
-  
-  attr_accessor :page # Current page to display (ie :invite, :summary)
-  
-  
-                   
-  # def invitation_state() @invitation_state || :get_email; end
-
-  # def invitation_state(authenticated=false)
-  #   if authenticated
-  #     :authenticated
-  #   elsif user
-  #     user.active ? :get_password : :activate
-  #   end
-  #     originator_email ? find_or_create_originator : :get_email
-  #   end
-  # end                   
-
-  def set_user_from_user_email
-    if !self[:user_id] and @user_email
-      self.user = User.for_email(user_email)
-    end
-  end
-
-  def persistent_attrs
-    [:minutes_til_close, :invited_user_attributes, :user_email, :page]
-  end                          
-  
-  def persistent_scope
-    :global
-  end
-  
+                    
   def minutes_til_close
     self[:minutes_til_close] || 10
   end

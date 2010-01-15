@@ -11,7 +11,16 @@ class OrderTest < ActiveSupport::TestCase
     
     setup do
       @order = Order.make
-    end                  
+    end        
+    
+    should "create and set the user when user email is set to a non-existant user" do
+      @order.user_email = "somenewguy@cafebop.com"
+      assert_difference "User.count", 1 do
+        assert @order.save
+      end
+      @order.reload
+      assert_not_nil @order.user
+    end          
     
     should "be its own group" do
       assert_equal @order, @order.group

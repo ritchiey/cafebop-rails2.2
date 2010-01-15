@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100114065443) do
+ActiveRecord::Schema.define(:version => 20100115011718) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -157,6 +157,8 @@ ActiveRecord::Schema.define(:version => 20100114065443) do
     t.datetime "paid_at"
     t.integer  "customer_queue_id"
     t.string   "paypal_paykey"
+    t.string   "name"
+    t.string   "user_email"
   end
 
   create_table "payment_notifications", :force => true do |t|

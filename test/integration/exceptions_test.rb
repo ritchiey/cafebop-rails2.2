@@ -18,7 +18,7 @@ class ExceptionsTest < ActionController::IntegrationTest
       should "be able to add a friend" do 
         friend_email = "snape@cafebop.com"
         assert_difference "@user.friends.count", 1 do
-          put order_url(@order), {"commit"=>"Add",
+          put send_invitations_order_url(@order), {"commit"=>"Add",
            "order"=>{"minutes_til_close"=>"5"},
            "friendship"=>{"friend_email"=>friend_email}
           }

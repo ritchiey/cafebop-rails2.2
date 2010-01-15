@@ -8,7 +8,9 @@ class Order < ActiveRecord::Base
                         
   fields do
     notes :text
-    state :string, :default=>'pending'
+    state :string, :default=>'pending' 
+    user_email :string
+    name  :string
     perishable_token :string
     minutes_til_close :integer
     close_time :datetime
@@ -296,7 +298,7 @@ private
     @start_close_timer == 'true'
   end
 
-  def invite_additional_users
+  def invite_additional_users 
     if should_start_close_timer? and !is_child? and self[:user_id]
       invitees = User.for_emails(invited_user_attributes)
       (invitees - invited_users.all).each {|user| invite user}
@@ -330,5 +332,13 @@ private
   def add_to_customer_queue
     is_child? or self.customer_queue = shop.customer_queues.first
   end
+
+
+  def set_user_from_user_email
+    if !self[:user_id] and user_email
+      self.user = User.for_email(user_email)
+    end
+  end
+
   
 end

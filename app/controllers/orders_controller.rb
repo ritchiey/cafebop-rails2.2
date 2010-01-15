@@ -5,30 +5,20 @@ class OrdersController < OrdersRelatedController
                                           
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
-  before_filter :order_from_id, :only=>[:update, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
+  before_filter :order_from_id, :only=>[:update, :send_invitations, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver]
+  before_filter :check_paypal_status, :only => [:show]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
   before_filter :only_if_staff_or_admin, :only=>[:deliver]
   before_filter :require_admin_rights, :only => [:destroy]
   before_filter :unless_invitation_closed, :only=>[:show, :edit] #TODO: :update?, :confirm?
   before_filter :only_if_pending, :only=>[:edit, :invite]
-  before_filter :login_transparently, :only => [:update]
-  before_filter :create_friendship, :only=>[:update]
+  before_filter :login_transparently, :only => [:send_invitations]
+  before_filter :create_friendship, :only=>[:send_invitations]
   before_filter :only_if_shop_monitoring_queues, :only => [:pay_in_shop, :pay_paypal]
   after_filter :mark_as_mine, :only=>[:create, :accept]
 
   def show  
-    # in the unlikely case that the paypal request is still being processed,
-    # the order status will still be updated either when the user refreshes
-    # the page or when the IPN notification comes in
-    if @order.pending_paypal_auth? and @order.paypal_paykey
-      paypal_response = gateway.details_for_payment({:paykey=>@order.paypal_paykey})
-      case paypal_response.status
-      when 'COMPLETED': @order.pay_and_queue!
-      when 'EXPIRED':   @order.cancel_paypal!
-      end
-    end
   end
-  
 
   def new
     @shop = Shop.find_by_id_or_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
@@ -58,17 +48,10 @@ class OrdersController < OrdersRelatedController
     @shop = @order.shop
   end
 
-
   def update  
-    restore_from session, @order
-    @order.attributes = params[:order]
-    persist_to session, @order
-    @order.user ||= current_user
-    if @order.save # updated attributes earlier
-      redirect_to case @order.page
-      when 'inviting': invite_order_path(@order)
-      else order_path(@order)
-      end
+    if @order.update_attributes(params[:order])
+      order_path(@order)
+      redirect_to @order
     else
       flash[:error] = "Unable to save changes"
       redirect_to edit_order_path(@order)
@@ -129,14 +112,26 @@ class OrdersController < OrdersRelatedController
   # Display the invitation form to invite others
   def invite
     current_user and @order.user ||= current_user
-    restore_from session, @order
-    @order.page = 'inviting'
-    persist_to session, @order
-    @order.page = 'summary' # If the form includes this field, it will override the version in the session
+    invited_users = flash[:invited_user_attributes] and @order.invited_user_attributes = invited_users
     # If user's already specified email pre-populate login form
-    @user_session = UserSession.new(:email=>@order.user_email) if !authenticated? && @order.user_email
+    if !authenticated? && @order.user && @order.user.active
+      @user_session = UserSession.new(:email=>@order.user_email)
+    end
   end
-
+  
+  def send_invitations
+    @order.attributes = params[:order]
+    if @order.save
+      if @order.close_timer_started?
+        redirect_to order_path(@order)
+      else
+        redirect_to invite_order_path(@order)
+      end
+    else
+      flash[:error] = "Unable to save changes"
+      redirect_to invite_order_path(@order)
+    end
+  end
 
   # Accept an invite that we were sent
   def accept
@@ -197,14 +192,17 @@ private
 
   def create_friendship
     if params[:commit] == "Add"
+      # Record invited user attributes for invite action to use
       if current_user and fp = params[:friendship]
         if current_user.friendships.create(fp)  
           #Make sure the new friend is selected to be invited
           @order.attributes = params[:order]
           @order.invited_user_attributes << fp[:friend_email]
-          persist_to session, @order
+          @order.start_close_timer = false
+          @order.save
         end
       end
+      flash[:invited_user_attributes] = @order.invited_user_attributes
       redirect_to invite_order_path(@order)
     end
   end
@@ -250,6 +248,20 @@ private
       redirect_to @order
     end
   end
+
+  def check_paypal_status
+    # in the unlikely case that the paypal request is still being processed,
+    # the order status will still be updated either when the user refreshes
+    # the page or when the IPN notification comes in
+    if @order.pending_paypal_auth? and @order.paypal_paykey
+      paypal_response = gateway.details_for_payment({:paykey=>@order.paypal_paykey})
+      case paypal_response.status
+      when 'COMPLETED': @order.pay_and_queue!
+      when 'EXPIRED':   @order.cancel_paypal!
+      end
+    end
+  end
+  
   
 end
 
