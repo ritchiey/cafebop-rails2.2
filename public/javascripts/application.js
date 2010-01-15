@@ -179,46 +179,7 @@ $(function() { // page ready
     return false;
   });
     
-    // $("a.info").each(function(i) {    
-    //   $(this).bind('click', function() {return false;});
-    //   $(this).qtip({
-    //     content: {
-    //       text: "Loading...",
-    //       url: $(this).attr("href") + "?no_frame=true"
-    //     },   
-    //     style: {      
-    //       width: 600,
-    //       name: 'cafebop'
-    //     },    
-    //     position: {  
-    //       target: $('#content-body'),
-    //       corner: {
-    //         tooltip: 'topLeft',
-    //         target: 'topLeft'
-    //       },
-    //       adjust: {screen: true}
-    //     },
-    //     show: {
-    //       when: {event: 'click'}
-    //     },
-    //     hide: qtipHide()
-    //   });
-    // }
-    //   );
-
-         
-
-// TODO: Remove this, no longer needed
-  // $('tr.friend').hover(
-  //   function() {
-  //     $(this).find('.remove-btn').show();
-  //   },
-  //   function() {
-  //     $(this).find('.remove-btn').hide();
-  //   }
-  // );
-
-	          
+ 
   dialog = $('#dialog');
   quantity_field = $('#quantity_field');
   size_field = $('#size_field');
@@ -232,7 +193,7 @@ $(function() { // page ready
 			bgiframe: true,
 			autoOpen: false,
 			height: 300,
-                        width: 400,
+      width: 400,
 			modal: true,
 			buttons: {
 				'Add to order': function() {

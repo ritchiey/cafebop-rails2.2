@@ -46,14 +46,17 @@ class Order < ActiveRecord::Base
   named_scope :newest_first, :order=>"created_at DESC"    
       
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
+
+  attr_accessor :queuing
   
+  validates_length_of :name, :within=>1..40, :if=>:queuing
   
   def name
     self[:name] || (user && user.to_s)
   end                                
 
   def can_be_queued?
-    self.name
+    name and name.length > 0
   end
 
   # Parent order invitation closed

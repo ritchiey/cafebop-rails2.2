@@ -21,7 +21,7 @@ Feature: Ordering
     And I should see "toast"
     And I should see "Straight from our toaster"
     And I should see "2.00"
-    When I place an order at Gromits for the following items:
+    When Harry places an order at Gromits for the following items:
       | quantity | item_name | notes       |
       | 1        | coffee    | extra sugar |
       | 2        | toast     |             |
@@ -31,9 +31,6 @@ Feature: Ordering
       | 2   | toast       | $4.00   |             |
       |     | Total       | $7.80   |             |
     When I press "Pay In Shop"
-    Then I should see "Name for Order"
-    When I fill in "Name" with "Harry"
-    And I press "Continue"
     Then I should see this order summary table:
       | Qty | Description | Cost($) |             | Made |
       | 1   | coffee      | $3.80   | extra sugar |      |
@@ -51,7 +48,7 @@ Feature: Ordering
       And I should see "toast"
       And I should see "Straight from our toaster"
       And I should see "2.00"
-      When I place an order at Gromits for the following items:
+      When Hermoine places an order at Gromits for the following items:
         | quantity | item_name | notes       |
         | 1        | coffee    | extra sugar |
         | 2        | toast     |             |
@@ -61,9 +58,6 @@ Feature: Ordering
         | 2   | toast       | $4.00   |             |
         |     | Total       | $7.80   |             |
       When I press "Pay In Shop"
-      Then I should see "Name for Order"
-      When I fill in "Name" with "Harry"
-      And I press "Continue"
       Then I should see this order summary table:
         | Qty | Description | Cost($) | Status |             |
         | 1   | coffee      | $3.80   | queued | extra sugar |

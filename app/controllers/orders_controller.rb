@@ -5,7 +5,7 @@ class OrdersController < OrdersRelatedController
                                           
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
-  before_filter :order_from_id, :only=>[:update, :send_invitations, :pay_in_shop, :pay_paypal, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver, :get_name_for]
+  before_filter :order_from_id, :only=>[:update, :send_invitations, :place, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver, :get_name_for]
   before_filter :check_paypal_status, :only => [:show]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
   before_filter :only_if_staff_or_admin, :only=>[:deliver]
@@ -61,42 +61,37 @@ class OrdersController < OrdersRelatedController
   def get_name_for
   end
 
-  def pay_in_shop 
-    @order.update_attributes(params[:order])
+  #Determines from input which payment method
+  def place          
+    if @order.update_attributes(params[:order].merge(:queuing=>true))
+      case (params[:commit])
+      when 'Pay In Shop': pay_in_shop
+      when 'Pay with PayPal': pay_paypal
+      end
+    else
+      redirect_to @order
+    end
+  end
+
+
+  def pay_in_shop
     if @order.can_be_queued?
       @order.pay_in_shop!
       redirect_to @order
     else
       redirect_to get_name_for_order_path(@order)
     end
-  end
+  end            
 
-  def summary
-    @shop = @order.shop
-    render :partial=>'summary'
-  end
-
-  def status_of_pending
-    @shop = @order.shop
-  end
-
-  def status_of_queued
-    @shop = @order.shop
-  end
 
   def pay_paypal
     @order.pay_paypal!
     recipients = [{:email => @order.paypal_recipient,
                    :amount => sprintf("%0.2f", @order.grand_total_with_fees),
-                   :invoice_id => @order.id.to_s #,
-                  #  :primary => true},
-                  # {:email => 'us_1261469612_biz@cafebop.com',
-                  #  :amount => sprintf("%0.2f", @order.commission),
-                  #  :primary => false  
+                   :invoice_id => @order.id.to_s
                   }       
                  ]      
     options = {
-      # :fees_payer => 'PRIMARYRECEIVER',
       :return_url => order_url(@order),
       :cancel_url => cancel_paypal_order_url(@order),
       :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}",
@@ -114,6 +109,20 @@ class OrdersController < OrdersRelatedController
     @order.cancel_paypal!
     flash[:notice] = "PayPal payment cancelled."
     redirect_to order_path(@order)
+  end
+
+  
+  def summary
+    @shop = @order.shop
+    render :partial=>'summary'
+  end
+
+  def status_of_pending
+    @shop = @order.shop
+  end
+
+  def status_of_queued
+    @shop = @order.shop
   end
 
   # Display the invitation form to invite others

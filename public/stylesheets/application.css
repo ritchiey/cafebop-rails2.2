@@ -66,7 +66,7 @@ h6 {
   border: 5px solid #494848;
   cursor: pointer; }
 
-#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, .confirm-link, #continue-order-button {
+#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, #pay-paypal-button, #pay-in-shop-button, #continue-order-button {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   clear: both;
@@ -83,6 +83,16 @@ h6 {
   background-position: 85% 50%;
   background-repeat: no-repeat;
   padding: 5px 55px 5px 15px; }
+
+#pay-paypal-button {
+  margin-top: 1em;
+  width: 12em; }
+
+#pay-in-shop-button {
+  width: 12em; }
+
+.confirm-link {
+  float: right; }
 
 #print-btn {
   clear: both;
@@ -127,7 +137,7 @@ h6 {
   border: 5px solid #D8DECD;
   background-color: #00c6ff; }
 
-#search_form, #new_user_session, #new_user, #invite-friends-blurb {
+#search_form, #new_user_session, #new_user, #invite-friends-blurb, form.formtastic {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
   background-color: #B0B6A6;
@@ -298,3 +308,8 @@ a {
   -moz-opacity: 0.35;
   -khtml-opacity: 0.35;
   opacity: 0.35; }
+
+form.formtastic {
+  margin: 0 0 0 0;
+  width: 300px;
+  float: right; }

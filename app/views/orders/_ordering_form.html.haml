@@ -50,7 +50,7 @@
                 %td
                   =h item_form.object.description
                 %td.notes
-                  =h form.object.notes
+                  =h item_form.object.notes
                 %td.cost
                   =h number_to_currency(item_form.object.cost, :unit=>'')
                 %td.remove
@@ -60,8 +60,7 @@
                 %td
           
     != render :partial => 'price_warning'
-    != render :partial => 'close_time_counter' 
-    
+    != render :partial => 'close_time_counter'
     =submit_tag((@order.is_child? ? "Confirm" : "Continue"), :disabled=>@order.order_items.empty?, :id=>'continue-order-button')
         
 

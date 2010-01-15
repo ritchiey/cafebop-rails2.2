@@ -16,7 +16,7 @@ Feature: Invite others
 
   Scenario: Sending and accepting an order as an authenticated user
     Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
-    And I am inviting my friends to order at Gromits
+    And he is inviting his friends to order at Gromits
     Then the "hermione@hogwarts.edu" checkbox should be checked
     When I select "5" from "order[minutes_til_close]"
     And I press "Continue"
@@ -71,7 +71,7 @@ Feature: Invite others
       
   Scenario: Resuming and completing order without inviting anyone
     Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
-    And I have a pending order with items at Gromits
+    And he has a pending order with items at Gromits
     When I follow "home"
     # Then I should see "You have Outstanding Orders..."   
     # When I follow "Gromits" within "#my-orders"  

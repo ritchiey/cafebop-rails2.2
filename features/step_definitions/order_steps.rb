@@ -1,22 +1,26 @@
 
-Given(/^I have a pending order with items at (.+?)$/) do |shop|
+Given(/^(.+?) has a pending order with items at (.+?)$/) do |name, shop|
+  name_param = (name =~ /s?he/i) ? {} : {:name=>name}
   shop = Shop.find_by_name(shop)
   menu = shop.menus.make
   menu_item = menu.menu_items.make
   quantity = 1
   visit root_path # initialize cookies
-  visit shop_orders_path(menu_item.shop), :post,
-  [
-    {'order[order_items_attributes][][quantity]' => quantity.to_s},
-    {'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s},
-    {'order[order_items_attributes][][notes]' => 'from integration test'},
-  ]
-  order = Order.last # TODO: this could be more robust   
+  visit shop_orders_path(menu_item.shop), :post, :order=>{
+    :order_item_attributes=>[{
+        :quantity=>quantity.to_s,
+        :menu_item_id=>menu_item.id.to_s,
+        :notes=>'from integration test'
+      }
+    ]
+  }.merge(name_param)
+  order = Order.last # TODO: this could be more robust
   visit "/orders/#{order.id}"
 end            
                     
-When(/^I place an order at (.+?) for the following items:$/) do |shop_name, table|
+When(/^(.+?) places an order at (.+?) for the following items:$/) do |name, shop_name, table|
   # table is a Cucumber::Ast::Table
+  name_param = (name =~ /s?he/i) ? {} : {:name=>name}
   shop = Shop.find_by_name(shop_name)
   order_item_attributes = table.hashes.map do |hash|
     menu_item = MenuItem.find_by_name(hash[:item_name]) or raise "Are you sure '#{hash[:item_name]}' is on the menu?"
@@ -26,7 +30,7 @@ When(/^I place an order at (.+?) for the following items:$/) do |shop_name, tabl
       {'notes' => hash[:notes]}
     ]
   end.flatten
-  visit shop_orders_path(shop), :post, :order=>{:order_items_attributes=>order_item_attributes}
+  visit shop_orders_path(shop), :post, :order=>{:order_items_attributes=>order_item_attributes}.merge(name_param)
 end
 
 Then(/^I should see this order summary table:$/) do |expected_table|  
@@ -35,9 +39,9 @@ Then(/^I should see this order summary table:$/) do |expected_table|
   expected_table.diff!(html_table)  
 end
 
-Given(/^I am inviting my friends to order at (.+)$/) do |shop|
+Given(/^(.*?) is inviting (.*) friends to order at (.+)$/) do |name,x, shop|
   steps %Q{
-    Given I have a pending order with items at #{shop}
+    Given #{name} has a pending order with items at #{shop}
     Then I choose to invite others to order from "#{shop}"
   }
 end
