@@ -21,12 +21,12 @@ Feature: Invite others
     When I select "5" from "order[minutes_til_close]"
     And I press "Continue"
     Then I should see invited friends table
-      | Friend                | Status  |
-      | hermione@hogwarts.edu | invited |    
+      | Friend   | Status  |
+      | hermione | invited |
     Then "hermione@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
 
 	Scenario: Sending and accepting an order as an existing user
-    Given I am inviting my friends to order at Gromits
+    Given Malfoy is inviting his friends to order at Gromits
 	  # Initial invite page
     And I fill in "order[user_email]" with "harry@hogwarts.edu"
     And I select "5" from "order[minutes_til_close]"
@@ -40,16 +40,16 @@ Feature: Invite others
     And I add "ron@hogwarts.edu" as a friend during the invitation
     When I press "Continue"
     Then I should see invited friends table
-      | Friend                | Status  |
-      | hermione@hogwarts.edu | invited |
-      | ron@hogwarts.edu      | invited |
+      | Friend   | Status  |
+      | hermione | invited |
+      | ron      | invited |
     Then "ron@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
     And they should be able to accept the invitation
     #     When I press "Show Me the Menu"
     #     Then I should see "Gromits"
 
 	Scenario: Sending and accepting an order as an new user
-    Given I am inviting my friends to order at Gromits
+    Given Luna is inviting her friends to order at Gromits
     And I fill in "order[user_email]" with "neville@hogwarts.edu"
     And I select "5" from "order[minutes_til_close]"
     And I press "Continue"  
@@ -64,9 +64,9 @@ Feature: Invite others
     And I add "harry@hogwarts.edu" as a friend during the invitation
     When I press "Continue"
     Then I should see invited friends table
-      | Friend                | Status  |
-      | hermione@hogwarts.edu | invited |
-      | harry@hogwarts.edu    | invited |
+      | Friend   | Status  |
+      | hermione | invited |
+      | harry    | invited |
     
       
   Scenario: Resuming and completing order without inviting anyone

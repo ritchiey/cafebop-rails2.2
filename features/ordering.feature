@@ -27,15 +27,16 @@ Feature: Ordering
       | 2        | toast     |             |
     Then I should see this order summary table:
       | Qty | Description | Cost($) |             |
+      |     | Total       | $7.80   |             | 
       | 1   | coffee      | $3.80   | extra sugar |
       | 2   | toast       | $4.00   |             |
-      |     | Total       | $7.80   |             |
+      
     When I press "Pay In Shop"
     Then I should see this order summary table:
       | Qty | Description | Cost($) |             | Made |
+      |     | Total       | $7.80   |             |      |
       | 1   | coffee      | $3.80   | extra sugar |      |
       | 2   | toast       | $4.00   |             |      |
-      |     | Total       | $7.80   |             |      |
 
 
     Scenario: Placing an order when queuing is enabled for the shop
@@ -48,18 +49,18 @@ Feature: Ordering
       And I should see "toast"
       And I should see "Straight from our toaster"
       And I should see "2.00"
-      When Hermoine places an order at Gromits for the following items:
+      When Harry places an order at Gromits for the following items:
         | quantity | item_name | notes       |
         | 1        | coffee    | extra sugar |
         | 2        | toast     |             |
       Then I should see this order summary table:
         | Qty | Description | Cost($) |             |
+        |     | Total       | $7.80   |             |
         | 1   | coffee      | $3.80   | extra sugar |
         | 2   | toast       | $4.00   |             |
-        |     | Total       | $7.80   |             |
       When I press "Pay In Shop"
       Then I should see this order summary table:
         | Qty | Description | Cost($) | Status |             |
+        |     | Total       | $7.80   |        |             |
         | 1   | coffee      | $3.80   | queued | extra sugar |
         | 2   | toast       | $4.00   | queued |             |
-        |     | Total       | $7.80   |        |             |

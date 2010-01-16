@@ -24,6 +24,7 @@ class Order < ActiveRecord::Base
   before_create :add_to_customer_queue
   before_save :start_close_timer
   before_save :set_user_from_user_email
+  before_save :set_name_from_user
   after_save :confirm_if_child
   after_save :invite_additional_users
   
@@ -49,7 +50,7 @@ class Order < ActiveRecord::Base
   
   attr_accessor :name_required
   
-  validates_length_of :name, :within=>1..40, :if=>:name_required
+  validates_length_of :effective_name, :within=>1..40, :if=>:name_required
   
   
   def effective_name
@@ -358,5 +359,8 @@ private
     end
   end
 
+  def set_name_from_user
+    self.user and self.name ||= user.to_s
+  end
   
 end

@@ -21,6 +21,14 @@ class OrderObserver < ActiveRecord::Observer
       RAILS_DEFAULT_LOGGER.info "Order #{order.id} has been cancelled."
       Notifications.send_later(:deliver_order_cancelled, order) if order.user
     end
+    
+    # update name in user record for next time
+    if order.changes['name']
+      user = order.user
+      if user and user.name != order.name
+        user.update_attributes(:name=>order.name)
+      end
+    end
   end
   
 end

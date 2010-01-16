@@ -29,13 +29,18 @@ class ActionController::IntegrationTest
   def place_webrat_order options={}
     menu_item = options[:for] || MenuItem.make
     quantity = options[:quantity] || 1
+    name_param = (options[:name]) ? {:name=>options[:name]} : {}
     # TODO:can't currently test this easily because it requires javascript
     # so we'll fake it by creating the order
     #visit shop_path(menu_item.menu.shop)
-    visit shop_orders_path(menu_item.shop), :post,
-      'order[order_items_attributes][][quantity]' => quantity.to_s,
-      'order[order_items_attributes][][menu_item_id]' => menu_item.id.to_s,
-      'order[order_items_attributes][][notes]' => 'from integration test'
+    visit shop_orders_path(menu_item.shop), :post,:order=>{
+      :order_items_attributes=>[{
+          :quantity=>quantity.to_s,
+          :menu_item_id=>menu_item.id.to_s,
+          :notes=>'from integration test'
+        }
+      ]
+    }.merge(name_param)
     Order.last # TODO: this could be more robust   
   end
 

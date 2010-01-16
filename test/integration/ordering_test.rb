@@ -92,7 +92,7 @@ class OrderingTest < ActionController::IntegrationTest
       @password = 'heehaw!!'
       @user = User.make(:active=>true, :password=>@password, :password_confirmation=>@password)
       visit root_path
-      @order = place_webrat_order
+      @order = place_webrat_order(:name=>'Tom')
       assert_have_selector "#offer-friends-button"
     end
     

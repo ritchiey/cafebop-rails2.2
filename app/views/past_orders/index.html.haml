@@ -13,7 +13,7 @@
   - @orders.each do |order|
     %tr.order
       %td=link_to "#{order.id}", past_order_path(order)
-      %td #{order.user}
+      %td #{order.name}
       %td #{order.state}
       %td #{order.payment_method}
       %td #{number_to_currency order.grand_total}

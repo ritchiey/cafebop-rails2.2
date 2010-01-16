@@ -1,7 +1,7 @@
 -# Make one tbody for each order to make it easier to remove an order with jquery
 %tbody
   %tr{:class=>"order #{order.state}"}
-    %td="Order for #{h order.user}"
+    %td="Order for #{h order.name}"
     %td
       -form_tag deliver_order_path(order), :method=>:put, :class=>"#{order.state}-order" do
         =submit_tag "Deliver", :disabled=>!order.made?

@@ -7,7 +7,7 @@ Given(/^(.+?) has a pending order with items at (.+?)$/) do |name, shop|
   quantity = 1
   visit root_path # initialize cookies
   visit shop_orders_path(menu_item.shop), :post, :order=>{
-    :order_item_attributes=>[{
+    :order_items_attributes=>[{
         :quantity=>quantity.to_s,
         :menu_item_id=>menu_item.id.to_s,
         :notes=>'from integration test'
@@ -34,8 +34,8 @@ When(/^(.+?) places an order at (.+?) for the following items:$/) do |name, shop
 end
 
 Then(/^I should see this order summary table:$/) do |expected_table|  
-  html_table = table_at("#order-summary-table").to_a
-  html_table.map! { |r| r.map! { |c| c.gsub(/<.+?>/, '') } }  
+  html_table = table_at("#order-summary-table").to_a.select {|r| r.size >1}
+  html_table.map! { |r| r.map! { |c| c.gsub(/<.+?>/, '') } }
   expected_table.diff!(html_table)  
 end
 

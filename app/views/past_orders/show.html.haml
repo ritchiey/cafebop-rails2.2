@@ -1,6 +1,6 @@
 %h4 Order ##{@order.id}
 
-%p Customer: #{@order.user || 'unknown'}
+%p Customer: #{@order.name || 'unknown'}
 %p Status: #{@order.state}
 %p Payment method: #{@order.payment_method}
 -if @order.payment_method.downcase == 'paypal'

@@ -31,6 +31,7 @@ end
 
 Order.blueprint do
   shop
+  name {NameForgery.first_name}
 end           
 
 OrderItem.blueprint do

@@ -91,8 +91,8 @@ class OrderTest < ActiveSupport::TestCase
       @order.order_items.each {|item| assert item.printed?}
     end
 
-    should "not be able to be queued" do
-      assert !@order.can_be_queued?
+    should "be able to be queued" do
+      assert @order.can_be_queued?
     end
 
     context "for a shop that queues pay-in-shop items" do
@@ -108,20 +108,6 @@ class OrderTest < ActiveSupport::TestCase
           @order.send 'print_or_queue!'
         end                   
         
-        should "not become queued because no name has been specified" do
-          assert @order.pending?
-          @order.order_items.each {|item| assert item.pending?}
-        end
-      end
-        
-      context "when queued after specifying a name" do
-        setup do
-          @order.order_items.each {|item| assert item.pending?}
-          @order.name = 'Harry'
-          assert @order.save
-          @order.send 'print_or_queue!'
-        end
-  
         should "queue all its order_items" do
           assert @order.queued?
           @order.order_items.each {|item| assert item.queued?}
