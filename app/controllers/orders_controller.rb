@@ -122,6 +122,12 @@ class OrdersController < OrdersRelatedController
 
   # Display the invitation form to invite others
   def invite
+    # Must be authenticated
+    unless current_user
+      flash[:notice] = "You'll need a Cafebop account to invite others."
+      redirect_to signup_path(:order_id=>@order.id)
+      return
+    end
     current_user and @order.user ||= current_user
     invited_users = flash[:invited_user_attributes] and @order.invited_user_attributes = invited_users
     # If user's already specified email pre-populate login form

@@ -21,7 +21,14 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     @user.make_admin if User.count == 0
     if @user.save
-      redirect_to root_path
+      # If we were in the middle of an order when the account was created,
+      # associate it with the account so that user can continue after confirm.
+      @user.add_favourite(@shop) if @shop
+      if @order and @order.mine?(nil, session[:order_token])
+        @order.user = @user
+        @order.save
+      end     
+      redirect_to root_path # TODO Send the user to a message screen that makes it clearer
       flash[:notice] = "Thanks for signing up! Check your email to permanently activate your account."
     else
       render :action => 'new'

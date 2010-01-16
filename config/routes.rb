@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :user_sessions
   map.register '/register', :controller=>:users, :action=>:new
+  map.signup '/signup', :controller=>:users, :action=>:new
   map.login '/login', :controller=>:user_sessions, :action=>:new
   map.logout '/logout', :controller=>:user_sessions, :action =>:destroy
   map.resources :claims, :member=>{:review=>:put, :confirm=>:put, :reject=>:put}

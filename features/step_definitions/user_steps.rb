@@ -42,4 +42,26 @@ When /^I activate the account for "([^\"]*)"$/ do |email|
     When I click the first link in the email
     Then I should see "Your Cafebop account is now active! Welcome aboard."
   }
+end     
+
+Given /^I sign up as "([^\"]*)" with password "([^\"]*)"$/ do |email, password|
+  steps %Q{
+    Given I am on the signup page
+    And I complete the signup form as "#{email}" with password "#{password}"
+  }
+end
+
+Given /^I complete the signup form as "([^\"]*)" with password "([^\"]*)"$/ do |email, password|
+  steps %Q{
+    And I fill in "user[email]" with "#{email}"
+    And I fill in "user[password]" with "#{password}"
+    And I fill in "user[password_confirmation]" with "#{password}"
+    And I press "Sign up"
+    Then I should see "Thanks for signing up! Check your email to permanently activate your account."
+    And "#{email}" should receive an email
+    When I open the email
+    Then I should see "Thanks for joining cafebop.com" in the email body
+    When I click the first link in the email
+    Then I should see "Your Cafebop account is now active! Welcome aboard."
+  }
 end

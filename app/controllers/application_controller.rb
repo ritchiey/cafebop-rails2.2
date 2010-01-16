@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   helper_method :'iphone_user_agent?'
   before_filter :cookies_required, :except => [:cookies_test]
-  before_filter :find_shop, :except => [:cookies_test]
+  before_filter :find_order_and_or_shop, :except => [:cookies_test]
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :adjust_format_for_iphone
   filter_parameter_logging :password, :password_confirmation
@@ -150,9 +150,11 @@ private
   
   # Find the shop by the shop_id parameter if specified in the request and
   # if the @shop instance variable hasn't already been set.
-  def find_shop
-    shop_id = params[:shop_id]
-    shop_id and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])
+  def find_order_and_or_shop
+    order_id = params[:order_id]
+    order_id and @order = Order.find_by_id(order_id, :include=>[{:shop=>[:operating_times]}])
+    @order and @shop = @order.shop
+    shop_id = params[:shop_id] and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])
   end
                      
 end

@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
                                            
   def to_s() name || shortened_email; end 
+  
+  def add_favourite(shop)
+    work_contracts.create(:shop=>shop, :role=>'patron')
+  end
 
   def make_admin
     add_role('cafebop_admin')

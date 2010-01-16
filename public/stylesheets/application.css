@@ -309,7 +309,5 @@ a {
   -khtml-opacity: 0.35;
   opacity: 0.35; }
 
-form.formtastic {
-  margin: 0 0 0 0;
-  width: 300px;
-  float: right; }
+.login-message {
+  margin-bottom: 1em; }

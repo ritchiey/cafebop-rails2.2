@@ -14,11 +14,11 @@
     =will_paginate @shops
     %table.search
       -@shops.each_with_index do |shop, index|
-        = render :partial=>"shop", :object=>shop, :locals=>{:index=>index}
+        != render :partial=>"shop", :object=>shop, :locals=>{:index=>index}
     != render :partial => 'add_shop_blurb'
 
   .span-7.last
   -if @shops
     =static_map :places=>@shops, :center=>@search, :width=>260, :height=>260
 
-= render :partial => 'shops/search_panel'
+!= render :partial => 'shops/search_panel'

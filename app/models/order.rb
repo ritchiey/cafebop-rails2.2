@@ -49,8 +49,9 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
   
   attr_accessor :name_required
+
   
-  validates_length_of :effective_name, :within=>1..40, :if=>:name_required
+  validates_presence_of :effective_name, :if=>:name_required
   
   
   def effective_name

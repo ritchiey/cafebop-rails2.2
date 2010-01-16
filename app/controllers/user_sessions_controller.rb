@@ -13,7 +13,20 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      redirect_to root_path
+      if user = @user_session.user
+        user.add_favourite(@shop) if @shop
+        if @order and @order.mine?(nil, session[:order_token])
+          @order.user = user
+          @order.save
+        end            
+      end
+      if @order
+        redirect_to @order
+      elsif @shop
+        redirect_to @shop 
+      else
+        redirect_to root_path
+      end
     else
       render :action => :new
     end

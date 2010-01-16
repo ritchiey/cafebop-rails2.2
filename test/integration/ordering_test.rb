@@ -96,17 +96,9 @@ class OrderingTest < ActionController::IntegrationTest
       assert_have_selector "#offer-friends-button"
     end
     
-    should "be able to handle the truth" do
-      assert true
-    end
-
-    should "be able to enter login as an existing user on the invite others screen" do
+    should "be sent to the signup screen" do
       click_button "Invite Friends"
-      fill_in "order_user_email", :with=>@user.email
-      click_button "Continue"
-      # fill_in "user_session_password", :with=>@password
-      # click_button "Continue"
-      # assert_logged_in_as @user
+      #assert redirected_to(signup_path)
     end
     
   end

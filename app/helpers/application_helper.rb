@@ -9,6 +9,17 @@ module ApplicationHelper
     link_to_unless_current(name, url,{:class=>'btn'}.merge(html_options)) {""}
   end
 
+
+  def with_order_or_shop(order, shop) 
+    r = {} 
+    if order and order.id
+      r.merge!({:order_id=>order.id})
+    else
+      r.merge!({:shop_id=>shop.id}) if shop and shop.id
+    end
+    r
+  end
+  
   def doctype_header
     '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">'
   end

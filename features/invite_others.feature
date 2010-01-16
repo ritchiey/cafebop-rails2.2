@@ -26,38 +26,33 @@ Feature: Invite others
     Then "hermione@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
 
 	Scenario: Sending and accepting an order as an existing user
-    Given Malfoy is inviting his friends to order at Gromits
-	  # Initial invite page
-    And I fill in "order[user_email]" with "harry@hogwarts.edu"
-    And I select "5" from "order[minutes_til_close]"
-    And I press "Continue"
-    # Login     
-    And the "Email" field should contain "harry@hogwarts.edu"
-    And I fill in "user_session_password" with "Quiddich"
-    And I press "Continue"
+    Given Harry is inviting his friends to order at Gromits
+    Then I should see "You'll need a Cafebop account to invite others"
+    And I should see "Already a Cafebop member?"
+    When I follow "Login"
+    And I fill in "Email" with "harry@hogwarts.edu"
+    And I fill in "Password" with "Quiddich"
+    And I press "Login"
     Then I should see "Logged in as harry"
-    #And the "minutes" field should contain "5" # doesn't work
+    When I press "Invite Friends"
     And I add "ron@hogwarts.edu" as a friend during the invitation
     When I press "Continue"
     Then I should see invited friends table
       | Friend   | Status  |
       | hermione | invited |
       | ron      | invited |
-    Then "ron@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "5" minute limit
+    Then "ron@hogwarts.edu" should receive and invitation from "harry" to order from "Gromits" with a "10" minute limit
     And they should be able to accept the invitation
     #     When I press "Show Me the Menu"
     #     Then I should see "Gromits"
 
 	Scenario: Sending and accepting an order as an new user
-    Given Luna is inviting her friends to order at Gromits
-    And I fill in "order[user_email]" with "neville@hogwarts.edu"
-    And I select "5" from "order[minutes_til_close]"
-    And I press "Continue"  
-    Then "neville@hogwarts.edu" should receive an activation email
-    When I activate the account for "neville@hogwarts.edu"
-    Then I should see "You have Outstanding Orders..."   
+    Given Neville is inviting his friends to order at Gromits   
+    Then I should see "You'll need a Cafebop account to invite others"
+    And I complete the signup form as "neville@hogwarts.edu" with password "Quibbler"
+    Then I should see "You have Outstanding Orders..."  
     When I follow "Gromits" within "#my-orders"  
-    Then I choose to invite others to order from "Gromits"
+    And I choose to invite others
     And I add "ron@hogwarts.edu" as a friend during the invitation
     And I add "hermione@hogwarts.edu" as a friend during the invitation
     And I uncheck "ron@hogwarts.edu"
@@ -73,10 +68,10 @@ Feature: Invite others
     Given I am logged in as "harry@hogwarts.edu" with password "Quiddich"
     And he has a pending order with items at Gromits
     When I follow "home"
-    # Then I should see "You have Outstanding Orders..."   
-    # When I follow "Gromits" within "#my-orders"  
-    # And I press "Pay in Shop"
-    # Then I should not send any invites
+    Then I should see "You have Outstanding Orders..."   
+    When I follow "Gromits" within "#my-orders"  
+    And I press "Pay in Shop"
+    #Then I should not send any invites
   
       
       

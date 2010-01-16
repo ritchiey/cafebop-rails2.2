@@ -3,3 +3,10 @@
   %td
     =link_to shop.name, new_shop_order_path(shop), :class=>"shop-entry"
     != render :partial => 'shops/tooltip', :object=>shop
+  
+  %td
+    -if shop.accepts_queued_orders?
+      != render :partial => 'shops/accepts_queued_orders'
+  %td
+    -if shop.accepts_paypal_payments?
+      != render :partial => 'shops/accepts_paypal_tiny'
