@@ -137,7 +137,7 @@ h6 {
   border: 5px solid #D8DECD;
   background-color: #00c6ff; }
 
-#search_form, #new_user_session, #new_user, #invite-friends-blurb, form.formtastic {
+#search_form, #new_user_session, #new_user, #invite-friends-blurb {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
   background-color: #B0B6A6;

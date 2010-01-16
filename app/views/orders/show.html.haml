@@ -16,8 +16,6 @@
         =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
       -else
         -semantic_form_for @order, :url=>place_order_path(@order) do |f|
-          -f.inputs do
-            =f.input :name, :hint=>"That will appear on order", :required=>true
           -f.buttons do
             -if @shop.accepts_in_shop_payments?
               =submit_tag "Pay In Shop", :id=>'pay-in-shop-button', :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?

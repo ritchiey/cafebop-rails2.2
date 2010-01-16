@@ -23,6 +23,7 @@ class OrdersController < OrdersRelatedController
   def new
     @shop = Shop.find_by_id_or_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
     @order = @shop.orders.build
+    current_user and @order.user = current_user
   end
 
   def create
@@ -32,10 +33,9 @@ class OrdersController < OrdersRelatedController
       @order = @shop.orders.build(params[:order].merge(:user_id=>current_user.andand.id))
       if @order.save
         logger.info "Created order for user '#{@order.user}'"
-        redirect_to order_path(@order)
+        check_delivery_details
       else        
-        flash[:error] = @order.errors.full_messages.collect{|m| m}.join('. ')
-        logger.error @order.errors.full_messages.collect{|m| m}.join('. ')
+        wrangle_order_errors
         redirect_to new_shop_order_path
       end
     else
@@ -43,15 +43,14 @@ class OrdersController < OrdersRelatedController
        redirect_to new_shop_order_path
     end
   end
-
+                              
   def edit
     @shop = @order.shop
   end
 
-  def update  
+  def update
     if @order.update_attributes(params[:order])
-      order_path(@order)
-      redirect_to @order
+      check_delivery_details
     else
       flash[:error] = "Unable to save changes"
       redirect_to edit_order_path(@order)
@@ -63,13 +62,9 @@ class OrdersController < OrdersRelatedController
 
   #Determines from input which payment method
   def place          
-    if @order.update_attributes(params[:order].merge(:queuing=>true))
-      case (params[:commit])
-      when 'Pay In Shop': pay_in_shop
-      when 'Pay with PayPal': pay_paypal
-      end
-    else
-      redirect_to @order
+    case (params[:commit])
+    when 'Pay In Shop': pay_in_shop
+    when 'Pay with PayPal': pay_paypal
     end
   end
 
@@ -277,8 +272,22 @@ private
       end
     end
   end
+
+  def check_delivery_details
+    @order.name_required = true
+    if @order.valid?
+      redirect_to @order
+    else
+      wrangle_order_errors
+      redirect_to edit_order_path(@order)
+    end
+  end
   
-  
+  def wrangle_order_errors
+    flash[:error] = @order.errors.full_messages.collect{|m| m}.join('. ')
+    logger.error @order.errors.full_messages.collect{|m| m}.join('. ')
+  end
+
 end
 
  

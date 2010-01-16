@@ -46,14 +46,19 @@ class Order < ActiveRecord::Base
   named_scope :newest_first, :order=>"created_at DESC"    
       
   accepts_nested_attributes_for :order_items, :allow_destroy=>true
-
-  attr_accessor :queuing
   
-  validates_length_of :name, :within=>1..40, :if=>:queuing
+  attr_accessor :name_required
   
-  def name
+  validates_length_of :name, :within=>1..40, :if=>:name_required
+  
+  
+  def effective_name
     self[:name] || (user && user.to_s)
-  end                                
+  end
+  
+  def effective_name=(name)
+    self[:name] = name
+  end
 
   def can_be_queued?
     name and name.length > 0

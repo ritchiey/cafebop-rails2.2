@@ -19,7 +19,7 @@
 -content_for :aside do        
   %h5 Your Order
 
-  -form_for order do |form|
+  -semantic_form_for order do |form|
     %table.order.order-form
       %thead
         %tr
@@ -58,6 +58,8 @@
             -else
               %tr
                 %td
+    -form.inputs do
+      =form.input :effective_name, :label=>'Name', :hint=>"That will appear on order", :required=>true
           
     != render :partial => 'price_warning'
     != render :partial => 'close_time_counter'
