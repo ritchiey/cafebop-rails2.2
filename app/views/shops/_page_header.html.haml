@@ -29,5 +29,6 @@
           %td
             =h @shop.street_address
           %td
-            != render :partial => 'shops/now_accepting_paypal'
+            -if @shop.accepts_paypal_payments?
+              != render :partial => 'shops/now_accepting_paypal'
           
