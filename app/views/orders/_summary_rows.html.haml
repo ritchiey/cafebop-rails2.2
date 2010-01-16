@@ -4,5 +4,5 @@
 -if show_user and order.is_in_group?
   %tr.sub-total
     %td(colspan="2")  
-    %td #{h order.user} pays
+    %td #{h order.name} pays
     %td=h number_to_currency(order.total)

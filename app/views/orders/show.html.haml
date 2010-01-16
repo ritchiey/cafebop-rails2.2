@@ -12,18 +12,15 @@
       =button_to "Change", edit_order_path(@order), :method=>:get, :id=>'change-button'
   .span-16.last.pay-box    
     -if @order.pending?
-      -if @order.is_child?
-        =button_to "Confirm Order", confirm_order_path(@order), :method=>:put
-      -else
-        -semantic_form_for @order, :url=>place_order_path(@order) do |f|
-          -f.buttons do
-            -if @shop.accepts_in_shop_payments?
-              =submit_tag "Pay In Shop", :id=>'pay-in-shop-button', :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
-            -if @shop.accepts_paypal_payments? 
-              %br
-              -if @shop.ever_charges_processing_fee?
-                Note: A transaction fee of #{number_to_currency @shop.processing_fee} applies for orders under $#{h @shop.fee_threshold}.
-              =submit_tag "Pay with PayPal", :id=>'pay-paypal-button', :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
+      -semantic_form_for @order, :url=>place_order_path(@order) do |f|
+        -f.buttons do
+          -if @shop.accepts_in_shop_payments?
+            =submit_tag "Pay In Shop", :id=>'pay-in-shop-button', :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
+          -if @shop.accepts_paypal_payments? 
+            %br
+            -if @shop.ever_charges_processing_fee?
+              Note: A transaction fee of #{number_to_currency @shop.processing_fee} applies for orders under $#{h @shop.fee_threshold}.
+            =submit_tag "Pay with PayPal", :id=>'pay-paypal-button', :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
     -elsif @order.confirmed?
       %h3 Order confirmed
       

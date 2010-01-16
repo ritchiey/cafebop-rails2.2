@@ -12,11 +12,6 @@
         %th Status
       %th
 
-  %tbody#order_items
-    != render :partial => 'summary_rows', :object=>@order, :locals=>{:show_user=>@order.is_parent?}
-    -if @order.is_parent?
-      != render :partial => 'summary_rows', :collection=>@order.child_orders.state_eq_any('confirmed', 'made').all(:include=>:order_items), :locals=>{:show_user=>true}, :spacer_template=>'empty_row'
-    
   %tfoot
     %tr.total
       %td
@@ -26,6 +21,16 @@
       %td="#{h number_to_currency(@order.grand_total)}"
       %td
       %td 
+    -unless @order.is_child?
+      %tr
+        %td{:colspan=>'4'}
+          #{@order.name} will pick-up from #{@order.shop}
+
+  %tbody#order_items
+    != render :partial => 'summary_rows', :object=>@order, :locals=>{:show_user=>@order.is_parent?}
+    -if @order.is_parent?
+      != render :partial => 'summary_rows', :collection=>@order.child_orders.state_eq_any('confirmed', 'made').all(:include=>:order_items), :locals=>{:show_user=>true}, :spacer_template=>'empty_row'
+    
 
 #order-status.no-print
   -case @order.state
@@ -36,11 +41,11 @@
       Keep this screen open to watch its progress.
     -when 'made'
       -if @order.is_child?
-        Sit tight. #{@order.parent.user} should be back soon.
+        Sit tight. #{@order.parent.name} should be back soon.
       -else
         Your order is ready. Head down to #{@order.shop} to collect it.
     -when 'confirmed'
-      #{@order.parent.user} will pickup your order for you.
+      #{@order.parent.name} will pickup your order for you.
     -when 'pending_paypal_auth'
       Waiting for payment confirmation from PayPal
 
