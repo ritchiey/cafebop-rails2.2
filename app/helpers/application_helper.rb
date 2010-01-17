@@ -9,6 +9,10 @@ module ApplicationHelper
     link_to label, site_terms_content_path
   end
   
+  def link_to_faq(label="Frequently Asked Questions")
+    link_to label, faq_content_path
+  end
+  
   def link_to_privacy_policy(label="Privacy")
     link_to label, privacy_policy_content_path
   end
@@ -20,6 +24,7 @@ module ApplicationHelper
   def button_link_to_unless_current name, url, html_options={}
     link_to_unless_current(name, url,{:class=>'btn'}.merge(html_options)) {""}
   end
+  
 
   # Generate a hash containing the order or shop ids if available.
   # Use to append to links where these details must be preserved

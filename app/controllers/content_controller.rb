@@ -18,4 +18,7 @@ class ContentController < ApplicationController
   def site_terms
   end
   
+  def faq
+  end
+  
 end

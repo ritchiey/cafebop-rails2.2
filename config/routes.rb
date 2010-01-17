@@ -72,7 +72,8 @@ ActionController::Routing::Routes.draw do |map|
     :bounty_conditions=>:get,
     :why_inaccurate=>:get,
     :privacy_policy=>:get,
-    :site_terms=>:get
+    :site_terms=>:get,
+    :faq => :get
     }
 
 

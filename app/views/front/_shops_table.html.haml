@@ -3,4 +3,4 @@
     %tr
       %th Restaurants
   %tbody
-    != render :partial => 'shops/favourite', :collection=>current_user.shops, :as=>:shop
+    != render :partial => 'shops/favourite', :collection=>@work_contract, :as=>:work_contract
