@@ -2,19 +2,19 @@
 module ApplicationHelper
 
   def link_to_refund_policy(shop, label=nil)
-    (shop && shop.refund_policy) ? link_to((label || "#{shop} refund policy"), refund_policy_for_shop_path(shop)) : ""
+    (shop && shop.refund_policy) ? link_to((label || "#{shop} refund policy"), refund_policy_for_shop_path(shop), :target=>'_new') : ""
   end                             
   
   def link_to_site_terms(label="Cafebop Terms of Use")
-    link_to label, site_terms_content_path
+    link_to label, site_terms_content_path, :target=>'_new'
   end
   
   def link_to_faq(label="Frequently Asked Questions")
-    link_to label, faq_content_path
+    link_to label, faq_content_path, :target=>'_new'
   end
   
   def link_to_privacy_policy(label="Privacy")
-    link_to label, privacy_policy_content_path
+    link_to label, privacy_policy_content_path, :target=>'_new'
   end
 
   def button_link_to name, url, html_options={}
