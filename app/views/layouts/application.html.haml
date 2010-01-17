@@ -7,9 +7,9 @@
     %meta{"http-equiv"=>"Content-Style-Type", :content=>"text/css"}
     %meta{"http-equiv"=>"Content-Script-Type", :content=>"text/javascript"}
     
-    = stylesheet_link_tag "blueprint/screen", "jquery.countdown", :media=>'screen', :cache=>true
-    = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css', "formtastic", "formtastic_changes",'application',  :cache=>true
-    = stylesheet_link_tag "blueprint/print", "print", :media=>'print', :cache=>true
+    = stylesheet_link_tag "blueprint/screen", "jquery.countdown", :media=>'screen'
+    = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css', "formtastic", 'application',  :cache=>true
+    = stylesheet_link_tag "blueprint/print", "print", :media=>'print'
     = javascript_include_tag 'http://cdn.jquerytools.org/1.1.2/jquery.tools.min.js'
     = javascript_include_tag 'jquery-form', 'jquery.qtip-1.0.0-rc3.min', 'jquery-ui-1.7.2.custom.min.js', 'jrails', 'jquery.countdown.min', 'supersleight.plugin', 'application.js', :cache=>true
     / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]   
