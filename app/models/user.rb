@@ -41,9 +41,10 @@ class User < ActiveRecord::Base
   has_many :orders
   
   named_scope :email_in, lambda {|emails| {:conditions=>{:email=>emails}}}
-
+  
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/io, :on => :create
-  validates_uniqueness_of :email
+  validates_uniqueness_of :email 
+  
                                            
   def to_s() name || shortened_email; end 
   

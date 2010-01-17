@@ -1,6 +1,9 @@
-%h3 New Claim
+%h3 Claiming #{@shop}
 
-%p By pressing Claim Now below, you are asserting that you are legally entitled to manage #{h @shop.name}
+%p
+  By pressing Claim Now below, you are asserting that you are the manager and/or
+  owner of #{h @shop.name} and that you agree to be bound by the shop owners terms
+  of the #{link_to_site_terms}.
 
 -semantic_form_for [@shop, @claim] do |f|
   -f.inputs do
