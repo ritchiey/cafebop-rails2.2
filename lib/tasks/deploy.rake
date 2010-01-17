@@ -26,8 +26,8 @@ namespace :deploy do
   end
 
   desc "Deploy to the production Heroku environment"
-  task :prod =>[:merge, :push_origin_master] do
-    `git push heroku-staging staging:master`
+  task :prod =>[:merge_master, :push_origin_master] do
+    `git push heroku-prod`
     `heroku rake db:migrate --app cafebop-prod`
     `git checkout work`
   end
