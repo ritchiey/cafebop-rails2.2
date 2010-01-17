@@ -10,6 +10,7 @@
     != render :partial => 'friends_table'
   -content_for :content_top do  
     != render :partial => 'current_orders'
-  
+-else
+  %h3.title Locate a Restaurant near you...
 != render :partial => 'shops/search_panel'
 
