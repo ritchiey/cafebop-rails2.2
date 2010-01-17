@@ -1,6 +1,18 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def link_to_refund_policy(shop, label=nil)
+    (shop && shop.refund_policy) ? link_to((label || "#{shop} refund policy"), refund_policy_for_shop_path(shop)) : ""
+  end                             
+  
+  def link_to_site_terms(label="Cafebop Terms of Use")
+    link_to label, site_terms_content_path
+  end
+  
+  def link_to_privacy_policy(label="Privacy")
+    link_to label, privacy_policy_content_path
+  end
+
   def button_link_to name, url, html_options={}
     link_to name, url,{:class=>'btn'}.merge(html_options)
   end
@@ -9,7 +21,8 @@ module ApplicationHelper
     link_to_unless_current(name, url,{:class=>'btn'}.merge(html_options)) {""}
   end
 
-
+  # Generate a hash containing the order or shop ids if available.
+  # Use to append to links where these details must be preserved
   def with_order_or_shop(order, shop) 
     r = {} 
     if order and order.id

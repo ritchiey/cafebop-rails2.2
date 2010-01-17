@@ -65,7 +65,10 @@
               -default_content_for :content_foot do
                 %span
 
-    #page-footer
+    #page-footer 
+      .links
+        %p
+          =separated([link_to_refund_policy(@shop), link_to_site_terms, link_to_privacy_policy])
       .logo
         =link_to(image_tag('logo.gif', :size=>'200x92'), root_path)
           

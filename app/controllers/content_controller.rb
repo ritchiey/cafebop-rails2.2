@@ -10,6 +10,12 @@ class ContentController < ApplicationController
   end               
   
   def online_order_queuing
+  end        
+  
+  def privacy_policy
+  end
+  
+  def site_terms
   end
   
 end

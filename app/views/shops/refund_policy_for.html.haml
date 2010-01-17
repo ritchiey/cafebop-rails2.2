@@ -1,0 +1,6 @@
+%h4 #{h @shop.name} Refund Policy
+
+-if @shop.refund_policy
+  %pre=h(@shop.refund_policy)
+-else
+  #{h @shop.name} has not specified a refund policy

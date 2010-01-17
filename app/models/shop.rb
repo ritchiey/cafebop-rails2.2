@@ -14,6 +14,8 @@ class Shop < ActiveRecord::Base
     fee_threshold_in_cents :integer, :default=>0
     street_address  :string
     postal_address  :string
+    refund_policy   :text
+    motto           :text
     lat     :float
     lng     :float
     location_accuracy :integer # Google's GGeoAddressAccuracy
@@ -36,7 +38,7 @@ class Shop < ActiveRecord::Base
   # before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :franchise_id
+        :header_background, :franchise_id, :refund_policy
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 

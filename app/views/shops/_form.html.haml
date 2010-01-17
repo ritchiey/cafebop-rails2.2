@@ -49,6 +49,7 @@
     =f.input :website, :hint=>"If one exists"
     =f.input :phone, :hint=>"To call for bookings"
     =f.input :fax, :hint=>"If available"
+    =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
     / =f.input :fee_threshold, :hint=>"Customer must pay the transaction fees on orders less than this amount"
     =f.input :header_background, :hint=>"Upload an image to appear above the shop's menu"
     =f.input :franchise, :hint=>"Does the shop belong to one of these franchises?", :collection=>Cuisine.is_franchise

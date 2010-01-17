@@ -26,7 +26,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :menus, :only=>[:new, :create, :index] # for generic menus
 
   map.resources :shops, :shallow=>true, :collection=>{:search=>:get},
-    :member=>{
+    :member=>{       
+      :refund_policy_for=>:get,
       :reorder_menus=>:post,
       :reorder_item_queues=>:post,
       :reorder_operating_times=>:post,
@@ -69,7 +70,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :content, :only=>[], :collection=>{
     :bounty_conditions=>:get,
-    :why_inaccurate=>:get
+    :why_inaccurate=>:get,
+    :privacy_policy=>:get,
+    :site_terms=>:get
     }
 
 

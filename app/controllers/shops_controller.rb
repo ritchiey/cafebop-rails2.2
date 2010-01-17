@@ -36,7 +36,11 @@ class ShopsController < ApplicationController
       wants.html
       wants.json {render_json @shops.to_json(:only=>[:id, :name])}
     end
-  end        
+  end                                            
+  
+  def refund_policy_for
+    
+  end
   
   def edit
     @shop = Shop.find_by_id_or_permalink(params[:id])
