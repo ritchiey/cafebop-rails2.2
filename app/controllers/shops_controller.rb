@@ -112,14 +112,14 @@ private
     
     def require_manager_or_admin
       unless current_user.is_admin? or @shop.is_manager?(current_user)
-        flash[:error] = "You're not authorised to do that."
+        flash[:error] = "You're not authorized to do that."
         redirect_to new_shop_order_path(@shop)
       end
     end
     
     def require_admin
       unless current_user.is_admin?
-        flash[:error] = "You're not authorised to do that."
+        flash[:error] = "You're not authorized to do that."
         redirect_to new_shop_order_path(@shop)
       end
     end

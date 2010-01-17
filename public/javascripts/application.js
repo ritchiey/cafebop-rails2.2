@@ -1,4 +1,4 @@
-var country_code = 'au';
+var country_code = 'us';
 var domain_name = '.cafebop.com';
 
 
