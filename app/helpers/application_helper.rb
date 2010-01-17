@@ -13,6 +13,10 @@ module ApplicationHelper
     link_to label, faq_content_path, :target=>'_new'
   end
   
+  def link_to_credits(label="Credits")
+    link_to label, credits_content_path, :target=>'_new'
+  end
+  
   def link_to_privacy_policy(label="Privacy")
     link_to label, privacy_policy_content_path, :target=>'_new'
   end

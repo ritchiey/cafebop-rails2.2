@@ -21,4 +21,7 @@ class ContentController < ApplicationController
   def faq
   end
   
+  def credits
+  end
+  
 end

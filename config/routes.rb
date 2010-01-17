@@ -73,7 +73,8 @@ ActionController::Routing::Routes.draw do |map|
     :why_inaccurate=>:get,
     :privacy_policy=>:get,
     :site_terms=>:get,
-    :faq => :get
+    :faq => :get,
+    :credits => :get
     }
 
 
