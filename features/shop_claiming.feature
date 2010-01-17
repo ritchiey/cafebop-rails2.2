@@ -15,7 +15,7 @@ Feature: Claiming Shops
     And I am on the ordering screen for WWW
     Then I should see "WWW"
     When I follow "Claim this Shop"
-    Then I should see "By pressing Claim Now below, you are asserting that you are legally entitled to manage"
+    Then I should see "By pressing Claim Now below, you are asserting that you are the manager and/or owner of WWW and that you agree to be bound by the shop owners terms"
     When I fill in "First name" with "Fred"
     And I fill in "Last name" with "Weasley"
     And I fill in "Agreement" with "i agree"
