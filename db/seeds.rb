@@ -9,31 +9,40 @@ menu_templates = [
                  :yaml_data=>YAML.dump({
                    :name=>'Drinks',
                    :menu_items_attributes=>[
-                       {:name=>'Coffee',
-                        :flavours_attributes=>[
                           {
                             :name=>'Flat White',
-                            :description=>'Frothy Perfection'
+                            :description=>'Frothy Perfection',
+                             :sizes_attributes=>[
+                                 { :name=>'Regular', :price=>'3.80' },
+                                 { :name=>'Large', :price=>'4.50' }
+                          ]
                           }  ,
                           {
                             :name=>'Cappucino',
-                            :description=>'Frothy Perfection plus chocolate sprinkles'
+                            :description=>'Frothy Perfection plus chocolate sprinkles',
+                             :sizes_attributes=>[
+                                 { :name=>'Regular', :price=>'3.80' },
+                                 { :name=>'Large', :price=>'4.50' }
+                          ]
+                            
                           }  ,
                           {
                             :name=>'Expresso',
-                            :description=>''
+                            :description=>'',
+                             :sizes_attributes=>[
+                                 { :name=>'Regular', :price=>'3.80' },
+                                 { :name=>'Large', :price=>'4.50' }
+                          ]
                           }  ,
                           {
                             :name=>'Latte',
-                            :description=>''
-                          }                            
-                        ], # flavours_attributes
-                        :sizes_attributes=>[
-                            { :name=>'Regular', :price=>'3.80' },
-                            { :name=>'Large', :price=>'4.50' }
+                            :description=>'',
+                             :sizes_attributes=>[
+                                 { :name=>'Regular', :price=>'3.80' },
+                                 { :name=>'Large', :price=>'4.50' }
                           ]
-                        }
-                     ]
+                          }                            
+                        ],
                    })
 },
 {  :name=>'Japanese Main',
@@ -82,7 +91,7 @@ menu_templates = [
          "present_flavours"=>false,
          "description"=>"Fried fish with teriyaki sauce & rice"},
         {"position"=>4,
-         "name"=>"Salman Teriyaki",
+         "name"=>"Salmon Teriyaki",
          "sizes_attributes"=>
           [{"position"=>1,
             "extras_price"=>nil,
@@ -93,7 +102,7 @@ menu_templates = [
          "price_in_cents"=>nil,
          "flavours_attributes"=>[],
          "present_flavours"=>false,
-         "description"=>"Grilled salman with teriyaki sauce & rice"},
+         "description"=>"Grilled salmon with teriyaki sauce & rice"},
         {"position"=>5,
          "name"=>"Tempura Prawns",
          "sizes_attributes"=>
@@ -139,20 +148,20 @@ menu_templates = [
          "flavours_attributes"=>
           [{"position"=>1,
             "name"=>"Chicken Roll",
-            "description"=>"Chicken, teriyaki sauce & Mayonnaise"},
+            "description"=>"Chicken, teriyaki sauce & Mayonaise"},
            {"position"=>2,
             "name"=>"Katsu Roll",
-            "description"=>"Carrot, Cucumber, egg, Mayonnaise & katsu chicken"},
+            "description"=>"Carrot, Cucumber, egg, Mayonaise & katsu chicken"},
            {"position"=>3,
             "name"=>"Vagetable Roll",
             "description"=>"Avocado, Cucumber, carrot & lettuce"},
            {"position"=>4,
-            "name"=>"Salman Roll",
-            "description"=>"Cucumber & raw salman"},
+            "name"=>"Salmon Roll",
+            "description"=>"Cucumber & raw salmon"},
            {"position"=>5,
             "name"=>"Colifornia Roll",
             "description"=>
-             "Avocado, Cucumber, carrot crabmeat, egg & mayonnaise"}],
+             "Avocado, Cucumber, carrot crabmeat, egg & mayonaise"}],
          "present_flavours"=>false,
          "description"=>"Rice roll in seaweet "},
         {"position"=>8,
