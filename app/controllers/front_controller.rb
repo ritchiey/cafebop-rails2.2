@@ -7,6 +7,7 @@ class FrontController < ApplicationController
     @search = Search.new           
     if current_user
       @current_orders = current_user.orders.current.recent.newest_first.all
+      @work_contracts = current_user.work_contracts
     end
   end
   
