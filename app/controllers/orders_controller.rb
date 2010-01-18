@@ -14,7 +14,7 @@ class OrdersController < OrdersRelatedController
   before_filter :only_if_pending, :only=>[:edit, :invite]
   before_filter :login_transparently, :only => [:send_invitations]
   before_filter :create_friendship, :only=>[:send_invitations]
-  before_filter :only_if_shop_monitoring_queues, :only => [:pay_in_shop, :pay_paypal]
+  before_filter :only_if_shop_monitoring_queues, :only => [:place, :pay_in_shop, :pay_paypal]
   after_filter :mark_as_mine, :only=>[:create, :accept]
 
   def show  
@@ -184,7 +184,7 @@ class OrdersController < OrdersRelatedController
       format.html {redirect_back_or_default}
       format.json do
         cq = @order.customer_queue
-        (cq ? cq.current_orders.count : 0).to_json
+        render :json=>(cq ? cq.current_orders.count : 0).to_json
       end
     end
   end

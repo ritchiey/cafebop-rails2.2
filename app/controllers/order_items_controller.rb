@@ -10,8 +10,7 @@ class OrderItemsController < ApplicationController
     else
       respond_to do |format|
         format.html {redirect_back_or_default}
-        format.json {"{#{@order_item.order.to_json(:include=>[:order_items])}}"}
-        format.xml {@order_item.order.to_xml(:include=>[:order_items])}
+        format.json {render :json=>"{#{@order_item.order.to_json(:include=>[:order_items])}}"}
       end
     end
   end
