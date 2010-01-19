@@ -6,11 +6,11 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-APPLICATION_DOMAIN= 'cafebop.com'
+APPLICATION_DOMAIN= ENV['APPLICATION_DOMAIN'] || 'cafebop.com'
 SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN 
 CLAIMS_EMAIL = 'support@'+APPLICATION_DOMAIN 
 ORDERING_EMAIL = 'ordering@'+APPLICATION_DOMAIN 
-GOOGLE_API_KEY= 'ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ'
+GOOGLE_API_KEY= ENV['GOOGLE_API_KEY']
 
 # Define session key as a constant
 SESSION_KEY = '_ordertest_session'

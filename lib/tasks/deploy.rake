@@ -1,4 +1,23 @@
 namespace :deploy do
+  
+  namespace :init do
+    task :prod do
+      `heroku config:add APPLICATION_DOMAIN='cafebop.com' --app cafebop-prod`
+      `heroku config:add GOOGLE_API_KEY='ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ' --app cafebop-prod`
+      `heroku config:add COUNTRY_CODE="us" --app cafebop-prod`
+      `heroku config:add AMAZON_ACCESS_KEY_ID=ENV['AMAZON_ACCESS_KEY_ID'] --app cafebop-prod`
+      `heroku config:add AMAZON_SECRET_ACCESS_KEY=ENV['AMAZON_SECRET_ACCESS_KEY'] --app cafebop-prod`
+    end
+    
+    task :au do
+      `heroku config:add APPLICATION_DOMAIN='cafebop.com.au' --app cafebop-au`
+      `heroku config:add GOOGLE_API_KEY='ABQIAAAAuTvlrqlJASuyCXRw3N66QRTM9r-N6Vy06GAayM_7dYsxSpKtkRQt1Q7_tPOv431HMhlsM7zqYJhqeA' --app cafebop-au`
+      `heroku config:add COUNTRY_CODE="au" --app cafebop-au`
+      `heroku config:add AMAZON_ACCESS_KEY_ID=ENV['AMAZON_ACCESS_KEY_ID'] --app cafebop-au`
+      `heroku config:add AMAZON_SECRET_ACCESS_KEY=ENV['AMAZON_SECRET_ACCESS_KEY'] --app cafebop-au`
+    end
+    
+  end
 
   task :merge do
     `git checkout staging`
@@ -29,6 +48,13 @@ namespace :deploy do
   task :prod =>[:merge_master, :push_origin_master] do
     `git push heroku-prod`
     `heroku rake db:migrate --app cafebop-prod`
+    `git checkout work`
+  end
+
+  desc "Deploy to the Australian production Heroku environment"
+  task :au =>[:merge_master, :push_origin_master] do
+    `git push heroku-au master`
+    `heroku rake db:migrate --app cafebop-au`
     `git checkout work`
   end
 

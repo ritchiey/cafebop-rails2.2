@@ -1,5 +1,3 @@
-var country_code = 'us';
-var domain_name = '.cafebop.com';
 
 
 function showControlsAsNeeded() {
@@ -444,7 +442,7 @@ function toPermalink(name) {
 }     
 
 function toShopUrl(name) {
-  return "http://"+toPermalink(name) + domain_name + "/";
+  return "http://"+toPermalink(name) +"."+ domain_name + "/";
 }     
 
 function initialize_geocoder() {
