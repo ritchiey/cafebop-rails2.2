@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
 
   has_many :claims_to_review, :class_name => "Claim", :foreign_key=>:reviewer_id, :conditions=>{:state=>'under_review'}
   has_many :claims, :dependent=>:destroy
-  has_many :work_contracts
+  has_many :work_contracts, :dependent=>:destroy
   has_many :shops, :through => :work_contracts
   has_many :friendships, :class_name =>"Friendship", :foreign_key => "user_id"
   has_many :friends, :through=>:friendships, :source=>:friend #, :order=>'email ASC'

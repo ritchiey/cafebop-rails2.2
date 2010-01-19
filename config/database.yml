@@ -23,7 +23,7 @@ test: &TEST
   # password:
 
 
-production:
+staging:
   adapter: postgresql
   encoding: unicode
   database: cafebop_staging
