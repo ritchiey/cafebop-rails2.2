@@ -10,18 +10,16 @@ The following config environment variables must be set for this application to r
 APPLICATION_DOMAIN
 GOOGLE_API_KEY
 COUNTRY_CODE
+INSTANCE_NAME
                         
 For S3 services:
 AMAZON_ACCESS_KEY_ID
 AMAZON_SECRET_ACCESS_KEY
-
-Heroku (our hosting service) seems to provide APP_NAME automatically and we
-also use that to determine the name of the S3 bucket we'll use.
    
 Create a new rake task in deploy.rake that will respond to "rake deploy:init:your-environment"
 to setup the environment variables for your new environment.
 
-See here: http://docs.heroku.com/config-vars for how to set these on Heroku.
+See here: http://docs.heroku.com/config-vars for more info on how to set these on Heroku.
 
 Additionally, an S3 bucket must be created for each environment to store uploaded
 image files. Run the create_buckets.rb (once only) to create these. Note: This only
