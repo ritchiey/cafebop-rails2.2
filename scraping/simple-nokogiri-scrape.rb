@@ -1,18 +1,27 @@
+#!/usr/bin/ruby
+
 require 'rubygems'
 require 'nokogiri'
+require 'mechanize'
 require 'open-uri'
+require 'yaml'
 
 url = "http://www.bbscafe.com.au/bbs/stores/storeslist.asp?state=QLD&region=Brisbane"
 
 doc = Nokogiri::HTML(open(url))
 
-doc.css('.topbar .topbar table table p').each do |store|
-  children = store.children
-  name = store.at_css("strong:nth-child(1)").text
-  address1 = children[2]
-  address2 = store.at_css("strong:nth-child(4)").text
-  address3 = store.at_css("strong:nth-child(6)").text
-  phone = children[9]
-  
-  p "#{name}: #{address1} #{address2} #{address3}:#{phone}"
+records=doc.css('.topbar .topbar table table p').map do |store|
+  {}.tap do |r|
+    children = store.children
+    r[:name] = store.at_css("strong:nth-child(1)").text
+    r[:street_address] = [
+      children[2].text,
+      store.at_css("strong:nth-child(4)").text,
+      store.at_css("strong:nth-child(6)").text,
+    ].select {|a| a && a.size > 0}.join(' ')
+    r[:phone] = children[9].text
+    r[:website]="http://www.bbscafe.com.au"
+  end
 end
+
+File.open("/Users/ritchiey/franchise_data/bbs-brisbane.yaml", 'w') {|f| YAML.dump(records, f)}
