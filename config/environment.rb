@@ -14,8 +14,8 @@ GOOGLE_API_KEY= ENV['GOOGLE_API_KEY']
 
 # Define session key as a constant
 SESSION_KEY = '_ordertest_session'
-# ENV['RECAPTCHA_PUBLIC_KEY'] = '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
-# ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
+ENV['RECAPTCHA_PUBLIC_KEY'] ||= '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
+ENV['RECAPTCHA_PRIVATE_KEY'] ||= '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
 
 
 Rails::Initializer.run do |config|
