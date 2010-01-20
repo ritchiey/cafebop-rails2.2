@@ -4,10 +4,15 @@ class UsersController < ApplicationController
   before_filter :require_admin_rights, :except=>[:new, :create, :activate]   
 
   make_resourceful do
-    actions :index, :update, :show, :destroy
+    actions :update, :show, :destroy
   end  
                                   
   before_filter :require_valid_captcha, :only=>[:create]
+  
+  def index
+    @page = params[:page]
+    @users = User.all.paginate(:per_page=>20, :page=>@page)
+  end
 
   def edit
     @user = User.find(params[:id])

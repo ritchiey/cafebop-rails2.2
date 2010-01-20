@@ -3,7 +3,7 @@ class ShopsController < ApplicationController
   before_filter :require_login, :except=>[:search]
   before_filter :find_instance, :except=>[:new, :create, :index, :search]          
   before_filter :require_manager_or_admin, :only=>[:edit]
-  before_filter :require_admin, :only => [:destroy]
+  before_filter :require_admin, :only => [:destroy, :index]
 
   def new
     @shop = Shop.new
@@ -25,7 +25,7 @@ class ShopsController < ApplicationController
             
   def index
     @page = params[:page]
-    @shops = Shop.all.shops.paginate(:per_page=>20, :page=>@page)
+    @shops = Shop.all.paginate(:per_page=>20, :page=>@page)
   end
               
   def search

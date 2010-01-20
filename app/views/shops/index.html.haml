@@ -1,4 +1,10 @@
 %h2="#{@shops.size} Shops"
 
 =will_paginate @shops
-%ul= render :partial=>@shops
+
+%table
+  %thead
+    %tr
+      %th Restaurants
+  %tbody
+    != render :partial => 'shops/shop_entry', :collection=>@shops

@@ -14,7 +14,7 @@ module DashboardHelper
   end
 
   def shop_rows
-    tabulate([['Shops', :total], :community, :express, :professional], @stat.shop)
+    tabulate([[link_to('Shops', shops_path), :total], :community, :express, :professional], @stat.shop)
   end        
   
   def claim_rows

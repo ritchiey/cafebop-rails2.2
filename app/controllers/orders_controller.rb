@@ -9,7 +9,7 @@ class OrdersController < OrdersRelatedController
   before_filter :check_paypal_status, :only => [:show]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
   before_filter :only_if_staff_or_admin, :only=>[:deliver]
-  before_filter :require_admin_rights, :only => [:destroy]
+  before_filter :require_admin_rights, :only => [:destroy, :index]
   before_filter :unless_invitation_closed, :only=>[:show, :edit] #TODO: :update?, :confirm?
   before_filter :only_if_pending, :only=>[:edit, :invite]
   before_filter :login_transparently, :only => [:send_invitations]
@@ -43,6 +43,7 @@ class OrdersController < OrdersRelatedController
        redirect_to new_shop_order_path
     end
   end
+
                               
   def edit
     @shop = @order.shop
