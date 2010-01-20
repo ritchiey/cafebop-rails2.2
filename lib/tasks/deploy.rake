@@ -3,30 +3,45 @@ namespace :deploy do
   namespace :init do   
     
     task :staging do
-      `heroku config:add INSTANCE_NAME='cafebop_staging' --app cafebop-staging`
-      `heroku config:add APPLICATION_DOMAIN='staging.cafebop.com' --app cafebop-staging`
-      `heroku config:add GOOGLE_API_KEY='ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ' --app cafebop-staging`
-      `heroku config:add COUNTRY_CODE="us" --app cafebop-staging`
-      `heroku config:add AMAZON_ACCESS_KEY_ID=#{ENV['AMAZON_ACCESS_KEY_ID']} --app cafebop-staging`
-      `heroku config:add AMAZON_SECRET_ACCESS_KEY=#{ENV['AMAZON_SECRET_ACCESS_KEY']} --app cafebop-staging`
+      vars = {
+      :INSTANCE_NAME=>'cafebop_staging',
+      :APPLICATION_DOMAIN=>'staging.cafebop.com',
+      :GOOGLE_API_KEY=>'ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ',
+      :COUNTRY_CODE=>"us",
+      :AMAZON_ACCESS_KEY_ID=>ENV['AMAZON_ACCESS_KEY_ID'],
+      :AMAZON_SECRET_ACCESS_KEY=>ENV['AMAZON_SECRET_ACCESS_KEY'],
+      :RECAPTCHA_PUBLIC_KEY=>'6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV',
+      :RECAPTCHA_PRIVATE_KEY=>'6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
+      }.to_a.map{|v| "#{v[0].to_s}='#{v[1]}'"}.join(' ')
+      puts `heroku config:add #{vars} --app cafebop-staging`
     end
     
     task :prod do
-      `heroku config:add INSTANCE_NAME='cafebop_prod' --app cafebop-prod`
-      `heroku config:add APPLICATION_DOMAIN='cafebop.com' --app cafebop-prod`
-      `heroku config:add GOOGLE_API_KEY='ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ' --app cafebop-prod`
-      `heroku config:add COUNTRY_CODE="us" --app cafebop-prod`
-      `heroku config:add AMAZON_ACCESS_KEY_ID=#{ENV['AMAZON_ACCESS_KEY_ID']} --app cafebop-prod`
-      `heroku config:add AMAZON_SECRET_ACCESS_KEY=#{ENV['AMAZON_SECRET_ACCESS_KEY']} --app cafebop-prod`
+      vars = {
+      :INSTANCE_NAME=>'cafebop_prod',
+      :APPLICATION_DOMAIN=>'cafebop.com',
+      :GOOGLE_API_KEY=>'ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ',
+      :COUNTRY_CODE=>"us",
+      :AMAZON_ACCESS_KEY_ID=>ENV['AMAZON_ACCESS_KEY_ID'],
+      :AMAZON_SECRET_ACCESS_KEY=>ENV['AMAZON_SECRET_ACCESS_KEY'],
+      :RECAPTCHA_PUBLIC_KEY=>'6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV',
+      :RECAPTCHA_PRIVATE_KEY=>'6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4',
+      }.to_a.map{|v| "#{v[0].to_s}='#{v[1]}'"}.join(' ')
+      puts `heroku config:add #{vars} --app cafebop-prod`
     end
     
     task :au do
-      `heroku config:add INSTANCE_NAME='cafebop_au' --app cafebop-au`
-      `heroku config:add APPLICATION_DOMAIN='cafebop.com.au' --app cafebop-au`
-      `heroku config:add GOOGLE_API_KEY='ABQIAAAAuTvlrqlJASuyCXRw3N66QRTM9r-N6Vy06GAayM_7dYsxSpKtkRQt1Q7_tPOv431HMhlsM7zqYJhqeA' --app cafebop-au`
-      `heroku config:add COUNTRY_CODE="au" --app cafebop-au`
-      `heroku config:add AMAZON_ACCESS_KEY_ID=#{ENV['AMAZON_ACCESS_KEY_ID']} --app cafebop-au`
-      `heroku config:add AMAZON_SECRET_ACCESS_KEY=#{ENV['AMAZON_SECRET_ACCESS_KEY']} --app cafebop-au`
+      vars = {
+        :INSTANCE_NAME=>'cafebop_au',
+        :APPLICATION_DOMAIN=>'cafebop.com.au',
+        :GOOGLE_API_KEY=>'ABQIAAAAuTvlrqlJASuyCXRw3N66QRTM9r-N6Vy06GAayM_7dYsxSpKtkRQt1Q7_tPOv431HMhlsM7zqYJhqeA',
+        :COUNTRY_CODE=>"au",
+        :AMAZON_ACCESS_KEY_ID=>ENV['AMAZON_ACCESS_KEY_ID'],
+        :AMAZON_SECRET_ACCESS_KEY=>ENV['AMAZON_SECRET_ACCESS_KEY'],
+        :RECAPTCHA_PUBLIC_KEY=>'6LeWoAoAAAAAAI5kut-DpBlsJwhgu8Aj_xf-XKfo',
+        :RECAPTCHA_PRIVATE_KEY=>'6LeWoAoAAAAAACTCG15ayy4BlYpHMdbvCXAskUfW'
+      }.to_a.map{|v| "#{v[0].to_s}='#{v[1]}'"}.join(' ')
+      puts `heroku config:add #{vars} --app cafebop-au`
     end
     
   end
