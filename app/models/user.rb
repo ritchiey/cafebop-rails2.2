@@ -83,6 +83,11 @@ class User < ActiveRecord::Base
   def manages?(shop)
     shop && work_contracts.exists?(:shop_id=>shop.id, :role=>'manager')
   end
+  
+  def works_at?(shop)
+    shop && work_contracts.exists?(:shop_id=>shop.id, :role=>['staff', 'manager'])
+  end
+  
 
   def self.stats
     {

@@ -3,7 +3,7 @@
     %tr
       %th Friends
   %tbody
-    =render :partial=>'friendships/friendship', :collection=>current_user.friendships
+    =render :partial=>'friendships/friendship', :collection=>@friendships
     %tr
       -form_for current_user.friendships.build, :url=>user_friendships_path(current_user) do |ff|
         %td(span=2)
