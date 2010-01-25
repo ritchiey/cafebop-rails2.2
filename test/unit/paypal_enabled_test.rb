@@ -12,13 +12,13 @@ class PaypalEnabledTest < ActiveSupport::TestCase
       @order = Order.make(:shop=>@shop)
     end
 
-    should "return appropriate paypal_json" do
+    should_eventually "return appropriate paypal_json" do
       json = ActiveSupport::JSON
       payment = json.decode(@order.send :payment_json)
       assert_equal 'PAY', payment['actionType']
     end
     
-    should "be able to get the payment token from PayPal" do
+    should_eventually "be able to get the payment token from PayPal" do
       response = @order.request_paypal_authorization!
       assert response.succeeded?
       assert_not_nil response.pay_key

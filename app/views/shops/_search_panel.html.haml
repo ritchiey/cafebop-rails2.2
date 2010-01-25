@@ -31,9 +31,11 @@
     });
 
     google.load("maps", "2");
-    google.setOnLoadCallback(initialize_geocoder);
+    //google.setOnLoadCallback(initialize_geocoder);
 
-
+    $(function() { // page ready
+      initialize_geocoder
+    }   
 
 .search-panel       
   &nbsp;

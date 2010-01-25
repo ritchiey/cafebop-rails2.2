@@ -4,7 +4,7 @@ require 'digest/sha1'
 class Order < ActiveRecord::Base
   
   include OrderInvitation       
-  include PaypalEnabled
+#  include PaypalEnabled
                         
   fields do
     notes :text

@@ -3,7 +3,7 @@
   %h3=h shop.name
   %p
     =h shop.street_address
-  -if shop.can_have_queues? and current_user.works_at?(shop)
+  -if current_user.andand.can_access_queues_of?(shop)
     %h6 Queues
     =separated((shop.customer_queues + shop.item_queues).map {|q| link_to(q.name,q)})
   

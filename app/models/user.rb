@@ -87,7 +87,10 @@ class User < ActiveRecord::Base
   def works_at?(shop)
     shop && work_contracts.exists?(:shop_id=>shop.id, :role=>['staff', 'manager'])
   end
-  
+
+  def can_access_queues_of?(shop)
+    shop.can_have_queues? and (works_at?(shop) or is_admin?)  
+  end
 
   def self.stats
     {
