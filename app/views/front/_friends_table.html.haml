@@ -5,7 +5,7 @@
   %tbody
     =render :partial=>'friendships/friendship', :collection=>@friendships
     %tr
-      -form_for current_user.friendships.build, :url=>user_friendships_path(current_user) do |ff|
-        %td(span=2)
+      %td(span=2)
+        -form_for current_user.friendships.build, :url=>user_friendships_path(current_user) do |ff|
           =ff.text_field :friend_email
           =submit_tag "Add Friend", :class=>'add-btn'

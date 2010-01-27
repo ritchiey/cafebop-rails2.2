@@ -23,7 +23,7 @@ class OrderItemsController < ApplicationController
   def only_if_staff
     order = @order_item.order
     shop = order.shop
-    unless shop.is_staff?(current_user)
+    unless current_user and current_user.can_access_queues_of?(shop)
       flash[:error] = "Ummm... no."
       redirect_to new_shop_order_path(shop)
     end

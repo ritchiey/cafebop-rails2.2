@@ -38,7 +38,11 @@ class OrderItemsControllerTest < ActionController::TestCase
       context "who is a staff member of the store from which the item has been ordered" do
         setup do
           shop = @order_item.order.shop
+          Shop.any_instance.stubs(:"can_have_queues?").returns(true)
           shop.work_contracts.make(:user=>@user, :role=>'staff')
+          assert @user.works_at?(shop)
+          assert shop.can_have_queues?
+          assert @user.can_access_queues_of?(shop)
         end
 
         should "be able to make it" do

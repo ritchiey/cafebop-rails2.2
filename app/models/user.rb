@@ -89,7 +89,11 @@ class User < ActiveRecord::Base
   end
 
   def can_access_queues_of?(shop)
-    shop.can_have_queues? and (works_at?(shop) or is_admin?)  
+    shop and shop.can_have_queues? and (works_at?(shop) or is_admin?)  
+  end
+
+  def can_manage_queues_of?(shop)
+    shop and shop.can_have_queues? and (manages?(shop) or is_admin?)  
   end
 
   def self.stats
