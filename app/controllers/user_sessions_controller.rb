@@ -1,4 +1,4 @@
-class UserSessionsController < ApplicationController
+class UserSessionsController < ApplicationController 
   def new
     @user_session = UserSession.new
     @user_session.errors.clear
@@ -13,8 +13,12 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     respond_to do |format|
-      format.json do
-        
+      format.iphone do
+        if @user_session.save
+          render :json=>@user_session.user.name.to_json
+        else
+          render :json=>false.to_json
+        end
       end
       format.html do
         if @user_session.save
