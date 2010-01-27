@@ -141,8 +141,8 @@ private
     request.format = :iphone if iphone_user_agent?
   end
 
-  # Return true for requests to iphone.trawlr.com
-  def iphone_user_agent?
+  def iphone_user_agent?           
+    # return true
     request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
     # return (request.subdomains.first == "iphone" || params[:format] == "iphone")
   end
