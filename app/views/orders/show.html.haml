@@ -9,8 +9,8 @@
 -content_for :content_foot do
   -if @order.pending?
     =link_to "Change", edit_order_path(@order), :method=>:get, :id=>'change-button'
-  .pay-box    
-    -if @order.pending?
+  -if @order.pending?
+    .pay-box    
       -semantic_form_for @order, :url=>place_order_path(@order) do |f|
         -f.buttons do
           -if @shop.accepts_paypal_payments?
@@ -22,8 +22,8 @@
             %br
           -if @shop.accepts_in_shop_payments?
             =submit_tag "Pay In Shop", :id=>'pay-in-shop-button', :class=>'order-closed', :disabled=>@order.waiting_for_close?
-    -elsif @order.confirmed?
-      %h3 Order confirmed
+  -elsif @order.confirmed?
+    %h3 Order confirmed
       
 .no-print
   -if @order.pending?
