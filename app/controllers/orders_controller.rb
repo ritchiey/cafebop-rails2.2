@@ -65,7 +65,8 @@ class OrdersController < OrdersRelatedController
   def place          
     case (params[:commit])
     when 'Pay In Shop': pay_in_shop
-    when 'Pay with PayPal': pay_paypal
+    else # Pay PayPal is an image submit tag and doesn't have a value
+      pay_paypal
     end
   end
 

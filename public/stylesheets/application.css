@@ -70,7 +70,7 @@ h6 {
   border: 5px solid #494848;
   cursor: pointer; }
 
-#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, #pay-paypal-button, #pay-in-shop-button, #continue-order-button {
+#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, #pay-in-shop-button, #continue-order-button {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   clear: both;
@@ -88,12 +88,9 @@ h6 {
   background-repeat: no-repeat;
   padding: 5px 55px 5px 15px; }
 
-#pay-paypal-button {
-  margin-top: 1em;
-  width: 12em; }
-
 #pay-in-shop-button {
-  width: 12em; }
+  margin-top: 1em;
+  width: 10em; }
 
 .confirm-link {
   float: right; }
