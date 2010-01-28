@@ -89,9 +89,10 @@ class OrdersController < OrdersRelatedController
                   }       
                  ]      
     options = {
+      :currency_code => 'AUD',
       :return_url => order_url(@order),
       :cancel_url => cancel_paypal_order_url(@order),
-      :notify_url => "http://209.40.206.88:5555#{payment_notifications_path}",
+      :notify_url => payment_notifications_url,
       :receiver_list => recipients
     }           
     response = gateway.pay(options)
