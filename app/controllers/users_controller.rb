@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     if @user.save
       # If we were in the middle of an order when the account was created,
       # associate it with the account so that user can continue after confirm.
-      @user.add_favourite(@shop) if @shop
+      @user.add_favourite(@shop.id) if @shop
       if @order and @order.mine?(nil, session[:order_token])
         @order.user = @user
         @order.save

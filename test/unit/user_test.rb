@@ -43,13 +43,21 @@ class UserTest < ActiveSupport::TestCase
         WorkContract.make(:user=>@user, :shop=>@my_shop, :role=>'manager')
         @other_shop = Shop.make
         @other_shop_worked_at = Shop.make
-        WorkContract.make(:user=>@user, :shop=>@my_shop, :role=>'staff')
+        @user.work_contracts.make(:shop=>@other_shop_worked_at, :role=>'staff')
+        assert @user.works_at?(@other_shop_worked_at)
       end
 
       should "only manage his own shop" do
         assert @user.manages?(@my_shop)
         assert !@user.manages?(@other_shop)
         assert !@user.manages?(@shop_worked_at)
+      end
+      
+      should "not create another work_contract for his own restaurant" do
+        assert_no_difference "@user.work_contracts.count" do
+          @user.add_favourite(@my_shop.id)
+        end
+        assert @user.manages?(@my_shop)
       end
       
     end

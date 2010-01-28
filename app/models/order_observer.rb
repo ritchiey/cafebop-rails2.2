@@ -4,7 +4,7 @@ class OrderObserver < ActiveRecord::Observer
     order.invited? and Notifications.send_later(:deliver_invite, order)
     
     if user = order.user
-      user.work_contracts.find_or_create_by_shop_id(order.shop_id)
+      user.add_favourite(order.shop_id)
     end
   end        
   

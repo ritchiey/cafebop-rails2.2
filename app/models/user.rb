@@ -48,8 +48,8 @@ class User < ActiveRecord::Base
                                            
   def to_s() name || shortened_email; end 
   
-  def add_favourite(shop)
-    work_contracts.create(:shop=>shop, :role=>'patron')
+  def add_favourite(shop_id)
+    work_contracts.find_or_create_by_shop_id(shop_id)
   end
 
   def make_admin

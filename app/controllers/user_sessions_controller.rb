@@ -23,7 +23,7 @@ class UserSessionsController < ApplicationController
       format.html do
         if @user_session.save
           if user = @user_session.user
-            user.add_favourite(@shop) if @shop
+            user.add_favourite(@shop.id) if @shop
             if @order and @order.mine?(nil, session[:order_token])
               @order.user = user
               @order.save

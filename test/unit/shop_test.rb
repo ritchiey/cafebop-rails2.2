@@ -82,6 +82,24 @@ class ShopTest < ActiveSupport::TestCase
       claim = @shop.claims.make_unsaved(:user=>user)
       assert !claim.save
     end
+    
+    context "that is claimed by an existing patron" do
+      setup do
+        @user = User.make(:active)
+        assert_difference "@shop.patrons.count", 1 do
+          @user.work_contracts.find_or_create_by_shop_id(@shop.id)
+        end                           
+        assert_no_difference "@user.work_contracts.count" do
+          @shop.claim!(@user)
+        end
+      end
+
+      should "have that user as its manager only" do
+        assert_same_elements [@user], @shop.managers
+        assert_same_elements [], @shop.patrons
+      end
+    end
+    
 
     context "with a given cuisine" do
       setup do

@@ -77,6 +77,7 @@ class Shop < ActiveRecord::Base
   has_many :operating_times, :dependent=>:destroy, :order=>:position 
   has_many :claims, :dependent=>:destroy
   has_many :work_contracts, :dependent=>:destroy
+  has_many :patrons, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'patron'"]
   has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
   has_many :managers, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'manager'"]
   has_many :service_areas
@@ -201,7 +202,7 @@ class Shop < ActiveRecord::Base
   end
 
   def claim!(user)
-    if community?
+    if community?             
       wc = work_contracts.find(:first, :conditions=>{:user_id=>user.id})
       wc ||= work_contracts.build(:user=>user, :role=>'manager')
       wc.role = 'manager'
