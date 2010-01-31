@@ -44,6 +44,8 @@
         Sit tight. #{@order.parent.name} should be back soon.
       -else
         Your order is ready. Head down to #{@order.shop} to collect it.
+    -when 'delivered'
+      This order has been filled.
     -when 'confirmed'
       #{@order.parent.name} will pickup your order for you.
     -when 'pending_paypal_auth'

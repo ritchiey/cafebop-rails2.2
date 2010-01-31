@@ -94,7 +94,24 @@ class ShopsController < ApplicationController
     @shop.destroy
     flash[:notice] = "Successfully destroyed shop."
     redirect_to root_path
+  end    
+  
+  
+  def import_form
   end
+
+
+  def import  
+    data = params[:data]
+    StringIO.open(data, 'r') do |io|
+      io.each_line do |line|
+        line.split(/,\s*/)
+        Cuisine.find_or_create_by_name(:name=>line, :franchise=>franchise)
+      end
+    end
+    redirect_to cuisines_path
+  end
+  
     
 private
 

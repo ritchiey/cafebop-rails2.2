@@ -1,7 +1,7 @@
 -order = summary_rows
 != render :partial => 'order_item', :collection=>order.order_items, :locals=>{:show_user=>show_user}
 
--if show_user and order.is_in_group?
+-if show_user and order.is_in_group? and !(order.invited? or order.declined?)
   %tr.sub-total
     %td(colspan="2")  
     %td #{h order.name} pays
