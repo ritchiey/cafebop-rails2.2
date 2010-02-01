@@ -25,7 +25,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :menus, :only=>[:new, :create, :index] # for generic menus
 
-  map.resources :shops, :shallow=>true, :collection=>{:search=>:get},
+  map.resources :shops, :shallow=>true,
+    :collection=>{:search=>:get, :import_form=>:get, :import=>:get},
     :member=>{       
       :refund_policy_for=>:get,
       :reorder_menus=>:post,

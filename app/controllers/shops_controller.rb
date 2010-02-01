@@ -3,7 +3,7 @@ class ShopsController < ApplicationController
   before_filter :require_login, :except=>[:search, :show]
   before_filter :find_instance, :except=>[:new, :create, :index, :search]          
   before_filter :require_manager_or_admin, :only=>[:edit]
-  before_filter :require_admin, :only => [:destroy, :index]
+  before_filter :require_admin, :only => [:destroy, :index, :import_form, :import]
 
   def new
     @shop = Shop.new
@@ -105,11 +105,11 @@ class ShopsController < ApplicationController
     data = params[:data]
     StringIO.open(data, 'r') do |io|
       io.each_line do |line|
-        line.split(/,\s*/)
-        Cuisine.find_or_create_by_name(:name=>line, :franchise=>franchise)
+        (name, phone, address) = line.split(/,\s*/)
+        Shop.find_or_create_by_name(:name=>name, :phone=>phone, :street_address=>address)
       end
     end
-    redirect_to cuisines_path
+    redirect_to shops_path
   end
   
     
