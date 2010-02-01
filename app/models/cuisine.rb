@@ -21,21 +21,28 @@ class Cuisine < ActiveRecord::Base
   named_scope :is_not_franchise, :conditions=>{:franchise=>false}
   
   def self.matching_name name
-    Cuisine.regex_not_null.map do |cuisine|
+    Cuisine.is_franchise.map do |franchise|
+      franchise.matches_name(name) and return([franchise])
+    end
+    Cuisine.is_not_franchise.map do |cuisine|
       cuisine.matches_name(name) ? cuisine : nil
     end.select {|c| c }
   end
   
   
-  def matches_name name
-    return false unless name and regex and regex.strip.length > 0
+  def matches_name shop_name
+    return false unless shop_name
     begin
-      regexp = Regexp.new(regex, Regexp::IGNORECASE)
-      regexp.match(name)
+      regexp = Regexp.new(matching_pattern, Regexp::IGNORECASE)
+      regexp.match(shop_name)
     rescue RegexpError
       RAILS_DEFAULT_LOGGER.warn "Possibly invalid regex '#{regex}' on cuisine '#{name}'"
       nil
     end
+  end                                                 
+  
+  def matching_pattern
+      @matching_pattern ||= (regex and regex.strip.length > 0) ? regex : name
   end
   
 end
