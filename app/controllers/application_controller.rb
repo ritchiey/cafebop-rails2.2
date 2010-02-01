@@ -131,6 +131,14 @@ protected
 
 private
 
+  def current_user_collections
+    if current_user
+      @current_orders = current_user.orders.current.recent.newest_first.all
+      @work_contracts = current_user.work_contracts.all(:include=>[:shop])
+      @friendships = current_user.friendships.all(:include=>[:friend])
+    end
+  end
+
   def unauthorized
     flash[:notice] = "You're not authorized to do that."
     redirect_to root_path
