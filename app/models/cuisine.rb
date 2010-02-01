@@ -28,14 +28,14 @@ class Cuisine < ActiveRecord::Base
   
   
   def matches_name name
-    return false unless regex and name
-    # begin
+    return false unless name and regex and regex.strip.length > 0
+    begin
       regexp = Regexp.new(regex, Regexp::IGNORECASE)
       regexp.match(name)
-    # rescue                    
-    #   RAILS_DEFAULT_LOGGER.warn "Possibly invalid regex '#{regex}' on cuisine '#{name}'"
-    #   nil
-    # end
+    rescue RegexpError
+      RAILS_DEFAULT_LOGGER.warn "Possibly invalid regex '#{regex}' on cuisine '#{name}'"
+      nil
+    end
   end
   
 end

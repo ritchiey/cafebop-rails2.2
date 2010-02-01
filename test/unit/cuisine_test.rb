@@ -33,6 +33,8 @@ class CuisineTest < ActiveSupport::TestCase
       @cafe = Cuisine.make(:name=>'Cafe', :regex=>'coffee|cafe')
       @pizzeria = Cuisine.make(:name=>'Pizza', :regex=>'pizza|pizzeria')
       @pasta = Cuisine.make(:name=>'Pasta')
+      @death = Cuisine.make(:name=>'Death', :regex=>'')
+      @disaster = Cuisine.make(:name=>'Disaster', :regex=>'(incomlet')
     end
     
     should "match names appropriately" do

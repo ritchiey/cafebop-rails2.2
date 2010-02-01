@@ -22,7 +22,6 @@ class CuisinesController < ApplicationController
   def create
     @cuisine = Cuisine.new(params[:cuisine])
     if @cuisine.save
-      flash[:notice] = "Successfully created cuisine."
       redirect_to cuisines_path
     else
       render :action => 'new'
@@ -36,7 +35,6 @@ class CuisinesController < ApplicationController
   def update
     @cuisine = Cuisine.find(params[:id])
     if @cuisine.update_attributes(params[:cuisine])
-      flash[:notice] = "Successfully updated cuisine."
       redirect_to cuisines_path
     else
       render :action => 'edit'
@@ -46,7 +44,6 @@ class CuisinesController < ApplicationController
   def destroy
     @cuisine = Cuisine.find(params[:id])
     @cuisine.destroy
-    flash[:notice] = "Successfully destroyed cuisine."
     redirect_to cuisines_url
   end      
   
