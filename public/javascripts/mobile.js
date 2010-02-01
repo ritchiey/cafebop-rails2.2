@@ -1,20 +1,12 @@
 var jQT = $.jQTouch({
     icon: '/images/icon.png',
-       formSelector: '.form',
+    formSelector: 'form.ajax',
     statusBar: 'black-translucent',
     preloadImages: [
     ]
 });                               
 
-$('a.login').tap(function(e) { 
-  var $form = $(this).closest("form");
-  return app.login($form);   
-});
 
-$('form#login').submit(function(e) {
-  var $form = $(this);
-  return app.login($form)
-});
 
 var app = {
   login: function($form) {
@@ -57,6 +49,16 @@ var app = {
 
 
 $(function() { // on page ready
+  
+  $('a.login').tap(function(e) { 
+    var $form = $(this).closest("form");
+    return app.login($form);   
+  });
+
+  $('form#login').submit(function(e) {
+    var $form = $(this);
+    return app.login($form)
+  });  
   
   $('#logout-button').tap(function(e) {
     var $form = $('form#logout');

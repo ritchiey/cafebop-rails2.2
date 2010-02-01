@@ -143,8 +143,8 @@ private
 
   def iphone_user_agent?           
     # return true
-    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
-    # return (request.subdomains.first == "iphone" || params[:format] == "iphone")
+    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/] or
+    request.subdomains.first == "iphone" or params[:format] == "iphone"
   end
   
   
