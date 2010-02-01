@@ -47,6 +47,8 @@ class Shop < ActiveRecord::Base
   validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
   # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
 
+  after_create :guess_cuisines
+
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
   end 
@@ -301,5 +303,10 @@ class Shop < ActiveRecord::Base
   def calc_permalink
     self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "").downcase
   end
+  
+  def guess_cuisines
+    Cuisine.matching_name(name).each {|c| shop_cuisines.create(:cuisine=>c)}
+  end    
+
 
 end

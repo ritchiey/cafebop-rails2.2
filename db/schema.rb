@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100117025421) do
+ActiveRecord::Schema.define(:version => 20100201072650) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20100117025421) do
     t.datetime "updated_at"
     t.boolean  "franchise",  :default => false
     t.string   "url"
+    t.string   "regex"
   end
 
   create_table "customer_queues", :force => true do |t|

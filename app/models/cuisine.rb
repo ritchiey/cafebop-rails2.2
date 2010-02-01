@@ -4,12 +4,13 @@ class Cuisine < ActiveRecord::Base
     name  :string    
     franchise  :boolean, :default=>false
     url   :string
+    regex :string
     timestamps
   end
   
   default_scope :order=>:name
   
-  attr_accessible :name, :menu_ids, :franchise, :url
+  attr_accessible :name, :menu_ids, :franchise, :url, :regex
   
   has_many :shop_cuisines
   has_many :shops, :through => :shop_cuisines
@@ -18,5 +19,23 @@ class Cuisine < ActiveRecord::Base
   
   named_scope :is_franchise, :conditions=>{:franchise=>true}
   named_scope :is_not_franchise, :conditions=>{:franchise=>false}
+  
+  def self.matching_name name
+    Cuisine.regex_not_null.map do |cuisine|
+      cuisine.matches_name(name) ? cuisine : nil
+    end.select {|c| c }
+  end
+  
+  
+  def matches_name name
+    return false unless regex and name
+    # begin
+      regexp = Regexp.new(regex, Regexp::IGNORECASE)
+      regexp.match(name)
+    # rescue                    
+    #   RAILS_DEFAULT_LOGGER.warn "Possibly invalid regex '#{regex}' on cuisine '#{name}'"
+    #   nil
+    # end
+  end
   
 end

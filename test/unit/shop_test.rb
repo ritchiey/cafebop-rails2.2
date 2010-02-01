@@ -2,7 +2,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ShopTest < ActiveSupport::TestCase
 
-  
   context "a shop" do
     setup do
       @shop = Shop.make
@@ -145,10 +144,29 @@ class ShopTest < ActiveSupport::TestCase
           assert !@shop.accepts_paypal_payments?
         end
 
-        
-        
       end
     end
     
   end
+
+  context "With a bunch of cuisines" do
+    setup do
+      @cafe = Cuisine.make(:name=>'Cafe', :regex=>'coffee|cafe')
+      @pizzeria = Cuisine.make(:name=>'Pizza', :regex=>'pizza|pizzeria')
+      @pasta = Cuisine.make(:name=>'Pasta')
+    end
+
+    context "a new shop" do
+      setup do
+        @shop = Shop.make(:name=>"Bob's Pizza Palace")
+      end
+
+      should "automatically get the right cuisine" do
+        assert_same_elements [@pizzeria], @shop.cuisines
+      end
+    end
+    
+  end
+  
+
 end

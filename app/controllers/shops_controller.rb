@@ -26,7 +26,7 @@ class ShopsController < ApplicationController
             
   def index
     @page = params[:page]
-    @shops = Shop.all.paginate(:per_page=>20, :page=>@page)
+    @shops = Shop.ascend_by_name.paginate(:per_page=>20, :page=>@page)
   end
               
   def search
@@ -106,7 +106,7 @@ class ShopsController < ApplicationController
     data = params[:data]
     StringIO.open(data, 'r') do |io|
       io.each_line do |line|
-        (name, phone, address) = line.split(/,\s*/)
+        (name, phone, address) = line.split(/\|\s*/)
         Shop.find_or_create_by_name(:name=>name, :phone=>phone, :street_address=>address)
       end
     end
