@@ -18,6 +18,7 @@ def scrape(url, out_file)
       next if address =~ /PO Box/io
       next if name =~ /pty ltd/io
       next unless name =~ /lunch|cafe|pizza|pizzeria|away|kebab|donut/io
+      next if name =~ /fine|cuisine/io
       out.puts "#{name}|#{phone}|#{address}"
     end
   end
