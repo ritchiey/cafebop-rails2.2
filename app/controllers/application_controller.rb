@@ -25,10 +25,10 @@ class ApplicationController < ActionController::Base
   
   def gateway
     @gateway ||= ActiveMerchant::Billing::PaypalAdaptivePaymentGateway.new(
-     :login => 'us_1261469612_biz_api1.cafebop.com',
-     :password => '1261469614',
-     :signature => 'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB',
-     :appid => 'APP-80W284485P519543T'
+     :login => ENV['PAYPAL_LOGIN'] || 'us_1261469612_biz_api1.cafebop.com',
+     :password => ENV['PAYPAL_PASSWORD'] || '1261469614',
+     :signature => ENV['PAYPAL_SIGNATURE'] || 'A4ST5PBqjKmYFbqmR24zb37caokmALi8VgzXjcetjlgH7hvloAlXecuB',
+     :appid => ENV['PAYPAL_APP_ID'] || 'APP-80W284485P519543T'
     )
   end
 

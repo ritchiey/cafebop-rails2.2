@@ -15,6 +15,13 @@ INSTANCE_NAME
 For S3 services:
 AMAZON_ACCESS_KEY_ID
 AMAZON_SECRET_ACCESS_KEY
+
+For PayPal (production only. Test environments will default to some hardcoded sandbox values):  
+PAYPAL_LOGIN
+PAYPAL_PASSWORD
+PAYPAL_SIGNATURE
+PAYPAL_APP_ID
+
    
 Create a new rake task in deploy.rake that will respond to "rake deploy:init:your-environment"
 to setup the environment variables for your new environment.

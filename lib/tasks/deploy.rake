@@ -11,7 +11,7 @@ namespace :deploy do
       :AMAZON_ACCESS_KEY_ID=>ENV['AMAZON_ACCESS_KEY_ID'],
       :AMAZON_SECRET_ACCESS_KEY=>ENV['AMAZON_SECRET_ACCESS_KEY'],
       :RECAPTCHA_PUBLIC_KEY=>'6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV',
-      :RECAPTCHA_PRIVATE_KEY=>'6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
+      :RECAPTCHA_PRIVATE_KEY=>'6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4',
       }.to_a.map{|v| "#{v[0].to_s}='#{v[1]}'"}.join(' ')
       puts `heroku config:add #{vars} --app cafebop-staging`
     end
