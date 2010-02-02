@@ -1,0 +1,528 @@
+--- 
+- :yaml_data: |
+    --- 
+    :menu_items_attributes: 
+    - :description: Frothy Perfection
+      :sizes_attributes: 
+      - :price: "3.80"
+        :name: Regular
+      - :price: "4.50"
+        :name: Large
+      :name: Flat White
+    - :description: Frothy Perfection plus chocolate sprinkles
+      :sizes_attributes: 
+      - :price: "3.80"
+        :name: Regular
+      - :price: "4.50"
+        :name: Large
+      :name: Cappucino
+    - :description: ""
+      :sizes_attributes: 
+      - :price: "3.80"
+        :name: Regular
+      - :price: "4.50"
+        :name: Large
+      :name: Expresso
+    - :description: ""
+      :sizes_attributes: 
+      - :price: "3.80"
+        :name: Regular
+      - :price: "4.50"
+        :name: Large
+      :name: Latte
+    :name: Coffees
+
+  :name: Cafe Drinks
+- :yaml_data: |
+    --- 
+    name: Japanese
+    permalink: Japanese
+    position: 1
+    is_extras: 
+    menu_items_attributes: 
+    - flavours_attributes: []
+    
+      name: Chicken Teriyaki
+      position: 1
+      price_in_cents: 890
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Regular
+        extras_price: 
+        position: 1
+        price_in_cents: 890
+        description: 
+      description: Grilled chicken with teriyaki sauce & rice
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Beef Teriyaki
+      position: 2
+      price_in_cents: 890
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Regular
+        extras_price: 
+        position: 1
+        price_in_cents: 890
+        description: 
+      description: Grilled beef with teriyaki sauce & rice
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Fish Teriyaki
+      position: 3
+      price_in_cents: 890
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Regular
+        extras_price: 
+        position: 1
+        price_in_cents: 890
+        description: 
+      description: Fried fish with teriyaki sauce & rice
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Salmon Teriyaki
+      position: 4
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Regular
+        extras_price: 
+        position: 1
+        price_in_cents: 890
+        description: 
+      description: Grilled salmon with teriyaki sauce & rice
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Tempura Prawns
+      position: 5
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Regular
+        extras_price: 
+        position: 1
+        price_in_cents: 1280
+        description: 
+      description: Fried prawn with tempura sauce & rice
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: "Vegetable Tempura "
+      position: 6
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Regular
+        extras_price: 
+        position: 1
+        price_in_cents: 890
+        description: 
+      description: Lightly battered seasonal vegetables with tempura sauce & rice
+      present_flavours: false
+    - flavours_attributes: 
+      - name: Chicken Roll
+        position: 1
+        description: Chicken, teriyaki sauce & Mayonaise
+      - name: Katsu Roll
+        position: 2
+        description: Carrot, Cucumber, egg, Mayonaise & katsu chicken
+      - name: Vagetable Roll
+        position: 3
+        description: Avocado, Cucumber, carrot & lettuce
+      - name: Salmon Roll
+        position: 4
+        description: Cucumber & raw salmon
+      - name: Colifornia Roll
+        position: 5
+        description: Avocado, Cucumber, carrot crabmeat, egg & mayonaise
+      name: Sushi Roll
+      position: 7
+      price_in_cents: 0
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small (5PCS)
+        extras_price: 
+        position: 1
+        price_in_cents: 550
+        description: 
+      - name: Large (10pcs)
+        extras_price: 
+        position: 2
+        price_in_cents: 900
+        description: 
+      description: "Rice roll in seaweet "
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Miso Soup
+      position: 8
+      price_in_cents: 200
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Seaweed Salad
+      position: 9
+      price_in_cents: 400
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Squid Salad
+      position: 10
+      price_in_cents: 450
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Plan udon
+      position: 11
+      price_in_cents: 600
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: Japanese Flour Noodles
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Beef udon
+      position: 12
+      price_in_cents: 900
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: Beef & Japanese flour noodles soup
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Chicken Udon
+      position: 13
+      price_in_cents: 900
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: Chicken & Japanese Flour Noodles Soup
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Agedashi Tofu
+      position: 14
+      price_in_cents: 890
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: Deep fried with agedashi sauce
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: prawn Tempura Udon
+      position: 15
+      price_in_cents: 950
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: Tempura prawn & japanes flour noodles soup
+      present_flavours: false
+    header: 
+    footer: 
+    community: 
+
+  :name: Japanese Main
+- :yaml_data: |
+    --- 
+    name: "Pizza "
+    permalink: Pizza
+    position: 2
+    is_extras: 
+    menu_items_attributes: 
+    - flavours_attributes: []
+    
+      name: Work
+      position: 1
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small
+        extras_price: 
+        position: 1
+        price_in_cents: 1200
+        description: 
+      - name: Large
+        extras_price: 
+        position: 2
+        price_in_cents: 1800
+        description: 
+      - name: Family
+        extras_price: 
+        position: 3
+        price_in_cents: 2000
+        description: 
+      description: Ham, Capsicum, Onion, Mushroom, Bacon Pepperoni, Olives,Pineapple, Tomato.
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Mexica
+      position: 2
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small
+        extras_price: 
+        position: 1
+        price_in_cents: 1200
+        description: 
+      - name: Large
+        extras_price: 
+        position: 2
+        price_in_cents: 1800
+        description: 
+      - name: Family
+        extras_price: 
+        position: 3
+        price_in_cents: 2000
+        description: 
+      description: Ham, Capsicum, Onion, Pepperoni, Olives,Chili, Tomato.
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Vegetarian
+      position: 3
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small
+        extras_price: 
+        position: 1
+        price_in_cents: 1200
+        description: 
+      - name: Large
+        extras_price: 
+        position: 2
+        price_in_cents: 1800
+        description: 
+      - name: Family
+        extras_price: 
+        position: 3
+        price_in_cents: 2000
+        description: 
+      description: Mushrooms, Capsicum, Onion, Tomato, Olives, Pineapple.
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Hawaiian
+      position: 4
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small
+        extras_price: 
+        position: 1
+        price_in_cents: 1200
+        description: 
+      - name: Large
+        extras_price: 
+        position: 2
+        price_in_cents: 1800
+        description: 
+      - name: Family
+        extras_price: 
+        position: 3
+        price_in_cents: 2000
+        description: 
+      description: Ham, Pineapple
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Aussie
+      position: 5
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small
+        extras_price: 
+        position: 1
+        price_in_cents: 1200
+        description: 
+      - name: Large
+        extras_price: 
+        position: 2
+        price_in_cents: 1800
+        description: 
+      - name: Family
+        extras_price: 
+        position: 3
+        price_in_cents: 2000
+        description: 
+      description: Bacon, Tomato, Cheese.
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: All Meats
+      position: 6
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small
+        extras_price: 
+        position: 1
+        price_in_cents: 1200
+        description: 
+      - name: Large
+        extras_price: 
+        position: 2
+        price_in_cents: 1800
+        description: 
+      - name: Family
+        extras_price: 
+        position: 3
+        price_in_cents: 2000
+        description: 
+      description: Ham, Pepperoni, Bacon
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Marinara
+      position: 7
+      price_in_cents: 
+      extras_menu_id: 
+      sizes_attributes: 
+      - name: Small
+        extras_price: 
+        position: 1
+        price_in_cents: 1200
+        description: 
+      - name: Large
+        extras_price: 
+        position: 2
+        price_in_cents: 1800
+        description: 
+      - name: Family
+        extras_price: 
+        position: 3
+        price_in_cents: 2000
+        description: 
+      description: Olives,Mussels, Prawns, Tomato
+      present_flavours: false
+    header: 
+    footer: 
+    community: 
+
+  :name: Pizzas
+- :yaml_data: |
+    --- 
+    name: Chinese Entrees/Soup
+    permalink: Chinese Entrees/soup
+    position: 3
+    is_extras: 
+    menu_items_attributes: 
+    - flavours_attributes: []
+    
+      name: Spring Roll
+      position: 1
+      price_in_cents: 680
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Chicken Sweet Corn Soup
+      position: 2
+      price_in_cents: 550
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Crab Meat Sweet Corn Soup
+      position: 3
+      price_in_cents: 650
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Szechuan Hot & Sour Soup
+      position: 4
+      price_in_cents: 650
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Seafood Bean Curd Soup
+      position: 5
+      price_in_cents: 750
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    header: 
+    footer: 
+    community: 
+
+  :name: Chinese Entrees
+- :yaml_data: |
+    --- 
+    name: Chinese (Chicken)
+    permalink: Chinese (Chicken)
+    position: 4
+    is_extras: 
+    menu_items_attributes: 
+    - flavours_attributes: []
+    
+      name: Chicken with ginger & spring onion
+      position: 1
+      price_in_cents: 1480
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Crispy skin chicken
+      position: 2
+      price_in_cents: 1480
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    - flavours_attributes: []
+    
+      name: Chile pepper chicken
+      position: 3
+      price_in_cents: 1480
+      extras_menu_id: 
+      sizes_attributes: []
+    
+      description: ""
+      present_flavours: false
+    header: 
+    footer: 
+    community: 
+
+  :name: Chinese Chicken
