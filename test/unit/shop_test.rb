@@ -56,10 +56,11 @@ class ShopTest < ActiveSupport::TestCase
         assert_equal [@shop], search.shops 
       end
       
-      should "not appear in a search for that shop name but a different cuisine" do
-        search = Search.new(:cuisine=>Cuisine.make.id.to_s, :term=>@shop.name)
-        assert_equal [], search.shops
-      end
+      # Disabled search by cuisine for now due to limitation of the postgresql driver
+      # should "not appear in a search for that shop name but a different cuisine" do
+      #   search = Search.new(:cuisine=>Cuisine.make.id.to_s, :term=>@shop.name)
+      #   assert_equal [], search.shops
+      # end
       
     end
        

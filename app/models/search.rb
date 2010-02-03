@@ -40,10 +40,13 @@ class Search
   
   def shops              
     scope = Shop.scoped({})
-    scope = scope.scoped :include=>[:shop_cuisines], :conditions=>["shop_cuisines.cuisine_id = ?", @cuisine] if cuisine_specified?
+    # Search by cuisine disabled because postgresql driver for rails can't hack it
+    # scope = scope.scoped :include=>[:shop_cuisines], :conditions=>["shop_cuisines.cuisine_id = ?", @cuisine] if cuisine_specified?
     if coordinates_specified?
       distance_sql = Shop.distance_sql(self)
-      scope = scope.scoped :order=>"#{distance_sql} asc"                                       
+      scope = scope.scoped :order=>"#{distance_sql} asc"
+      # Have switched to searching by bounding box on the theory that
+      # it should be quicker with indexed lat & lng
       # scope =  scope.scoped :conditions=>["#{distance_sql} < 6"]
       box = 0.03
       scope = scope.scoped :conditions=>["lat > ? and lat < ? and lng > ? and lng < ?", lat_f-box, lat_f+box, lng_f-box, lng_f+box]
