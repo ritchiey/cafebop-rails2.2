@@ -35,4 +35,4 @@ menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}
 
 
 franchises = YAML::load_file('db/fixtures/franchises.yml')
-franchises.each { |e| Cuisine.find_or_create_by_name(e) }
+franchises.each { |e| e[:name].strip!; Cuisine.find_or_create_by_name(e) }

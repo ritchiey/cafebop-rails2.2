@@ -32,7 +32,10 @@ class Search
   def shops              
     scope = Shop.scoped({})
     scope = scope.scoped :include=>[:shop_cuisines], :conditions=>["shop_cuisines.cuisine_id = ?", @cuisine] if cuisine_specified?
-    scope = scope.scoped :conditions=>["#{Shop.distance_sql(self)} < 6"] if coordinates_specified?
+    if coordinates_specified?
+      distance_sql = Shop.distance_sql(self)
+      scope = scope.scoped :order=>"#{distance_sql} asc", :conditions=>["#{distance_sql} < 6"]
+    end
     scope
   end
       
