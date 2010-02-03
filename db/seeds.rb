@@ -1,9 +1,6 @@
 require 'active_record/fixtures'
 require 'yaml'
 
-# {                :name=>'Cafe Drinks',
-#                  :yaml_data=>YAML.dump({})},
-
 menu_templates = YAML::load_file('db/fixtures/menu_templates.yml')   
 menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}     
 
