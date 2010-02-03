@@ -15,9 +15,9 @@ class ShopsControllerTest < ActionController::TestCase
       @shop.transition_to('express')
     end
     
-    should "not crash on a blank search" do
+    should "redirect to list of shops on search with no parameters" do
       get :search
-      assert_redirected_to root_path
+      assert_redirected_to shops_path
     end
     
     context "when unauthenticated" do

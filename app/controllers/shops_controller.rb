@@ -1,9 +1,9 @@
 class ShopsController < ApplicationController      
   
-  before_filter :require_login, :except=>[:search, :show]
+  before_filter :require_login, :except=>[:search, :show, :index]
   before_filter :find_instance, :except=>[:new, :create, :index, :search]          
   before_filter :require_manager_or_admin, :only=>[:edit]
-  before_filter :require_admin, :only => [:destroy, :index, :import_form, :import]
+  before_filter :require_admin, :only => [:destroy, :import_form, :import]
   before_filter :current_user_collections, :only=>[:search]
 
   def new
@@ -39,7 +39,7 @@ class ShopsController < ApplicationController
         wants.json {render_json @shops.to_json(:only=>[:id, :name])}
       end
     else
-      redirect_to root_path
+      redirect_to shops_path
     end
   end                                            
   

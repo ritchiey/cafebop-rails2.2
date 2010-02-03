@@ -9,5 +9,4 @@
   %tbody
     != render :partial => 'shops/shop_entry', :collection=>@shops
     
-  
-  =link_to "Import Shops", import_form_shops_path
+  =admin_link_to "Import Shops", import_form_shops_path

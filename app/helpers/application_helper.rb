@@ -1,6 +1,10 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def admin_link_to *args
+    admin? ? link_to(*args) : ''
+  end
+
   def link_to_refund_policy(shop, label=nil)
     (shop && shop.refund_policy) ? link_to((label || "#{shop} refund policy"), refund_policy_for_shop_path(shop), :target=>'_new') : ""
   end                             

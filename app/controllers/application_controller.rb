@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :adjust_format_for_iphone
   filter_parameter_logging :password, :password_confirmation
   
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :"admin?"
   
   def persist_to store, target, options={}
     Persistence.persist_to store, target, options
@@ -51,6 +51,10 @@ class ApplicationController < ActionController::Base
     @current_user = current_user_session && current_user_session.user
   end
   alias_method :"authenticated?", :current_user
+  
+  def admin?
+    current_user and current_user.is_admin?
+  end
   
   def require_login message = 'Please login'
     unless current_user
