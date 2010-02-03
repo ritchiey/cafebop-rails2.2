@@ -67,6 +67,10 @@ module ApplicationHelper
   def edit_shop_link(shop)
     shop.can_edit?(current_user) ? (link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
   end                            
+  
+  def delete_shop_link(shop)
+    shop.can_delete?(current_user) ? (link_to 'Delete', shop_path(shop), :method=>:delete, :confirm=>"Really delete #{shop}?") : ''
+  end
 
   def order_history_link(shop)
     shop.can_view_history?(current_user) ? (link_to_unless_current('Order History', shop_past_orders_path(shop)) {""} ) : nil

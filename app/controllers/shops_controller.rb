@@ -41,7 +41,11 @@ class ShopsController < ApplicationController
     else
       redirect_to shops_path
     end
-  end                                            
+  end                  
+  
+  def cuisineless
+    @shops = Shop.with_no_cuisine
+  end
   
   def refund_policy_for
     

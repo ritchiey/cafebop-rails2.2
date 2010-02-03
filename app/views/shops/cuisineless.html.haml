@@ -1,0 +1,10 @@
+%h2="#{@shops.size} Shops"
+
+%table
+  %thead
+    %tr
+      %th Restaurants with no cuisine assigned
+  %tbody
+    != render :partial => 'shops/shop_entry', :collection=>@shops
+    
+  =admin_link_to "Import Shops", import_form_shops_path

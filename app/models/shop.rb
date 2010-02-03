@@ -276,6 +276,10 @@ class Shop < ActiveRecord::Base
     false
   end     
   
+  def can_delete?(acting_user)
+    acting_user.andand.is_admin?
+  end
+  
   def can_view_history?(acting_user)
     return false unless acting_user
     return true if acting_user.is_admin?
@@ -291,7 +295,16 @@ class Shop < ActiveRecord::Base
     if accepts_queued_orders?
       customer_queues.any? {|q| q.active}
     end
+  end   
+  
+  def self.with_no_cuisine
+    Shop.find_by_sql("select shops.* from shops left outer join shop_cuisines as sc on sc.shop_id=shops.id where sc.shop_id is null")
   end
+  
+  def self.number_with_no_cuisine
+    Shop.count_by_sql("select count(*) from shops left outer join shop_cuisines as sc on sc.shop_id=shops.id where sc.shop_id is null")
+  end
+  
   private
   
   def set_permalink

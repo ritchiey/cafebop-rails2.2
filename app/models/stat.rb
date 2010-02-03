@@ -19,7 +19,8 @@ class Stat
       :total => Shop.count,
       :community => Shop.community.count,
       :express => Shop.express.count,
-      :professional => Shop.professional.count
+      :professional => Shop.professional.count,
+      :with_no_cuisine => Shop.number_with_no_cuisine
     }
   end                       
 
