@@ -16,7 +16,8 @@ def scrape(url, out)
     address = store.css('span.address').text.strip
     address.sub!(/shp\s*(\d+)/oi, 'Shop \1')
     address.sub!(/ksk\s*(\d+)/oi, 'Kiosk \1')
-    address.sub!(/ShopngCntr/oi, "Shopping Centre")
+    address.sub!(/ShopngCntr/oi, 'Shopping Centre')
+    address.sub!(/\s*\d+\s*$/oi, '')
     next if address =~ /PO Box/io
     next if name =~ /pty ltd/io
     next unless name =~ /lunch|cafe|pizza|pizzeria|away|kebab|donut/io
