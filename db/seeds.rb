@@ -15,7 +15,7 @@ menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}
 [
   ['Chinese',         'chinese|palace|golden'],
   ['Pasta',           'pasta|italian'],
-  ['Pizza',           'pizza|italian'],
+  ['Pizza',           'pizza|pizzeria|italian'],
   ["Fish'n'Chips",    'fish|chips'],
   ['Thai',            'thai'],
   ['Coffees',         'coffee|cafe|caffe|[sx]presso|latte|bean|cino'],

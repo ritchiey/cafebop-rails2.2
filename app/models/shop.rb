@@ -304,6 +304,11 @@ class Shop < ActiveRecord::Base
   def self.number_with_no_cuisine
     Shop.count_by_sql("select count(*) from shops left outer join shop_cuisines as sc on sc.shop_id=shops.id where sc.shop_id is null")
   end
+
+  def guess_cuisines
+    Cuisine.matching_name(name).each {|c| shop_cuisines.create(:cuisine=>c)}
+  end    
+
   
   private
   
@@ -316,10 +321,5 @@ class Shop < ActiveRecord::Base
   def calc_permalink
     self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "").downcase
   end
-  
-  def guess_cuisines
-    Cuisine.matching_name(name).each {|c| shop_cuisines.create(:cuisine=>c)}
-  end    
-
 
 end

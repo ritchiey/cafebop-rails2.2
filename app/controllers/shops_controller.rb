@@ -47,6 +47,13 @@ class ShopsController < ApplicationController
     @shops = Shop.with_no_cuisine
   end
   
+  def guess_cuisines_for
+    Shop.with_no_cuisine.each do |shop|
+      shop.guess_cuisines
+    end
+    redirect_to cuisineless_shops_path
+  end
+  
   def refund_policy_for
     
   end
