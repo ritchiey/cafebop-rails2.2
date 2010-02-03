@@ -10,7 +10,8 @@ require 'yaml'
 def scrape(url, out)
   page = Nokogiri::HTML(open(url, 'r'))
   page.css('#localListings li').map do |store|
-    name = store.css('a.omnitureListingNameLink').text.strip 
+    name = store.css('a.omnitureListingNameLink').text.strip
+    name.sub!(/^(.*?) The$/oi, 'The \1')
     next unless name and name.size > 0
     phone = store.css('span.phoneNumber').text.sub("ph:", "").strip
     address = store.css('span.address').text.strip
