@@ -21,7 +21,7 @@ menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}
   ['Pizza',           'pizza|italian'],
   ["Fish'n'Chips",    'fish|chips'],
   ['Thai',            'thai'],
-  ['Coffees',         'coffee|cafe'],
+  ['Coffees',         'coffee|cafe|caffe|[sx]presso|latte|bean|cino'],
   ['French',          'french'],
   ['Vegetarian',      'vegetarian'],
   ['Vegan',           'vegan'],

@@ -23,7 +23,16 @@ class Search
                              
   def coordinates_specified?
     lat && lat.length >0 and lng && lng.length >0
-  end  
+  end
+  
+  def lat_f
+    @lat && @lat.to_f
+  end
+      
+  def lng_f
+    @lng && @lng.to_f
+  end
+      
   
   def cuisine_specified?
     @cuisine && !@cuisine.empty?
@@ -34,7 +43,10 @@ class Search
     scope = scope.scoped :include=>[:shop_cuisines], :conditions=>["shop_cuisines.cuisine_id = ?", @cuisine] if cuisine_specified?
     if coordinates_specified?
       distance_sql = Shop.distance_sql(self)
-      scope = scope.scoped :order=>"#{distance_sql} asc", :conditions=>["#{distance_sql} < 6"]
+      scope = scope.scoped :order=>"#{distance_sql} asc"                                       
+      # scope =  scope.scoped :conditions=>["#{distance_sql} < 6"]
+      box = 0.03
+      scope = scope.scoped :conditions=>["lat > ? and lat < ? and lng > ? and lng < ?", lat_f-box, lat_f+box, lng_f-box, lng_f+box]
     end
     scope
   end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100201072650) do
+ActiveRecord::Schema.define(:version => 20100203061801) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -214,6 +214,8 @@ ActiveRecord::Schema.define(:version => 20100201072650) do
     t.text     "motto"
   end
 
+  add_index "shops", ["lat"], :name => "index_shops_on_lat"
+  add_index "shops", ["lng"], :name => "index_shops_on_lng"
   add_index "shops", ["permalink"], :name => "index_shops_on_permalink", :unique => true
 
   create_table "sizes", :force => true do |t|
