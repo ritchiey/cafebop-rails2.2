@@ -9,9 +9,8 @@
 
 
 .search-results.span-14.last
-  %h3.title Find a Restaurant near you...
   .span-14.last
-    %h6="#{pluralize @shops.total_entries, 'restaurant'} found:"
+    %h6="#{pluralize @shops.total_entries, 'restaurant'} found near '#{h @search.term}':"
 
   .span-7
     =will_paginate @shops

@@ -129,7 +129,7 @@ module ApplicationHelper
       "key=#{GOOGLE_API_KEY}"
     ]
     valid_location?(center) and params << "center=#{center.lat},#{center.lng}"
-    image_tag "http://maps.google.com/staticmap?#{params.join '&'}", :alt=>"map"
+    image_tag "http://maps.google.com/staticmap?#{params.join '&'}", :alt=>"map", :id=>'static-map'
   end                        
   
   private
