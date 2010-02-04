@@ -10,6 +10,14 @@
     != render :partial => 'friends_table'
   -content_for :content_top do  
     != render :partial => 'current_orders'
+/ -else
+/   -content_for :aside do
+/     .blurb
+/       %h4 Going somewhere?
+/       %p
+/         If you're off to the shop to get lunch or a coffee,
+/         why not see who else wants something. 
+  
 
 %h3.locate_title Find a Restaurant near you...
 != render :partial => 'shops/search_panel'
