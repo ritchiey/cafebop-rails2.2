@@ -2,6 +2,9 @@
   -content_for :aside do
     != render :partial => 'front/shops_table'
     != render :partial => 'front/friends_table'
+-else
+  -content_for :aside do
+    != render :partial => 'front/side_blurbs'
 
 
 
