@@ -23,6 +23,8 @@ menu_templates.each {|mt| MenuTemplate.find_or_create_by_name(mt)}
   ['Vegetarian',      'vegetarian'],
   ['Vegan',           'vegan'],
   ['Steakhouse',      'steak|beef|\Wbull\W'],
+  ['Juice Bar',       'juice'],
+  ['Sushi Bar',       'sushi'],
   ['Kebabs',          'kebab'],
   ['Lunch Bar',       'lunch'],
   ['Indian',          'indian'],

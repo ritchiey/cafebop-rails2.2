@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
 
-  before_filter :require_login, :except=>[:new, :create, :activate]
-  before_filter :require_admin_rights, :except=>[:new, :create, :activate]   
+  before_filter :require_login, :except=>[:new, :create, :activate, :activate_invited]
+  before_filter :require_admin_rights, :except=>[:new, :create, :activate, :activate_invited]
+  before_filter :require_valid_captcha, :only=>[:create]
 
   make_resourceful do
     actions :update, :show, :destroy
   end  
                                   
-  before_filter :require_valid_captcha, :only=>[:create]
   
   def index
     @page = params[:page]
@@ -51,6 +51,24 @@ class UsersController < ApplicationController
       redirect_to new_user_path
     end
   end 
+    
+  # Active a user that's accepted an order invitation and has now
+  # entered a password and password confirmation.
+  def activate_invited
+    # users who have logged in aren't asked to activate their account again
+    # so we'll pretend    
+    if params[:user] and user = current_user
+      user.last_login_at = Time.now
+      user.password = params[:user][:password]
+      user.password_confirmation = params[:user][:password_confirmation]
+      user.save and flash[:notice] = "You are now a member. Welcome aboard."
+    end
+    if order_id = params[:order_id]
+      redirect_to order_path(order_id)
+    else
+      redirect_to root_path
+    end
+  end
   
   def activation_sent
     @user = User.find(params[:id])

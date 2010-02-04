@@ -59,7 +59,15 @@ $.fn.qtip.styles.cafebop = {
     name: 'dark'
 };
 
-$(function() { // page ready   
+$(function() { // page ready
+  
+  $('.make-account-blurb').hide();
+  
+  setTimeout(function() {
+    $('#user_password').select().focus();
+    $('.make-account-blurb').slideDown();
+    }, 1500);
+     
   $('body').supersleight({shim: '/images/transparent.gif'});
   
   $(".search-result").each(function(i) {

@@ -163,6 +163,18 @@ h6 {
   background-color: #eef5e1;
   font-size: 105%; }
 
+.make-account-blurb {
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  background-color: #B0B6A6;
+  border: 5px solid #D8DECD;
+  color: #50341A;
+  margin-bottom: 50px;
+  padding: 20px 25px;
+  position: relative;
+  background-color: #eef5e1;
+  font-size: 105%; }
+
 #order-summary {
   margin-top: 40px; }
 
