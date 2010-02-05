@@ -2,7 +2,7 @@
   %p
     -if current_user
       Logged in as #{current_user}.
-      =link_to "Not #{current_user}?", login_path
+      =link_to "Not #{current_user}?", not_me_path
     
 #account-nav.no-print
   -if current_user

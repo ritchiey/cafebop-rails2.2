@@ -64,7 +64,6 @@ $(function() { // page ready
   $('.make-account-blurb').hide();
   
   setTimeout(function() {
-    $('#user_password').select().focus();
     $('.make-account-blurb').slideDown();
     }, 1500);
      

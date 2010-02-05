@@ -68,7 +68,8 @@ class ShopsControllerTest < ActionController::TestCase
         @shop.state = 'community'
         @shop.save!
         assert @shop.community?
-        Cuisine.make
+        Cuisine.create!(:name=>'strawberries')
+        # Cuisine.make
         assert_difference "@shop.cuisines.count", 1 do
           put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>[Cuisine.first.id]}
           assert_redirected_to new_shop_order_url(@shop)

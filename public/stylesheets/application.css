@@ -348,3 +348,6 @@ a {
 .my-friends, .my-restaurants {
   position: relative;
   top: -12em; }
+
+#user_email_offers_input label, #user_session_remember_me_input label {
+  padding: 0; }

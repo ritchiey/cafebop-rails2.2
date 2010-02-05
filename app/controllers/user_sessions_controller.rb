@@ -2,6 +2,7 @@ class UserSessionsController < ApplicationController
   def new
     @user_session = UserSession.new
     @user_session.errors.clear
+    @user_session.remember_me = true
     respond_to do |format|
         format.iphone do 
           render :layout => false
@@ -47,4 +48,11 @@ class UserSessionsController < ApplicationController
     current_user_session.andand.destroy
     redirect_to root_path
   end
+  
+  def not_me
+    current_user_session.andand.destroy
+    redirect_to login_path
+  end
+  
+  
 end

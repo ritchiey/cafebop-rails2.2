@@ -32,8 +32,8 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"  
   #config.gem 'test-unit', :lib => 'test/unit'
-  config.gem "mocha"
-  config.gem "thoughtbot-shoulda", :lib => "shoulda"
+  config.gem "thoughtbot-shoulda", :lib => "shoulda" #- shoulda must be loaded before mocha
+  config.gem "mocha"                                 #--or any_instance bleeds between tests
   config.gem "haml"
   config.gem "hobofields"
   config.gem 'rr'

@@ -8,7 +8,6 @@ class UsersController < ApplicationController
     actions :update, :show, :destroy
   end  
                                   
-  
   def index
     @page = params[:page]
     @users = User.all.paginate(:per_page=>20, :page=>@page)
@@ -66,7 +65,6 @@ class UsersController < ApplicationController
       if user.remember_me
         current_user_session.remember_me = true 
         user_session = current_user_session
-        debugger
         user_session.send :save_cookie
       end
       user.save and flash[:notice] = "Welcome aboard, #{user}."

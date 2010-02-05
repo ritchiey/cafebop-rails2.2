@@ -8,6 +8,8 @@ class Cuisine < ActiveRecord::Base
     timestamps
   end
   
+  validates_presence_of :name
+  
   default_scope :order=>:name
   
   attr_accessible :name, :menu_ids, :franchise, :url, :regex

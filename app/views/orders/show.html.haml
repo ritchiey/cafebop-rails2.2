@@ -38,7 +38,10 @@
             = f.input :email_offers, :as=>:boolean, :label=>"Email me specials from restaurants near me"
           - f.buttons do
             =f.commit_button :button_html=>{:value=>'Sign up'}
-        %p This will save you time next time you use Cafebop to order.
+        %p
+          We created you a temporary account to track this order. Give it
+          a password to make it permanent. This will save you time next time
+          you use Cafebop to order.
       
 .no-print
   -if @order.pending?
