@@ -2,7 +2,7 @@ class MenusController < ApplicationController
 
   before_filter :find_instance, :except => [:index, :new, :create]
   before_filter :require_login, :except=>[:show]
-  before_filter :require_manager_or_admin, :only=>[:edit, :destroy, :update, :create]
+  before_filter :require_manager_or_admin, :except=>[:show]
 
   
   def new             
@@ -65,7 +65,8 @@ private
   end
   
   def require_manager_or_admin
-    unless current_user.is_admin? or @menu.andand.shop.andand.is_manager?(current_user)
+    unless current_user.is_admin? or @shop.andand.is_manager?(current_user) or
+      @menu.andand.shop.andand.is_manager?(current_user)
       flash[:error] = "You're not authorized to do that."
       redirect_to root_path
     end
