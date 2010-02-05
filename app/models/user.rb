@@ -25,8 +25,13 @@ class User < ActiveRecord::Base
     last_login_ip       :string
     current_login_at    :datetime
     current_login_ip    :string
+    email_offers        :boolean, :default=>true
     timestamps
   end                          
+  
+  # This is a bit ugly. I've just placed this here to let the
+  # form processed by activate_invited work.
+  attr_accessor :remember_me
   
   acts_as_mappable :default_distance=>:miles
 

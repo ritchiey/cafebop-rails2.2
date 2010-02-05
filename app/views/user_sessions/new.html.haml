@@ -6,6 +6,7 @@
   -f.inputs do
     = f.input :email, :required=>false
     = f.input :password, :as=>:password, :required=>false
+    = f.input :remember_me, :as=>:boolean, :required=>false, :label=>" Remember me on this computer"
 
   - f.buttons do
     =f.commit_button "Login"

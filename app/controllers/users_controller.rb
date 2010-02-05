@@ -59,9 +59,17 @@ class UsersController < ApplicationController
     # so we'll pretend    
     if params[:user] and user = current_user
       user.last_login_at = Time.now
-      user.password = params[:user][:password]
-      user.password_confirmation = params[:user][:password_confirmation]
-      user.save and flash[:notice] = "You are now a member. Welcome aboard."
+      user.attributes = params[:user]
+      # user.password = params[:user][:password]
+      # user.password_confirmation = params[:user][:password_confirmation]
+      # user.remember_me = params[:user][:remember_me]
+      if user.remember_me
+        current_user_session.remember_me = true 
+        user_session = current_user_session
+        debugger
+        user_session.send :save_cookie
+      end
+      user.save and flash[:notice] = "Welcome aboard, #{user}."
     end
     if order_id = params[:order_id]
       redirect_to order_path(order_id)
