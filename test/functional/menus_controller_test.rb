@@ -4,10 +4,9 @@ class MenusControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
 
-  context "With an express shop with a menu" do
+  context "Given a shop with a menu" do
     setup do
       @shop = Shop.make
-      @shop.transition_to('express')
       @menu = @shop.menus.make
     end
 

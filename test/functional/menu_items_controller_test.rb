@@ -4,33 +4,69 @@ class MenuItemsControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
 
-  
-  context "Given a menu" do
+  context "Given a shop with a menu with one menu_item" do
     setup do
-      @menu = Menu.make
-    end
-
-    context "as an authenticated user" do
-      setup do
-        @user = User.make(:active)
-        login_as @user
-      end
-
-      should "be able to add a menu item" do
-        assert_difference "@menu.menu_items.count", 1 do
-          post :create,
-              :menu_id=>@menu.id,
-              :menu_item=>{"price"=>"0.00",
-              :name=>"Pizza",
-              :present_flavours=>"true",
-              :description=>"Flat, round and delicious"}
-            
-        end
-      end
+      @shop = Shop.make
+      @menu = @shop.menus.make
+      @menu_item = @menu.menu_items.make
+      @valid = @menu.menu_items.make_unsaved.attributes
     end
     
-
+    context "as admin" do
+      setup do
+        login_as manager_of(@shop)
+      end
+    
+      context "when editing" do
+        setup do
+          get :edit, :id=>@menu_item.id
+        end
+        should_assign_to(:menu_item) {@menu_item}
+        should_respond_with :success
+        should_render_with_layout
+        should_render_template :edit
+        should_not_set_the_flash
+      end
+    
+      context "when adding" do
+        setup do
+          get :new, :menu_id=>@menu.id
+        end
+        should_assign_to(:menu_item, :class=>MenuItem)
+        should_respond_with :success
+        should_render_with_layout
+        should_render_template :new
+        should_not_set_the_flash
+      end      
+    
+      context "when creating a menu item" do
+        context "with valid data" do
+          setup do
+            post :create, :menu_id=>@menu.id, :menu_item=>@valid.merge(:name=>'Grub')
+          end
+          should_assign_to :menu_item, :class=>MenuItem
+          should_redirect_to('edit page for the menu') {edit_menu_path(@menu)}
+          should_not_set_the_flash
+        end
+      end
+    
+      context "when updating" do
+        context "with valid data" do
+          setup do
+            put :update, :id=>@menu_item.id, :menu_item=>{:name=>'Grub'}
+          end
+          should_assign_to(:menu_item) {@menu_item}
+          should_redirect_to("edit menu") {edit_menu_url(@menu)}
+          should_not_set_the_flash
+        end
+      end
+      
+    end
+    
   end
-  
-  
 end
+
+
+
+
+
