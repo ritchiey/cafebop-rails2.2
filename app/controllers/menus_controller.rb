@@ -64,9 +64,13 @@ private
     @menu = Menu.find(params[:id])
   end
   
-  def require_manager_or_admin
-    unless current_user.is_admin? or @shop.andand.is_manager?(current_user) or
-      @menu.andand.shop.andand.is_manager?(current_user)
+  
+  def require_manager_or_admin       
+    @shop = Shop.find(params[:shop_id]) if params[:shop_id]
+    unless current_user and
+          (current_user.is_admin? or
+          current_user.manages?(@shop) or
+          current_user.manages?(@menu.andand.shop))
       flash[:error] = "You're not authorized to do that."
       redirect_to root_path
     end

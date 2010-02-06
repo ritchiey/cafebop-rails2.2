@@ -75,14 +75,15 @@ class MenusControllerTest < ActionController::TestCase
         login_as @manager   
       end
 
-      # should "be able to create a menu" do
-      #   assert_difference "Menu.count", 1 do
-      #     # get :new, :shop_id=>@shop.id
-      #     # assert_template 'new'
-      #     post :create, :menu=>{:name=>"Sniggles", :shop_id=>@shop.id}
-      #     assert_redirected_to edit_menu_path(Menu.last)
-      #   end
-      # end     
+      should "be able to create a menu" do
+        assert_difference "Menu.count", 1 do
+          # get :new, :shop_id=>@shop.id
+          # assert_template 'new'
+          # MenusController.any_instance.stubs(:require_manager_or_admin).returns(:true)
+          post :create, :menu=>{:name=>"Sniggles"}, :shop_id=>@shop.id
+          assert_redirected_to edit_menu_path(Menu.last)
+        end
+      end     
 
       should "be able to edit menu" do
         get :edit, :id => @menu.to_param
