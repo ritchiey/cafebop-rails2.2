@@ -77,6 +77,9 @@ class MenuItem < ActiveRecord::Base
     end
   end
   
+  def managed_by? user
+    menu && menu.managed_by?(user)
+  end
 
 private
 

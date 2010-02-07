@@ -35,6 +35,10 @@ class Menu < ActiveRecord::Base
     !shop_id
   end
 
+  def managed_by? user
+    user.manages? shop_id
+  end
+  
   def deep_clone
     self.clone.tap do |cloned|
       cloned.save!

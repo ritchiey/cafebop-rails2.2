@@ -11,6 +11,27 @@ class MenuItemTest < ActiveSupport::TestCase
     should_belong_to :menu
   end
 
+  context "a mock menu_item" do
+    
+    setup do
+      @menu_item = MenuItem.new(:id=>1)
+      @menu = Menu.new(:id=>2)
+      @menu_item.stubs('menu').returns(@menu)
+      @user = User.new
+    end
+    
+    should "recognise non-manager" do
+      @menu.expects('managed_by?').returns(false)
+      assert !@menu_item.managed_by?(@user)
+    end
+
+    should "recognise manager" do
+      @menu.expects('managed_by?').returns(true)
+      assert @menu_item.managed_by?(@user)
+    end
+
+  end
+
   context "a given menu_item" do
 
     setup do

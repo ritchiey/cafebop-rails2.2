@@ -86,7 +86,8 @@ class User < ActiveRecord::Base
 
   
   def manages?(shop)
-    shop && work_contracts.exists?(:shop_id=>shop.id, :role=>'manager')
+    shop.is_a?(ActiveRecord::Base) and shop = shop.id
+    shop && work_contracts.exists?(:shop_id=>shop, :role=>'manager')
   end
   
   def works_at?(shop)

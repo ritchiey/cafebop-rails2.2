@@ -57,11 +57,8 @@ class ActiveSupport::TestCase
 
   def make_admin
     User.make(:active).tap { |user| user.add_role('cafebop_admin') }   
-  end
-  
-  def manager_of(shop)
-    User.make(:active).tap {|user| shop.work_contracts.create(:role=>'manager', :user=>user)}
-  end
+  end      
+  alias_method :admin, :make_admin
   
   def login_as user
     UserSession.create(user)
@@ -70,6 +67,15 @@ class ActiveSupport::TestCase
   def logout
     UserSession.find.andand.destroy
   end
+
+  def manager_of(shop)
+    User.make(:active).tap {|user| shop.work_contracts.create(:role=>'manager', :user=>user)}
+  end
+  
+  def staff_of(shop)
+    User.make(:active).tap {|user| shop.work_contracts.create(:role=>'staff', :user=>user)}
+  end
+
   
 end
 
