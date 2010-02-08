@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def link_to_refund_policy(shop, label=nil)
-    (shop && shop.refund_policy) ? link_to((label || "#{shop} refund policy"), refund_policy_for_shop_path(shop), :target=>'_new') : ""
+    (shop && shop.refund_policy && shop.refund_policy.strip.length > 0) ? link_to((label || "#{shop} refund policy"), refund_policy_for_shop_path(shop), :target=>'_new') : ""
   end                             
   
   def link_to_site_terms(label="Cafebop Terms of Use")
