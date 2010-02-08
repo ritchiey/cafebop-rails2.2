@@ -2,6 +2,30 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SizeTest < ActiveSupport::TestCase
 
+
+  context "a mock size" do
+    
+    setup do
+      @menu_item = MenuItem.new(:id=>1)
+      @size = Size.new(:id=>2)
+      @size.stubs('menu_item').returns(@menu_item)
+      @user = User.new
+    end
+    
+    should "recognise non-manager" do
+      @menu_item.expects('managed_by?').returns(false)
+      assert !@size.managed_by?(@user)
+    end
+
+    should "recognise manager" do
+      @menu_item.expects('managed_by?').returns(true)
+      assert @size.managed_by?(@user)
+    end
+
+  end
+
+
+
   context "size associations" do
     
     # Don't think this is right, see comment in model

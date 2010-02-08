@@ -20,6 +20,10 @@ class Size < ActiveRecord::Base
   
   treat_as_currency :price
   acts_as_list :scope=>:menu_item
+  
+  def managed_by? user
+    menu_item && menu_item.managed_by?(user)
+  end
 
   def to_s
     "#{name} (#{price})"
