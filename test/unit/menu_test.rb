@@ -1,6 +1,25 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MenuTest < ActiveSupport::TestCase
+   
+  should "import a menu in CSV format" do
+    Menu.expects('create').with(has_entries(
+    :name=>"Curry of Thailand",
+    :menu_item_attributes=>{
+      :name=>'Green Curry',
+      :description=>"choice of chicken, beef or pork",
+      :price=>15.9,
+      :flavours=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]})
+    )
+    data =<<END
+Menu,Item Name,Description,Prices,Flavours
+
+Curry of Thailand
+,Green Curry,"choice of chicken, beef or pork",15.9,"Chicken, Beef, Pork"
+END
+    Menu.import_csv(data)
+  end
+
 
   context "a mock menu" do
     setup do

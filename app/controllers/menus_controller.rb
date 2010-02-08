@@ -1,9 +1,13 @@
 class MenusController < ApplicationController
 
-  before_filter :find_instance, :except => [:index, :new, :create]
+  before_filter :find_instance, :except => [:index, :new, :create, :import_csv]
   before_filter :require_login, :except=>[:show]
   before_filter :require_manager_or_admin, :except=>[:show]
 
+
+  def import_csv
+    redirect_to :controller=>:dashboard, :action=>:show
+  end
   
   def new             
     if params[:shop_id] # Shop menu

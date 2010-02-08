@@ -103,7 +103,17 @@ class MenusControllerTest < ActionController::TestCase
       setup do
         login_as_admin
       end
-              
+
+      context "attempting to import menus" do
+        setup do
+          data = "this, is, some, data"
+          Menu.expects('import').with(data)
+          post :import_csv, :data=>data
+        end
+        
+        should_redirect_to("admin dashboard") {dashboard_path}
+      end
+
       should "be able to edit menu" do
         get :edit, :id => @menu.to_param
         assert_template 'edit'

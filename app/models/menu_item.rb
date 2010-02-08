@@ -1,7 +1,7 @@
 class MenuItem < ActiveRecord::Base
 
   fields do
-    name  :string  
+    name  :string
     description :string
     price_in_cents :integer
     position :integer

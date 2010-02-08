@@ -1,3 +1,5 @@
+require 'csv'
+
 # A menu to be displayed to the customer for ordering.
 # Most menus will belong_to a shop. Those that don't are considered generic menus and should
 # be associated with a cuisine. Community shops that offer that cuisine will automatically
@@ -30,6 +32,27 @@ class Menu < ActiveRecord::Base
     "INNER JOIN shop_cuisines AS sc ON sc.cuisine_id = cm.cuisine_id"], :conditions=>["sc.shop_id = ?", shop.id] }}
   named_scope :for_franchise, lambda {|franchise| { :joins=>["INNER JOIN cuisine_menus AS cm ON cm.menu_id = menus.id"], :conditions=>["cm.cuisine_id = ?", franchise.id] }}
   named_scope :with_items, :include=>{:menu_items=>[:sizes,:flavours]}
+
+  def self.import_csv csv_data
+    first = true
+    menu_item_attributes = []
+    CSV.parse(csv_data) do |row|
+      if first # ignore first line
+        first = false
+        next
+      end
+      next if row.all? {|c| c.strip.length == 0}
+      (new_menu_name, item_name, description, price_str, flavours_str) = *row
+      
+      menu_item_attributes << {
+        :name=>item_name,
+        :description=>description,
+        :price=>price_str.to_f,
+        :flavours=>flavours_str.split(',').map {|f| {:name=>f}}
+      }
+    end
+    menu = Menu.create(:name=>menu_name, :menu_item_attributes=>menu_item_attributes)
+  end
 
   def generic?
     !shop_id

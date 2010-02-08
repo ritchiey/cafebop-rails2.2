@@ -68,7 +68,8 @@ ActionController::Routing::Routes.draw do |map|
         } do |orders|
       orders.resources :order_items, :member=>{:make=>:put}
     end
-    shops.resources :menus, :shallow=>true, :member=>{:reorder_menu_items=>:post} do |menus|
+    shops.resources :menus, :shallow=>true, :member=>{:reorder_menu_items=>:post},
+      :collection=>{:import=>:get, :import_csv=>:put} do |menus|
       menus.resources :menu_items, :shallow=>true, :member=>{:reorder_flavours=>:post, :reorder_sizes=>:post} do |menu_items|
         menu_items.resources :sizes
         menu_items.resources :flavours
