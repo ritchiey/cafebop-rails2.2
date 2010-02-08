@@ -57,19 +57,6 @@ class MenuItemsControllerTest < ActionController::TestCase
     end      
   end
 
-  def self.when_creating_a_menu_item
-    context "when creating a menu item" do
-      context "with valid data" do
-        setup do
-          post :create, :menu_id=>@menu.id, :menu_item=>@valid.merge(:name=>'Grub')
-        end
-        context "" do
-          yield
-        end
-      end
-    end    
-  end
-
   def self.when_editing
     context "when editing" do
       setup do

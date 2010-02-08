@@ -42,7 +42,7 @@ end
 
 Flavour.blueprint do
   menu_item
-  name { CafeForgery.flavor_name}
+  name { CafeForgery.flavour_name}
 end
 
 Size.blueprint do
