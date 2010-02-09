@@ -148,7 +148,9 @@ $(function() { // page ready
     $(this).select();
   });
   $("#search_term").select().focus();
+  $("#order_effective_name").select().focus();
 
+  
 
   $("form.made-order").live('click', function(e) {
     $(this).ajaxSubmit({
