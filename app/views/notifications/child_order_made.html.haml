@@ -1,15 +1,15 @@
 :plain
 
-  Your order for #{@order.shop} is ready. In fact, #{h @order.parent.user} is probably
+  Your order for #{@order.shop} is ready. In fact, #{@order.parent.user} is probably
   picking it up right now.
   
   You should receive:
 
 \-------------------------------------------------------
 -@order.order_items.each do |i|
-  ="#{i.quantity} x #{h i.description} @#{number_to_currency i.price}"
+  ="#{i.quantity} x #{i.description} @#{number_to_currency i.price}"
 \-------------------------------------------------------
 :plain
-  You will owe #{h @order.parent.user} #{number_to_currency @order.total}.
+  You will owe #{@order.parent.user} #{number_to_currency @order.total}.
     
   Feedback: Feel free to send complaints, praise or suggestions by replying to this email.
