@@ -20,6 +20,7 @@ class OrderItemTest < ActiveSupport::TestCase
     subject {@item}
 
     should_allow_values_for :state, *OrderItem::STATES
+    should_validate_numericality_of :quantity
 
     should "default to pending" do
       assert @item.pending?
