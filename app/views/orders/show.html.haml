@@ -17,7 +17,7 @@
             -if @shop.ever_charges_processing_fee?
               Note: A transaction fee of #{number_to_currency @shop.processing_fee} applies for orders under $#{h @shop.fee_threshold}.
             -#  %img{:src => "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif", :align => "left", :style => "margin-right:7px;" }
-            =image_submit_tag "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif", :value=>'Pay with PayPal', :id=>'pay-paypal-button', :class=>'order-closed', :disabled=>@order.waiting_for_close?
+            =image_submit_tag "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif", :value=>'Pay with PayPal', :id=>'pay-paypal-button', :class=>'order-closed button', :disabled=>@order.waiting_for_close?
             -#=submit_tag "Pay with PayPal", :id=>'pay-paypal-button', :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
             %br
           -if @shop.accepts_in_shop_payments?

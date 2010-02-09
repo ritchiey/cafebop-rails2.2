@@ -345,9 +345,15 @@ a {
 .pay-box {
   float: right; }
 
+form.order fieldset.buttons {
+  padding-left: 0; }
+
 .my-friends, .my-restaurants {
   position: relative;
   top: -12em; }
 
 #new_user #user_email_offers_input label, #user_session_remember_me_input label {
   padding: 0; }
+
+.button:hover, .remove img {
+  cursor: pointer; }
