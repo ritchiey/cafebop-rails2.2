@@ -23,6 +23,8 @@ body, p, td, li, ul, ol {
       margin-top: 20px; }
   #page-footer .logo {
     float: right; }
+    #page-footer .logo a:hover {
+      border: none; }
 
 .email-message {
   background-color: #FEFEFE;
