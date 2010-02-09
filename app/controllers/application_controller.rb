@@ -164,7 +164,7 @@ private
   # if the @shop instance variable hasn't already been set.
   def find_order_and_or_shop
     order_id = params[:order_id]
-    order_id and @order = Order.find_by_id(order_id, :include=>[{:shop=>[:operating_times]}])
+    order_id and @order = Order.find(order_id, :include=>[{:shop=>[:operating_times]}])
     @order and @shop = @order.shop
     shop_id = params[:shop_id] and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])
   end

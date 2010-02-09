@@ -68,6 +68,7 @@ class UsersController < ApplicationController
         user_session.send :save_cookie
       end
       user.save and flash[:notice] = "Welcome aboard, #{user}."
+      Notifications.deliver_welcome user
     end
     if order_id = params[:order_id]
       redirect_to order_path(order_id)

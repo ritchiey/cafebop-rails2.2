@@ -8,8 +8,10 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 APPLICATION_DOMAIN= ENV['APPLICATION_DOMAIN'] || 'cafebop.com'
 SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN 
+FEEDBACK_EMAIL = 'feedback@'+APPLICATION_DOMAIN 
 CLAIMS_EMAIL = 'support@'+APPLICATION_DOMAIN 
-ORDERING_EMAIL = 'ordering@'+APPLICATION_DOMAIN 
+ORDERING_EMAIL = 'ordering@'+APPLICATION_DOMAIN
+WELCOME_EMAIL = 'welcoming_committee@'+APPLICATION_DOMAIN
 GOOGLE_API_KEY= ENV['GOOGLE_API_KEY'] 
 
 # Define session key as a constant

@@ -20,6 +20,15 @@ class Notifications < ActionMailer::Base
            :accept_url => accept_orders_url(:token => order.perishable_token),
            :decline_url => decline_orders_url(:token => order.perishable_token)  
   end
+
+  def welcome(user)
+    subject    'Welcome to Cafebop'
+    recipients user.email
+    from       SUPPORT_EMAIL
+    sent_on    Time.now
+    body       :root_url => root_url,
+                :feedback_email => FEEDBACK_EMAIL
+  end
   
   def claim_confirmed(claim)
     subject    "Your claim for #{claim.shop}"
