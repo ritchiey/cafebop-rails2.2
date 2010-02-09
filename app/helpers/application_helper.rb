@@ -13,7 +13,7 @@ module ApplicationHelper
     link_to label, site_terms_content_path, :target=>'_new'
   end
   
-  def link_to_faq(label="Frequently Asked Questions")
+  def link_to_faq(label="FAQ")
     link_to label, faq_content_path, :target=>'_new'
   end
   
