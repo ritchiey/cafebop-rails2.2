@@ -79,8 +79,9 @@
       .links.no-print
         %p
           =separated([link_to_refund_policy(@shop), link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])
-      .logo
+      .logo.no-print
         =link_to(image_tag('logo-small.png'), root_path)
-          
+      .logo.print-only
+        =image_tag('logo-small.png')
 
     =yield :javascript

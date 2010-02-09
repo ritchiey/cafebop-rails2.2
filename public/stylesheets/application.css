@@ -92,6 +92,10 @@ h6 {
   background-position: 85% 50%;
   background-repeat: no-repeat;
   padding: 5px 55px 5px 15px; }
+  #search_form #search_submit:hover, #new_user_session #user_session_submit:hover, #new_user #user_submit:hover, #pay-in-shop-button:hover, #continue-order-button:hover, #user_submit:hover {
+    cursor: pointer;
+    background-image: url(/images/arrow-right-hover.gif);
+    border: #494848 5px solid; }
 
 #pay-paypal-button {
   margin-bottom: 1em; }
@@ -111,6 +115,9 @@ h6 {
   border: 5px solid #D8DECD;
   background-color: #E76F00;
   float: right; }
+  #print-btn:hover {
+    cursor: pointer;
+    border: #494848 5px solid; }
 
 #change-button {
   -moz-border-radius: 10px;
@@ -141,6 +148,8 @@ h6 {
   padding: 5px 25px 5px 15px;
   border: 5px solid #D8DECD;
   background-color: #00c6ff; }
+  .small-add-btn:hover, #offer-friends-button:hover {
+    border: #494848 5px solid; }
 
 #search_form, #new_user_session, #new_user, #invite-friends-blurb {
   -moz-border-radius: 15px;

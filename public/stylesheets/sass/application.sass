@@ -94,7 +94,12 @@ h6
 #search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, #pay-in-shop-button, #continue-order-button, #user_submit
   +rounded-corners(10px)
   +nav_button
-  +right_arrow_icon
+  +right_arrow_icon          
+  
+  &:hover
+    cursor: pointer
+    background-image: url(/images/arrow-right-hover.gif)
+    border: #494848 5px solid
             
 #pay-paypal-button
   :margin-bottom 1em
@@ -105,6 +110,9 @@ h6
 #print-btn
   +nav_button
   :float  right
+  &:hover
+    cursor: pointer
+    border: #494848 5px solid
 
 #change-button
   +rounded-corners(10px)
@@ -112,7 +120,10 @@ h6
   +left_arrow_icon
   
 .small-add-btn, #offer-friends-button
-  +small_add_button      
+  +small_add_button       
+  
+  &:hover
+    border: #494848 5px solid
 
 #search_form, #new_user_session, #new_user, #invite-friends-blurb
   +rounded-corners
@@ -356,3 +367,5 @@ form.order fieldset.buttons
 //.remove img:hover, .small-add-btn:hover
 .button:hover, .remove img
   :cursor pointer
+
+
