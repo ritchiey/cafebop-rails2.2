@@ -25,7 +25,7 @@
   -elsif @order.confirmed?
     %h3 Order confirmed
     
-    -unless current_user.last_login_at
+    -unless current_user.signed_up?
       .make-account-blurb
         %h5 Please enter a password to finish signing up
         - semantic_form_for current_user, :url=>activate_invited_user_path(current_user) do |f|

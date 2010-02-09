@@ -1,29 +1,59 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  
-  
-  context "As a new user that's never logged in" do
+
+  context "with an existing user" do
     setup do
-      @user = User.make(:active)
-      ApplicationController.stubs(:current_user).returns(@user)
+      @user = User.make_unsaved(:active)
+      User.stubs('find_by_email').returns(@user)  
+      @user_params = {:email=>@user.email,
+        :password=>'secret',
+        :password_confirmation=>'secret'
+        }
     end
-    context "posting to activate_invited with valid parameters" do
+
+    context "that's signed up, post to create" do
       setup do
-        @order = Order.make(:user=>@user)
-        # Order.expects(:find).at_least_once.returns(@order)
-        # Notifications.any_instance.expects(:deliver_welcome).with(@user)
-        password = 'wombat'
-        post(:activate_invited,
-          {:order_id=>@order.id,
-          :user=>{
-            :password=>password,
-            :password_confirmation=>password
-          }})
+        @user.stubs('signed_up?').returns(true)
+        post :create, :user=>@user_params
       end
 
-      should_redirect_to("the order") {order_path(@order)}
+      should_set_the_flash_to "You already seem to have an account. Try logging in."
+      should_redirect_to("login page") { login_path }
+    end
+  
+    context "that's not signed up, post to create" do
+      setup do
+        @user.stubs('signed_up?').returns(false)
+        post :create, :user=>@user_params
+      end
 
+      should_set_the_flash_to "Thanks for signing up! Check your email to permanently activate your account."
+      should_redirect_to("the home page") { root_path }
+    end
+  
+    context "that's not signed up but authenticated" do
+      setup do
+        @user.stubs('signed_up?').returns(false)
+        ApplicationController.stubs(:current_user).returns(@user)
+      end
+      context "posting to activate_invited with valid parameters" do
+        setup do
+          @order = Order.make(:user=>@user)
+          # Order.expects(:find).at_least_once.returns(@order)
+          # Notifications.any_instance.expects(:deliver_welcome).with(@user)
+          password = 'wombat'
+          post(:activate_invited,
+            {:order_id=>@order.id,
+            :user=>{
+              :password=>password,
+              :password_confirmation=>password
+            }})
+        end
+
+        should_redirect_to("the order") {order_path(@order)}
+
+      end
     end
     
   end

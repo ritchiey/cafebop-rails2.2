@@ -3,6 +3,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new
     @user_session.errors.clear
     @user_session.remember_me = true
+    flash[:email] and @user_session.email = flash[:email]
     respond_to do |format|
         format.iphone do 
           render :layout => false

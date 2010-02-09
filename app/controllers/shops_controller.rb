@@ -1,7 +1,7 @@
 class ShopsController < ApplicationController      
   
   before_filter :require_login, :except=>[:search, :show, :index]
-  before_filter :find_instance, :except=>[:new, :create, :index, :search]          
+  before_filter :find_instance, :except=>[:new, :create, :index, :search]
   before_filter :require_manager_or_admin, :only=>[:edit]
   before_filter :require_admin, :only => [:destroy, :import_form, :import]
   before_filter :current_user_collections, :only=>[:search]

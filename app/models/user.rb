@@ -125,5 +125,18 @@ class User < ActiveRecord::Base
     {:password=>p, :password_confirmation=>p}
   end  
 
+  def signed_up?
+    last_login_at
+  end
+  
+  def sign_up
+    self.last_login_at = Time.now
+  end
 
+  def sign_up!   
+    unless signed_up?
+      sign_up
+      save!
+    end
+  end
 end

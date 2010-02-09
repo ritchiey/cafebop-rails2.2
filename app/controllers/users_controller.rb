@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   before_filter :require_login, :except=>[:new, :create, :activate, :activate_invited]
   before_filter :require_admin_rights, :except=>[:new, :create, :activate, :activate_invited]
   before_filter :require_valid_captcha, :only=>[:create]
-
+  before_filter :require_user_parameters, :only => [:create]
+  
   make_resourceful do
     actions :update, :show, :destroy
   end  
@@ -21,8 +22,16 @@ class UsersController < ApplicationController
     @user = User.new
   end
   
-  def create
-    @user = User.new(params[:user])
+  def create                     
+    email = params[:user][:email]
+    @user = User.find_by_email(email)
+    if @user and @user.signed_up?
+      flash[:notice] = "You already seem to have an account. Try logging in."
+      flash[:email] = email
+      redirect_to login_path
+      return
+    end
+    @user ||= User.new(params[:user])
     @user.make_admin if User.count == 0
     if @user.save
       # If we were in the middle of an order when the account was created,
@@ -57,7 +66,7 @@ class UsersController < ApplicationController
     # users who have logged in aren't asked to activate their account again
     # so we'll pretend    
     if params[:user] and user = current_user
-      user.last_login_at = Time.now
+      user.sign_up
       user.attributes = params[:user]
       # user.password = params[:user][:password]
       # user.password_confirmation = params[:user][:password_confirmation]
@@ -89,5 +98,9 @@ class UsersController < ApplicationController
   
   def current_object
     @current_object ||= User.find(params[:id])
+  end
+  
+  def require_user_parameters
+    redirect_to signup_path unless params[:user]
   end
 end

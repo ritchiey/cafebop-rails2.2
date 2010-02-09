@@ -11,6 +11,17 @@ class UserTest < ActiveSupport::TestCase
   
     should_validate_uniqueness_of :email, :case_sensitive => false
 
+    should("not be signed up by default") {assert !@user.signed_up?}
+    
+    context "that signs up" do
+      setup do
+        @user.sign_up!
+      end
+
+      should("be signed_up") {assert @user.signed_up?}
+    end
+    
+
     context "with the 'happy' role" do
       setup do
         @user.add_role 'happy'
