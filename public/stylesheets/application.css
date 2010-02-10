@@ -371,4 +371,15 @@ form.order fieldset.buttons {
   padding: 0; }
 
 .button:hover, .remove img {
-  cursor: pointer; }
+  cursor: pointer;
+  text-decoration: none; }
+
+#page-footer .links {
+  width: 600px; }
+
+a img {
+  display: block;
+  vertical-align: bottom; }
+
+.twitter-follow {
+  display: inline-block; }

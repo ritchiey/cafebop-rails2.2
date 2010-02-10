@@ -13,7 +13,9 @@
 -else
   -content_for :aside do
     != render :partial => 'side_blurbs'
-
 %h3.locate_title Find a Restaurant near you...
 != render :partial => 'shops/search_panel'
+.twitter-follow
+  %a{ :href => "http://www.twitter.com/Cafebop", :class=>'button'}
+    %img{ :src => "http://twitter-badges.s3.amazonaws.com/follow_us-b.png", :alt => "Follow Cafebop on Twitter" }
 
