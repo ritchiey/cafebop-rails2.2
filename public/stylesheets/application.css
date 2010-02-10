@@ -136,6 +136,10 @@ h6 {
   background-position: 15% 50%;
   background-repeat: no-repeat;
   padding: 5px 15px 5px 55px; }
+  #change-button:hover {
+    cursor: pointer;
+    border: #494848 5px solid;
+    background-image: url(/images/arrow-left-hover.gif); }
 
 .small-add-btn, #offer-friends-button {
   clear: both;
