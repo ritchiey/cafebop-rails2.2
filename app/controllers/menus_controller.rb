@@ -1,12 +1,26 @@
 class MenusController < ApplicationController
 
-  before_filter :find_instance, :except => [:index, :new, :create, :import_csv]
+  before_filter :find_instance, :except => [:index, :new, :create, :import, :import_csv]
   before_filter :require_login, :except=>[:show]
   before_filter :require_manager_or_admin, :except=>[:show]
 
 
+  class ::MenuImport
+    attr_accessor :prefix
+    attr_accessor :data
+    def new_record?() true; end
+    def self.human_name() "Menu Import"; end
+  end
+                
+  def import
+    @menu_import = MenuImport.new
+  end
+
   def import_csv
-    redirect_to :controller=>:dashboard, :action=>:show
+    data = params[:menu_import][:data]
+    prefix = params[:menu_import][:prefix]
+    data and Menu.import_csv(prefix, data)
+    redirect_to menus_path
   end
   
   def new             

@@ -1,0 +1,10 @@
+%h1 Import Menus
+
+
+-semantic_form_for(@menu_import, :url=>import_csv_menus_path) do |f|
+  -f.inputs do
+    =f.input :prefix, :hint=>"eg 'Chinese', 'Pizza Hut'"
+    =f.input :data, :as=>:text, :hint=>"menu_name, item_name, description, price(s), flavour(s)"
+  -f.buttons do
+    =f.commit_button
+  

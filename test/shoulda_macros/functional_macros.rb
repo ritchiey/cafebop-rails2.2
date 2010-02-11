@@ -1,6 +1,6 @@
 module FunctionalMacros
 
-  def self.as user
+  def as user
     context "As #{user.name}" do
       setup do
         login_as user
@@ -11,7 +11,7 @@ module FunctionalMacros
     end
   end
   
-  def self.admin
+  def admin
     User.make(:active).tap { |user| user.add_role('cafebop_admin') }   
   end
 

@@ -24,7 +24,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :orders, :collection=>{:accept=>:get, :decline=>:get}
   map.resources :order_items  
 
-  map.resources :menus, :only=>[:new, :create, :index] # for generic menus
+  map.resources :menus, :only=>[:new, :create, :index], # for generic menus
+    :collection=>{:import=>:get, :import_csv=>:post}
 
   map.resources :shops, :shallow=>true,
     :collection=>{
@@ -69,7 +70,7 @@ ActionController::Routing::Routes.draw do |map|
       orders.resources :order_items, :member=>{:make=>:put}
     end
     shops.resources :menus, :shallow=>true, :member=>{:reorder_menu_items=>:post},
-      :collection=>{:import=>:get, :import_csv=>:put} do |menus|
+      :collection=>{:import=>:get, :import_csv=>:post} do |menus|
       menus.resources :menu_items, :shallow=>true, :member=>{:reorder_flavours=>:post, :reorder_sizes=>:post} do |menu_items|
         menu_items.resources :sizes
         menu_items.resources :flavours

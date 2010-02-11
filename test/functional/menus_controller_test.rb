@@ -4,7 +4,31 @@ class MenusControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
 
+  as admin do
+    context "Getting the import page" do
+      setup do
+        get :import
+      end
+    
+      should_not_set_the_flash
+      should_render_template 'import' 
+      should_render_with_layout
+      should_respond_with :success
+    end
+    
+    context "Posting CSV menu data to import_csv" do
+      setup do           
+        data ="Some,CSV,Menu data" 
+        Menu.expects('import_csv').with('thai', data)
+        post :import_csv, :menu_import=>{:prefix=>'thai', :data=>data}
+      end
+      
+      should_redirect_to("the list of menus") {menus_path}
 
+    end
+    
+  end
+  
 
   context "Given a shop with a menu" do
     setup do

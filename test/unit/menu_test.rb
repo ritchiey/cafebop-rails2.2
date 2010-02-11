@@ -4,21 +4,22 @@ class MenuTest < ActiveSupport::TestCase
    
   should "import a menu in CSV format" do
     Menu.expects('create').with(has_entries(
-    :name=>"Curry of Thailand",
-    :menu_item_attributes=>[{
+    :permalink=>'Thai - Curry',
+    :name=>"Curry",
+    :menu_items_attributes=>[{
       :name=>'Green Curry',
       :description=>"choice of chicken, beef or pork",
       :price=>15.9,
-      :flavours=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]
+      :flavours_attributes=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]
       }])
     )
     data =<<END
 Menu,Item Name,Description,Prices,Flavours
 
-Curry of Thailand
+Curry
 ,Green Curry,"choice of chicken, beef or pork",15.9,"Chicken, Beef, Pork"
 END
-    Menu.import_csv(data)
+    Menu.import_csv("Thai", data)
   end
 
 

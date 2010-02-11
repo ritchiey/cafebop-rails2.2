@@ -3,4 +3,4 @@
 
 %ul=render :partial=>'menus/menu', :collection=>@menus
 
-=link_to "Add Generic Menu", new_menu_path
+=separated([link_to( "Add Generic Menu", new_menu_path), link_to("Import Menus", import_menus_path)])

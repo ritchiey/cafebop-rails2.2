@@ -33,10 +33,10 @@ class Menu < ActiveRecord::Base
   named_scope :for_franchise, lambda {|franchise| { :joins=>["INNER JOIN cuisine_menus AS cm ON cm.menu_id = menus.id"], :conditions=>["cm.cuisine_id = ?", franchise.id] }}
   named_scope :with_items, :include=>{:menu_items=>[:sizes,:flavours]}
 
-  def self.import_csv csv_data
+  def self.import_csv prefix, csv_data
     first = true
     menu_name = nil
-    menu_item_attributes = []
+    menu_items_attributes = []
     CSV.parse(csv_data) do |row|
       if first # ignore first line
         first = false
@@ -47,27 +47,30 @@ class Menu < ActiveRecord::Base
       (new_menu_name, item_name, description, price_str, flavours_str) = *row
       
       if item_name and item_name.strip.length > 0
-        menu_item_attributes << {
+        record = {
           :name=>item_name,
           :description=>description,
-          :price=>price_str.to_f,
-          :flavours=>(flavours_str ? flavours_str.split(',').map {|f| {:name=>f.strip}} : {})
+          :price=>price_str.to_f
         }
+        if flavours_str and flavours_str.strip.length > 0
+          record.merge!(:flavours_attributes=>flavours_str.split(',').map {|f| {:name=>f.strip}})
+        end
+        menu_items_attributes << record
       end
       next unless new_menu_name and new_menu_name.strip.length > 0
       if (new_menu_name != menu_name)
-        make_menu(menu_name, menu_item_attributes)
+        make_menu(prefix, menu_name, menu_items_attributes)
         menu_name = new_menu_name
-        menu_item_attributes = []
+        menu_items_attributes = []
       end
     end
-    make_menu(menu_name, menu_item_attributes)
-    
+    make_menu(prefix, menu_name, menu_items_attributes)
   end             
   
-  def self.make_menu(menu_name, menu_item_attributes)
-    if menu_name and menu_item_attributes.size > 0
-      menu = Menu.create(:name=>menu_name, :menu_item_attributes=>menu_item_attributes)
+  def self.make_menu(prefix, menu_name, menu_items_attributes)
+    permalink = "#{prefix} - #{menu_name}"
+    if menu_name and menu_items_attributes.size > 0
+      menu = Menu.create(:permalink=>permalink, :name=>menu_name, :menu_items_attributes=>menu_items_attributes)
     end
   end
 
