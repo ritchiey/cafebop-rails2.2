@@ -35,23 +35,40 @@ class Menu < ActiveRecord::Base
 
   def self.import_csv csv_data
     first = true
+    menu_name = nil
     menu_item_attributes = []
     CSV.parse(csv_data) do |row|
       if first # ignore first line
         first = false
         next
       end
-      next if row.all? {|c| c.strip.length == 0}
+      
+      next if row.all? {|c| !c or c.strip.length == 0} # ignore blank lines
       (new_menu_name, item_name, description, price_str, flavours_str) = *row
       
-      menu_item_attributes << {
-        :name=>item_name,
-        :description=>description,
-        :price=>price_str.to_f,
-        :flavours=>flavours_str.split(',').map {|f| {:name=>f}}
-      }
+      if item_name and item_name.strip.length > 0
+        menu_item_attributes << {
+          :name=>item_name,
+          :description=>description,
+          :price=>price_str.to_f,
+          :flavours=>(flavours_str ? flavours_str.split(',').map {|f| {:name=>f.strip}} : {})
+        }
+      end
+      next unless new_menu_name and new_menu_name.strip.length > 0
+      if (new_menu_name != menu_name)
+        make_menu(menu_name, menu_item_attributes)
+        menu_name = new_menu_name
+        menu_item_attributes = []
+      end
     end
-    menu = Menu.create(:name=>menu_name, :menu_item_attributes=>menu_item_attributes)
+    make_menu(menu_name, menu_item_attributes)
+    
+  end             
+  
+  def self.make_menu(menu_name, menu_item_attributes)
+    if menu_name and menu_item_attributes.size > 0
+      menu = Menu.create(:name=>menu_name, :menu_item_attributes=>menu_item_attributes)
+    end
   end
 
   def generic?
