@@ -4,27 +4,45 @@ class MenusControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
 
-  as admin do
+  def self.getting_the_import_page
     context "Getting the import page" do
       setup do
         get :import
       end
-    
+      yield
+    end
+  end
+
+  def self.posting_csv_menu_data_to_import_csv
+    context "Posting CSV menu data to import_csv" do
+      subject { "Some,CSV,Menu data" }
+      setup do           
+        post :import_csv, :menu_import=>{:prefix=>'thai', :data=>subject}
+      end
+      yield
+    end
+  end
+
+  context "When not authenticated" do
+    posting_csv_menu_data_to_import_csv {should_redirect_to("the login page") {login_path}}
+    getting_the_import_page {should_redirect_to("the login page") {login_path}}
+  end
+  
+  as admin do
+
+    getting_the_import_page do
       should_not_set_the_flash
       should_render_template 'import' 
       should_render_with_layout
       should_respond_with :success
     end
     
-    context "Posting CSV menu data to import_csv" do
-      setup do           
-        data ="Some,CSV,Menu data" 
-        Menu.expects('import_csv').with('thai', data)
-        post :import_csv, :menu_import=>{:prefix=>'thai', :data=>data}
+    posting_csv_menu_data_to_import_csv do  
+      before_should "expect call to import_csv" do
+        Menu.expects('import_csv').with('thai', subject )
       end
-      
-      should_redirect_to("the list of menus") {menus_path}
 
+      should_redirect_to("the list of menus") {menus_path}
     end
     
   end
