@@ -10,7 +10,8 @@ ActionController::Routing::Routes.draw do |map|
   map.dashboard '/dashboard', :controller=>'dashboard', :action=>'show'
   map.resources :menu_templates
   map.activate '/users/activate', :controller => 'users', :action => 'activate'
-  map.resources :users, :member=>{:activation_sent=>:get, :activate_invited=>:put} do |users|
+  map.resources :users, :shallow=>true, :member=>{:activation_sent=>:get, :activate_invited=>:put} do |users|
+    users.resources :work_contracts
     users.resources :friendships, :only=>[:new, :create, :destroy]
   end
   map.resources :user_sessions

@@ -11,4 +11,4 @@
         %br
         =h(friend.email)
       %p
-        = link_to 'Delete', user_friendship_path(friendship.user, friendship), :confirm => 'Really remove friend?', :method => :delete, :class =>'remove-btn'
+        = link_to 'Delete', friendship_path(friendship), :confirm => 'Really remove friend?', :method => :delete, :class =>'remove-btn'

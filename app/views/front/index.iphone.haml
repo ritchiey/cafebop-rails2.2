@@ -1,5 +1,15 @@
-%ul{ :title => "Cafebop", :selected => "true" }
-  %li
-    %a.grayButton.slideup{ :href => "#login" } Login
-  %li
-    = link_to 'root', root_path, :target => '_self'
+#home.current
+  .toolbar
+    %h1 Cafebop
+    %a#login-button.button.slideup{:href=>"#login"} Login
+    %a#logout-button.button{:href=>"#"} Logout
+  %ul
+    %li.arrow
+      %a{:href=>"#login"} Nearest Restaurants
+      %a{:href=>"#login"} Search for nearby restaurants
+  %h1 My Restaurants
+  %ul
+    %li.arrow
+      %a{:href=>"#restaurant"} Punch Cafe
+    %li.arrow
+      %a{:href=>"#restaurant"} The Imp Cafe

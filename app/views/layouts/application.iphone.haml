@@ -16,22 +16,8 @@
     
 
   %body
-    #home.current
-      .toolbar
-        %h1 Cafebop
-        %a#login-button.button.slideup{:href=>"#login"} Login
-        %a#logout-button.button{:href=>"#"} Logout
-      %ul
-        %li.arrow
-          %a{:href=>"#login"} Nearest Restaurants
-          %a{:href=>"#login"} Search for nearby restaurants
-      %h1 My Restaurants
-      %ul
-        %li.arrow
-          %a{:href=>"#restaurant"} Punch Cafe
-        %li.arrow
-          %a{:href=>"#restaurant"} The Imp Cafe
-          
+    !=yield
+        
     -form_for UserSession.new, :html=>{:id=>'login'} do |f|
       .toolbar
         %h1 Cafebop
@@ -44,86 +30,62 @@
           -#%input{:name=>'password', :type=>'password', :placeholder=>'Password', :id=>'password'} 
       %a.whiteButton.login Login    
       %a.grayButton.goback Cancel
-      
-    #mine
-      .toolbar
-        %a.back Back
-        %h1 My Restaurants
-      %ul
-        %li.arrow
-          %a{:href=>"#restaurant"} Punch Cafe
-        %li.arrow
-          %a{:href=>"#restaurant"} The Imp Cafe
-
-    -form_tag "/user_sessions/1", :method=>:delete, :id=>'logout' do |f|
-      %br
-
-    #restaurant
-      .toolbar
-        %a.back Back
-        %h1 Punch Cafe
-      %ul
-        %li.arrow
-          %a{:href=>"#order"} Place Order
-      %ul
-        %li.arrow
-          %a{:href=>"#queues"} Queues
-          
-    #queues
-      .toolbar
-        %a.back Back
-        %h1 Queues - Punch Cafe
-      %ul
-        %li
-          %a{:href=>"#queue"}
-            Front Counter
-            .small 2
-      %ul
-        %li.arrow
-          %a{:href=>"#queue"} Kitchen
-          .small 4
-    #queue
-      .toolbar
-        %a.back Back
-        %h1 Front Counter - Punch Cafe
-      %ul
-        %li.arrow
-          %a{:href=>"#order"} Jacob M
-          %a{:href=>"#order"} 2 Burgers, 1 Flat White
-          
-        
-        %li.arrow
-          %a{:href=>"#order"} Paul
-        
-        %li
-          %a{:href=>"#order"} fifty cent
-          
-    #order
-      .toolbar
-        %a.back Back
-        %h1 Order: Jacob M
-      %ul
-        %li
-          %a{:href=>"#item-detail"} 2 Burgers
-        %li
-          %a{:href=>"#item-detail"} 1 Flat White
-          
-    #item-detail
-      .toolbar
-        %a.back Back
-        %h1 2 Burgers
-      %ul
-        %li
-          %a.goback Make
-        %li
-          %a.goback Cancel
-       
-        
-
-      
-          
-      
-     
-          
-        
-         
+    /       
+    / #queues
+    /   .toolbar
+    /     %a.back Back
+    /     %h1 Queues - Punch Cafe
+    /   %ul
+    /     %li
+    /       %a{:href=>"#queue"}
+    /         Front Counter
+    /         .small 2
+    /   %ul
+    /     %li.arrow
+    /       %a{:href=>"#queue"} Kitchen
+    /       .small 4
+    / #queue
+    /   .toolbar
+    /     %a.back Back
+    /     %h1 Front Counter - Punch Cafe
+    /   %ul
+    /     %li.arrow
+    /       %a{:href=>"#order"} Jacob M
+    /       %a{:href=>"#order"} 2 Burgers, 1 Flat White
+    /       
+    /     
+    /     %li.arrow
+    /       %a{:href=>"#order"} Paul
+    /     
+    /     %li
+    /       %a{:href=>"#order"} fifty cent
+    /       
+    / #order
+    /   .toolbar
+    /     %a.back Back
+    /     %h1 Order: Jacob M
+    /   %ul
+    /     %li
+    /       %a{:href=>"#item-detail"} 2 Burgers
+    /     %li
+    /       %a{:href=>"#item-detail"} 1 Flat White
+    /       
+    / #item-detail
+    /   .toolbar
+    /     %a.back Back
+    /     %h1 2 Burgers
+    /   %ul
+    /     %li
+    /       %a.goback Make
+    /     %li
+    /       %a.goback Cancel
+    /    
+    /     
+    / 
+    /   
+    /       
+    /   
+    /  
+    /       
+    /     
+    /      

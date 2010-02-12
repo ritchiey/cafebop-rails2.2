@@ -24,9 +24,21 @@ class MenusControllerTest < ActionController::TestCase
   end
 
   context "When not authenticated" do
-    posting_csv_menu_data_to_import_csv {should_redirect_to("the login page") {login_path}}
-    getting_the_import_page {should_redirect_to("the login page") {login_path}}
+    posting_csv_menu_data_to_import_csv {should_require_login}
+    getting_the_import_page {should_require_login}
   end
+  
+
+  as an_active_user do
+    getting_the_import_page do
+      should_not_let_me
+    end
+    
+    posting_csv_menu_data_to_import_csv do
+      should_not_let_me
+    end
+  end
+  
   
   as admin do
 

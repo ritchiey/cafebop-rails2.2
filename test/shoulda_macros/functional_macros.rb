@@ -9,6 +9,12 @@ module FunctionalMacros
         yield
       end
     end
+  end 
+  
+  def as_guest
+    context "As a guest user" do
+      yield
+    end
   end
   
   def admin

@@ -4,11 +4,6 @@ class MenuItemsControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
 
-  def self.should_not_let_me
-    should_redirect_to("home page") {root_path}
-    should_set_the_flash_to "You're not authorized to do that."
-  end     
-  
   def self.should_let_me_edit
     should_assign_to(:menu_item) {@menu_item}
     should_respond_with :success
@@ -77,21 +72,6 @@ class MenuItemsControllerTest < ActionController::TestCase
         yield
       end
     end
-  end
-
-  def self.as user
-    context "As #{user.name}" do
-      setup do
-        login_as user
-      end
-      context "" do
-        yield
-      end
-    end
-  end
-  
-  def self.admin
-    User.make(:active).tap { |user| user.add_role('cafebop_admin') }   
   end
 
     
