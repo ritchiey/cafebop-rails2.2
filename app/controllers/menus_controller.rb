@@ -7,7 +7,8 @@ class MenusController < ApplicationController
 
   class ::MenuImport
     attr_accessor :prefix
-    attr_accessor :data
+    attr_accessor :data  
+    def id() 1; end
     def new_record?() true; end
     def self.human_name() "Menu Import"; end
   end

@@ -1,1 +1,8 @@
-%h1 Work Contracts - Index
+%h1 My Restaurants
+
+%table.my-restaurants
+  %thead
+    %tr
+      %th Restaurants
+  %tbody
+    != render :partial => 'shops/favourite', :collection=>@work_contracts, :as=>:work_contract

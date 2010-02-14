@@ -1,9 +1,15 @@
 module FunctionalMacros
 
+  def logout
+    UserSession.find.andand.destroy
+  end
+
   def as user
-    context "As #{user.name}" do
+    context "As #{user}" do
       setup do
+        logout
         login_as user
+        assert_equal user, controller.current_user
       end
       context "" do
         yield
@@ -13,7 +19,10 @@ module FunctionalMacros
   
   def as_guest
     context "As a guest user" do
-      yield
+      setup do
+        logout
+      end
+      context {yield}
     end
   end
   
@@ -28,10 +37,11 @@ module FunctionalMacros
   def should_not_let_me
     should_redirect_to("home page") {root_path}
     should_set_the_flash_to "You're not authorized to do that."
-  end     
+  end 
+  alias_method :should_not_be_allowed, :should_not_let_me
   
   def should_require_login
-    should_redirect_to("the login page") {login_path}    
+    should_redirect_to("the login page") {login_path}
   end
 
 end

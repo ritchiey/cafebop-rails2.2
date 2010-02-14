@@ -20,6 +20,11 @@ class ApplicationController < ActionController::Base
     Persistence.restore_from store, target, options
   end
   
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = current_user_session && current_user_session.user
+  end
+  alias_method :"authenticated?", :current_user
 
   protected
   
@@ -46,11 +51,6 @@ class ApplicationController < ActionController::Base
     @current_user_session = UserSession.find
   end
 
-  def current_user
-    return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.user
-  end
-  alias_method :"authenticated?", :current_user
   
   def admin?
     current_user and current_user.is_admin?
