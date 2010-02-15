@@ -114,7 +114,7 @@ class Shop < ActiveRecord::Base
 
   def virtual_menus
     franchise ? Menu.for_franchise(franchise).with_items : Menu.virtual_for_shop(self).with_items
-  end
+  end     
   
   # Return the menus that the customer should see when ordering whether
   # the be generic or specific to this shop

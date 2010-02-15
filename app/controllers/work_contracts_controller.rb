@@ -8,10 +8,8 @@ class WorkContractsController < ApplicationController
     belongs_to :user
   end
   
-  
-  # def current_objects
-  #   current_user.work_contracts
-  # end   
+  def index
+  end
   
   private
   

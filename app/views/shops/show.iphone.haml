@@ -1,0 +1,7 @@
+-if current_user.can_access_queues_of?(@shop)
+  %h1 Queues
+  %ul
+    -@shop.customer_queues.each do |queue|
+      %li.arrow
+        %a{:href=>customer_queue_path(queue)} #{h queue.name}
+      

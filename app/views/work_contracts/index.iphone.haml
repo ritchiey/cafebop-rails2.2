@@ -1,1 +1,12 @@
-This is the index for work_contracts!
+#home.current
+  .toolbar
+    %h1 Cafebop
+    %a#login-button.button.slideup{:href=>"#login"} Login
+    %a#logout-button.button{:href=>"#"} Logout
+  %ul
+    %li.arrow
+      %a{:href=>"#login"} Nearest Restaurants
+      %a{:href=>"#login"} Search for nearby restaurants
+  %h1 My Restaurants
+  %ul
+    != render :partial => 'shops/favourite', :collection=>@work_contracts, :as=>:work_contract

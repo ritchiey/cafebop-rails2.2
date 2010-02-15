@@ -3,20 +3,6 @@ require 'test_helper'
 class WorkContractsControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
-
-  def self.getting_index_for user
-    context "getting index" do
-      setup do
-        user = eval(user, self.send(:binding), __FILE__, __LINE__)
-        get :index, :user_id=>user.id
-      end
-  
-      context "" do
-        yield
-      end
-    end
-  end
-
   
   context "With an active_user" do
     setup do

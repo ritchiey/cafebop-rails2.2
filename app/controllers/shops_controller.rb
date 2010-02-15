@@ -12,7 +12,10 @@ class ShopsController < ApplicationController
   end               
   
   def show
-    redirect_to new_shop_order_path(@shop)
+    respond_to do |format|
+      format.html {redirect_to new_shop_order_path(@shop)}
+      format.iphone
+    end
   end    
   
   def create

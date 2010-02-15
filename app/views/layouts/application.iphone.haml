@@ -16,11 +16,19 @@
     
 
   %body
-    !=yield
+    .current
+      .toolbar
+        %a.back Back
+        %h1 #{@title || @shop || "Cafebop"}
+        %a#login-button.button.slideup{:href=>"#login"} Login
+        %a#logout-button.button{:href=>"#"} Logout
+    
+      !=yield
         
     -form_for UserSession.new, :html=>{:id=>'login'} do |f|
       .toolbar
-        %h1 Cafebop
+        %a.back Back
+        %h1 Cafebop - login
       %ul.rounded
         %li
           =f.text_field :email, :placeholder=>"Email Address"
