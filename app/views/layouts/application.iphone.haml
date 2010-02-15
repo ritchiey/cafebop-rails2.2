@@ -18,7 +18,8 @@
   %body
     .current
       .toolbar
-        %a.back Back
+        -unless current_page? root_path
+          %a.back Back
         %h1 #{@title || @shop || "Cafebop"}
         %a#login-button.button.slideup{:href=>"#login"} Login
         %a#logout-button.button{:href=>"#"} Logout
