@@ -11,20 +11,13 @@
       
       var user = '#{current_user ? current_user.name : ""}';
       
-    = javascript_include_tag '/jqtouch/jqtouch.min.js', 'mobile', :cache=>true
+    = javascript_include_tag '/jqtouch/jqtouch.js', 'mobile', :cache=>true
     = stylesheet_link_tag '/jqtouch/jqtouch.min.css', '/themes/apple/theme.min.css', 'mobile', :cache=>true
     
 
   %body
-    .current
-      .toolbar
-        -unless current_page? root_path
-          %a.back Back
-        %h1 #{@title || @shop || "Cafebop"}
-        %a#login-button.button.slideup{:href=>"#login"} Login
-        %a#logout-button.button{:href=>"#"} Logout
     
-      !=yield
+    !=yield
         
     -form_for UserSession.new, :html=>{:id=>'login'} do |f|
       .toolbar
@@ -40,9 +33,9 @@
       %a.whiteButton.login Login    
       %a.grayButton.goback Cancel
       
-    #show-queue
-      %h1 Queue
-      %ul#orders
+    / #show-queue
+    /   %h1 Queue
+    /   %ul#orders
       
     /       
     / #queues

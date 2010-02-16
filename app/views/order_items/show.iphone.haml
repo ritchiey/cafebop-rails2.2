@@ -1,4 +1,4 @@
-#show-order.current
+#show-order-item.current
   .toolbar
     -unless current_page? root_path
       %a.back Back
@@ -6,8 +6,8 @@
     %a#login-button.button.slideup{:href=>"#login"} Login
     %a#logout-button.button{:href=>"#"} Logout
 
-  %h1 #{h @order.user}
+  %h1 #{@order_item.quantity} #{h(@order_item.description)}
 
-  %ul
-    -@order.summarized_order_items.each do |order_item|
-      %li.arrow #{link_to order_item, order_item_path(order_item)}
+  -form_for @order_item, :url=>{:action=>:make} do |f|
+    =link_to "Make", nil, :class=>"whiteButton submit"
+

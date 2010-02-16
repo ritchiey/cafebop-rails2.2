@@ -38,10 +38,6 @@ class CustomerQueuesController < QueuesController
     @orders = @queue.current_orders
     @queue.shop.accepts_queued_orders? or
     flash.now[:error] = "Queuing for #{@queue.shop.name} is currently disabled. You won't receive any orders."
-    respond_to do |format|
-      format.iphone
-      format.html
-    end
   end
 
   def current_orders

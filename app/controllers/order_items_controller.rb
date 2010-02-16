@@ -4,26 +4,18 @@ class OrderItemsController < ApplicationController
   before_filter :only_if_staff, :except=>[:index]
   
   make_resourceful do
-    actions :index
+    actions :index, :show
     belongs_to :order
   
-    response_for :index do |format|
-      format.json {render :json=>[{:name=>'roger'}, {:name=>'rabbit'}]}
-      format.html {"{[{name:'Roger'}, {name:'Rabbit'}]}"}
-    end
-    
+    # response_for :index do |format|
+    #   format.json {render :json=>[{:name=>'roger'}, {:name=>'rabbit'}]}
+    #   format.html {"{[{name:'Roger'}, {name:'Rabbit'}]}"}
+    # end
   end
   
-  # def index
-  #   @order = Order.find(params[:order_id])
-  #   @order_items = @order.order_items
-  #   debugger
-  #   respond_to do |format|
-  #     format.js {"blah"}
-  #     format.html
-  #   end
-  # end
-  
+  def show
+    
+  end
 
   
   def make
@@ -32,6 +24,7 @@ class OrderItemsController < ApplicationController
     when 'order': render :partial=>'orders/order', :object=>@order_item.order
     else
       respond_to do |format|
+        format.iphone {redirect_to order_path(@order_item.order)}
         format.html {redirect_back_or_default}
         format.json {render :json=>"{#{@order_item.order.to_json(:include=>[:order_items])}}"}
       end

@@ -1,9 +1,17 @@
-#show-queue
+#show-customer-queue.current
+  .toolbar
+    -unless current_page? root_path
+      %a.back{:hash=>'show-shop'} Back
+    %h1 #{@title || @shop || "Cafebop"}
+    %a#login-button.button.slideup{:href=>"#login"} Login
+    %a#logout-button.button{:href=>"#"} Logout
+    
+    
   %h1 #{@queue.name}
 
   %ul#orders
-    / -@orders.each do |order|
-    /   %li.arrow
-    /     %a{:href=>order_path(order)} #{order.user}
-    /     %a{:href=>order_path(order)} #{order.summarized_order_items.join(', ')}
-    
+    -@orders.each do |order|
+      %li.arrow
+        %a{:href=>order_path(order)} #{order.user}
+        %a{:href=>order_path(order)} #{order.summarized_order_items.join(', ')}
+  

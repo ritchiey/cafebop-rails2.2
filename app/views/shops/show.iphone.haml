@@ -1,8 +1,16 @@
--if current_user.can_access_queues_of?(@shop)
-  %h1 Queues
-  %ul
-    -@shop.customer_queues.each do |queue|
-      %li.arrow
-        %a{:href=>'#show-queue'}  #{h queue.name}
-        / %a{:href=>customer_queue_path(queue)} #{h queue.name}
-      
+#show-shop.current
+  .toolbar
+    -unless current_page? root_path
+      %a.back Back
+    %h1 #{@title || @shop || "Cafebop"}
+    %a#login-button.button.slideup{:href=>"#login"} Login
+    %a#logout-button.button{:href=>"#"} Logout
+
+  -if current_user.can_access_queues_of?(@shop)
+    %h1 Queues
+    %ul
+      -@shop.customer_queues.each do |queue|
+        %li.arrow
+          / %a{:href=>'#show-queue'}  #{h queue.name}
+          %a{:href=>customer_queue_path(queue)} #{h queue.name}
+    
