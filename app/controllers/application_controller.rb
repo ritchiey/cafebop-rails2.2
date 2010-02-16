@@ -148,9 +148,8 @@ private
     redirect_to root_path
   end    
 
-  # Set iPhone format if request to iphone.trawlr.com
   def adjust_format_for_iphone
-    request.format = :iphone if iphone_user_agent?
+    request.format = :iphone if iphone_user_agent? and request.format != 'application/json'
   end
 
   def iphone_user_agent?           

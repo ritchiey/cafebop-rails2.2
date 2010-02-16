@@ -1,0 +1,9 @@
+#show-queue
+  %h1 #{@queue.name}
+
+  %ul#orders
+    / -@orders.each do |order|
+    /   %li.arrow
+    /     %a{:href=>order_path(order)} #{order.user}
+    /     %a{:href=>order_path(order)} #{order.summarized_order_items.join(', ')}
+    

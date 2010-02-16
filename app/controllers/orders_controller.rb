@@ -17,7 +17,11 @@ class OrdersController < OrdersRelatedController
   before_filter :only_if_shop_monitoring_queues, :only => [:place, :pay_in_shop, :pay_paypal]
   after_filter :mark_as_mine, :only=>[:create, :accept]
 
-  def show  
+  def show
+    respond_to do |format|
+      format.iphone
+      format.html
+    end
   end
 
   def new

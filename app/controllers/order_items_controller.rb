@@ -1,7 +1,30 @@
 class OrderItemsController < ApplicationController
   
-  before_filter :find_order_item
-  before_filter :only_if_staff
+  before_filter :find_order_item, :except=>[:index]
+  before_filter :only_if_staff, :except=>[:index]
+  
+  make_resourceful do
+    actions :index
+    belongs_to :order
+  
+    response_for :index do |format|
+      format.json {render :json=>[{:name=>'roger'}, {:name=>'rabbit'}]}
+      format.html {"{[{name:'Roger'}, {name:'Rabbit'}]}"}
+    end
+    
+  end
+  
+  # def index
+  #   @order = Order.find(params[:order_id])
+  #   @order_items = @order.order_items
+  #   debugger
+  #   respond_to do |format|
+  #     format.js {"blah"}
+  #     format.html
+  #   end
+  # end
+  
+
   
   def make
     @order_item.make!
@@ -14,7 +37,6 @@ class OrderItemsController < ApplicationController
       end
     end
   end
-
 
   def find_order_item
     @order_item = OrderItem.find(params[:id])

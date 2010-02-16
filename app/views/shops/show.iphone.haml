@@ -3,5 +3,6 @@
   %ul
     -@shop.customer_queues.each do |queue|
       %li.arrow
-        %a{:href=>customer_queue_path(queue)} #{h queue.name}
+        %a{:href=>'#show-queue'}  #{h queue.name}
+        / %a{:href=>customer_queue_path(queue)} #{h queue.name}
       

@@ -1,0 +1,5 @@
+%h1 #{h @order.user}
+
+%ul
+  -@order.summarized_order_items.each do |order_item|
+    %li #{h order_item}
