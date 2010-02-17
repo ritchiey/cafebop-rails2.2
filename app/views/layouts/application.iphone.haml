@@ -17,8 +17,27 @@
 
   %body
     
-    !=yield
+    / Home page
+    #home.current
+      .toolbar
+        %h1 Cafebop
+        %a#login-button.button.slideup{:href=>"#login"} Login
+        %a#logout-button.button{:href=>"#"} Logout
         
+      %ul
+        %li.arrow
+          %a{:href=>"#login"} Nearest Restaurants
+          %a{:href=>"#login"} Search for nearby restaurants 
+
+      %h1 My Restaurants
+      %ul.my-restaurants
+        %li
+          Loading...
+        / %li.arrow
+        /   %a{:href=>'#show-shop', :target_id=>'1'} Punch Cafe
+            
+            
+    / Login Form
     -form_for UserSession.new, :html=>{:id=>'login'} do |f|
       .toolbar
         %a.back Back
@@ -33,66 +52,65 @@
       %a.whiteButton.login Login    
       %a.grayButton.goback Cancel
       
-    / #show-queue
-    /   %h1 Queue
-    /   %ul#orders
-      
-    /       
-    / #queues
-    /   .toolbar
-    /     %a.back Back
-    /     %h1 Queues - Punch Cafe
-    /   %ul
-    /     %li
-    /       %a{:href=>"#queue"}
-    /         Front Counter
-    /         .small 2
-    /   %ul
-    /     %li.arrow
-    /       %a{:href=>"#queue"} Kitchen
-    /       .small 4
-    / #queue
-    /   .toolbar
-    /     %a.back Back
-    /     %h1 Front Counter - Punch Cafe
-    /   %ul
-    /     %li.arrow
-    /       %a{:href=>"#order"} Jacob M
-    /       %a{:href=>"#order"} 2 Burgers, 1 Flat White
-    /       
-    /     
-    /     %li.arrow
-    /       %a{:href=>"#order"} Paul
-    /     
-    /     %li
-    /       %a{:href=>"#order"} fifty cent
-    /       
-    / #order
-    /   .toolbar
-    /     %a.back Back
-    /     %h1 Order: Jacob M
-    /   %ul
-    /     %li
-    /       %a{:href=>"#item-detail"} 2 Burgers
-    /     %li
-    /       %a{:href=>"#item-detail"} 1 Flat White
-    /       
-    / #item-detail
-    /   .toolbar
-    /     %a.back Back
-    /     %h1 2 Burgers
-    /   %ul
-    /     %li
-    /       %a.goback Make
-    /     %li
-    /       %a.goback Cancel
-    /    
-    /     
-    / 
-    /   
-    /       
-    /   
-    /  
-    /       
-    /     
-    /      
+
+    / Show Shop
+    #show-shop
+      .toolbar
+        %a.back Back
+        %h1 Punch Cafe
+      %ul
+        %li
+          %a{:href=>"#customer-queue"}
+            Front Counter
+            .small 2
+      %ul
+        %li.arrow
+          %a{:href=>"#queue"} Kitchen
+          .small 4
+
+
+    #customer-queue
+      .toolbar
+        %a.back Back
+        %h1 Front Counter - Punch Cafe
+      %ul
+        %li.arrow
+          %a{:href=>"#order"} Jacob M
+          %a{:href=>"#order"} 2 Burgers, 1 Flat White
+          
+        
+        %li.arrow
+          %a{:href=>"#order"} Paul
+        
+        %li
+          %a{:href=>"#order"} fifty cent
+
+    / Show Kitchen Queue
+    #show-queue
+      %h1 Queue
+      %ul#orders
+    
+    
+    / Show Order
+    #order
+      .toolbar
+        %a.back Back
+        %h1 Order: Jacob M
+      %ul
+        %li
+          %a{:href=>"#item-detail"} 2 Burgers
+        %li
+          %a{:href=>"#item-detail"} 1 Flat White
+          
+          
+    / Show Order Item      
+    #item-detail
+      .toolbar
+        %a.back Back
+        %h1 2 Burgers
+      %ul
+        %li
+          %a.goback Make
+        %li
+          %a.goback Cancel
+       

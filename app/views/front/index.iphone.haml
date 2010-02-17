@@ -15,4 +15,5 @@
     %ul
       - @work_contracts.each do |work_contract|
         %li.arrow
-          %a{:href=>shop_path(work_contract.shop)} #{work_contract.shop}
+          %a{:href=>'#show-shop', :target_id=>work_contract.shop_id} #{work_contract.shop}
+        / %a{:href=>shop_path(work_contract.shop)} #{work_contract.shop}

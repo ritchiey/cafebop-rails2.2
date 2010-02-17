@@ -12,6 +12,11 @@ Shop.blueprint do
   lng { 115.8909351 }
 end
 
+CustomerQueue.blueprint do
+  name { Sham.company_name}
+  shop
+end
+
 Menu.blueprint do
   shop
 end
