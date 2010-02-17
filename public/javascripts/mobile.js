@@ -44,9 +44,12 @@ var app = {
   
   loadHome: function() {
     if (app.isLoggedIn()) {
-      alert('Loading home');
       app.getContent("/", function(data) {
         alert('got data');
+        jQuery.each(data.work_contracts, function() {
+          var wc = this.work_contract;
+          alert('wc: ' + wc.role);
+        });
       })
     } else {
       alert('Not logged in so clearing home!');
