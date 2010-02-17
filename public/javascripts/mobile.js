@@ -28,6 +28,10 @@ var app = {
     return false; 
   },
   
+  listLink: function(label, href, target_id) {
+    return "<li><a href='"+href+"' target_id='"+target_id+"'>"+label+"</a></li>";
+  },
+  
   getContent: function(url, success) {
     $.ajax({
       type: 'GET',
@@ -45,10 +49,11 @@ var app = {
   loadHome: function() {
     if (app.isLoggedIn()) {
       app.getContent("/", function(data) {
-        alert('got data');
+        var $shopList = $('.my-restaurants');
         jQuery.each(data.work_contracts, function() {
           var wc = this.work_contract;
-          alert('wc: ' + wc.role);
+          var shop = wc.shop;
+          $shopList.append(app.listLink(shop.name, "#show-shop", shop.id));
         });
       })
     } else {
