@@ -29,7 +29,7 @@ var app = {
   },
   
   listLink: function(label, href, target_id) {
-    return "<li class='arrow'><a href='"+href+"' target_id='"+target_id+"'>"+label+"</a></li>";
+    return "<li class='arrow'><a class='to-shop' href='#' target-id='"+target_id+"'>"+label+"</a></li>";
   },
   
   getContent: function(url, success) {
@@ -89,8 +89,18 @@ var app = {
 };         
 
 
+// Manage link events
+$('a.to-shop').tap(function(e) {
+  app.shop_id = $(this).attr('target-id');
+  jQT.goTo('#show-shop', 'slide');
+  return false;
+});
+
+
 $(function() { // on page ready
   
+
+
   $('a.login').tap(function(e) { 
     var $form = $(this).closest("form");
     return app.login($form);   
@@ -119,20 +129,6 @@ $(function() { // on page ready
   });
   
   app.loadHome();
-
-  // $('#show-queue').bind('pageAnimationEnd', function(e, info) {
-  //   // alert('Going '+info.direction);
-  //   if (info.direction == 'out') return;
-  //   var order_id = 1; // TODO: pick up this value from the page
-  //   app.getContent('/orders/'+order_id+'/order_items', function(data) {
-  //     alert('Got content!!');
-  //     var $ul = $('ul#orders');
-  //     $ul.append('<li>Something</li>');
-  //     jQuery.each(data, function() {
-  //       $ul.append('<li>'+this.name+'</li>');
-  //     });
-  //   });
-  // }); 
-
+  
 
 });
