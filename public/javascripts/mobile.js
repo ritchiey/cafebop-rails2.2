@@ -29,19 +29,14 @@ var app = {
   },
   
   listLink: function(label, href, target_id) {
-    return "<li><a href='"+href+"' target_id='"+target_id+"'>"+label+"</a></li>";
+    return "<li class='arrow'><a href='"+href+"' target_id='"+target_id+"'>"+label+"</a></li>";
   },
   
   getContent: function(url, success) {
     $.ajax({
       type: 'GET',
       success: success,
-      url: url,
-      // beforeSend: function(xhr) {
-      //   xhr.setRequestHeader("Accept", "text/javascript");
-      //   alert(xhr);
-      //   return true;
-      // },  
+      url: url, 
       dataType: 'json'
     });
   },
@@ -50,11 +45,13 @@ var app = {
     if (app.isLoggedIn()) {
       app.getContent("/", function(data) {
         var $shopList = $('.my-restaurants');
-        jQuery.each(data.work_contracts, function() {
-          var wc = this.work_contract;
+        var shopListEntries = jQuery.map(data.work_contracts, function(el) {
+          var wc = el.work_contract;
           var shop = wc.shop;
-          $shopList.append(app.listLink(shop.name, "#show-shop", shop.id));
+          return app.listLink(shop.name, "#show-shop", shop.id);
         });
+        $shopList.empty();
+        $shopList.append(shopListEntries.join(''));
       })
     } else {
       alert('Not logged in so clearing home!');
