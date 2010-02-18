@@ -43,7 +43,7 @@ var app = {
   
   loadHome: function() {
     if (app.isLoggedIn()) {
-      app.getContent("/", function(data) {
+      app.getContent("/", function(data) { 
         var $shopList = $('.my-restaurants');
         var shopListEntries = jQuery.map(data.work_contracts, function(el) {
           var wc = el.work_contract;
@@ -56,6 +56,15 @@ var app = {
     } else {
       alert('Not logged in so clearing home!');
       app.clearHomePage();
+    }
+  },
+  
+  loadShowShop: function() {
+    $('#shop-name').text('Loading...');    
+    if (app.isLoggedIn()) {
+      app.getContent("/shops/"+app.shopId+"/", function(data) {
+        $('#shop-name').text(data.shop.name);
+      });
     }
   },
   
@@ -91,15 +100,13 @@ var app = {
 
 // Manage link events
 $('a.to-shop').tap(function(e) {
-  app.shop_id = $(this).attr('target-id');
+  app.shopId = $(this).attr('target-id');
   jQT.goTo('#show-shop', 'slide');
   return false;
 });
 
 
 $(function() { // on page ready
-  
-
 
   $('a.login').tap(function(e) { 
     var $form = $(this).closest("form");
@@ -123,10 +130,18 @@ $(function() { // on page ready
   
   app.updateFormControls();  
 
+  // Bind page load events
+  // TODO: write a method to DRY these up
   $('#home').bind('pageAnimationEnd', function(e, info) {
      if (info.direction == 'out') return;
      app.loadHome();
   });
+  
+  $('#show-shop').bind('pageAnimationEnd', function(e, info) {
+     if (info.direction == 'out') return;
+     app.loadShowShop();
+  });
+  
   
   app.loadHome();
   
