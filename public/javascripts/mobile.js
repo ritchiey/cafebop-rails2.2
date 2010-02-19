@@ -71,31 +71,31 @@ var app = {
         var shop = data.shop;
         $('#shop-name').text(shop.name);
         var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
-          return app.listLink(queue.name, 'to-customer-queue', queue.id);
+          return app.listLink(queue.name, 'to-show-customer-queue', queue.id);
         });
-        var $queueList = $('#customer-queue-list');
+        var $queueList = $('#queue-list');
         $queueList.empty();
-        $queueList.append(customerQueueListEntries);
+        $queueList.append(customerQueueListEntries.join(''));
       });
     }
   },
  
   
-  // loadShowCustomerQueue: function() {
-  //   $('#queue-name').text('Loading...');
-  //   if (app.isLoggedIn()) {
-  //     app.getContent("/customer_queues/"+app.customer_queue_id+"/", function(data) {
-  //       var shop = data.shop;
-  //       $('#shop-name').text(shop.name);
-  //       var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
-  //         return app.listLink(queue.name, 'to-customer-queue', queue.id);
-  //       });
-  //       var $queueList = $('#customer-queue-list');
-  //       $queueList.empty();
-  //       $queueList.append(customerQueueListEntries);
-  //     });
-  //   }
-  // },  
+  loadShowCustomerQueue: function() {
+    $('#customer-queue-name').text('Loading...');
+    if (app.isLoggedIn()) {
+      app.getContent("/customer_queues/"+app.customer_queue_id+"/", function(data) {
+        var queue = data.customer_queue
+        $('#customer-queue-name').text(queue.name);
+        var orderLinks = jQuery.map(queue.orders, function(order) {
+          return app.listLink(order.name, 'to-show-queued-order', order.id);
+        });
+        var $orderList = $('#order-list');
+        $orderList.empty();
+        $orderList.append(orderLinks.join(''));
+      });
+    }
+  },     
 
   bindPage: function(pageSelector, onLoad) {
     $(pageSelector).bind('pageAnimationEnd', function(e, info) {

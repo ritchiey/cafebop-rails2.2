@@ -38,6 +38,18 @@ class CustomerQueuesController < QueuesController
     @orders = @queue.current_orders
     @queue.shop.accepts_queued_orders? or
     flash.now[:error] = "Queuing for #{@queue.shop.name} is currently disabled. You won't receive any orders."
+    respond_to do |format|
+      format.html
+      format.iphone
+      format.json do
+        render :json=>@queue.to_json(:only=>[:name, :id], :include=>{
+          :orders=>{
+            :methods=>[:grand_total, :summarized_order_items],
+            :include=>{:user=>{:only=>[:name]}}
+          }
+        })
+      end
+    end
   end
 
   def current_orders
