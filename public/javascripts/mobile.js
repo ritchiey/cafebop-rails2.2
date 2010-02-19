@@ -48,7 +48,7 @@ var app = {
         var shopListEntries = jQuery.map(data.work_contracts, function(el) {
           var wc = el.work_contract;
           var shop = wc.shop;
-          return app.listLink(shop.name, 'to-shop', shop.id);
+          return app.listLink(shop.name, 'to-show-shop', shop.id);
         });
         $shopList.empty();
         $shopList.append(shopListEntries.join(''));
@@ -67,13 +67,58 @@ var app = {
         $('#shop-name').text(shop.name);
         var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
           return app.listLink(queue.name, 'to-customer-queue', queue.id);
-        }); 
+        });
         var $queueList = $('#customer-queue-list');
         $queueList.empty();
         $queueList.append(customerQueueListEntries);
       });
     }
   },
+ 
+  
+  // loadShowCustomerQueue: function() {
+  //   $('#queue-name').text('Loading...');
+  //   if (app.isLoggedIn()) {
+  //     app.getContent("/customer_queues/"+app.customerQueueId+"/", function(data) {
+  //       var shop = data.shop;
+  //       $('#shop-name').text(shop.name);
+  //       var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
+  //         return app.listLink(queue.name, 'to-customer-queue', queue.id);
+  //       });
+  //       var $queueList = $('#customer-queue-list');
+  //       $queueList.empty();
+  //       $queueList.append(customerQueueListEntries);
+  //     });
+  //   }
+  // },  
+
+  bindPage: function(pageSelector, onLoad) {
+    $(pageSelector).bind('pageAnimationEnd', function(e, info) {
+       if (info.direction == 'out') return;
+       onLoad();
+    });
+  },
+ 
+  bindLink: function(linkSelector, pageSelector, beforeRender) {
+    $(linkSelector).tap(function(e) {
+      beforeRender(e);
+      jQT.goTo(pageSelector, 'slide');
+      return false;
+    });
+  },
+  
+  // Register a static page ('#verb-noun') that may load dynamic data
+  // when displayed. Also hook the tap event on any a.to-verb-noun links
+  // and set an variable app.nounId to be the value taken from the 'target-id'
+  // attribute of the link.
+  addPage: function(verb, noun, onLoad) {
+    $(function() {app.bindPage('#'+verb+'-'+noun, onLoad)});
+    // app.bindLink('a.to-show-shop', '#show-shop', function(e) {app.shopId = $(e.target).attr('target-id')});
+    app.bindLink('a.to-'+verb+'-'+noun, '#'+verb+'-'+noun, function(e) {
+      app[noun+'Id'] = $(e.target).attr('target-id');
+    });
+  },
+
   
   submitForm: function(form, onComplete) {
     $.ajax({
@@ -105,12 +150,6 @@ var app = {
 };         
 
 
-// Manage link events
-$('a.to-shop').tap(function(e) {
-  app.shopId = $(this).attr('target-id');
-  jQT.goTo('#show-shop', 'slide');
-  return false;
-});
 
 
 $(function() { // on page ready
@@ -137,20 +176,20 @@ $(function() { // on page ready
   
   app.updateFormControls();  
 
-  // Bind page load events
-  // TODO: write a method to DRY these up
-  $('#home').bind('pageAnimationEnd', function(e, info) {
-     if (info.direction == 'out') return;
-     app.loadHome();
-  });
-  
-  $('#show-shop').bind('pageAnimationEnd', function(e, info) {
-     if (info.direction == 'out') return;
-     app.loadShowShop();
-  });
+
+  // Setup load events for each page
+  app.bindPage('#home', app.loadHome);
+  // app.bindPage('#show-shop', app.loadShowShop);
+  app.bindPage('#show-customer-queue', app.loadShowCustomerQueue);
+
+  // Setup tap events for various links
+  // app.bindLink('a.to-shop', '#show-shop', function(e) {app.shopId = $(e.target).attr('target-id')});
+  app.bindLink('a.to-customer-queue', '#show-customer-queue', function(e) {app.shopId = $(e.target).attr('target-id')});
   
   
   app.loadHome();
   
 
 });
+
+app.addPage('show', 'shop', app.loadShowShop);
