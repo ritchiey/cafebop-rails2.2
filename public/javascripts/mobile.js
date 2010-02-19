@@ -9,7 +9,12 @@ var jQT = $.jQTouch({
 
 
 
-var app = {
+var app = { 
+  
+  underscore: function(src) {
+    return src.replace(/-/g, "_" );
+  },
+  
   login: function($form) {
     $.ajax({
      type: $form.attr('method'),
@@ -62,7 +67,7 @@ var app = {
   loadShowShop: function() {
     $('#shop-name').text('Loading...');
     if (app.isLoggedIn()) {
-      app.getContent("/shops/"+app.shopId+"/", function(data) {
+      app.getContent("/shops/"+app.shop_id+"/", function(data) {
         var shop = data.shop;
         $('#shop-name').text(shop.name);
         var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
@@ -79,7 +84,7 @@ var app = {
   // loadShowCustomerQueue: function() {
   //   $('#queue-name').text('Loading...');
   //   if (app.isLoggedIn()) {
-  //     app.getContent("/customer_queues/"+app.customerQueueId+"/", function(data) {
+  //     app.getContent("/customer_queues/"+app.customer_queue_id+"/", function(data) {
   //       var shop = data.shop;
   //       $('#shop-name').text(shop.name);
   //       var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
@@ -109,13 +114,13 @@ var app = {
   
   // Register a static page ('#verb-noun') that may load dynamic data
   // when displayed. Also hook the tap event on any a.to-verb-noun links
-  // and set an variable app.nounId to be the value taken from the 'target-id'
+  // and set an variable app.noun_id to be the value taken from the 'target-id'
   // attribute of the link.
-  addPage: function(verb, noun, onLoad) {
-    $(function() {app.bindPage('#'+verb+'-'+noun, onLoad)});
-    // app.bindLink('a.to-show-shop', '#show-shop', function(e) {app.shopId = $(e.target).attr('target-id')});
-    app.bindLink('a.to-'+verb+'-'+noun, '#'+verb+'-'+noun, function(e) {
-      app[noun+'Id'] = $(e.target).attr('target-id');
+  addPage: function(verb, noun, onLoad) {  
+    var pageSelector = '#'+verb+'-'+noun
+    $(function() {app.bindPage(pageSelector, onLoad)});
+    app.bindLink('a.to-'+verb+'-'+noun, pageSelector, function(e) {
+      app[app.underscore(noun)+'_id'] = $(e.target).attr('target-id');
     });
   },
 
@@ -192,4 +197,5 @@ $(function() { // on page ready
 
 });
 
-app.addPage('show', 'shop', app.loadShowShop);
+app.addPage('show', 'shop', app.loadShowShop); 
+app.addPage('show', 'customer-queue', app.loadShowCustomerQueue);
