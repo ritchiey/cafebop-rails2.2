@@ -15,7 +15,12 @@ class ShopsController < ApplicationController
     respond_to do |format|
       format.html {redirect_to new_shop_order_path(@shop)}
       format.iphone
-      format.json { render :json=>@shop}
+      format.json { render :json=>@shop.to_json(
+        :only=>[:id, :name],
+        :include=>{
+          :customer_queues=>{:only=>[:name, :id, :active]},
+          :item_queues=>{:only=>[:name, :id, :active]}
+        })}
     end
   end    
   

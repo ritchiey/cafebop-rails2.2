@@ -28,8 +28,8 @@ var app = {
     return false; 
   },
   
-  listLink: function(label, href, target_id) {
-    return "<li class='arrow'><a class='to-shop' href='#' target-id='"+target_id+"'>"+label+"</a></li>";
+  listLink: function(label, classes, target_id) {
+    return "<li class='arrow'><a class='"+classes+"' href='#' target-id='"+target_id+"'>"+label+"</a></li>";
   },
   
   getContent: function(url, success) {
@@ -48,7 +48,7 @@ var app = {
         var shopListEntries = jQuery.map(data.work_contracts, function(el) {
           var wc = el.work_contract;
           var shop = wc.shop;
-          return app.listLink(shop.name, "#show-shop", shop.id);
+          return app.listLink(shop.name, 'to-shop', shop.id);
         });
         $shopList.empty();
         $shopList.append(shopListEntries.join(''));
@@ -60,10 +60,17 @@ var app = {
   },
   
   loadShowShop: function() {
-    $('#shop-name').text('Loading...');    
+    $('#shop-name').text('Loading...');
     if (app.isLoggedIn()) {
       app.getContent("/shops/"+app.shopId+"/", function(data) {
-        $('#shop-name').text(data.shop.name);
+        var shop = data.shop;
+        $('#shop-name').text(shop.name);
+        var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
+          return app.listLink(queue.name, 'to-customer-queue', queue.id);
+        }); 
+        var $queueList = $('#customer-queue-list');
+        $queueList.empty();
+        $queueList.append(customerQueueListEntries);
       });
     }
   },
