@@ -1,0 +1,2 @@
+module QueuedOrderItemsHelper
+end

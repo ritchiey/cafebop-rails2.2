@@ -16,6 +16,9 @@ class OrderItem < ActiveRecord::Base
   belongs_to :size
   belongs_to :flavour
   
+  has_one :user, :through=>:order
+  has_one :shop, :through=>:order
+  
   attr_accessible :quantity, :notes, :menu_item, :size, :flavour,
                   :menu_item_id, :size_id, :flavour_id
 
@@ -40,7 +43,8 @@ class OrderItem < ActiveRecord::Base
     items
   end
 
-  def user() order.user; end
+  # def shop() order.shop; end
+  # def user() order.user; end
 
   def cost_in_cents
     (quantity||0) * (price_in_cents||0)

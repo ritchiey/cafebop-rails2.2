@@ -140,7 +140,7 @@ var app = {
       serverControllerName: 'queued_orders',
       getTitle: function(order) {return order.effective_name},
       entryToHtml: function(order_item, list_name) {
-        return app.listLink(order_item.quantity+' '+order_item.description, 'to-show-queued-order-item arrow', order_item.id)
+        return app.listLink(order_item.quantity+' '+order_item.description, 'to-show-queued-order-item', order_item.id)
       }
     });
   },
@@ -148,6 +148,7 @@ var app = {
 
   loadShowQueuedOrderItem: function() {
     app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
+      serverControllerName: 'queued_order_items',
       serverObjectName: 'order_item', 
       getTitle: function(order_item) {return order_item.description}
     })
