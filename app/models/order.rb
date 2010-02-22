@@ -173,8 +173,11 @@ class Order < ActiveRecord::Base
   end
   
   def summarized_order_items
-    OrderItem.summarize([order_items,
-      child_orders.map {|o| o.order_items}].flatten.select {|o| o.queued? or o.made?})
+    OrderItem.summarize(all_order_items.select {|o| o.queued? or o.made?})
+  end                                  
+  
+  def all_order_items
+    [order_items, child_orders.map {|o| o.order_items}].flatten
   end
 
   def payment_method

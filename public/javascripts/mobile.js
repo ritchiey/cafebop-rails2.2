@@ -123,15 +123,13 @@ var app = {
     return(str.replace(/-/g, '_'));
   },
 
-  loadDynamicPage: function(pageSelector, localObjectName, serverObjectName, getTitle, entryToHtml) {
+  loadDynamicPage: function(pageSelector, localObjectName, options) {
     var titleSelector = pageSelector + ' .title';
     var listSelector = pageSelector + ' .list';
+    var serverObjectName = options['serverObjectName'] || localObjectName;
     var serverCollectionName = serverObjectName + 's'
-    if (getTitle == null) {
-      getTitle = function(obj) {return obj.name};
-    }
-    
-    entryToHtml = entryToHtml || function(subObj, subCollectionName) {
+    var getTitle = options['getTitle'] || function(obj) {return obj.name};
+    var entryToHtml = options['entryToHtml'] || function(subObj, subCollectionName) {
       return app.listLink(subObj.name, 'to-'+subCollectionName, subObj.id);
     }
     
@@ -268,12 +266,11 @@ app.addPage('show', 'shop', app.loadShowShop);
 app.addPage('show', 'customer-queue', app.loadShowCustomerQueue);
 // app.addPage('show', 'queued-order', app.loadShowQueuedOrder);
 app.addPage('show', 'queued-order', function() {
-  app.loadDynamicPage('#show-queued-order', 'queued_order', 'order',
-    function(order) {
-      return order.effective_name;
-    },
-    function(order_item, list_name) {
+  app.loadDynamicPage('#show-queued-order', 'queued_order', {
+    serverObjectName: 'order',
+    getTitle: function(order) {return order.effective_name},
+    entryToHtml: function(order_item, list_name) {
       return app.listLink(order_item.quantity+' '+order_item.description, 'arrow', order_item.id)
     }
-  );
+  });
 });
