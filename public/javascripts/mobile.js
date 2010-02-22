@@ -167,21 +167,29 @@ var app = {
     });
   },
 
+
   loadShowQueuedOrderItem: function() {
-    $('#order-item-name').text('Loading...');
-    if (app.isLoggedIn()) {
-      app.getContent("/orders_items/"+app.queued_order_item_id+"/", function(data) {
-        var order = data.order
-        $('#order-name').text(order.name);
-        var orderItemLinks = jQuery.map(order.order_items, function(order_item) {
-          return app.listLink(order_item.description, 'to-show-queued-order-item', order_item.id);
-        });
-        var $orderItemList = $('#order-item-list');
-        $orderList.empty();
-        $orderList.append(orderLinks.join(''));
-      });
-    }
+    app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
+      serverObjectName: 'order_item', 
+      getTitle: function(order_item) {return order_item.description}
+    })
   },
+
+  // loadShowQueuedOrderItem: function() {
+  //   $('#order-item-name').text('Loading...');
+  //   if (app.isLoggedIn()) {
+  //     app.getContent("/orders_items/"+app.queued_order_item_id+"/", function(data) {
+  //       var order = data.order
+  //       $('#order-name').text(order.name);
+  //       var orderItemLinks = jQuery.map(order.order_items, function(order_item) {
+  //         return app.listLink(order_item.description, 'to-show-queued-order-item', order_item.id);
+  //       });
+  //       var $orderItemList = $('#order-item-list');
+  //       $orderList.empty();
+  //       $orderList.append(orderLinks.join(''));
+  //     });
+  //   }
+  // },
   
   bindPage: function(pageSelector, onLoad) {
     $(pageSelector).bind('pageAnimationEnd', function(e, info) {
@@ -275,9 +283,4 @@ $(function() { // on page ready
 app.addPage('show', 'shop', app.loadShowShop); 
 app.addPage('show', 'customer-queue', app.loadShowCustomerQueue);
 app.addPage('show', 'queued-order', app.loadShowQueuedOrder);
-app.addPage('show', 'queued-order-item', function() {
-  app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
-    serverObjectName: 'order_item', 
-    getTitle: function(order_item) {return order_item.description}
-  })
-});
+app.addPage('show', 'queued-order-item', app.loadShowQueuedOrderItem);
