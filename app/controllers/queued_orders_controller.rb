@@ -1,5 +1,6 @@
 class QueuedOrdersController < ApplicationController
   
+  before_filter :require_login
   before_filter :get_instance
   before_filter :only_if_can_access_queue
   
