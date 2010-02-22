@@ -8,7 +8,6 @@ var jQT = $.jQTouch({
 });                               
 
 
-
 var app = { 
   
   underscore: function(src) {
@@ -81,6 +80,29 @@ var app = {
   },
  
   
+  // loadDynamicPage: function(options) {
+  //   var config = jQuery.merge({}, {
+  //     requireLogin: true,
+  //     app: app,
+  //     titleSelector: this.pageSelector + ' .title'
+  //   }, options);
+  //   
+  //   $(config.titleSelector).text('Loading...');
+  //   if (app.isLoggedIn()) {
+  //     app.getContent("/customer_queues/"+app.customer_queue_id+"/", function(data) {
+  //       var queue = data.customer_queue
+  //       $('#customer-queue-name').text(queue.name);
+  //       var orderLinks = jQuery.map(queue.orders, function(order) {
+  //         return app.listLink(order.name, 'to-show-queued-order', order.id);
+  //       });
+  //       var $orderList = $('#order-list');
+  //       $orderList.empty();
+  //       $orderList.append(orderLinks.join(''));
+  //     });
+  //   }
+  //   
+  // },
+  
   loadShowCustomerQueue: function() {
     $('#customer-queue-name').text('Loading...');
     if (app.isLoggedIn()) {
@@ -95,8 +117,64 @@ var app = {
         $orderList.append(orderLinks.join(''));
       });
     }
-  },     
+  },   
 
+  rubify: function(str) {
+    return(str.replace(/-/g, '_'));
+  },
+
+  loadDynamicPage: function(pageSelector, localObjectName, serverObjectName, getTitle, entryToHtml) {
+    var titleSelector = pageSelector + ' .title';
+    var listSelector = pageSelector + ' .list';
+    var serverCollectionName = serverObjectName + 's'
+    if (getTitle == null) {
+      getTitle = function(obj) {return obj.name};
+    }
+    
+    entryToHtml = entryToHtml || function(subObj, subCollectionName) {
+      return app.listLink(subObj.name, 'to-'+subCollectionName, subObj.id);
+    }
+    
+    $(titleSelector).text('Loading...');
+    if (app.isLoggedIn()) {
+      app.getContent("/"+serverCollectionName+"/"+app[localObjectName+'_id']+"/", function(data) {
+        var obj = data[serverObjectName]     
+        // Set page title
+        $(titleSelector).text(getTitle(obj));
+        
+        // Populate each list on the page
+        $(pageSelector + ' .item-list').each(function(index, itemList) {
+          var subCollectionName = app.rubify($(itemList).attr('id'));
+          if (subCollectionName == null) return; // todo throw exception here
+          if (obj[subCollectionName] == null)  return; // todo throw exception
+          // alert('obj[subCollectionName] = '+obj[subCollectionName].length);
+          var entries = jQuery.map(obj[subCollectionName], function(subObj) {
+            return entryToHtml(subObj, subCollectionName);
+          });
+          $(itemList).empty();
+          $(itemList).append(entries.join(''));
+        });
+      });
+    }
+  },   
+
+
+  loadShowQueuedOrderItem: function() {
+    $('#order-item-name').text('Loading...');
+    if (app.isLoggedIn()) {
+      app.getContent("/orders_items/"+app.queued_order_item_id+"/", function(data) {
+        var order = data.order
+        $('#order-name').text(order.name);
+        var orderItemLinks = jQuery.map(order.order_items, function(order_item) {
+          return app.listLink(order_item.description, 'to-show-queued-order-item', order_item.id);
+        });
+        var $orderItemList = $('#order-item-list');
+        $orderList.empty();
+        $orderList.append(orderLinks.join(''));
+      });
+    }
+  },
+  
   bindPage: function(pageSelector, onLoad) {
     $(pageSelector).bind('pageAnimationEnd', function(e, info) {
        if (info.direction == 'out') return;
@@ -154,9 +232,6 @@ var app = {
   } 
 };         
 
-
-
-
 $(function() { // on page ready
 
   $('a.login').tap(function(e) { 
@@ -184,18 +259,21 @@ $(function() { // on page ready
 
   // Setup load events for each page
   app.bindPage('#home', app.loadHome);
-  // app.bindPage('#show-shop', app.loadShowShop);
-  app.bindPage('#show-customer-queue', app.loadShowCustomerQueue);
 
-  // Setup tap events for various links
-  // app.bindLink('a.to-shop', '#show-shop', function(e) {app.shopId = $(e.target).attr('target-id')});
-  app.bindLink('a.to-customer-queue', '#show-customer-queue', function(e) {app.shopId = $(e.target).attr('target-id')});
-  
-  
+  // Dynamically populate the homepage
   app.loadHome();
-  
-
 });
 
 app.addPage('show', 'shop', app.loadShowShop); 
 app.addPage('show', 'customer-queue', app.loadShowCustomerQueue);
+// app.addPage('show', 'queued-order', app.loadShowQueuedOrder);
+app.addPage('show', 'queued-order', function() {
+  app.loadDynamicPage('#show-queued-order', 'queued_order', 'order',
+    function(order) {
+      return order.effective_name;
+    },
+    function(order_item, list_name) {
+      return app.listLink(order_item.quantity+' '+order_item.description, 'arrow', order_item.id)
+    }
+  );
+});

@@ -79,15 +79,11 @@
     
     
     / Show Order
-    #order
+    #show-queued-order
       .toolbar
         %a.back Back
-        %h1 Order: Jacob M
-      %ul
-        %li
-          %a{:href=>"#item-detail"} 2 Burgers
-        %li
-          %a{:href=>"#item-detail"} 1 Flat White
+        %h1.title Order: Jacob M
+      %ul#order-items.item-list
           
           
     / Show Order Item      

@@ -21,6 +21,12 @@ class OrdersController < OrdersRelatedController
     respond_to do |format|
       format.iphone
       format.html
+      format.json do
+        render :json=>@order.to_json(
+          :methods=>[:grand_total, :summarized_order_items, :effective_name],
+          :include=>{:order_items=>{:only=>[:quantity, :description, :id], :methods=>[:cost]}}
+        )
+      end
     end
   end
 
