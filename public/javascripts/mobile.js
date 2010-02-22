@@ -264,13 +264,18 @@ $(function() { // on page ready
 
 app.addPage('show', 'shop', app.loadShowShop); 
 app.addPage('show', 'customer-queue', app.loadShowCustomerQueue);
-// app.addPage('show', 'queued-order', app.loadShowQueuedOrder);
 app.addPage('show', 'queued-order', function() {
   app.loadDynamicPage('#show-queued-order', 'queued_order', {
     serverObjectName: 'order',
     getTitle: function(order) {return order.effective_name},
     entryToHtml: function(order_item, list_name) {
-      return app.listLink(order_item.quantity+' '+order_item.description, 'arrow', order_item.id)
+      return app.listLink(order_item.quantity+' '+order_item.description, 'to-show-queued-order-item arrow', order_item.id)
     }
   });
+});
+app.addPage('show', 'queued-order-item', function() {
+  app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
+    serverObjectName: 'order_item',
+    getTitle: function(order_item) {return order_item.description}
+  })
 });
