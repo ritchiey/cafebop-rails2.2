@@ -80,29 +80,7 @@ var app = {
   },
  
   
-  // loadDynamicPage: function(options) {
-  //   var config = jQuery.merge({}, {
-  //     requireLogin: true,
-  //     app: app,
-  //     titleSelector: this.pageSelector + ' .title'
-  //   }, options);
-  //   
-  //   $(config.titleSelector).text('Loading...');
-  //   if (app.isLoggedIn()) {
-  //     app.getContent("/customer_queues/"+app.customer_queue_id+"/", function(data) {
-  //       var queue = data.customer_queue
-  //       $('#customer-queue-name').text(queue.name);
-  //       var orderLinks = jQuery.map(queue.orders, function(order) {
-  //         return app.listLink(order.name, 'to-show-queued-order', order.id);
-  //       });
-  //       var $orderList = $('#order-list');
-  //       $orderList.empty();
-  //       $orderList.append(orderLinks.join(''));
-  //     });
-  //   }
-  //   
-  // },
-  
+
   loadShowCustomerQueue: function() {
     $('#customer-queue-name').text('Loading...');
     if (app.isLoggedIn()) {
@@ -175,21 +153,6 @@ var app = {
     })
   },
 
-  // loadShowQueuedOrderItem: function() {
-  //   $('#order-item-name').text('Loading...');
-  //   if (app.isLoggedIn()) {
-  //     app.getContent("/orders_items/"+app.queued_order_item_id+"/", function(data) {
-  //       var order = data.order
-  //       $('#order-name').text(order.name);
-  //       var orderItemLinks = jQuery.map(order.order_items, function(order_item) {
-  //         return app.listLink(order_item.description, 'to-show-queued-order-item', order_item.id);
-  //       });
-  //       var $orderItemList = $('#order-item-list');
-  //       $orderList.empty();
-  //       $orderList.append(orderLinks.join(''));
-  //     });
-  //   }
-  // },
   
   bindPage: function(pageSelector, onLoad) {
     $(pageSelector).bind('pageAnimationEnd', function(e, info) {
