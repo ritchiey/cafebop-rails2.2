@@ -2,6 +2,32 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class OrderItemTest < ActiveSupport::TestCase
 
+  context "a couple of order items" do
+    setup do
+      @order_items = (1..3).map {|n| OrderItem.make}
+    end
+    
+    context "where 2 have the same description" do
+      setup do
+        [0, 2].each do |i|
+          @order_items[i].stubs(:quantity).returns(2)
+          @order_items[i].stubs(:description).returns("same again")
+          @order_items[i].stubs(:price_in_cents).returns(500)
+          @order_items[i].stubs(:notes).returns(nil)
+          @order_items[i].stubs(:state).returns(:pending)
+        end
+      end
+
+      should "summarize down to two order items" do
+        summarized = OrderItem.summarize(@order_items)
+        assert_equal 2, summarized.length
+      end
+    end
+    
+
+  end
+  
+
   context "order_item associations" do      
     subject {OrderItem.make}      
     should_belong_to :item_queue

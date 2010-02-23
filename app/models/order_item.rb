@@ -39,8 +39,21 @@ class OrderItem < ActiveRecord::Base
   # Given a list of order items, compress duplicates into
   # individual line items
   def self.summarize(items)
-    #TODO: make this happen
-    items
+    {}.tap do |map|
+      items.each do |item|
+        key = {
+          :description => item.description,
+          :notes => item.notes,
+          :price_in_cents=>item.price_in_cents,
+          :state=>item.state
+        }
+        map[key] ||= 0
+        map[key] += item.quantity
+      end
+    end.to_a.map do |pair|
+      (key, quantity) = *pair
+      key.merge(:quantity=>quantity)
+    end
   end
 
   # def shop() order.shop; end
