@@ -36,7 +36,7 @@ class Order < ActiveRecord::Base
 
   has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id'
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
-  has_many :confirmed_child_order_items, :through => :child_orders, :source => :order_items, :conditions=>{"orders.state" => "confirmed"}
+  has_many :confirmed_child_order_items, :through => :child_orders, :source => :order_items, :conditions=>{"orders.state" => ['confirmed', 'made']}
   has_many :invited_users, :through => :child_orders, :source => :user
   belongs_to :parent, :class_name=>'Order'
   belongs_to :customer_queue

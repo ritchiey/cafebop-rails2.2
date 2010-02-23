@@ -298,12 +298,6 @@ class OrderTest < ActiveSupport::TestCase
               end
             end
 
-            should "transition from queued to made on make!" do
-              assert @order.queued?
-              @order.make!
-              assert @order.made?
-            end
-
             should "transition to made when last order_item is made" do
               assert @order.queued?
               @order.order_items.each do |item|
@@ -352,6 +346,32 @@ class OrderTest < ActiveSupport::TestCase
               @child_order_confirmed.reload
               assert @child_order_confirmed.made?, "child order should have been flagged as made"
             end
+
+            context "then made" do
+              setup do
+                assert @order.queued?
+                @order.make!
+                @order.reload
+              end
+              
+              should "be made" do
+                assert @order.made?
+              end
+              
+              should "cause it's confirmed child_orders to be made" do
+                @child_order_confirmed.reload
+                assert @child_order_confirmed.made?
+              end
+              
+              should "still calculate the grand_total correctly" do
+                expected = @order.total + @child_order_confirmed.total
+                assert expected > 0
+                assert expected > @order.total
+                assert_equal expected, @order.grand_total
+              end
+
+            end
+            
 
           end
 

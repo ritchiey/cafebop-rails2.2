@@ -8,7 +8,7 @@ class QueuedOrdersController < ApplicationController
     respond_to do |format|
       format.json {
         render :json=>@order.to_json(
-          :methods=>[:grand_total, :summarized_order_items, :effective_name],
+          :methods=>[:grand_total, :all_order_items, :summarized_order_items, :effective_name],
           :include=>{:order_items=>{:only=>[:quantity, :description, :id], :methods=>[:cost]}}
         )
       }
