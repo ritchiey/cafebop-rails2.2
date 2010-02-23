@@ -79,8 +79,6 @@ var app = {
     }
   },
  
-  
-
   loadShowCustomerQueue: function() {
     $('#customer-queue-name').text('Loading...');
     if (app.isLoggedIn()) {
@@ -139,7 +137,8 @@ var app = {
       serverObjectName: 'order',
       serverControllerName: 'queued_orders',
       getTitle: function(order) {return order.effective_name},
-      entryToHtml: function(order_item, list_name) {
+      entryToHtml: function(entry, list_name) {
+        var order_item = entry.order_item
         return app.listLink(order_item.quantity+' '+order_item.description, 'to-show-queued-order-item', order_item.id)
       }
     });
@@ -149,7 +148,7 @@ var app = {
   loadShowQueuedOrderItem: function() {
     app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
       serverControllerName: 'queued_order_items',
-      serverObjectName: 'order_item', 
+      serverObjectName: 'order_item',
       getTitle: function(order_item) {return order_item.description}
     })
   },
