@@ -70,10 +70,15 @@ var app = {
   listLink: function(label, a_classes, target_id, options) {
     options = options || {};
     var li_classes = options['li_classes'] || 'arrow';
-    return "<li class='"+li_classes+"'>"+
-      "<a class='"+a_classes+"'"+
+    var link = function(l) {
+      return (l != null) ? ("<a class='"+a_classes+"'"+
       " href='#' target-id='"+target_id+
-      "'>"+label+"</a></li>";
+      "'>"+l+"</a>") : "";
+    }
+    return "<li class='"+li_classes+"'>"+
+      link(label) +
+      link(options['subLink']) +
+      "</li>";
   },
 
 
@@ -155,7 +160,9 @@ var app = {
     app.loadDynamicPage('#show-customer-queue', 'customer_queue', {
       getTitle: function(queue) {return queue.name},
       entryToHtml: function(order) {
-        return app.listLink(order.name, 'to-show-queued-order', order.id);
+        return app.listLink(order.name, 'to-show-queued-order', order.id, {
+          subLink: order.summary
+        });
       }
     });
   },   

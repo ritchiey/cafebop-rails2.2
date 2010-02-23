@@ -169,6 +169,10 @@ class Order < ActiveRecord::Base
   def parent_order_made
     make!
   end
+
+  def summary
+    summarized_order_items.map {|oi| "#{oi.quantity} #{oi.description}" }.join(', ')
+  end
   
   def summarized_order_items
     OrderItem.summarize(all_confirmed_order_items.select {|o| o.queued? or o.made?})
