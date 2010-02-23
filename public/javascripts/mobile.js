@@ -33,19 +33,15 @@ var app = {
   },
 
   makeQueuedOrderItem: function($form) {
-    $.ajax({
-     type: $form.attr('method'),
-     url: '/queued_order_items/'+app.queued_order_item_id+'/make',
-     data:$form.serialize(),
-     dataType: 'json',
-     complete:function(req) {
+    app.submitForm($form, {
+      onComplete: function(req) {
         if (req.status == 200 && req.responseText != 'false') {
-         jQT.goBack();
+          jQT.goBack();
         } else {
           alert("Unable to make order item. Try again.");
         }
-     }
-    });
+      }
+    })
     return false; 
   },
 
@@ -203,13 +199,14 @@ var app = {
   },
 
   
-  submitForm: function(form, onComplete, options) {
-    options = options || {}
+  submitForm: function(form, options) {
+    options = options || {}  
     $.ajax({
      type: options['method'] || form.attr('method'),
      url: options['url'] || form.attr('action'),
      data:form.serialize(),
-     complete: onComplete
+     complete: options['onComplete'] || function() {},
+     dataType: options['dataType'] || 'json',
     });
   },
   
@@ -260,11 +257,13 @@ $(function() { // on page ready
   
   $('#logout-button').tap(function(e) {
     var $form = $('form#logout');
-    app.submitForm($form, function(req) {
-      user = null;
-      app.updateFormControls();
-      app.clearHomePage(); 
-      jQT.goBack('#home');
+    app.submitForm($form, {
+      onComplete: function(req) {
+        user = null;
+        app.updateFormControls();
+        app.clearHomePage(); 
+        jQT.goBack('#home');
+      }
     });
   });
   
