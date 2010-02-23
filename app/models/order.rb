@@ -120,10 +120,8 @@ class Order < ActiveRecord::Base
     order_items.inject(0) {|sum, item| sum + item.cost}
   end
   
-  #TODO: This currently counts items for unconfirmed child orders
   def grand_total
-    total +
-    confirmed_child_order_items.inject(0) {|sum, item| sum + item.cost}
+    all_confirmed_order_items.inject(0) {|sum, item| sum + item.cost}
   end
   
   def grand_total_with_fees
@@ -164,7 +162,7 @@ class Order < ActiveRecord::Base
     if is_child?
       parent.order_item_made(order_item)
     else
-      make! if all_order_items_made?
+      make! if all_confirmed_order_items_made?
     end
   end
   
@@ -173,11 +171,11 @@ class Order < ActiveRecord::Base
   end
   
   def summarized_order_items
-    OrderItem.summarize(all_order_items.select {|o| o.queued? or o.made?})
+    OrderItem.summarize(all_confirmed_order_items.select {|o| o.queued? or o.made?})
   end                                  
   
-  def all_order_items
-    [order_items, child_orders.map {|o| o.order_items}].flatten
+  def all_confirmed_order_items
+    order_items.all + confirmed_child_order_items.all
   end
 
   def payment_method
@@ -347,9 +345,8 @@ private
     self.perishable_token = Digest::SHA1.hexdigest("Wibble!#{rand.to_s}")
   end
   
-  def all_order_items_made?
-    order_items.all? {|item| item.made?} and
-    confirmed_child_order_items.all? {|item| item.made?}
+  def all_confirmed_order_items_made?
+    all_confirmed_order_items.all? {|item| item.made?}
   end
   
   def add_to_customer_queue

@@ -424,8 +424,6 @@ class OrderTest < ActiveSupport::TestCase
       end
     end
 
-    
-
   end
   
 end
