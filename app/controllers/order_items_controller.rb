@@ -6,15 +6,9 @@ class OrderItemsController < ApplicationController
   make_resourceful do
     actions :index, :show
     belongs_to :order
-  
-    # response_for :index do |format|
-    #   format.json {render :json=>[{:name=>'roger'}, {:name=>'rabbit'}]}
-    #   format.html {"{[{name:'Roger'}, {name:'Rabbit'}]}"}
-    # end
   end
   
   def show
-    
   end
 
   

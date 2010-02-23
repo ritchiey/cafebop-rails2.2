@@ -43,7 +43,7 @@ class CustomerQueuesController < QueuesController
       format.iphone
       format.json do
         render :json=>@queue.to_json(:only=>[:name, :id], :include=>{
-          :orders=>{
+          :current_orders=>{
             :methods=>[:grand_total, :summarized_order_items],
             :include=>{:user=>{:only=>[:name]}}
           }

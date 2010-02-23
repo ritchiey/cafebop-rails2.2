@@ -37,6 +37,7 @@ var app = {
      type: $form.attr('method'),
      url: '/queued_order_items/'+app.queued_order_item_id+'/make',
      data:$form.serialize(),
+     dataType: 'json',
      complete:function(req) {
         if (req.status == 200 && req.responseText != 'false') {
          jQT.goBack();
@@ -49,8 +50,13 @@ var app = {
   },
 
   
-  listLink: function(label, classes, target_id) {
-    return "<li class='arrow'><a class='"+classes+"' href='#' target-id='"+target_id+"'>"+label+"</a></li>";
+  listLink: function(label, a_classes, target_id, options) {
+    options = options || {};
+    var li_classes = options['li_classes'] || 'arrow';
+    return "<li class='"+li_classes+"'>"+
+      "<a class='"+a_classes+"'"+
+      " href='#' target-id='"+target_id+
+      "'>"+label+"</a></li>";
   },
   
   getContent: function(url, success) {
@@ -102,7 +108,7 @@ var app = {
       app.getContent("/customer_queues/"+app.customer_queue_id+"/", function(data) {
         var queue = data.customer_queue
         $('#customer-queue-name').text(queue.name);
-        var orderLinks = jQuery.map(queue.orders, function(order) {
+        var orderLinks = jQuery.map(queue.current_orders, function(order) {
           return app.listLink(order.name, 'to-show-queued-order', order.id);
         });
         var $orderList = $('#order-list');
@@ -153,7 +159,8 @@ var app = {
       getTitle: function(order) {return order.effective_name},
       entryToHtml: function(entry, list_name) {
         var order_item = entry.order_item
-        return app.listLink(order_item.quantity+' '+order_item.description, 'to-show-queued-order-item', order_item.id)
+        return app.listLink(order_item.quantity+' '+order_item.description,
+          'to-show-queued-order-item', order_item.id, {li_classes: 'arrow '+order_item.state})
       }
     });
   },
@@ -196,10 +203,11 @@ var app = {
   },
 
   
-  submitForm: function(form, onComplete) {
+  submitForm: function(form, onComplete, options) {
+    options = options || {}
     $.ajax({
-     type: form.attr('method'),
-     url: form.attr('action'),
+     type: options['method'] || form.attr('method'),
+     url: options['url'] || form.attr('action'),
      data:form.serialize(),
      complete: onComplete
     });
