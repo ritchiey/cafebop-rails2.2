@@ -29,7 +29,8 @@ ActionController::Routing::Routes.draw do |map|
     :collection=>{:import=>:get, :import_csv=>:post}
   
   map.resources :queued_orders, :only=>[:show], :shallow=>true do |queued_orders|
-    queued_orders.resources :queued_order_items, :only=>[:show]
+    queued_orders.resources :queued_order_items, :only=>[:show],
+      :member=>{:make=>:put}
   end
 
   map.resources :shops, :shallow=>true,

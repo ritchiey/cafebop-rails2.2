@@ -1,7 +1,7 @@
 var jQT = $.jQTouch({ 
     cacheGetRequests: false,
     icon: '/images/icon.png',
-    // formSelector: 'form.ajax',
+    formSelector: 'form.ajax',
     statusBar: 'black-translucent',
     preloadImages: [
     ]
@@ -13,7 +13,7 @@ var app = {
   underscore: function(src) {
     return src.replace(/-/g, "_" );
   },
-  
+
   login: function($form) {
     $.ajax({
      type: $form.attr('method'),
@@ -31,6 +31,23 @@ var app = {
     });
     return false; 
   },
+
+  makeQueuedOrderItem: function($form) {
+    $.ajax({
+     type: $form.attr('method'),
+     url: '/queued_order_items/'+app.queued_order_item_id+'/make',
+     data:$form.serialize(),
+     complete:function(req) {
+        if (req.status == 200 && req.responseText != 'false') {
+         jQT.goBack();
+        } else {
+          alert("Unable to make order item. Try again.");
+        }
+     }
+    });
+    return false; 
+  },
+
   
   listLink: function(label, classes, target_id) {
     return "<li class='arrow'><a class='"+classes+"' href='#' target-id='"+target_id+"'>"+label+"</a></li>";
@@ -95,9 +112,6 @@ var app = {
     }
   },   
 
-  rubify: function(str) {
-    return(str.replace(/-/g, '_'));
-  },
 
   loadDynamicPage: function(pageSelector, localObjectName, options) {
     var titleSelector = pageSelector + ' .title';
@@ -118,7 +132,7 @@ var app = {
         
         // Populate each list on the page
         $(pageSelector + ' .item-list').each(function(index, itemList) {
-          var subCollectionName = app.rubify($(itemList).attr('id'));
+          var subCollectionName = app.underscore($(itemList).attr('id'));
           if (subCollectionName == null) return; // todo throw exception here
           if (obj[subCollectionName] == null)  return; // todo throw exception
           // alert('obj[subCollectionName] = '+obj[subCollectionName].length);
@@ -211,12 +225,25 @@ var app = {
   } 
 };         
 
+
+$('a.make').tap(function(e) { 
+  var $form = $(this).closest("form");
+  app.makeQueuedOrderItem($form);
+  return false;
+});
+
+$('a.login').tap(function(e) {
+  var $form = $(this).closest("form");
+  return app.login($form);   
+});
+
 $(function() { // on page ready
 
-  $('a.login').tap(function(e) { 
-    var $form = $(this).closest("form");
-    return app.login($form);   
-  });
+  $('#make-order-item-form').submit(function(e) {
+    alert('You submitted make order item')
+    var $form = $(this);
+    return app.makeQueuedOrderItem($form);
+  });  
 
   $('form#login').submit(function(e) {
     var $form = $(this);

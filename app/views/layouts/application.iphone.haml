@@ -82,7 +82,7 @@
     #show-queued-order
       .toolbar
         %a.back Back
-        %h1.title Order: Jacob M
+        %h1.title Loading...
       %ul#all-confirmed-order-items.item-list
           
           
@@ -93,7 +93,8 @@
         %h1.title
       %ul
         %li
-          %a.goback Make
+          -form_tag '', :method=>:put, :id=>'make-order-item-form' do |f|
+            %a.whiteButton.make Make
         %li
           %a.goback Cancel
        

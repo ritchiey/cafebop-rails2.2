@@ -18,19 +18,6 @@ class OrderItemsController < ApplicationController
   end
 
   
-  def make
-    @order_item.make!
-    case params[:fragment]
-    when 'order': render :partial=>'orders/order', :object=>@order_item.order
-    else
-      respond_to do |format|
-        format.iphone {redirect_to order_path(@order_item.order)}
-        format.html {redirect_back_or_default}
-        format.json {render :json=>"{#{@order_item.order.to_json(:include=>[:order_items])}}"}
-      end
-    end
-  end
-
   def find_order_item
     @order_item = OrderItem.find(params[:id])
   end

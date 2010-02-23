@@ -14,6 +14,20 @@ class QueuedOrderItemsController < ApplicationController
         }
       end
     end
+    
+    def make
+      @order_item.make!
+      case params[:fragment]
+      when 'order': render :partial=>'orders/order', :object=>@order_item.order
+      else
+        respond_to do |format|
+          format.iphone {redirect_to order_path(@order_item.order)}
+          format.html {redirect_back_or_default}
+          format.json {render :json=>true.to_json}
+        end
+      end
+    end    
+
 
   private
 
