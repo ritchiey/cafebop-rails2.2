@@ -15,21 +15,17 @@ var app = {
   },
 
   login: function($form) {
-    $.ajax({
-     type: $form.attr('method'),
-     url: $form.attr('action'),
-     data:$form.serialize(),
-     complete:function(req) {
-        if (req.status == 200 && req.responseText != 'false') { 
-         user = req.responseText;
-         app.updateFormControls();
-         jQT.goBack();
-        } else {
-          alert("There was an error logging in. Try again.");
-        }
-     }
-    });
-    return false; 
+    app.submitForm($form, {
+      onComplete:function(req) {
+         if (req.status == 200 && req.responseText != 'false') { 
+          user = req.responseText;
+          app.updateFormControls();
+          jQT.goBack();
+         } else {
+           alert("Couldn't login. Try again.");
+         }
+      }
+    })
   },
 
   makeQueuedOrderItem: function($form) {
