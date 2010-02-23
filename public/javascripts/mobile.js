@@ -67,20 +67,6 @@ var app = {
     }
   },   
 
-  login: function($form) {
-    app.submitForm($form, {
-      onComplete:function(req) {
-         if (req.status == 200 && req.responseText != 'false') { 
-          user = req.responseText;
-          app.updateFormControls();
-          jQT.goBack();
-         } else {
-           alert("Couldn't login. Try again.");
-         }
-      }
-    })
-  },
-
   listLink: function(label, a_classes, target_id, options) {
     options = options || {};
     var li_classes = options['li_classes'] || 'arrow';
@@ -166,19 +152,12 @@ var app = {
   },
  
   loadShowCustomerQueue: function() {
-    $('#customer-queue-name').text('Loading...');
-    if (app.isLoggedIn()) {
-      app.getContent("/customer_queues/"+app.customer_queue_id+"/", function(data) {
-        var queue = data.customer_queue
-        $('#customer-queue-name').text(queue.name);
-        var orderLinks = jQuery.map(queue.current_orders, function(order) {
-          return app.listLink(order.name, 'to-show-queued-order', order.id);
-        });
-        var $orderList = $('#order-list');
-        $orderList.empty();
-        $orderList.append(orderLinks.join(''));
-      });
-    }
+    app.loadDynamicPage('#show-customer-queue', 'customer_queue', {
+      getTitle: function(queue) {return queue.name},
+      entryToHtml: function(order) {
+        return app.listLink(order.name, 'to-show-queued-order', order.id);
+      }
+    });
   },   
 
 
@@ -213,6 +192,20 @@ var app = {
     return (user != null && user.length > 0);
   },
   
+  login: function($form) {
+    app.submitForm($form, {
+      onComplete:function(req) {
+         if (req.status == 200 && req.responseText != 'false') { 
+          user = req.responseText;
+          app.updateFormControls();
+          jQT.goBack();
+         } else {
+           alert("Couldn't login. Try again.");
+         }
+      }
+    })
+  },
+
   updateFormControls: function() {
     if (app.isLoggedIn()) {
       $('#login-button').hide();
