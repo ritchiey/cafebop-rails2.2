@@ -72,6 +72,7 @@ var app = {
     options = options || {};
     var li_classes = options['li_classes'] || 'arrow';
     var small = (options['small']) ? ("<small>"+options['small']+"</small>") : ""
+    var counter = (options['counter']) ? ("<small class='counter'>"+options['counter']+"</small>") : ""
     var link = function(l) {
       return (l != null) ? ("<a class='"+a_classes+"'"+
       " href='#' target-id='"+target_id+
@@ -81,6 +82,7 @@ var app = {
       link(label) +
       link(options['subLink']) +
       small +
+      counter+
       "</li>";
   },
 
@@ -204,8 +206,9 @@ var app = {
       entryToHtml: function(order_item, list_name, index) {
         return app.listLink(order_item.quantity+' '+order_item.description,
           'to-show-queued-order-item', index, {
-            li_classes: 'arrow '+order_item.state
-            // small: 'hi there'
+            li_classes: 'arrow '+order_item.state,
+            subLink: order_item.notes,
+            counter: 'hi there'
           })
       }
     });
