@@ -84,9 +84,10 @@
         %a.back Back
         %h1.title Loading...
       %ul#summarized-order-items.item-list
-      -form_tag '', :method=>:put do |f|
-        %a.grayButton.deliver Deliver
-      %a.whiteButton.no-show No Show
+      .made-order-controls
+        -form_tag '', :method=>:put do |f|
+          %a.grayButton.deliver Deliver
+        / %a.whiteButton.no-show No Show
           
           
     / Show Order Item      

@@ -186,11 +186,18 @@ var app = {
 
 
   loadShowQueuedOrder: function() {
+    var $made_order_controls = $('#show-queued-order .made-order-controls')
+    $made_order_controls.hide();
     app.loadDynamicPage('#show-queued-order', 'queued_order', {
       serverObjectName: 'order',
       serverControllerName: 'queued_orders',
       // store the order for use when showing order items
-      withLoadedObject: function(order) {app.current_order = order},
+      withLoadedObject: function(order) {
+        app.current_order = order
+        if (order.state == 'made') {
+          $made_order_controls.show();
+        }
+      },
       getTitle: function(order) {return order.effective_name},
       entryToHtml: function(order_item, list_name, index) {
         return app.listLink(order_item.quantity+' '+order_item.description,
