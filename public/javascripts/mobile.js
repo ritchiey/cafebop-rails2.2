@@ -113,6 +113,19 @@ var app = {
     });
   },
   
+  deliverOrder: function($form) {
+    app.submitForm($form, {
+      url: '/orders/'+app.queued_order_id+'/deliver',
+      onComplete: function(req) {
+        if (req.status == 200 && req.responseText != 'false') {
+          jQT.goBack();
+        } else {
+          alert("Unable to deliver order. Try again.");
+        }
+      }
+    })
+  },
+  
   makeQueuedOrderItem: function($form) {
     app.submitForm($form, {
       onComplete: function(req) {
@@ -240,6 +253,11 @@ var app = {
   } 
 };         
 
+$('a.deliver').tap(function(e) {
+  var $form = $(this).closest("form");
+  app.deliverOrder($form);
+  return false;
+});
 
 $('a.make').tap(function(e) { 
   var $form = $(this).closest("form");
