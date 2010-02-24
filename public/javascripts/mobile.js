@@ -71,6 +71,7 @@ var app = {
   listLink: function(label, a_classes, target_id, options) {
     options = options || {};
     var li_classes = options['li_classes'] || 'arrow';
+    var small = (options['small']) ? ("<small>"+options['small']+"</small>") : ""
     var link = function(l) {
       return (l != null) ? ("<a class='"+a_classes+"'"+
       " href='#' target-id='"+target_id+
@@ -79,6 +80,7 @@ var app = {
     return "<li class='"+li_classes+"'>"+
       link(label) +
       link(options['subLink']) +
+      small +
       "</li>";
   },
 
@@ -201,7 +203,10 @@ var app = {
       getTitle: function(order) {return order.effective_name},
       entryToHtml: function(order_item, list_name, index) {
         return app.listLink(order_item.quantity+' '+order_item.description,
-          'to-show-queued-order-item', index, {li_classes: 'arrow '+order_item.state})
+          'to-show-queued-order-item', index, {
+            li_classes: 'arrow '+order_item.state
+            // small: 'hi there'
+          })
       }
     });
   },
