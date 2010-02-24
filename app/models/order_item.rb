@@ -47,12 +47,13 @@ class OrderItem < ActiveRecord::Base
           :price_in_cents=>item.price_in_cents,
           :state=>item.state
         }
-        map[key] ||= 0
-        map[key] += item.quantity
+        map[key] ||= {:quantity=>0, :ids=>[]}
+        map[key][:ids].push(item.id)
+        map[key][:quantity] += item.quantity
       end
     end.to_a.map do |pair|
-      (key, quantity) = *pair
-      key.merge(:quantity=>quantity)
+      (key, body) = *pair
+      key.merge(body)
     end
   end
 

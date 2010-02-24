@@ -1,8 +1,8 @@
 class QueuedOrderItemsController < ApplicationController
 
     before_filter :require_login
-    before_filter :get_instance
-    before_filter :only_if_can_access_queue
+    before_filter :get_instance, :except=>[:make_all]
+    before_filter :only_if_can_access_queue, :except=>[:make_all]
 
     def show
       respond_to do |format|
@@ -28,7 +28,18 @@ class QueuedOrderItemsController < ApplicationController
       end
     end    
 
-
+    def make_all
+      @order_items = OrderItem.id_eq_any(params[:order_item_ids])
+      return unauthorized unless (@order_items.all? {|oi| current_user.can_access_queues_of?(oi.shop)})
+      @order_items.each do |order_item|
+        order_item.make!
+      end
+      respond_to do |format|
+        format.json { render :json=>true}
+      end
+    end
+    
+    
   private
 
     def only_if_can_access_queue

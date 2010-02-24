@@ -171,7 +171,7 @@ class Order < ActiveRecord::Base
   end
 
   def summary
-    summarized_order_items.map {|oi| "#{oi.quantity} #{oi.description}" }.join(', ')
+    summarized_order_items.map {|oi| "#{oi[:quantity]} #{oi[:description]}" }.join(', ')
   end
   
   def summarized_order_items

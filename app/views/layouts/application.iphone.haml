@@ -93,7 +93,8 @@
         %h1.title
       %ul
         %li
-          -form_tag '', :method=>:put, :id=>'make-order-item-form' do |f|
+          -form_tag "/queued_order_items/make_all", :method=>:put, :id=>'make-order-item-form' do |f|
+            .order-items
             %a.whiteButton.make Make
         %li
           %a.goback Cancel

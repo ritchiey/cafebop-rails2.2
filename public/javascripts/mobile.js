@@ -47,7 +47,8 @@ var app = {
     $(titleSelector).text('Loading...');
     if (app.isLoggedIn()) {
       app.getContent("/"+serverControllerName+"/"+app[localObjectName+'_id']+"/", function(data) {
-        var obj = data[serverObjectName]     
+        var obj = data[serverObjectName]
+        options['withLoadedObject'] && options['withLoadedObject'](obj);
         // Set page title
         $(titleSelector).text(getTitle(obj));
         
@@ -57,8 +58,8 @@ var app = {
           if (subCollectionName == null) return; // todo throw exception here
           if (obj[subCollectionName] == null)  return; // todo throw exception
           // alert('obj[subCollectionName] = '+obj[subCollectionName].length);
-          var entries = jQuery.map(obj[subCollectionName], function(subObj) {
-            return entryToHtml(subObj, subCollectionName);
+          var entries = jQuery.map(obj[subCollectionName], function(subObj, index) {
+            return entryToHtml(subObj, subCollectionName, index);
           });
           $(itemList).empty();
           $(itemList).append(entries.join(''));
@@ -172,22 +173,34 @@ var app = {
     app.loadDynamicPage('#show-queued-order', 'queued_order', {
       serverObjectName: 'order',
       serverControllerName: 'queued_orders',
+      // store the order for use when showing order items
+      withLoadedObject: function(order) {app.current_order = order},
       getTitle: function(order) {return order.effective_name},
-      entryToHtml: function(entry, list_name) {
-        var order_item = entry.order_item
+      entryToHtml: function(order_item, list_name, index) {
         return app.listLink(order_item.quantity+' '+order_item.description,
-          'to-show-queued-order-item', order_item.id, {li_classes: 'arrow '+order_item.state})
+          'to-show-queued-order-item', index, {li_classes: 'arrow '+order_item.state})
       }
     });
   },
 
 
-  loadShowQueuedOrderItem: function() {
-    app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
-      serverControllerName: 'queued_order_items',
-      serverObjectName: 'order_item',
-      getTitle: function(order_item) {return order_item.description}
-    })
+  loadShowQueuedOrderItem: function() {           
+    // Because this is a summarized order_item, it can contain multiple order_item ids
+    // id in its 'ids' field
+    var order_item = app.current_order.summarized_order_items[app.queued_order_item_id]
+    var $order_items = $('#show-queued-order-item .order-items')
+    $('#show-queued-order-item .title').text(order_item.quantity+" "+order_item.description)
+    $order_items.empty() 
+    $order_items.append( 
+      $.map(order_item.ids, function(item_id) {
+        return "<input type='hidden' name='order_item_ids[]' value='"+item_id+"'></input>"
+      }).join('')   
+    )
+    // app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
+    //   serverControllerName: 'queued_order_items',
+    //   serverObjectName: 'order_item',
+    //   getTitle: function(order_item) {return order_item.description}
+    // })
   },
 
   clearHomePage: function() {
@@ -239,7 +252,6 @@ $('a.login').tap(function(e) {
 $(function() { // on page ready
 
   $('#make-order-item-form').submit(function(e) {
-    alert('You submitted make order item')
     var $form = $(this);
     return app.makeQueuedOrderItem($form);
   });  

@@ -5,9 +5,11 @@ class QueuedOrderItemsControllerTest < ActionController::TestCase
   setup :activate_authlogic
 
   
-  context "Given an existing order_item" do
+  context "Given an existing order_item or two" do
     setup do
-      @order_item = OrderItem.make
+      @order = Order.make
+      @order_item = @order.order_items.make
+      @order_item2 = @order.order_items.make
     end
 
     context "as an anonymous user" do
@@ -26,7 +28,13 @@ class QueuedOrderItemsControllerTest < ActionController::TestCase
             put :make, :id=>@order_item.id, :format=>'json'
           end
         end
-          
+        should_require_login
+      end
+      
+      context "trying to make_all the order_items" do
+        setup do
+          put :make_all, :order_item_ids=>[@order_item.id, @order_item2.id], :format=>'json'
+        end
         should_require_login
       end
       
@@ -51,7 +59,13 @@ class QueuedOrderItemsControllerTest < ActionController::TestCase
             put :make, :id=>@order_item.id, :format=>'json'
           end
         end
-          
+        should_not_be_allowed
+      end
+
+      context "trying to make_all the order_items" do
+        setup do
+          put :make_all, :order_item_ids=>[@order_item.id, @order_item2.id], :format=>'json'
+        end
         should_not_be_allowed
       end
       
@@ -61,7 +75,8 @@ class QueuedOrderItemsControllerTest < ActionController::TestCase
     context "as someone who can access the order_item's shop's queues" do
       setup do
         @user = User.make(:active)
-        @user.expects('can_access_queues_of?').with(@order_item.shop).returns(true)
+        assert_not_nil @order_item
+        @user.expects('can_access_queues_of?').with(@order_item.shop).at_least_once.returns(true)
         controller.stubs(:current_user).returns(@user)
         assert_equal @user, controller.current_user
       end
@@ -82,66 +97,20 @@ class QueuedOrderItemsControllerTest < ActionController::TestCase
         should_assign_to :order_item
         should_not_set_the_flash
       end
+
+      context "trying to make_all the order_items" do
+        setup do
+          ids = [@order_item.id, @order_item2.id]
+          assert_equal @order_item.shop, @order_item2.shop
+          OrderItem.any_instance.stubs('make!').returns(true)
+          put :make_all, :order_item_ids=>ids, :format=>'json'
+        end
+        should_respond_with :success
+        should_not_set_the_flash
+      end
       
     end
 
   end
-  
-
-
-
-
-  context "With an existing order_item" do
-    setup do
-      assert_difference "OrderItem.state_eq('queued').count", 1 do
-        @order_item = OrderItem.make(:state=>'queued')
-        assert_not_nil @order_item.order
-      end
-    end
-
-    context "an anonymous user" do
-      setup do
-        logout
-      end
-
-    end
-
-    context "an active user " do
-      setup do 
-        @user = User.make(:active)
-        login_as @user
-      end
-
-      should "not be able to make it" do
-        assert_no_difference "OrderItem.state_eq('made').count" do
-          put :make, :id=>@order_item.id
-        end
-      end
-    
-      context "who is a staff member of the store from which the item has been ordered" do
-        setup do
-          shop = @order_item.order.shop
-          Shop.any_instance.stubs(:"can_have_queues?").returns(true)
-          shop.work_contracts.make(:user=>@user, :role=>'staff')
-          assert @user.works_at?(shop)
-          assert shop.can_have_queues?
-          assert @user.can_access_queues_of?(shop)
-        end
-
-        should "be able to make it" do
-          assert_difference "OrderItem.state_eq('made').count", 1 do
-            put :make, :id=>@order_item.id
-          end
-        end
-      end
-    
-    end
-
-  end
-
-
-
-
-
   
 end
