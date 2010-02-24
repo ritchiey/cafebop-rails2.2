@@ -87,18 +87,21 @@ var app = {
   // when displayed. Also hook the tap event on any a.to-verb-noun links
   // and set an variable app.noun_id to be the value taken from the 'target-id'
   // attribute of the link.
-  addPage: function(verb, noun, onLoad) {  
+  addPage: function(verb, noun, options) {  
     var pageSelector = '#'+verb+'-'+noun
-    $(function() {app.bindPage(pageSelector, onLoad)});
+    $(function() {app.bindPage(pageSelector, options)});
     app.bindLink('a.to-'+verb+'-'+noun, pageSelector, function(e) {
       app[app.underscore(noun)+'_id'] = $(e.target).attr('target-id');
     });
   },
   
-  bindPage: function(pageSelector, onLoad) {
+  bindPage: function(pageSelector, options) {
     $(pageSelector).bind('pageAnimationEnd', function(e, info) {
-       if (info.direction == 'out') return;
-       onLoad();
+       if (info.direction == 'out') {
+         (options['onExit'] || function() {})(pageSelector, info)
+       } else {
+         (options['onEntry'] || function() {})(pageSelector, info);
+       }
     });
   },
  
@@ -277,13 +280,21 @@ $(function() { // on page ready
 
 
   // Setup load events for each page
-  app.bindPage('#home', app.loadHome);
+  app.bindPage('#home', {onEntry: app.loadHome});
 
   // Dynamically populate the homepage
   app.loadHome();
 });
 
-app.addPage('show', 'shop', app.loadShowShop); 
-app.addPage('show', 'customer-queue', app.loadShowCustomerQueue);
-app.addPage('show', 'queued-order', app.loadShowQueuedOrder);
-app.addPage('show', 'queued-order-item', app.loadShowQueuedOrderItem);
+app.addPage('show', 'shop', {onEntry: app.loadShowShop});
+app.addPage('show', 'customer-queue', {
+  onEntry: function() {
+    app.loadShowCustomerQueue();
+    app.interval_id = window.setInterval(app.loadShowCustomerQueue, 5000);
+  },
+  onExit: function() {
+    window.clearInterval(app.interval_id)
+  }
+});
+app.addPage('show', 'queued-order', {onEntry: app.loadShowQueuedOrder});
+app.addPage('show', 'queued-order-item', {onEntry: app.loadShowQueuedOrderItem});
