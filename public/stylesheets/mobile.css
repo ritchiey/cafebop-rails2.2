@@ -3,6 +3,9 @@ form#login a.login, form#login a.goback {
 form#login a.login {
   color: rgba(0,0,0,0.9); }
 
+.made-order-controls {
+  margin: 0 10px 10px 10px; }
+
 .made {
   background-color: blue; }
 
