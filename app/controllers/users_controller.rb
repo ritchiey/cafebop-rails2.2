@@ -49,14 +49,15 @@ class UsersController < ApplicationController
   end
   
   def activate
-    if @user = User.find_by_perishable_token(params[:token]) and @user.activate!
+    @user = User.find_by_perishable_token(params[:token])
+    if @user and @user.activate!
       @user.reset_perishable_token!
       UserSession.create(@user)
       flash[:notice] = "Your Cafebop account is now active! Welcome aboard."
       redirect_to root_path
     else
-      flash[:error] = 'Sorry, could not activate account'
-      redirect_to new_user_path
+      flash[:notice] = 'Your account may already be active. Try logging in.'
+      redirect_to login_path
     end
   end 
     
