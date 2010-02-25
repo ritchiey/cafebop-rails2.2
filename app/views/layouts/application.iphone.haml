@@ -1,6 +1,7 @@
 !!! Strict
 %html{ "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
   %head
+    %title Cafebop
     %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }
     %meta#viewport{ :name => "viewport", :content => "width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" }
     = @page_title
@@ -24,18 +25,16 @@
         %a#login-button.button.slideup{:href=>"#login"} Login
         %a#logout-button.button{:href=>"#"} Logout
         
-      %ul
-        %li.arrow
-          %a{:href=>"#login"} Nearest Restaurants
-          %a{:href=>"#login"} Search for nearby restaurants 
-
-          
+      / %ul
+      /   %li.arrow
+      /     %a{:href=>"#login"} Nearest Restaurants
+      /     %a{:href=>"#login"} Search for nearby restaurants 
+      / 
+      /     
       %h1 My Restaurants
       %ul.my-restaurants
         %li
           Loading...
-        / %li.arrow
-        /   %a{:href=>'#show-shop', :target_id=>'1'} Punch Cafe
             
             
     / Login Form
@@ -59,6 +58,7 @@
       .toolbar
         %a.back Back
         %h1#shop-name Loading...
+      %h1 Queues
       %ul#queue-list
         %li
           Loading...
