@@ -101,3 +101,7 @@
         =image_tag('logo-small.png')
 
     =yield :javascript
+    %script{ :type => "text/javascript" }
+      document.write(unescape("%3Cscript src='" + ((document.location.protocol=="https:")?"https:":"http:") + "//snapabug.appspot.com/snapabug.js' type='text/javascript'%3E%3C/script%3E"));
+    %script{ :type => "text/javascript" }
+      SnapABug.addButton('e3e421df-23ce-43c9-ad37-fd9c5768c922',"0","55%");
