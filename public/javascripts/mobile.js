@@ -58,8 +58,10 @@ var app = {
 	var entryToHtml = options['entryToHtml'] || function(subObj, subCollectionName) {
 	  return app.listLink(subObj.name, 'to-'+subCollectionName, subObj.id);
 	}
-	
-	$(titleSelector).text('Loading...');
+
+	if (!options['noLoading']) {
+  	$(titleSelector).text('Loading...');
+	}
 	if (app.isLoggedIn()) {
 	  app.getContent("/"+serverControllerName+"/"+app[localObjectName+'_id']+"/", function(data) {
 		var obj = data[serverObjectName]
@@ -192,15 +194,15 @@ var app = {
 	}
   },
  
-  loadShowCustomerQueue: function() {
-	app.loadDynamicPage('#show-customer-queue', 'customer_queue', {
-	  getTitle: function(queue) {return queue.name},
-	  entryToHtml: function(order) {
-		return app.listLink(order.name, 'to-show-queued-order', order.id, {
-		  subLink: order.summary
-		});
-	  }
-	});
+  loadShowCustomerQueue: function(options) {
+    options = $.extend({}, {
+  	  getTitle: function(queue) {return queue.name},
+  	  entryToHtml: function(order) {
+  		return app.listLink(order.name, 'to-show-queued-order', order.id, {
+  		  subLink: order.summary
+  		})}
+  	}, (options || {}));
+  	app.loadDynamicPage('#show-customer-queue', 'customer_queue', options);
   },   
 
 
@@ -338,7 +340,7 @@ app.addPage('show', 'shop', {onEntry: app.loadShowShop});
 app.addPage('show', 'customer-queue', {
   onEntry: function() {
 	app.loadShowCustomerQueue();
-	app.interval_id = window.setInterval(app.loadShowCustomerQueue, 5000);
+	app.interval_id = window.setInterval(function() {app.loadShowCustomerQueue({'noLoading': true})}, 5000);
   },
   onExit: function() {
 	window.clearInterval(app.interval_id)
