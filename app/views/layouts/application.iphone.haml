@@ -82,11 +82,12 @@
       .toolbar
         %a.back Back
         %h1.title Loading...
-      %ul#summarized-order-items.item-list.rounded
+      %h2.order-status
       .made-order-controls
         -form_tag '', :method=>:put do |f|
           %a.grayButton.deliver Deliver
         / %a.whiteButton.no-show No Show
+      %ul#summarized-order-items.item-list.rounded
           
           
     / Show Order Item      

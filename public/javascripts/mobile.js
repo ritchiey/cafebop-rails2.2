@@ -214,12 +214,13 @@ var app = {
 	  serverControllerName: 'queued_orders',
 	  // store the order for use when showing order items
 	  withLoadedObject: function(order) {
+	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
 		app.current_order = order
 		if (order.state == 'made') {
 		  $made_order_controls.show();
 		}
 	  },
-	  getTitle: function(order) {return order.effective_name},
+	  getTitle: function(order) {return "Order"},
 	  entryToHtml: function(order_item, list_name, index) {
 		return app.listLink(order_item.quantity+' '+order_item.description,
 		  'to-show-queued-order-item', index, {
