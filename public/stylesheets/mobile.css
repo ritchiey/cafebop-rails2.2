@@ -11,3 +11,6 @@ form#login a.login {
 
 .queued {
   background-color: green; }
+
+.hidden {
+  display: none; }

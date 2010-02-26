@@ -9,7 +9,7 @@ var jQT = $.jQTouch({
 
 // fix JQTouch 1.0 beta 2
 // When enabled, this prevents problems with double taps but
-// disables animation for some reason.
+// disables animation for some reason. Try again with latest jqTouch.
 // (function(){
 //     var goTo = jQT.goTo;
 //     jQT.goTo = function(page) {
@@ -132,27 +132,34 @@ var app = {
   },
   
   bindPage: function(pageSelector, options) {
-	$(pageSelector).bind('pageAnimationEnd', function(e, info) {
-	   if (info.direction == 'out') {
-	     app.restoreClonedPage(pageSelector);
-  		 (options['onExit'] || function() {})(pageSelector, info)
-	   } else {
-	     app.clonePage(pageSelector);
-  		 (options['onEntry'] || function() {})(pageSelector, info);
-	   }
-	});
+  	$(pageSelector).bind('pageAnimationStart', function(e, info) {
+  	   if (info.direction == 'in') {
+  	     app.clonePage(pageSelector);
+  	   }
+    });
+    
+  	$(pageSelector).bind('pageAnimationEnd', function(e, info) {
+  	   if (info.direction == 'out') {
+  	     app.restoreClonedPage(pageSelector);
+    		 (options['onExit'] || function() {})(pageSelector, info)
+  	   } else {
+    		 (options['onEntry'] || function() {})(pageSelector, info);
+  	   }
+  	});
   },
   
   clonePage: function(selector) {
     var varName = app.underscore('clone_of_'+selector)
-    if (!app[varName]) {
-      app[varName] = $(selector).clone()
+    if (!app[varName]) {  
+      // alert("Cloning " + selector)
+      app[varName] = $(selector).html();
     }
   },
   
   restoreClonedPage: function(selector) {
     var varName = app.underscore('clone_of_'+selector)
     if (app[varName]) {
+      // alert("Restoring " + selector + " with " + varName)
       $(selector).empty()
       $(selector).append(app[varName])
     }

@@ -83,7 +83,7 @@
         %a.back Back
         %h1.title Loading...
       %h2.order-status
-      .made-order-controls
+      .made-order-controls.hidden
         -form_tag '', :method=>:put do |f|
           %a.grayButton.deliver Deliver
         / %a.whiteButton.no-show No Show
