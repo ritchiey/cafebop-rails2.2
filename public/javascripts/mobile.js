@@ -7,6 +7,17 @@ var jQT = $.jQTouch({
 	]
 });								  
 
+// fix JQTouch 1.0 beta 2
+(function(){
+    var goTo = jQT.goTo;
+    jQT.goTo = function(page) {
+        if ($(page).hasClass("current")) {
+            return;
+        }
+        return goTo(page);
+    }
+})();
+
 
 var app = { 
   as_currency: function(amount)
