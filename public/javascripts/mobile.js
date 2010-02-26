@@ -74,11 +74,13 @@ var app = {
 		  var subCollectionName = app.underscore($(itemList).attr('id'));
 		  if (subCollectionName == null) return; // todo throw exception here
 		  if (obj[subCollectionName] == null)  return; // todo throw exception
-		  // alert('obj[subCollectionName] = '+obj[subCollectionName].length);
 		  var entries = jQuery.map(obj[subCollectionName], function(subObj, index) {
 			return entryToHtml(subObj, subCollectionName, index);
 		  });
 		  $(itemList).empty();
+		  if (entries.length == 0) {
+		    entries.push((options['emptyListEntry'] || function() {})(subCollectionName))
+		  } 
 		  $(itemList).append(entries.join(''));
 		});
 	  });
@@ -200,7 +202,10 @@ var app = {
   	  entryToHtml: function(order) {
   		return app.listLink(order.name, 'to-show-queued-order', order.id, {
   		  subLink: order.summary
-  		})}
+  		})},
+  		emptyListEntry: function() {
+  		  return "<li>Queue is empty</li>"
+  		}
   	}, (options || {}));
   	app.loadDynamicPage('#show-customer-queue', 'customer_queue', options);
   },   
