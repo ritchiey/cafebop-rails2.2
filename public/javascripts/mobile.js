@@ -8,15 +8,17 @@ var jQT = $.jQTouch({
 });								  
 
 // fix JQTouch 1.0 beta 2
-(function(){
-    var goTo = jQT.goTo;
-    jQT.goTo = function(page) {
-        if ($(page).hasClass("current")) {
-            return;
-        }
-        return goTo(page);
-    }
-})();
+// When enabled, this prevents problems with double taps but
+// disables animation for some reason.
+// (function(){
+//     var goTo = jQT.goTo;
+//     jQT.goTo = function(page) {
+//         if ($(page).hasClass("current")) {
+//             return;
+//         }
+//         return goTo(page);
+//     }
+// })();
 
 
 var app = { 
@@ -254,13 +256,18 @@ var app = {
 	// id in its 'ids' field
 	var order_item = app.current_order.summarized_order_items[app.queued_order_item_id]
 	var $order_items = $('#show-queued-order-item .order-items')
+	var $item_details = $('#show-queued-order-item .item-details')
+	var $item_notes = $('#show-queued-order-item .item-notes')
 	$('#show-queued-order-item .title').text(order_item.quantity+" "+order_item.description)
-	$order_items.empty() 
-	$order_items.append( 
+	$item_details.text(order_item.quantity+" "+order_item.description)
+	$item_notes.text(order_item.notes || '')
+	$order_items.empty()
+	$order_items.append(
 	  $.map(order_item.ids, function(item_id) {
 		return "<input type='hidden' name='order_item_ids[]' value='"+item_id+"'></input>"
-	  }).join('')	
+	  }).join('')
 	)
+	
 	// app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
 	//	 serverControllerName: 'queued_order_items',
 	//	 serverObjectName: 'order_item',

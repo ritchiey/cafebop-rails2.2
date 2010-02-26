@@ -94,8 +94,9 @@
     #show-queued-order-item
       .toolbar
         %a.back Back
-        %h1.title
-
+        %h1 Order Item
+      %h1.item-details
+      %h2.item-notes
       -form_tag "/queued_order_items/make_all", :method=>:put, :id=>'make-order-item-form' do |f|
         .order-items
         %a.whiteButton.make Make
