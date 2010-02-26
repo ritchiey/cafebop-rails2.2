@@ -134,11 +134,28 @@ var app = {
   bindPage: function(pageSelector, options) {
 	$(pageSelector).bind('pageAnimationEnd', function(e, info) {
 	   if (info.direction == 'out') {
-		 (options['onExit'] || function() {})(pageSelector, info)
+	     app.restoreClonedPage(pageSelector);
+  		 (options['onExit'] || function() {})(pageSelector, info)
 	   } else {
-		 (options['onEntry'] || function() {})(pageSelector, info);
+	     app.clonePage(pageSelector);
+  		 (options['onEntry'] || function() {})(pageSelector, info);
 	   }
 	});
+  },
+  
+  clonePage: function(selector) {
+    var varName = app.underscore('clone_of_'+selector)
+    if (!app[varName]) {
+      app[varName] = $(selector).clone()
+    }
+  },
+  
+  restoreClonedPage: function(selector) {
+    var varName = app.underscore('clone_of_'+selector)
+    if (app[varName]) {
+      $(selector).empty()
+      $(selector).append(app[varName])
+    }
   },
  
   bindLink: function(linkSelector, pageSelector, beforeRender) {
@@ -363,8 +380,8 @@ $(function() { // on page ready
 app.addPage('show', 'shop', {onEntry: app.loadShowShop});
 app.addPage('show', 'customer-queue', {
   onEntry: function() {
-	app.loadShowCustomerQueue();
-	app.interval_id = window.setInterval(function() {app.loadShowCustomerQueue({'noLoading': true})}, 5000);
+  	app.loadShowCustomerQueue();
+  	app.interval_id = window.setInterval(function() {app.loadShowCustomerQueue({'noLoading': true})}, 5000);
   },
   onExit: function() {
 	window.clearInterval(app.interval_id)
