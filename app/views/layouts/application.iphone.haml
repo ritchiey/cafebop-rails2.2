@@ -25,13 +25,17 @@
         %a#login-button.button.slideup{:href=>"#login"} Login
         %a#logout-button.button{:href=>"#"} Logout
       
-      %h1 My Restaurants
-      %ul.my-restaurants
-        %li
-          Loading...
-      .info
-        Add this to your phone
+      .authenticated.hidden
+        %h1 My Restaurants
+        %ul.my-restaurants
+          %li
+            Loading...
+        .info
+          Add this to your phone
 
+      .unauthenticated.hidden
+        %h1 Cafebop
+        %h2 Login or Join
             
             
     / Login Form

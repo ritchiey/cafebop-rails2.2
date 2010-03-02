@@ -199,6 +199,7 @@ var app = {
 
   loadHome: function() {
 	if (app.isLoggedIn()) {
+		$('#home .unauthenticated').hide();
 	  app.getContent("/", function(data) { 
 		var $shopList = $('.my-restaurants');
 		var shopListEntries = jQuery.map(data.work_contracts, function(el) {
@@ -208,6 +209,7 @@ var app = {
 		});
 		$shopList.empty();
 		$shopList.append(shopListEntries.join(''));
+		$('#home .authenticated').show();
 	  })
 	} else {
 	  alert('Not logged in so clearing home!');
@@ -298,8 +300,9 @@ var app = {
   },
 
   clearHomePage: function() {
-	// TODO: Remove all items from the home page
-	alert('clearing home page');
+    $('#home .authenticated').hide();
+		$('.my-restaurants').empty();
+    $('#home .unauthenticated').show();
   },
   
   isLoggedIn: function() {
@@ -348,7 +351,9 @@ $('a.login').tap(function(e) {
   return app.login($form);	 
 });
 
-$(function() { // on page ready
+$(function() { // on page ready   
+  // Record home page whilst in a pristine state
+  app.clonePage('#home');
 
   $('#make-order-item-form').submit(function(e) {
 	var $form = $(this);
