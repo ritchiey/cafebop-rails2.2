@@ -7,18 +7,16 @@ var jQT = $.jQTouch({
 	]
 });								  
 
-// fix JQTouch 1.0 beta 2
-// When enabled, this prevents problems with double taps but
-// disables animation for some reason. Try again with latest jqTouch.
-// (function(){
-//     var goTo = jQT.goTo;
-//     jQT.goTo = function(page) {
-//         if ($(page).hasClass("current")) {
-//             return;
-//         }
-//         return goTo(page);
-//     }
-// })();
+// this prevents problems with double taps
+(function(){
+    var goTo = jQT.goTo;
+    jQT.goTo = function(page, animation) {
+        if ($(page).hasClass("current")) {
+            return;
+        }               
+        return goTo(page, animation);
+    }
+})();  
 
 
 var app = { 
