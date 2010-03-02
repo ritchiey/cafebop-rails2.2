@@ -9,14 +9,15 @@
 
 .ordering-card.span-15.last
   .span-10
-    %h6=h card_for.name
-    =h card_for.description
-    %br
-    -if card_for.respond_to?('flavours')
-      %ul.flavours
+    %span.mi-name=h card_for.name
+    -if card_for.respond_to?('flavours') and card_for.flavours and !card_for.flavours.empty?
+      \(
+      %ul.mi-flavours
       -card_for.flavours.each do |flavour|
-        %li=h flavour.name
-      %br
+        %li.mi-flavour=h flavour.name
+      \)
+    %br
+    %span.mi-desc=h card_for.description
     -if item.sizes.empty?
       =h item.price
     -else
