@@ -250,11 +250,12 @@ var app = {
 	  serverControllerName: 'queued_orders',
 	  // store the order for use when showing order items
 	  withLoadedObject: function(order) {
-	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
-		app.current_order = order
-		if (order.state == 'made') {
-		  $made_order_controls.show();
-		}
+  	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
+  		app.current_order = order
+  		if (order.state == 'made') {
+  		  $made_order_controls.show();
+  		}
+		  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total));
 	  },
 	  getTitle: function(order) {return "Order"},
 	  entryToHtml: function(order_item, list_name, index) {
