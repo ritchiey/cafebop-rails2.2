@@ -69,6 +69,7 @@ var app = {
 	var entryToHtml = options['entryToHtml'] || function(subObj, subCollectionName) {
 	  return app.listLink(subObj.name, 'to-'+subCollectionName, subObj.id);
 	}
+	var emptyList = options['emptyListEntry'] || function() {return "<li>No entries</li>"}
 
 	if (!options['noLoading']) {
   	$(titleSelector).text('Loading...');
@@ -90,7 +91,7 @@ var app = {
 		  });
 		  $(itemList).empty();
 		  if (entries.length == 0) {
-		    entries.push((options['emptyListEntry'] || function() {})(subCollectionName))
+		    entries.push(emptyList(subCollectionName))
 		  } 
 		  $(itemList).append(entries.join(''));
 		});
@@ -217,20 +218,13 @@ var app = {
 	}
   },
   
-  loadShowShop: function() {
-	$('#shop-name').text('Loading...');
-	if (app.isLoggedIn()) {
-	  app.getContent("/shops/"+app.shop_id+"/", function(data) {
-		var shop = data.shop;
-		$('#shop-name').text(shop.name);
-		var customerQueueListEntries = jQuery.map(shop.customer_queues, function(queue) {
-		  return app.listLink(queue.name, 'to-show-customer-queue', queue.id);
-		});
-		var $queueList = $('#queue-list');
-		$queueList.empty();
-		$queueList.append(customerQueueListEntries.join(''));
-	  });
-	}
+  loadShowShop: function(options) {
+    options = $.extend({}, {
+      entryToHtml: function(obj, listName) {
+        return app.listLink(obj.name, 'to-show-customer-queue', obj.id);
+      }
+  	}, (options || {}));
+  	app.loadDynamicPage('#show-shop', 'shop', options);
   },
  
   loadShowCustomerQueue: function(options) {
@@ -291,12 +285,7 @@ var app = {
 		return "<input type='hidden' name='order_item_ids[]' value='"+item_id+"'></input>"
 	  }).join('')
 	)
-	
-	// app.loadDynamicPage('#show-queued-order-item', 'queued_order_item', {
-	//	 serverControllerName: 'queued_order_items',
-	//	 serverObjectName: 'order_item',
-	//	 getTitle: function(order_item) {return order_item.description}
-	// })
+
   },
 
   clearHomePage: function() {
