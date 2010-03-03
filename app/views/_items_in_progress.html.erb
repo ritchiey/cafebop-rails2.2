@@ -1,5 +1,0 @@
-<% if @item_queue.order_items.empty? %>
-  <tr><td>No Items in Queue</td></tr>
-<%else%>
-  <%= render :partial=>'order_items/in_queue', :collection=>@item_queue.order_items %>
-<%end%>
