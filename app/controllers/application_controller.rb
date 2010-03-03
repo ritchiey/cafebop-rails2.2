@@ -148,15 +148,20 @@ private
     redirect_to root_path
   end    
 
-  def adjust_format_for_iphone
+  def adjust_format_for_iphone 
+    session[:mobile_param] = params[:mobile] if params[:mobile]
     request.format = :iphone if iphone_user_agent? and request.format != 'application/json'
   end
 
   def iphone_user_agent?           
-    # return true
-    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/] or
-    request.subdomains.first == "iphone" or params[:format] == "iphone"
+    if session[:mobile_param]
+      session[:mobile_param] == '1'
+    else
+      request.user_agent =~ /Mobile|webOS/
+      # request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/Mobile|webOS/] or
+    end
   end
+  helper_method :iphone_user_agent?
   
   
   # Find the shop by the shop_id parameter if specified in the request and

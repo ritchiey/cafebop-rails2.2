@@ -24,6 +24,8 @@
         %h1 Cafebop
         %a#login-button.button.slideup{:href=>"#login"} Login
         %a#logout-button.button{:href=>"#"} Logout
+
+      %a.button{:href=>'/?mobile=>0'} Full Site
       
       .authenticated.hidden
         %h1 My Restaurants
@@ -35,7 +37,7 @@
 
       .unauthenticated.hidden
         %h1 Cafebop
-        %h2 Login or Join
+        At present, ordering is only available on the #{link_to "Full Site", root_url(:mobile=>0), :rel=>"external"}.
             
             
     / Login Form
