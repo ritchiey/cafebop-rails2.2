@@ -3,11 +3,10 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
-  helper_method :'iphone_user_agent?'
   before_filter :cookies_required, :except => [:cookies_test]
   before_filter :find_order_and_or_shop, :except => [:cookies_test]
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  before_filter :adjust_format_for_iphone
+  before_filter :adjust_format_for_mobile
   filter_parameter_logging :password, :password_confirmation
   
   helper_method :current_user_session, :current_user, :"admin?"
@@ -148,20 +147,24 @@ private
     redirect_to root_path
   end    
 
-  def adjust_format_for_iphone 
+  def adjust_format_for_mobile 
     session[:mobile_param] = params[:mobile] if params[:mobile]
-    request.format = :iphone if iphone_user_agent? and request.format != 'application/json'
+    request.format = :mobile if mobile_site? and request.format != 'application/json'
   end
 
-  def iphone_user_agent?           
+  def mobile_site?           
     if session[:mobile_param]
       session[:mobile_param] == '1'
     else
-      request.user_agent =~ /Mobile|webOS/
-      # request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/Mobile|webOS/] or
+      mobile_device?
     end
   end
-  helper_method :iphone_user_agent?
+  helper_method :mobile_site?
+  
+  def mobile_device?
+    request.user_agent =~ /Mobile|webOS/
+  end
+  helper_method :mobile_device?
   
   
   # Find the shop by the shop_id parameter if specified in the request and

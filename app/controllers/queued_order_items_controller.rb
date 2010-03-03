@@ -21,7 +21,7 @@ class QueuedOrderItemsController < ApplicationController
       when 'order': render :partial=>'orders/order', :object=>@order_item.order
       else
         respond_to do |format|
-          # format.iphone {redirect_to order_path(@order_item.order)}
+          # format.mobile {redirect_to order_path(@order_item.order)}
           # format.html {redirect_back_or_default}
           format.json {render :json=>true.to_json}
         end

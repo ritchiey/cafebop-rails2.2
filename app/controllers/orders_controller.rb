@@ -19,7 +19,7 @@ class OrdersController < OrdersRelatedController
 
   def show
     respond_to do |format|
-      format.iphone
+      format.mobile
       format.html
       format.json do
         render :json=>@order.to_json(

@@ -8,7 +8,7 @@ class FrontController < ApplicationController
     @search = Search.new
     respond_to do |format|
       format.html        
-      format.iphone
+      format.mobile
       format.json do                                                        
         work_contracts_json = @work_contracts.to_json({:only=>[:role], :include=>{:shop=>{:only=>[:name, :id]}}})
         json = "{work_contracts: #{work_contracts_json}}"

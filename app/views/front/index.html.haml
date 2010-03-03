@@ -1,8 +1,8 @@
--if iphone_user_agent?
-  .iphone-message
+-if mobile_device?
+  .mobile-message
     %p
-      Using an iPhone?
-      =link_to 'Use the optimised version', 'http://iphone.localhost.local:3000/'
+      Using a mobile device?
+      Try the #{link_to 'mobile site', root_url(:mobile=>1)}.
 
 -if current_user
   -content_for :aside do

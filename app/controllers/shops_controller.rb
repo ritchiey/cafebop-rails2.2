@@ -14,7 +14,7 @@ class ShopsController < ApplicationController
   def show
     respond_to do |format|
       format.html {redirect_to new_shop_order_path(@shop)}
-      format.iphone
+      format.mobile
       format.json { render :json=>@shop.to_json(
         :only=>[:id, :name],
         :include=>{

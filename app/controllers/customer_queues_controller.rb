@@ -40,7 +40,7 @@ class CustomerQueuesController < QueuesController
     flash.now[:error] = "Queuing for #{@queue.shop.name} is currently disabled. You won't receive any orders."
     respond_to do |format|
       format.html
-      format.iphone
+      format.mobile
       format.json do
         render :json=>@queue.to_json(:only=>[:name, :id], :include=>{
           :current_orders=>{

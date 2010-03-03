@@ -5,7 +5,7 @@ class UserSessionsController < ApplicationController
     @user_session.remember_me = true
     flash[:email] and @user_session.email = flash[:email]
     respond_to do |format|
-        format.iphone do 
+        format.mobile do 
           render :layout => false
         end
         format.html
@@ -15,7 +15,7 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     respond_to do |format|
-      format.iphone do
+      format.mobile do
         if @user_session.save
           render :json=>@user_session.user.name.to_json
         else
