@@ -44,6 +44,7 @@ class CustomerQueuesController < QueuesController
       format.json do
         render :json=>@queue.to_json(:only=>[:name, :id], :include=>{
           :current_orders=>{
+            :only=>[:id, :notes, :name, :state],
             :methods=>[:grand_total, :summarized_order_items, :summary],
             :include=>{:user=>{:only=>[:name]}}
           }

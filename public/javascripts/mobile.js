@@ -232,6 +232,7 @@ var app = {
   	  getTitle: function(queue) {return queue.name},
   	  entryToHtml: function(order) {
   		return app.listLink(order.name, 'to-show-queued-order', order.id, {
+  			li_classes: 'arrow ' + order.state,
   		  subLink: order.summary,
   			counter: app.as_currency(order.grand_total)
   		})},

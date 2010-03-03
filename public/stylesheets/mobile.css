@@ -6,11 +6,19 @@ form#login a.login {
 .made-order-controls {
   margin: 0 10px 10px 10px; }
 
+.whiteButton {
+  margin: 0 10px 10px 10px; }
+
 .made {
+  -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch;
   background-color: blue; }
 
 .queued {
+  -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch;
   background-color: green; }
+
+.old {
+  background-image: url(/images/old.png); }
 
 #show-queued-order .total {
   float: right;
