@@ -11,11 +11,11 @@ form#login a.login {
 
 .made {
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch;
-  background-color: blue; }
+  background-color: #fda925; }
 
 .queued {
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch;
-  background-color: green; }
+  background-color: #37b1e4; }
 
 .old {
   background-image: url(/images/old.png); }
