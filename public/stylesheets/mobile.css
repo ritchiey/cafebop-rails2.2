@@ -26,6 +26,14 @@ form#login a.login {
   font: bold 18px Helvetica;
   text-shadow: rgba(255,255,255,.2) 0 1px 1px;
   color: rgb(76, 86, 108); }
+#show-queued-order .order-controls {
+  margin: 4em 10px 0 10px; }
+  #show-queued-order .order-controls a.cancel-order {
+    width: 25%;
+    float: left; }
+  #show-queued-order .order-controls a.no-show {
+    width: 30%;
+    float: right; }
 
 li a {
   width: 70%; }

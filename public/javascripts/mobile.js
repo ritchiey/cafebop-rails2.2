@@ -242,7 +242,8 @@ var app = {
 
 
   loadShowQueuedOrder: function() {
-	var $made_order_controls = $('#show-queued-order .made-order-controls')
+	var $made_order_controls = $('#show-queued-order .made-order-controls');
+	var $order_controls = $('#show-queued-order .order-controls');
 	$made_order_controls.hide();
 	app.loadDynamicPage('#show-queued-order', 'queued_order', {
 	  serverObjectName: 'order',
@@ -255,6 +256,7 @@ var app = {
   		  $made_order_controls.show();
   		}
 		  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total));
+		  $order_controls.show();
 	  },
 	  getTitle: function(order) {return "Order"},
 	  entryToHtml: function(order_item, list_name, index) {
@@ -322,6 +324,27 @@ var app = {
 	}
   } 
 };		   
+
+$('a.no-show').tap(function(e) {
+  if (confirm('Register a no-show for this order?')) {
+    var $form = $(this).closest("form");
+  	app.submitForm($form, {
+  	  url: '/queued_orders/'+app.queued_order_id+'/no_show'
+  	})
+  }
+  return false;
+});
+
+$('a.cancel-order').tap(function(e) {
+  if (confirm('Really cancel order?')) {
+    var $form = $(this).closest("form");
+  	app.submitForm($form, {
+  	  url: '/queued_orders/'+app.queued_order_id+'/cancel'
+  	})
+  }
+  return false;
+});
+
 
 $('a.deliver').tap(function(e) {
   var $form = $(this).closest("form");

@@ -35,13 +35,23 @@ form#login a
   :background-image url(/images/old.png)
 
 
-#show-queued-order .total
-  :float right
-  margin: 0 46px 10px 10px          
-  font: bold 18px Helvetica
-  text-shadow: rgba(255,255,255,.2) 0 1px 1px
-  color: rgb(76, 86, 108)   
-  
+#show-queued-order
+  .total
+    :float right
+    margin: 0 46px 10px 10px          
+    font: bold 18px Helvetica
+    text-shadow: rgba(255,255,255,.2) 0 1px 1px
+    color: rgb(76, 86, 108)
+
+  .order-controls
+    :margin 4em 10px 0 10px
+    a.cancel-order
+      :width 25%
+      :float left
+    a.no-show
+      :width 30%
+      :float right
+    
 li a
   :width 70%
   
@@ -53,3 +63,4 @@ li a
 .toolbar h1
   text-shadow: 1px 1px 0px #000
 //  background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#999))
+

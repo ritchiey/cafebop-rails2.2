@@ -215,14 +215,14 @@ class Order < ActiveRecord::Base
   end
   
   def no_show!
-    if queued?
+    if queued? or made?
       user.no_show_for(self)
       cancel!
     end
   end
   
   def cancel!
-    if queued?
+    if queued? or made?
       self.state = 'cancelled'
       save!
     end
