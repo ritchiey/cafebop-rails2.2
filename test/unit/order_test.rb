@@ -118,6 +118,13 @@ class OrderTest < ActiveSupport::TestCase
           @order.make!
           assert @order.made?
         end
+        
+        should "be able to record a no_show" do
+          @order.user.expects(:no_show_for).with(@order).once
+          assert !@order.cancelled?
+          @order.no_show!
+          assert @order.cancelled?
+        end
     
         should "transition to made when last order_item is made" do
           assert @order.queued?

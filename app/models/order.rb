@@ -214,6 +214,19 @@ class Order < ActiveRecord::Base
     (user_id and claimant.id == user_id) or token == perishable_token
   end
   
+  def no_show!
+    if queued?
+      user.no_show_for(self)
+      cancel!
+    end
+  end
+  
+  def cancel!
+    if queued?
+      self.state = 'cancelled'
+      save!
+    end
+  end
   
   def accept!
     if invited?

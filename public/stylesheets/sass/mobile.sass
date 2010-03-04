@@ -8,7 +8,7 @@
 !green = #75D246
 !blue = #37B1E4
 !aqua = #BFC6CC
-
+  
 
 form#login a
   &.login, &.goback
@@ -24,8 +24,8 @@ form#login a
   margin: 0 10px 10px 10px
 
 .made
+  :background-color= !orange 
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch  
-  :background-color= !orange
   
 .queued
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch  
@@ -48,3 +48,8 @@ li a
 
 .hidden
   :display none
+  
+  
+.toolbar h1
+  text-shadow: 1px 1px 0px #000
+//  background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#999))

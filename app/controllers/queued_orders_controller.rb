@@ -16,6 +16,24 @@ class QueuedOrdersController < ApplicationController
     end
   end
   
+  def no_show
+    @order.no_show!
+    respond_to do |format|
+      format.html {redirect_to @order}
+      format.mobile {redirect_to @order}
+      format.json {render :json=>true}
+    end
+  end
+  
+  def cancel
+    @order.cancel!
+    respond_to do |format|
+      format.html {redirect_to @order}
+      format.mobile {redirect_to @order}
+      format.json {render :json=>true}
+    end
+  end
+  
 private
 
   def only_if_can_access_queue

@@ -10,8 +10,8 @@ form#login a.login {
   margin: 0 10px 10px 10px; }
 
 .made {
-  -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch;
-  background-color: #fda925; }
+  background-color: #fda925;
+  -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch; }
 
 .queued {
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch;
@@ -32,3 +32,6 @@ li a {
 
 .hidden {
   display: none; }
+
+.toolbar h1 {
+  text-shadow: 1px 1px 0px #000; }

@@ -139,4 +139,8 @@ class User < ActiveRecord::Base
       save!
     end
   end
+  
+  def no_show_for(order)
+    # TODO: Implement reputation
+  end
 end

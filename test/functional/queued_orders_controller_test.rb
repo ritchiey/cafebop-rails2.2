@@ -20,6 +20,17 @@ class QueuedOrdersControllerTest < ActionController::TestCase
         setup {get :show, :id=>@order.id, :format=>'json'}
         should_require_login
       end
+      
+      context "cancelling the order" do
+        setup {put :cancel, :id=>@order.id, :format=>'json'}
+        should_require_login
+      end
+      
+      context "reporting a no_show for the order" do
+        setup {put :no_show, :id=>@order.id, :format=>'json'}
+        should_require_login
+      end
+      
     end
     
     context "as someone who can't access the order's shop's queues" do
@@ -34,8 +45,20 @@ class QueuedOrdersControllerTest < ActionController::TestCase
         setup {get :show, :id=>@order.id, :format=>'json'}
         should_not_be_allowed
       end
+
+
+      context "cancelling the order" do
+        setup {put :cancel, :id=>@order.id, :format=>'json'}
+        should_not_be_allowed
+      end
+      
+      context "reporting a no_show for the order" do
+        setup {put :no_show, :id=>@order.id, :format=>'json'}
+        should_not_be_allowed
+      end
+      
+
     end
-    
     
     context "as someone who can access the order's shop's queues" do
       setup do
@@ -51,6 +74,31 @@ class QueuedOrdersControllerTest < ActionController::TestCase
         should_assign_to :order
         should_not_set_the_flash
       end
+
+      context "cancelling the order" do
+        setup do
+          Order.expects(:find).returns(@order)
+          @order.expects(:cancel!).once
+          put :cancel, :id=>@order.id, :format=>'json'
+        end
+        should_respond_with :success
+        should_assign_to :order
+        should_not_set_the_flash
+      end
+      
+      context "reporting a no_show for the order" do
+        setup do
+          Order.expects(:find).returns(@order)
+          @order.expects(:no_show!).once
+          put :no_show, :id=>@order.id, :format=>'json'
+        end
+        should_respond_with :success
+        should_assign_to :order
+        should_not_set_the_flash
+      end
+
+
+
     end
 
   end

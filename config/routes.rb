@@ -28,7 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :menus, :only=>[:new, :create, :index], # for generic menus
     :collection=>{:import=>:get, :import_csv=>:post}
 
-  map.resources :queued_orders, :only=>[:show]
+  map.resources :queued_orders, :only=>[:show], :member=>{:cancel=>:put, :no_show=>:put}
   map.resources :queued_order_items, :only=>[:show],
     :member=>{:make=>:put},
     :collection=>{:make_all=>:put}

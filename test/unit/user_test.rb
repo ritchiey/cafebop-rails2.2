@@ -9,6 +9,10 @@ class UserTest < ActiveSupport::TestCase
     end
     subject {@user}
   
+    should "have a no_show_for method" do
+      assert @user.respond_to?(:no_show_for)
+    end
+  
     should_validate_uniqueness_of :email, :case_sensitive => false
 
     should("not be signed up by default") {assert !@user.signed_up?}

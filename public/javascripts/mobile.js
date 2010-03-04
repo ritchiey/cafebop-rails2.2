@@ -4,6 +4,7 @@ var jQT = $.jQTouch({
 	formSelector: 'form.ajax',
 	statusBar: 'black-translucent',
 	preloadImages: [
+	'/images/smallbubble.png'
 	]
 });								  
 
@@ -50,12 +51,20 @@ var app = {
   },
   
   submitForm: function(form, options) {
-	options = options || {}	 
+	options = options || {}
+	var onComplete = options['onComplete'] || function(req) {
+  	if (req.status == 200 && req.responseText != 'false') {
+  	  jQT.goBack();
+  	} else {
+  	  alert(options['failMessage'] || "Unable to perform. Try again.");
+  	}
+  }
+  
 	$.ajax({
 	 type: options['method'] || form.attr('method'),
 	 url: options['url'] || form.attr('action'),
 	 data:form.serialize(),
-	 complete: options['onComplete'] || function() {},
+	 complete: onComplete,
 	 dataType: options['dataType'] || 'json',
 	});
   },
@@ -175,26 +184,14 @@ var app = {
   deliverOrder: function($form) {
 	app.submitForm($form, {
 	  url: '/orders/'+app.queued_order_id+'/deliver',
-	  onComplete: function(req) {
-		if (req.status == 200 && req.responseText != 'false') {
-		  jQT.goBack();
-		} else {
-		  alert("Unable to deliver order. Try again.");
-		}
-	  }
+	  failMessage: "Unable to deliver order. Try again."
 	})
   },
   
   makeQueuedOrderItem: function($form) {
 	app.submitForm($form, {
-	  onComplete: function(req) {
-		if (req.status == 200 && req.responseText != 'false') {
-		  jQT.goBack();
-		} else {
-		  alert("Unable to make order item. Try again.");
-		}
-	  }
-	})
+	  failMessage: "Unable to make order item. Try again."
+	});
 	return false; 
   },
 
