@@ -2,10 +2,13 @@ Date.fromSecondsSinceEpoch = function(seconds) {
   return new Date(seconds * 1000);
 };
 
+Date.prototype.distance_of_time_in_minutes = function(to) {
+  var distance_in_milliseconds = Math.abs(to.valueOf() - this.valueOf());
+  return Math.round(distance_in_milliseconds / 60000);
+}
 
 Date.prototype.distance_of_time_in_words = function(to) {
-  var distance_in_milliseconds = Math.abs(to.valueOf() - this.valueOf());
-  var distance_in_minutes = Math.round(distance_in_milliseconds / 60000);
+  var distance_in_minutes = this.distance_of_time_in_minutes(to);
   var words;
   if (distance_in_minutes == 0) {
     words = "less than a minute";
@@ -37,7 +40,9 @@ Date.prototype.time_ago_in_words = function() {
   return this.distance_of_time_in_words(new Date());
 }; 
 
-
+Date.prototype.time_ago_in_minutes = function() {
+  return this.distance_of_time_in_minutes(new Date());
+};
 
 
 var jQT = $.jQTouch({ 
@@ -311,13 +316,17 @@ var app = {
 	});
   },
 
-
   updateOrderAge: function(order) {
 	  var queued_at = Date.fromSecondsSinceEpoch(order.queued_at_utc);
 	  var age_text = "Received " + queued_at.time_ago_in_words()+' ago';
 	  if (age_text != order.age_text) {
   	  $('.order-received').text(age_text);
 	    order.age_text = age_text;
+	  }
+	  if (queued_at.time_ago_in_minutes() >= 15) {
+	    $('.no-show').show();
+	  } else {
+	    $('.no-show').hide();
 	  }
   },
 
