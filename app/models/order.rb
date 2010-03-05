@@ -16,6 +16,8 @@ class Order < ActiveRecord::Base
     close_time :datetime
     paypal_paykey :string
     paid_at :datetime
+    queued_at :datetime
+    unqueued_at :datetime
     timestamps
   end
 
@@ -56,7 +58,7 @@ class Order < ActiveRecord::Base
   
   def queued_at_utc    
     #TODO: Create a queued_at field and use that
-    created_at.to_i
+    queued_at.to_i
   end
   
   def effective_name
@@ -329,6 +331,7 @@ private
       if can_be_queued?
         order_items.each {|item| item.queue!}
         confirmed_child_order_items.each {|item| item.queue!}
+        self.queued_at = Time.now
         self.state = 'queued'
         save
       end
