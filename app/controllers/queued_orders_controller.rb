@@ -16,6 +16,15 @@ class QueuedOrdersController < ApplicationController
     end
   end
   
+  def make_all_items
+    @order.make_all_items!
+    respond_to do |format|
+      format.html {redirect_to @order}
+      format.mobile {redirect_to @order}
+      format.json {render :json=>true}
+    end
+  end
+  
   def no_show
     @order.no_show!
     respond_to do |format|

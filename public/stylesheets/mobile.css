@@ -9,17 +9,19 @@ form#login a.login {
 .whiteButton {
   margin: 0 10px 10px 10px; }
 
-.made {
+.queued {
   background-color: #fda925;
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch; }
 
-.queued {
+.made {
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch;
   background-color: #37b1e4; }
 
 .old {
   background-image: url(/images/old.png); }
 
+#show-queued-order .make-all-items, #show-queued-order .deliver {
+  margin: 4em 10px 0 10px; }
 #show-queued-order .total {
   float: right;
   margin: 0 46px 10px 10px;

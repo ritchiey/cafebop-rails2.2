@@ -225,6 +225,13 @@ var app = {
 	  return false;
 	});
   },
+
+  makeAllItems: function($form) {
+  	app.submitForm($form, {
+  	  url: '/queued_orders/'+app.queued_order_id+'/make_all_items',
+  	  failMessage: "Unable to make. Try again."
+  	})
+  },
   
   deliverOrder: function($form) {
 	app.submitForm($form, {
@@ -286,34 +293,38 @@ var app = {
 
 
   loadShowQueuedOrder: function() {
-	var $made_order_controls = $('#show-queued-order .made-order-controls');
-	var $order_controls = $('#show-queued-order .order-controls');
-	$made_order_controls.hide();
-	app.loadDynamicPage('#show-queued-order', 'queued_order', {
-	  serverObjectName: 'order',
-	  serverControllerName: 'queued_orders',
-	  // store the order for use when showing order items
-	  withLoadedObject: function(order) {
-  	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
-  	  app.updateOrderAge(order);
-    	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
-  		app.current_order = order
-  		if (order.state == 'made') {
-  		  $made_order_controls.show();
-  		}
-		  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total));
-		  $order_controls.show();
-	  },
-	  getTitle: function(order) {return "Order"},
-	  entryToHtml: function(order_item, list_name, index) {
-		return app.listLink(order_item.quantity+' '+order_item.description,
-		  'to-show-queued-order-item', index, {
-			li_classes: 'arrow '+order_item.state,
-			subLink: order_item.notes,
-			counter: app.as_currency(order_item.price_in_cents /100.0)
-		  })
-	  }
-	});
+  	var $order_controls = $('#show-queued-order .order-controls');
+  	var $deliver = $('#show-queued-order .deliver');
+  	var $make_all_items = $('#show-queued-order .make-all-items');
+  	app.loadDynamicPage('#show-queued-order', 'queued_order', {
+  	  serverObjectName: 'order',
+  	  serverControllerName: 'queued_orders',
+  	  // store the order for use when showing order items
+  	  withLoadedObject: function(order) {
+    	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
+    	  app.updateOrderAge(order);
+      	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
+    		app.current_order = order
+    		if (order.state == 'made') {
+    		  $deliver.show();
+    		  $make_all_items.hide();
+    		} else {
+    		  $deliver.hide();
+    		  $make_all_items.show();
+    		}
+  		  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total));
+  		  $order_controls.show();
+  	  },
+  	  getTitle: function(order) {return "Order"},
+  	  entryToHtml: function(order_item, list_name, index) {
+  		return app.listLink(order_item.quantity+' '+order_item.description,
+  		  'to-show-queued-order-item', index, {
+  			li_classes: 'arrow '+order_item.state,
+  			subLink: order_item.notes,
+  			counter: app.as_currency(order_item.price_in_cents / 100.0)
+  		  })
+  	  }
+  	});
   },
 
   updateOrderAge: function(order) {
@@ -402,6 +413,12 @@ $('a.cancel-order').tap(function(e) {
   	  url: '/queued_orders/'+app.queued_order_id+'/cancel'
   	})
   }
+  return false;
+});
+
+$('a.make-all-items').tap(function(e) {
+  var $form = $(this).closest("form");
+  app.makeAllItems($form);
   return false;
 });
 

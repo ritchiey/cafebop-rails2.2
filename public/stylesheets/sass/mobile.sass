@@ -23,11 +23,11 @@ form#login a
 .whiteButton
   margin: 0 10px 10px 10px
 
-.made
+.queued
   :background-color= !orange 
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch  
   
-.queued
+.made
   -webkit-border-image: url(/images/smallbubble.png) 7 10 12 10 stretch stretch  
   :background-color= !blue
 
@@ -36,6 +36,9 @@ form#login a
 
 
 #show-queued-order
+  .make-all-items, .deliver
+    :margin 4em 10px 0 10px
+
   .total
     :float right
     margin: 0 46px 10px 10px          
@@ -51,6 +54,8 @@ form#login a
     a.no-show
       :width 30%
       :float right
+      
+      
     
 li a
   :width 70%

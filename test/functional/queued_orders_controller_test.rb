@@ -97,7 +97,18 @@ class QueuedOrdersControllerTest < ActionController::TestCase
         should_not_set_the_flash
       end
 
+      context "calling make_all for the order" do
+        setup do
+          put :make_all_items, :id=>@order.id, :format=>'json'
+        end
 
+        before_should "invoke make_all_items!" do
+          Order.expects(:find).returns(@order)
+          @order.expects(:make_all_items!).once
+        end
+        
+      end
+      
 
     end
 

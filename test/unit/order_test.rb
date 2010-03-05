@@ -97,9 +97,7 @@ class OrderTest < ActiveSupport::TestCase
 
     context "for a shop that queues pay-in-shop items" do
       setup do
-        class << @order.shop
-          def queues_in_shop_payments?() true; end
-        end
+        @order.shop.stubs(:queues_in_shop_payments?).returns(true)
       end     
       
       context "when queued" do
@@ -125,6 +123,12 @@ class OrderTest < ActiveSupport::TestCase
           @order.no_show!
           assert @order.cancelled?
         end
+
+        should "call make on each order_item on make_all_items" do
+          assert @order.order_items.all.all? {|item| item.queued?}
+          @order.make_all_items!
+          assert @order.order_items.all.all? {|item| item.made?}
+        end
     
         should "transition to made when last order_item is made" do
           assert @order.queued?
@@ -145,6 +149,7 @@ class OrderTest < ActiveSupport::TestCase
           @order.reload
           assert @order.made?, "order should have been made"
         end
+        
       end
       
     end

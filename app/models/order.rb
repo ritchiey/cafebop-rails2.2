@@ -57,7 +57,6 @@ class Order < ActiveRecord::Base
   
   
   def queued_at_utc    
-    #TODO: Create a queued_at field and use that
     queued_at.to_i
   end
   
@@ -197,6 +196,10 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def mine? claimant, token
+    (user_id and claimant.id == user_id) or token == perishable_token
+  end   
+  
   # State related methods
   def pending?() state == 'pending'; end  
   def invited?()   state == 'invited'; end  
@@ -215,12 +218,13 @@ class Order < ActiveRecord::Base
       order.save!
     end
   end
-  
-  
-  def mine? claimant, token
-    (user_id and claimant.id == user_id) or token == perishable_token
+    
+  def make_all_items!
+    queued_order_items.each do |item|
+      item.make!
+    end
   end
-  
+    
   def no_show!
     if queued? or made?
       user.no_show_for(self)
