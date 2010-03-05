@@ -289,10 +289,9 @@ var app = {
 	  serverControllerName: 'queued_orders',
 	  // store the order for use when showing order items
 	  withLoadedObject: function(order) {
-  	  var received_at = Date.fromSecondsSinceEpoch(order.queued_at_utc);
   	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
-  	  var queued_at = Date.fromSecondsSinceEpoch(order.queued_at_utc);
-  	  $('#show-queued-order .order-received').text("Received " + queued_at.time_ago_in_words()+' ago');
+  	  app.updateOrderAge(order);
+    	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
   		app.current_order = order
   		if (order.state == 'made') {
   		  $made_order_controls.show();
@@ -312,6 +311,15 @@ var app = {
 	});
   },
 
+
+  updateOrderAge: function(order) {
+	  var queued_at = Date.fromSecondsSinceEpoch(order.queued_at_utc);
+	  var age_text = "Received " + queued_at.time_ago_in_words()+' ago';
+	  if (age_text != order.age_text) {
+  	  $('.order-received').text(age_text);
+	    order.age_text = age_text;
+	  }
+  },
 
   loadShowQueuedOrderItem: function() {			  
 	// Because this is a summarized order_item, it can contain multiple order_item ids
@@ -446,11 +454,16 @@ app.addPage('show', 'shop', {onEntry: app.loadShowShop});
 app.addPage('show', 'customer-queue', {
   onEntry: function() {
   	app.loadShowCustomerQueue();
-  	app.interval_id = window.setInterval(function() {app.loadShowCustomerQueue({'noLoading': true})}, 5000);
+  	app.interval_id = window.setInterval(function() {app.loadShowCustomerQueue({'noLoading': true})}, 20000);
   },
   onExit: function() {
-	window.clearInterval(app.interval_id)
+	window.clearInterval(app.interval_id);
   }
 });
-app.addPage('show', 'queued-order', {onEntry: app.loadShowQueuedOrder});
+app.addPage('show', 'queued-order', {
+  onEntry: app.loadShowQueuedOrder,
+  onExit: function() {
+	window.clearInterval(app.order_interval_id);
+  }
+  });
 app.addPage('show', 'queued-order-item', {onEntry: app.loadShowQueuedOrderItem});
