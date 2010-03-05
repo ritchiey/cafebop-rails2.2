@@ -1,3 +1,45 @@
+Date.fromSecondsSinceEpoch = function(seconds) {
+  return new Date(seconds * 1000);
+};
+
+
+Date.prototype.distance_of_time_in_words = function(to) {
+  var distance_in_milliseconds = Math.abs(to.valueOf() - this.valueOf());
+  var distance_in_minutes = Math.round(distance_in_milliseconds / 60000);
+  var words;
+  if (distance_in_minutes == 0) {
+    words = "less than a minute";
+  } else if (distance_in_minutes == 1) {
+    words = "1 minute";
+  } else if (distance_in_minutes < 45) {
+    words = distance_in_minutes + " minutes";
+  } else if (distance_in_minutes < 90) {
+    words = "about 1 hour";
+  } else if (distance_in_minutes < 1440) {
+    words = "about " + Math.round(distance_in_minutes / 60) + " hours";
+  } else if (distance_in_minutes < 2160) {
+    words = "about 1 day";
+  } else if (distance_in_minutes < 43200) {
+    words = Math.round(distance_in_minutes / 1440) + " days";
+  } else if (distance_in_minutes < 86400) {
+    words = "about 1 month";
+  } else if (distance_in_minutes < 525600) {
+    words = Math.round(distance_in_minutes / 43200) + " months";
+  } else if (distance_in_minutes < 1051200) {
+    words = "about 1 year";
+  } else {
+    words = "over " + Math.round(distance_in_minutes / 525600) + " years";
+  }
+  return words;
+};
+
+Date.prototype.time_ago_in_words = function() {
+  return this.distance_of_time_in_words(new Date());
+}; 
+
+
+
+
 var jQT = $.jQTouch({ 
 	cacheGetRequests: false,
 	icon: '/images/icon.png',
@@ -159,7 +201,6 @@ var app = {
   clonePage: function(selector) {
     var varName = app.underscore('clone_of_'+selector)
     if (!app[varName]) {  
-      // alert("Cloning " + selector)
       app[varName] = $(selector).html();
     }
   },
@@ -167,7 +208,6 @@ var app = {
   restoreClonedPage: function(selector) {
     var varName = app.underscore('clone_of_'+selector)
     if (app[varName]) {
-      // alert("Restoring " + selector + " with " + varName)
       $(selector).empty()
       $(selector).append(app[varName])
     }
@@ -210,7 +250,6 @@ var app = {
 		$('#home .authenticated').show();
 	  })
 	} else {
-	  alert('Not logged in so clearing home!');
 	  app.clearHomePage();
 	}
   },
@@ -250,7 +289,10 @@ var app = {
 	  serverControllerName: 'queued_orders',
 	  // store the order for use when showing order items
 	  withLoadedObject: function(order) {
+  	  var received_at = Date.fromSecondsSinceEpoch(order.queued_at_utc);
   	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
+  	  var queued_at = Date.fromSecondsSinceEpoch(order.queued_at_utc);
+  	  $('#show-queued-order .order-received').text("Received " + queued_at.time_ago_in_words()+' ago');
   		app.current_order = order
   		if (order.state == 'made') {
   		  $made_order_controls.show();
@@ -315,14 +357,15 @@ var app = {
   },
 
   updateFormControls: function() {
-	if (app.isLoggedIn()) {
-	  $('#login-button').hide();
-	  $('#logout-button').show();
-	} else {
-	  $('#login-button').show();
-	  $('#logout-button').hide();
-	}
-  } 
+  	if (app.isLoggedIn()) {
+  	  $('#login-button').hide();
+  	  $('#logout-button').show();
+  	} else {
+  	  $('#login-button').show();
+  	  $('#logout-button').hide();
+  	}
+  }
+  
 };		   
 
 $('a.no-show').tap(function(e) {

@@ -34,7 +34,7 @@ class Order < ActiveRecord::Base
   has_many :order_items, :dependent=>:destroy
   has_many :payment_notifications, :dependent=>:destroy
 
-  has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id'
+  has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id', :order=>"id ASC"
   has_many :child_order_items, :through=>:child_orders, :source=>'order_items'
   has_many :confirmed_child_order_items, :through => :child_orders, :source => :order_items, :conditions=>{"orders.state" => ['confirmed', 'made']}
   has_many :invited_users, :through => :child_orders, :source => :user
@@ -53,6 +53,11 @@ class Order < ActiveRecord::Base
   
   validates_presence_of :effective_name, :if=>:name_required
   
+  
+  def queued_at_utc    
+    #TODO: Create a queued_at field and use that
+    created_at.to_i
+  end
   
   def effective_name
     self[:name] || (user && user.to_s)
