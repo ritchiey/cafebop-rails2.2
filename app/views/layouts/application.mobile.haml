@@ -12,7 +12,7 @@
       
       var user = '#{current_user ? current_user.name : ""}';
       
-    = javascript_include_tag '/jqtouch/jqtouch.js', 'mobile', :cache=>true
+    = javascript_include_tag '/jqtouch/jqtouch.js', 'mobile' #, :cache=>true
     = stylesheet_link_tag '/jqtouch/jqtouch.min.css', '/themes/apple/theme.min.css', 'mobile', :cache=>true
     
 
