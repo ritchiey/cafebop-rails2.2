@@ -90,10 +90,10 @@
         %h1.title Loading...
       %h2.order-status
       %h2.order-received
-      -form_tag '', :method=>:put do |f|
-        %a.grayButton.make-all-items.hidden Make All Items
-        %a.grayButton.deliver.hidden Deliver
-        / %a.whiteButton.no-show No Show
+      .made-order-controls 
+        -form_tag '', :method=>:put do |f|
+          %a.grayButton.make-all-items.hidden Make All Items
+          %a.grayButton.deliver.hidden Deliver
       %ul#summarized-order-items.item-list.rounded
       %p.total
       .order-controls
