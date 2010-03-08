@@ -450,8 +450,9 @@ $(function() { // on page ready
   });  
 
   $('form#login').submit(function(e) {
-	var $form = $(this);
-	return app.login($form);
+  	var $form = $(this);
+  	app.login($form);
+  	return false;
   });  
   
   $('#logout-button').tap(function(e) {
