@@ -401,3 +401,32 @@ ul.mi-flavours {
 
 .mi-name {
   font-weight: bold; }
+
+ul.menu {
+  padding-left: 0; }
+  ul.menu hr {
+    margin: 0 0 0 0; }
+  ul.menu ul.mi-flavours {
+    display: inline;
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    ul.menu ul.mi-flavours li {
+      display: inline; }
+      ul.menu ul.mi-flavours li:after {
+        content: ","; }
+      ul.menu ul.mi-flavours li:last-child:after {
+        content: ""; }
+
+.mi-controls {
+  float: right;
+  display: inline-block;
+  vertical-align: top; }
+
+.mi-details {
+  display: inline;
+  width: 80%;
+  float: left; }
+
+.mi-prices {
+  display: block; }

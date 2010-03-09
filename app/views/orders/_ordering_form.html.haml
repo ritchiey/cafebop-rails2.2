@@ -1,6 +1,6 @@
 -order = ordering_form
 
-%ul
+%ul.menu
   -if @shop.effective_menus.empty?
     != render :partial => 'shops/adjust_cuisines_form'
   -else

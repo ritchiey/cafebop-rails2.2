@@ -7,26 +7,24 @@
 -# formlet
 -dialog_id = card_for.class.name + card_for.id.to_s
 
-.ordering-card.span-15.last
-  .span-10
+.ordering-card
+  .mi-details
     %span.mi-name=h card_for.name
     -if card_for.respond_to?('flavours') and card_for.flavours and !card_for.flavours.empty?
       \(
       %ul.mi-flavours
-      -card_for.flavours.each do |flavour|
-        %li.mi-flavour=h flavour.name
+        -card_for.flavours.each do |flavour|
+          %li=h flavour.name
       \)
-    %br
     %span.mi-desc=h card_for.description
-    -if item.sizes.empty?
-      =h item.price
-    -else
-      - item.sizes.each do |size|
-        =h size.name
-        =h size.price
-  .span-5.last
+    %span.mi-prices
+      -if item.sizes.empty?
+        =h item.price
+      -else
+        - item.sizes.each do |size|
+          =h size.name
+          =h size.price
+
+  .mi-controls
     =button_to_function "Add", "popup('#{card_for.ordering_json}')", :class=>'small-add-btn button'
-  .span-11
-    %hr
-  .span-4.last
-    %br
+  %hr
