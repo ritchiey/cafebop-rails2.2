@@ -85,7 +85,7 @@ private
   
   
   def require_manager_or_admin       
-    @shop = Shop.find(params[:shop_id]) if params[:shop_id]
+    @shop = Shop.find_by_id_or_permalink(params[:shop_id]) if params[:shop_id]
     unless current_user and
           (current_user.is_admin? or
           current_user.manages?(@shop) or

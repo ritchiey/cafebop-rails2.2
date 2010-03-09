@@ -68,109 +68,108 @@ var jQT = $.jQTouch({
 
 
 var app = { 
-  as_currency: function(amount)
-  {
-	var i = parseFloat(amount);
-	if(isNaN(i)) { i = 0.00; }
-	var minus = '';
-	if(i < 0) { minus = '-'; }
-	i = Math.abs(i);
-	i = parseInt((i + .005) * 100);
-	i = i / 100;
-	s = new String(i);
-	if(s.indexOf('.') < 0) { s += '.00'; }
-	if(s.indexOf('.') == (s.length - 2)) { s += '0'; }
-	s = minus + s;
-	return s;
+  as_currency: function(amount) {
+  	var i = parseFloat(amount);
+  	if(isNaN(i)) { i = 0.00; }
+  	var minus = '';
+  	if(i < 0) { minus = '-'; }
+  	i = Math.abs(i);
+  	i = parseInt((i + .005) * 100);
+  	i = i / 100;
+  	s = new String(i);
+  	if(s.indexOf('.') < 0) { s += '.00'; }
+  	if(s.indexOf('.') == (s.length - 2)) { s += '0'; }
+  	s = minus + s;
+  	return s;
   },
   
   underscore: function(src) {
-	return src.replace(/-/g, "_" );
+  	return src.replace(/-/g, "_" );
   },
 
   getContent: function(url, success) {
-	$.ajax({
-	  type: 'GET',
-	  success: success,
-	  url: url, 
-	  dataType: 'json'
-	});
+  	$.ajax({
+  	  type: 'GET',
+  	  success: success,
+  	  url: url, 
+  	  dataType: 'json'
+  	});
   },
   
   submitForm: function(form, options) {
-	options = options || {}
-	var onComplete = options['onComplete'] || function(req) {
-  	if (req.status == 200 && req.responseText != 'false') {
-  	  jQT.goBack();
-  	} else {
-  	  alert(options['failMessage'] || "Unable to perform. Try again.");
-  	}
-  }
+  	options = options || {}
+  	var onComplete = options['onComplete'] || function(req) {
+    	if (req.status == 200 && req.responseText != 'false') {
+    	  jQT.goBack();
+    	} else {
+    	  alert(options['failMessage'] || "Unable to perform. Try again.");
+    	}
+    }
   
-	$.ajax({
-	 type: options['method'] || form.attr('method'),
-	 url: options['url'] || form.attr('action'),
-	 data:form.serialize(),
-	 complete: onComplete,
-	 dataType: options['dataType'] || 'json',
-	});
+  	$.ajax({
+  	 type: options['method'] || form.attr('method'),
+  	 url: options['url'] || form.attr('action'),
+  	 data:form.serialize(),
+  	 complete: onComplete,
+  	 dataType: options['dataType'] || 'json',
+  	});
   },
 
   loadDynamicPage: function(pageSelector, localObjectName, options) {
-	var titleSelector = pageSelector + ' .title';
-	var listSelector = pageSelector + ' .list';
-	var serverObjectName = options['serverObjectName'] || localObjectName;
-	var serverControllerName = options['serverControllerName'] || (serverObjectName + 's')
-	var getTitle = options['getTitle'] || function(obj) {return obj.name};
-	var entryToHtml = options['entryToHtml'] || function(subObj, subCollectionName) {
-	  return app.listLink(subObj.name, 'to-'+subCollectionName, subObj.id);
-	}
-	var emptyList = options['emptyListEntry'] || function() {return "<li>No entries</li>"}
+  	var titleSelector = pageSelector + ' .title';
+  	var listSelector = pageSelector + ' .list';
+  	var serverObjectName = options['serverObjectName'] || localObjectName;
+  	var serverControllerName = options['serverControllerName'] || (serverObjectName + 's')
+  	var getTitle = options['getTitle'] || function(obj) {return obj.name};
+  	var entryToHtml = options['entryToHtml'] || function(subObj, subCollectionName) {
+  	  return app.listLink(subObj.name, 'to-'+subCollectionName, subObj.id);
+  	}
+  	var emptyList = options['emptyListEntry'] || function() {return "<li>No entries</li>"}
 
-	if (!options['noLoading']) {
-  	$(titleSelector).text('Loading...');
-	}
-	if (app.isLoggedIn()) {
-	  app.getContent("/"+serverControllerName+"/"+app[localObjectName+'_id']+"/", function(data) {
-		var obj = data[serverObjectName]
-		options['withLoadedObject'] && options['withLoadedObject'](obj);
-		// Set page title
-		$(titleSelector).text(getTitle(obj));
+  	if (!options['noLoading']) {
+    	$(titleSelector).text('Loading...');
+  	}
+  	if (app.isLoggedIn()) {
+  	  app.getContent("/"+serverControllerName+"/"+app[localObjectName+'_id']+"/", function(data) {
+  		var obj = data[serverObjectName]
+  		options['withLoadedObject'] && options['withLoadedObject'](obj);
+  		// Set page title
+  		$(titleSelector).text(getTitle(obj));
 		
-		// Populate each list on the page
-		$(pageSelector + ' .item-list').each(function(index, itemList) {
-		  var subCollectionName = app.underscore($(itemList).attr('id'));
-		  if (subCollectionName == null) return; // todo throw exception here
-		  if (obj[subCollectionName] == null)  return; // todo throw exception
-		  var entries = jQuery.map(obj[subCollectionName], function(subObj, index) {
-			return entryToHtml(subObj, subCollectionName, index);
-		  });
-		  $(itemList).empty();
-		  if (entries.length == 0) {
-		    entries.push(emptyList(subCollectionName))
-		  } 
-		  $(itemList).append(entries.join(''));
-		});
-	  });
-	}
+  		// Populate each list on the page
+  		$(pageSelector + ' .item-list').each(function(index, itemList) {
+  		  var subCollectionName = app.underscore($(itemList).attr('id'));
+  		  if (subCollectionName == null) return; // todo throw exception here
+  		  if (obj[subCollectionName] == null)  return; // todo throw exception
+  		  var entries = jQuery.map(obj[subCollectionName], function(subObj, index) {
+  			return entryToHtml(subObj, subCollectionName, index);
+  		  });
+  		  $(itemList).empty();
+  		  if (entries.length == 0) {
+  		    entries.push(emptyList(subCollectionName))
+  		  } 
+  		  $(itemList).append(entries.join(''));
+  		});
+  	  });
+  	}
   },   
 
   listLink: function(label, a_classes, target_id, options) {
-	options = options || {};
-	var li_classes = options['li_classes'] || 'arrow';
-	var small = (options['small']) ? ("<small>"+options['small']+"</small>") : ""
-	var counter = (options['counter']) ? ("<small class='counter'>"+options['counter']+"</small>") : ""
-	var link = function(l) {
-	  return (l != null) ? ("<a class='"+a_classes+"'"+
-	  " href='#' target-id='"+target_id+
-	  "'>"+l+"</a>") : "";
-	}
-	return "<li class='"+li_classes+"'>"+
-	  link(label) +
-	  link(options['subLink']) +
-	  small +
-	  counter+
-	  "</li>";
+  	options = options || {};
+  	var li_classes = options['li_classes'] || 'arrow';
+  	var small = (options['small']) ? ("<small>"+options['small']+"</small>") : ""
+  	var counter = (options['counter']) ? ("<small class='counter'>"+options['counter']+"</small>") : ""
+  	var link = function(l) {
+  	  return (l != null) ? ("<a class='"+a_classes+"'"+
+  	  " href='#' target-id='"+target_id+
+  	  "'>"+l+"</a>") : "";
+  	}
+  	return "<li class='"+li_classes+"'>"+
+  	  link(label) +
+  	  link(options['subLink']) +
+  	  small +
+  	  counter+
+  	  "</li>";
   },
 
 
@@ -179,11 +178,11 @@ var app = {
   // and set an variable app.noun_id to be the value taken from the 'target-id'
   // attribute of the link.
   addPage: function(verb, noun, options) {	
-	var pageSelector = '#'+verb+'-'+noun
-	$(function() {app.bindPage(pageSelector, options)});
-	app.bindLink('a.to-'+verb+'-'+noun, pageSelector, function(e) {
-	  app[app.underscore(noun)+'_id'] = $(e.target).attr('target-id');
-	});
+  	var pageSelector = '#'+verb+'-'+noun
+  	$(function() {app.bindPage(pageSelector, options)});
+  	app.bindLink('a.to-'+verb+'-'+noun, pageSelector, function(e) {
+  	  app[app.underscore(noun)+'_id'] = $(e.target).attr('target-id');
+  	});
   },
   
   bindPage: function(pageSelector, options) {
@@ -219,11 +218,11 @@ var app = {
   },
  
   bindLink: function(linkSelector, pageSelector, beforeRender) {
-	$(linkSelector).tap(function(e) {
-	  beforeRender(e);
-	  jQT.goTo(pageSelector, 'slide');
-	  return false;
-	});
+  	$(linkSelector).tap(function(e) {
+  	  beforeRender(e);
+  	  jQT.goTo(pageSelector, 'slide');
+  	  return false;
+  	});
   },
 
   makeAllItems: function($form) {
@@ -234,36 +233,36 @@ var app = {
   },
   
   deliverOrder: function($form) {
-	app.submitForm($form, {
-	  url: '/orders/'+app.queued_order_id+'/deliver',
-	  failMessage: "Unable to deliver order. Try again."
-	})
+  	app.submitForm($form, {
+  	  url: '/orders/'+app.queued_order_id+'/deliver',
+  	  failMessage: "Unable to deliver order. Try again."
+  	})
   },
   
   makeQueuedOrderItem: function($form) {
-	app.submitForm($form, {
-	  failMessage: "Unable to make order item. Try again."
-	});
-	return false; 
+  	app.submitForm($form, {
+  	  failMessage: "Unable to make order item. Try again."
+  	});
+  	return false; 
   },
 
   loadHome: function() {
-	if (app.isLoggedIn()) {
-		$('#home .unauthenticated').hide();
-	  app.getContent("/", function(data) { 
-		var $shopList = $('.my-restaurants');
-		var shopListEntries = jQuery.map(data.work_contracts, function(el) {
-		  var wc = el.work_contract;
-		  var shop = wc.shop;
-		  return app.listLink(shop.name, 'to-show-shop', shop.id);
-		});
-		$shopList.empty();
-		$shopList.append(shopListEntries.join(''));
-		$('#home .authenticated').show();
-	  })
-	} else {
-	  app.clearHomePage();
-	}
+  	if (app.isLoggedIn()) {
+  		$('#home .unauthenticated').hide();
+  	  app.getContent("/", function(data) { 
+  		var $shopList = $('.my-restaurants');
+  		var shopListEntries = jQuery.map(data.work_contracts, function(el) {
+  		  var wc = el.work_contract;
+  		  var shop = wc.shop;
+  		  return app.listLink(shop.name, 'to-show-shop', shop.id);
+  		});
+  		$shopList.empty();
+  		$shopList.append(shopListEntries.join(''));
+  		$('#home .authenticated').show();
+  	  })
+  	} else {
+  	  app.clearHomePage();
+  	}
   },
   
   loadShowShop: function(options) {
@@ -304,7 +303,7 @@ var app = {
     	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
     	  app.updateOrderAge(order);
       	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
-    		app.current_order = order
+    		app.current_order = order;
     		if (order.state == 'made') {
     		  $deliver.show();
     		  $make_all_items.hide();
@@ -319,9 +318,13 @@ var app = {
   	  entryToHtml: function(order_item, list_name, index) {
   		return app.listLink(order_item.quantity+' '+order_item.description,
   		  'to-show-queued-order-item', index, {
-  			li_classes: 'arrow '+order_item.state,
+  			li_classes: order_item.state,
   			subLink: order_item.notes,
-  			counter: app.as_currency(order_item.price_in_cents / 100.0)
+  			counter: app.as_currency(order_item.quantity * order_item.price_in_cents / 100.0) +
+  			  " <input type='checkbox' class='made-check' name='made' " +
+  			    ((order_item.state=='made')? "CHECKED ":"") +
+  			    " value='" + index+ "'" +
+  			    "></input>"
   		  })
   	  }
   	});
@@ -342,22 +345,21 @@ var app = {
   },
 
   loadShowQueuedOrderItem: function() {			  
-	// Because this is a summarized order_item, it can contain multiple order_item ids
-	// id in its 'ids' field
-	var order_item = app.current_order.summarized_order_items[app.queued_order_item_id]
-	var $order_items = $('#show-queued-order-item .order-items')
-	var $item_details = $('#show-queued-order-item .item-details')
-	var $item_notes = $('#show-queued-order-item .item-notes')
-	$('#show-queued-order-item .title').text(order_item.quantity+" "+order_item.description)
-	$item_details.text(order_item.quantity+" "+order_item.description)
-	$item_notes.text(order_item.notes || '')
-	$order_items.empty()
-	$order_items.append(
-	  $.map(order_item.ids, function(item_id) {
-		return "<input type='hidden' name='order_item_ids[]' value='"+item_id+"'></input>"
-	  }).join('')
-	)
-
+  	// Because this is a summarized order_item, it can contain multiple order_item ids
+  	// id in its 'ids' field
+  	var order_item = app.current_order.summarized_order_items[app.queued_order_item_id]
+  	var $order_items = $('#show-queued-order-item .order-items')
+  	var $item_details = $('#show-queued-order-item .item-details')
+  	var $item_notes = $('#show-queued-order-item .item-notes')
+  	$('#show-queued-order-item .title').text(order_item.quantity+" "+order_item.description)
+  	$item_details.text(order_item.quantity+" "+order_item.description)
+  	$item_notes.text(order_item.notes || '')
+  	$order_items.empty()
+  	$order_items.append(
+  	  $.map(order_item.ids, function(item_id) {
+  		return "<input type='hidden' name='order_item_ids[]' value='"+item_id+"'></input>"
+  	  }).join('')
+  	);
   },
 
   clearHomePage: function() {
@@ -367,21 +369,21 @@ var app = {
   },
   
   isLoggedIn: function() {
-	return (user != null && user.length > 0);
+  	return (user != null && user.length > 0);
   },
   
   login: function($form) {
-	app.submitForm($form, {
-	  onComplete:function(req) {
-		 if (req.status == 200 && req.responseText != 'false') { 
-		  user = req.responseText;
-		  app.updateFormControls();
-		  jQT.goBack();
-		 } else {
-		   alert("Couldn't login. Try again.");
-		 }
-	  }
-	})
+  	app.submitForm($form, {
+  	  onComplete:function(req) {
+  		 if (req.status == 200 && req.responseText != 'false') { 
+  		  user = req.responseText;
+  		  app.updateFormControls();
+  		  jQT.goBack();
+  		 } else {
+  		   alert("Couldn't login. Try again.");
+  		 }
+  	  }
+  	});
   },
 
   updateFormControls: function() {
@@ -396,6 +398,22 @@ var app = {
   
 };		   
 
+$('.made-check').tap(function(e) {
+  // var order_item_ids = app.current_order.summarized_order_items[]
+  // $.ajax({
+  //  type: 'POST',
+  //  url: '/queued_order_items/make_all',
+  //  data: order_item_ids,
+  //  complete: function(XMLHttRequest, textStatus) {
+  //    
+  //  },
+  //  dataType: 'json',
+  // });
+  alert('You tapped the made checkbox for '+ this.attr('order_item_ids')); 
+  return true;
+});
+
+
 $('a.no-show').tap(function(e) {
   if (confirm('Register a no-show for this order?')) {
     var $form = $(this).closest("form");
@@ -404,7 +422,8 @@ $('a.no-show').tap(function(e) {
   	})
   }
   return false;
-});
+});               
+
 
 $('a.cancel-order').tap(function(e) {
   if (confirm('Really cancel order?')) {
