@@ -5,7 +5,7 @@
     != render :partial => 'shops/adjust_cuisines_form'
   -else
     -@shop.effective_menus.each do |menu|
-      %h5=h menu.name
+      %h5.title=h menu.name
       %hr
       -menu.menu_items.each do |menu_item|
         -if menu_item.present_flavours
@@ -17,7 +17,7 @@
     
 
 -content_for :aside do        
-  %h5 Your Order
+  %h5.title Your Order
 
   -semantic_form_for order do |form|
     %table.order.order-form
