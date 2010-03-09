@@ -297,6 +297,10 @@ td {
   padding-left: 15px;
   position: relative; }
 
+td.notes {
+  border: none;
+  font-style: italic; }
+
 a {
   color: #e76f00;
   text-decoration: none; }
@@ -383,3 +387,17 @@ a img {
 
 .twitter-follow {
   display: inline-block; }
+
+ul.mi-flavours {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+  ul.mi-flavours li {
+    display: inline; }
+    ul.mi-flavours li:after {
+      content: ","; }
+    ul.mi-flavours li:last-child:after {
+      content: ""; }
+
+.mi-name {
+  font-weight: bold; }

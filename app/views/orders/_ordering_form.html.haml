@@ -25,15 +25,15 @@
         %tr
           %th Qty
           %th Description
-          %th Notes
           %th Cost($)
           %th
 
       %tfoot
         %tr
-          %td(colspan="3") Total
+          %td(colspan="2") Total
           -#FIXME calculate the total in edit view
           %td#total 0.00
+          %td
 
       %tbody#order_items
         -@order.order_items.each do |order_item|
@@ -49,12 +49,14 @@
                   = item_form.hidden_field :size_id
                 %td
                   =h item_form.object.description
-                %td.notes
-                  =h item_form.object.notes
                 %td.cost
                   =h number_to_currency(item_form.object.cost, :unit=>'')
                 %td.remove
                   =image_tag '/images/remove.gif', :alt=>'remove'
+              -if item_form.object.notes
+                %tr.notes
+                  %td.notes(colspan="3")
+                    =h item_form.object.notes
             -else
               %tr
                 %td
