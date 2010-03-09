@@ -54,22 +54,20 @@
             .main-header.span-24.last{:style=>"background: #{header_background}"}
               -default_content_for :content_header do
                 = @shop ? render(:partial => 'shops/page_header', :locals=>{:shop=>@shop}) : placeholder(:width=>1, :height=>180)
-            #content-body.span-15
+            #content-body.span-16
               -default_content_for :content_body do
-                #main.span-15.last  
-                  .main-body.span-15.last
-                    .span-14
+                #main.span-16.last  
+                  .main-body.span-16.last
+                    .span-15
                       =yield
                     .span-1.last
                       =placeholder
-                  .span-15.last
+                  .span-16.last
                     =placeholder :height=>54
               
-            #side.span-9.last.no-print
-              #aside.span-8
+            #side.span-8.last.no-print
+              #aside.span-8.last
                 =yield :aside || placeholder
-              .span-1.last
-                =placeholder
         
             #content-foot.span-24.last
               -default_content_for :content_foot do

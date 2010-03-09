@@ -278,14 +278,16 @@ function add_to_order() {
                     (flavour_id() ? ("<input type='hidden' name='order[order_items_attributes][][flavour_id]' value='"+flavour_id()+"'>") : "")+   
                     (size_id() ? ("<input type='hidden' name='order[order_items_attributes][][size_id]' value='"+size_id()+"'>") : "")+   
                     "</td><td>"+description(menu_item)+
-                    "</td><td>" +(notes ?
-                      "<img href='/images/notes.png' alt='"+notes+"'" +
-                      "<input type='hidden' name='order[order_items_attributes][][notes]' value='"+notes+"'>"
+                    "</td><td class='cost'>"+cost(menu_item)+
+                    "</td><td class='remove'><img src='/images/remove.gif' alt='remove' /></td></tr>"+
+                    (notes ?
+                      "<tr class='notes'><td colspan='4' class='notes'>" + notes +
+                      "<input type='hidden' name='order[order_items_attributes][][notes]' value='"+notes+"'>" +
+                      "</td></tr>"
                     :
                       ""
-                    )+"</td>" +
-                    "</td><td class='cost'>"+cost(menu_item)+
-                    "</td><td class='remove'><img src='/images/remove.gif' alt='remove' /></td></tr>");
+                    )
+                    );
   update_continue_order_button();
   update_total();
 }

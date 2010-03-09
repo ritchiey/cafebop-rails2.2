@@ -31,8 +31,7 @@
       %tfoot
         %tr
           %td(colspan="2") Total
-          -#FIXME calculate the total in edit view
-          %td#total 0.00
+          %td#total #{number_to_currency(@order.total)}
           %td
 
       %tbody#order_items
