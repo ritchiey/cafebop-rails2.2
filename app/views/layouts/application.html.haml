@@ -76,8 +76,8 @@
     #page-footer 
       .links.no-print
         %div
-          /
-            AddThis Button BEGIN
+        
+          / AddThis Button BEGIN
           .addthis_toolbox.addthis_default_style
             %a.addthis_button_compact{ :href => "http://addthis.com/bookmark.php?v=250&amp;username=ritchiey" }
               Share
@@ -90,8 +90,7 @@
             |
             =separated([link_to_refund_policy(@shop), link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])
           %script{ :src => "http://s7.addthis.com/js/250/addthis_widget.js#username=ritchiey", :type => "text/javascript" }
-          /
-            AddThis Button END
+          / AddThis Button END
           
       .logo.no-print
         =link_to(image_tag('logo-small.png'), root_path)
@@ -103,3 +102,17 @@
       document.write(unescape("%3Cscript src='" + ((document.location.protocol=="https:")?"https:":"http:") + "//snapabug.appspot.com/snapabug.js' type='text/javascript'%3E%3C/script%3E"));
     %script{ :type => "text/javascript" }
       SnapABug.addButton('e3e421df-23ce-43c9-ad37-fd9c5768c922',"0","55%");
+
+    / Google Analytics  
+    %script{ :type => "text/javascript" }
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    %script{ :type => "text/javascript" }
+      try {
+      var pageTracker = _gat._getTracker("UA-15137453-1");
+      pageTracker._trackPageview();
+      } catch(err) {}
+    / End Google Analytics  
+
+
+
