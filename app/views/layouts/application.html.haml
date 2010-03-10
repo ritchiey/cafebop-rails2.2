@@ -79,6 +79,8 @@
         
           / AddThis Button BEGIN
           .addthis_toolbox.addthis_default_style
+            |
+            %a#crowdsound-activate-popup Leave Feedback
             %a.addthis_button_compact{ :href => "http://addthis.com/bookmark.php?v=250&amp;username=ritchiey" }
               Share
             %span.addthis_separator
@@ -96,12 +98,16 @@
         =link_to(image_tag('logo-small.png'), root_path)
       .logo.print-only
         =image_tag('logo-small.png')
+                                    
 
-    =yield :javascript
-    %script{ :type => "text/javascript" }
-      document.write(unescape("%3Cscript src='" + ((document.location.protocol=="https:")?"https:":"http:") + "//snapabug.appspot.com/snapabug.js' type='text/javascript'%3E%3C/script%3E"));
-    %script{ :type => "text/javascript" }
-      SnapABug.addButton('e3e421df-23ce-43c9-ad37-fd9c5768c922',"0","55%");
+    -default_content_for :snapabug do
+      =yield :javascript
+      %script{ :type => "text/javascript" }
+        document.write(unescape("%3Cscript src='" + ((document.location.protocol=="https:")?"https:":"http:") + "//snapabug.appspot.com/snapabug.js' type='text/javascript'%3E%3C/script%3E"));
+      %script{ :type => "text/javascript" }
+        SnapABug.addButton('e3e421df-23ce-43c9-ad37-fd9c5768c922',"0","55%");
+
+      %script{ :src => "http://crowdsound.com/widgets/popup?popup=true&aid=2953", :type => "text/javascript" }
 
     / Google Analytics  
     %script{ :type => "text/javascript" }
