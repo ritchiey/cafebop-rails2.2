@@ -70,8 +70,9 @@
 .hidden
   #dialog{ :title => "Add to Order" }
     %form
-      %label{ :for => "quantity" } Quantity
-      %input#quantity_field.text.ui-widget-content.ui-corner-all{ :name => "quantity", :type => "text", :size=>"3", :maxlength=>"3"}
+      #quantity_details
+        %label{ :for => "quantity" } Quantity      
+        %input#quantity_field.text.ui-widget-content.ui-corner-all{ :name => "quantity", :type => "text", :size=>"2", :maxlength=>"2"}
       #flavour_details
         %label{ :for => "flavour" } Flavour
         %select#flavour_field.select.ui-widget-content.ui-corner-all{ :name => "flavour" }
