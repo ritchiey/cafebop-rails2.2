@@ -12,6 +12,9 @@ img.logo {
   width: 50%;
   top-margin: -2em; }
 
+.no-print, .page-header, .aside, .account-nav, #footnotes_debug, #content-header, .SnapABug_Button, #SnapABug_bImg {
+  display: none; }
+
 .shop-blurb {
   float: right;
   width: 23%;
