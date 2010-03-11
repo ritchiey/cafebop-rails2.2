@@ -25,7 +25,40 @@
     =javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? 
     = yield(:head)
 
-  %body{:style=>"background: #{page_background}"}
+    %style{ :type => "text/css" }
+      \#mediaInspector {
+      display:none
+      }
+      @media aural {
+      \#mediaInspector { z-index: 1 }
+      }
+      @media braille {
+      \#mediaInspector { z-index: 2 }
+      }
+      @media embossed {
+      \#mediaInspector { z-index: 3 }
+      }
+      @media handheld {
+      \#mediaInspector { z-index: 4 }
+      }
+      @media print {
+      \#mediaInspector { z-index: 5 }
+      }
+      @media projection {
+      \#mediaInspector { z-index: 6 }
+      }
+      @media screen {
+      \#mediaInspector { z-index: 7 }
+      }
+      @media tty {
+      \#mediaInspector { z-index: 8 }
+      }
+      @media tv {
+      \#mediaInspector { z-index: 9 }
+      }
+
+  %body{:style=>"background: #{page_background}"} 
+    #mediaInspector
     -if flash[:notice] or flash[:warning] or flash[:error]
       #flash
         - if flash[:notice]
@@ -80,7 +113,7 @@
           / AddThis Button BEGIN
           .addthis_toolbox.addthis_default_style
             |
-            %a#crowdsound-activate-popup Leave Feedback
+            %a#crowdsound-activate-popup Feedback
             %a.addthis_button_compact{ :href => "http://addthis.com/bookmark.php?v=250&amp;username=ritchiey" }
               Share
             %span.addthis_separator
@@ -101,11 +134,22 @@
                                     
 
     -default_content_for :snapabug do
-      =yield :javascript
+      =yield :javascript   
+      
+      %script{ :type => "text/javascript" }
+        var mediaInspector = document.getElementById('mediaInspector');
+        if (mediaInspector.currentStyle) {
+        media = mediaInspector.currentStyle['zIndex'];
+        } else if (window.getComputedStyle) {
+        media = window.getComputedStyle(mediaInspector, '').getPropertyValue("z-index");
+        }
+      
       %script{ :type => "text/javascript" }
         document.write(unescape("%3Cscript src='" + ((document.location.protocol=="https:")?"https:":"http:") + "//snapabug.appspot.com/snapabug.js' type='text/javascript'%3E%3C/script%3E"));
       %script{ :type => "text/javascript" }
+        if (media != 5) {
         SnapABug.addButton('e3e421df-23ce-43c9-ad37-fd9c5768c922',"0","55%");
+        }
 
       %script{ :src => "http://crowdsound.com/widgets/popup?popup=true&aid=2953", :type => "text/javascript" }
 
