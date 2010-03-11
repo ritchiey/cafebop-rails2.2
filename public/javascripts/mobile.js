@@ -113,9 +113,19 @@ var app = {
   	 complete: onComplete,
   	 dataType: options['dataType'] || 'json',
   	});
+  }, 
+  
+  showLoading: function(pageSelector) {
+    app.hideLoading();
+    $(pageSelector).prepend("<img src='/images/loading.gif' id='loading'>")
+  },
+
+  hideLoading: function() {
+    $('#loading').remove();
   },
 
   loadDynamicPage: function(pageSelector, localObjectName, options) {
+    var loadingSelector = options['loadingSelector'] || '#loading';
   	var titleSelector = pageSelector + ' .title';
   	var listSelector = pageSelector + ' .list';
   	var serverObjectName = options['serverObjectName'] || localObjectName;
@@ -127,10 +137,12 @@ var app = {
   	var emptyList = options['emptyListEntry'] || function() {return "<li>No entries</li>"}
 
   	if (!options['noLoading']) {
+  	  app.showLoading(pageSelector);
     	$(titleSelector).text('Loading...');
   	}
   	if (app.isLoggedIn()) {
   	  app.getContent("/"+serverControllerName+"/"+app[localObjectName+'_id']+"/", function(data) {
+      app.hideLoading(pageSelector);
   		var obj = data[serverObjectName]
   		options['withLoadedObject'] && options['withLoadedObject'](obj);
   		// Set page title
@@ -304,6 +316,7 @@ var app = {
     	  app.updateOrderAge(order);
       	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
     		app.current_order = order;
+    		$('.cancel-order').show();
     		if (order.state == 'made') {
     		  $deliver.show();
     		  $make_all_items.hide();
@@ -323,8 +336,7 @@ var app = {
   			counter: app.as_currency(order_item.quantity * order_item.price_in_cents / 100.0) +
   			  " <input type='checkbox' class='made-check' name='made' " +
   			    ((order_item.state=='made')? "CHECKED ":"") +
-  			    " value='" + index+ "'" +
-  			    "></input>"
+  			    " value='" + index+ "'></input>"
   		  })
   	  }
   	});
@@ -399,17 +411,18 @@ var app = {
 };		   
 
 $('.made-check').tap(function(e) {
-  // var order_item_ids = app.current_order.summarized_order_items[]
-  // $.ajax({
-  //  type: 'POST',
-  //  url: '/queued_order_items/make_all',
-  //  data: order_item_ids,
-  //  complete: function(XMLHttRequest, textStatus) {
-  //    
-  //  },
-  //  dataType: 'json',
-  // });
-  alert('You tapped the made checkbox for '+ this.attr('order_item_ids')); 
+  var index = $(this).attr('value');
+  var order_item = app.current_order.summarized_order_items[index];
+  var data = {};
+  $.each(order_item.ids, function(i, e) {data['order_item_ids[]'] = e});
+  $.ajax({
+   type: 'POST',
+   url: '/queued_order_items/make_all',
+   data: $.param(data, true),
+   complete: function(XMLHttpRequest, textStatus) {
+   },
+   dataType: 'json',
+  });
   return true;
 });
 
