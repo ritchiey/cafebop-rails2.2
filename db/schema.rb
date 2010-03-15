@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100305033508) do
+ActiveRecord::Schema.define(:version => 20100315085814) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(:version => 20100305033508) do
     t.integer  "location_accuracy"
     t.text     "refund_policy"
     t.text     "motto"
+    t.integer  "votes_count",                    :default => 0
   end
 
   add_index "shops", ["lat"], :name => "index_shops_on_lat"
@@ -267,6 +268,17 @@ ActiveRecord::Schema.define(:version => 20100305033508) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+
+  create_table "votes", :force => true do |t|
+    t.string   "email"
+    t.boolean  "notification_requested"
+    t.boolean  "confirmed"
+    t.string   "confirmation_key"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "shop_id"
+    t.integer  "user_id"
+  end
 
   create_table "work_contracts", :force => true do |t|
     t.string   "role",       :default => "patron"

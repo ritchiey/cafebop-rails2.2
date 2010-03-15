@@ -109,7 +109,7 @@ var app = {
   	$.ajax({
   	 type: options['method'] || form.attr('method'),
   	 url: options['url'] || form.attr('action'),
-  	 data:form.serialize(),
+  	 data: form.serialize(),
   	 complete: onComplete,
   	 dataType: options['dataType'] || 'json',
   	});
@@ -248,7 +248,7 @@ var app = {
   	app.submitForm($form, {
   	  url: '/orders/'+app.queued_order_id+'/deliver',
   	  failMessage: "Unable to deliver order. Try again."
-  	})
+  	});
   },
   
   makeQueuedOrderItem: function($form) {
@@ -411,9 +411,11 @@ var app = {
 };		   
 
 $('.made-check').tap(function(e) {
-  var index = $(this).attr('value');
+  var $this = $(this);
+  var index = $this.attr('value');
   var order_item = app.current_order.summarized_order_items[index];
   var data = {};
+  $this.attr('disabled', true);
   $.each(order_item.ids, function(i, e) {data['order_item_ids[]'] = e});
   $.ajax({
    type: 'POST',

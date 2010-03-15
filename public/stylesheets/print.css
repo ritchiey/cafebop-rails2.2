@@ -1,0 +1,37 @@
+.print-only {
+  display: inline; }
+
+a:link, a:visited {
+  background: white;
+  color: black;
+  text-decoration: underline;
+  font-weight: bold; }
+
+img.logo {
+  float: right;
+  width: 50%;
+  top-margin: -2em; }
+
+.no-print, .page-header, .aside, .account-nav, #footnotes_debug, #content-header, .SnapABug_Button, #SnapABug_bImg {
+  display: none; }
+
+.shop-blurb {
+  float: right;
+  width: 23%;
+  padding: 2%;
+  border: 1px solid #aaa; }
+
+table.order-summary {
+  margin-top: 10%;
+  margin-left: 5%;
+  width: 90%;
+  border: 1px solid #aaa; }
+
+.total * {
+  font-weight: bold; }
+
+.logo {
+  width: 100%; }
+  .logo img {
+    margin: 2em auto 0 auto;
+    display: block; }

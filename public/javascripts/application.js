@@ -188,6 +188,35 @@ $(function() { // page ready
     return false;
   });
     
+
+	$('#vote-blurb').dialog({
+			bgiframe: true,
+			autoOpen: true,
+			height: 450,
+      width: 650,
+			modal: true,
+			buttons: {
+				'Vote!': function() {
+					$(this).dialog('close');
+					var $form = $('#vote-blurb form');  
+          $.ajax({
+           type: $form.attr('method'),
+           url: $form.attr('action'),
+           data: $form.serialize(),
+           complete: function(XMLHttpRequest, textStatus) {
+             alert('Thanks for voting');
+           },
+           dataType: 'json'
+          });
+        },
+        "Cancel": function() {
+					$(this).dialog('close');
+        }
+      }
+  });
+  
+
+
  
   dialog = $('#dialog');
   quantity_field = $('#quantity_field');
@@ -211,7 +240,8 @@ $(function() { // page ready
       }
     }
   });
-    
+  
+
   $('.remove').live('click', function(e) {
     var tr = $(this).closest('tr');
     var id = $(tr).find('input#order_order_items_attributes__id').attr('value');

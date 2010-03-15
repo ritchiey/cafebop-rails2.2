@@ -1,0 +1,439 @@
+.print-only, .hidden {
+  display: none; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif; }
+
+.locate_title {
+  margin: 1em 0 0 0; }
+
+body, p, td, li, ul, ol {
+  font-family: Verdana,Helvetica,Arial,sans-serif; }
+
+.links a {
+  font-weight: bold; }
+
+#page-footer {
+  margin: 2em auto;
+  width: 950px;
+  display: block; }
+  #page-footer .links {
+    float: left; }
+    #page-footer .links p {
+      margin-top: 20px; }
+  #page-footer .logo {
+    float: right; }
+    #page-footer .logo a:hover {
+      border: none; }
+
+.email-message {
+  background-color: #FEFEFE;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px; }
+
+thead th {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A;
+  border-bottom-style: solid;
+  border-bottom-color: #B08B5E;
+  border-bottom-width: 1px;
+  font-size: 2em; }
+
+.order-form thead th {
+  font-size: 1.5em; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A; }
+
+h1 {
+  font-size: 3.5em; }
+
+h2 {
+  font-size: 3.2em; }
+
+h3 {
+  font-size: 3em; }
+
+h4 {
+  font-size: 2.5em; }
+
+h5 {
+  font-size: 2em; }
+
+h6 {
+  font-size: 1.5em; }
+
+.sub-total td, .total td, td.user-header {
+  font-weight: bold; }
+
+#user_submit:hover {
+  background-image: url(/images/arrow-right-hover.gif);
+  border: 5px solid #494848;
+  cursor: pointer; }
+
+#search_form #search_submit, #new_user_session #user_session_submit, #new_user #user_submit, #pay-in-shop-button, #continue-order-button, #user_submit {
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  clear: both;
+  color: #FFFFFF;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  text-shadow: 0 0 5px #000000;
+  padding: 5px 25px 5px 15px;
+  border: 5px solid #D8DECD;
+  background-color: #E76F00;
+  background-image: url(../images/arrow-right.gif);
+  background-position: 85% 50%;
+  background-repeat: no-repeat;
+  padding: 5px 55px 5px 15px; }
+  #search_form #search_submit:hover, #new_user_session #user_session_submit:hover, #new_user #user_submit:hover, #pay-in-shop-button:hover, #continue-order-button:hover, #user_submit:hover {
+    cursor: pointer;
+    background-image: url(/images/arrow-right-hover.gif);
+    border: #494848 5px solid; }
+
+#continue-order-button {
+  margin: 20px 0 20px 20px;
+  float: right; }
+
+#pay-paypal-button {
+  margin-bottom: 1em; }
+
+.confirm-link {
+  float: right; }
+
+#print-btn {
+  clear: both;
+  color: #FFFFFF;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  text-shadow: 0 0 5px #000000;
+  padding: 5px 25px 5px 15px;
+  border: 5px solid #D8DECD;
+  background-color: #E76F00;
+  float: right; }
+  #print-btn:hover {
+    cursor: pointer;
+    border: #494848 5px solid; }
+
+#change-button {
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  clear: both;
+  color: #FFFFFF;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  text-shadow: 0 0 5px #000000;
+  padding: 5px 25px 5px 15px;
+  border: 5px solid #D8DECD;
+  background-color: #E76F00;
+  background-image: url(../images/arrow-left.gif);
+  background-position: 15% 50%;
+  background-repeat: no-repeat;
+  padding: 5px 15px 5px 55px; }
+  #change-button:hover {
+    cursor: pointer;
+    border: #494848 5px solid;
+    background-image: url(/images/arrow-left-hover.gif); }
+
+.small-add-btn, #offer-friends-button {
+  clear: both;
+  color: #FFFFFF;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  text-shadow: 0 0 5px #000000;
+  padding: 5px 25px 5px 15px;
+  border: 5px solid #D8DECD;
+  background-color: #00c6ff; }
+  .small-add-btn:hover, #offer-friends-button:hover {
+    border: #494848 5px solid; }
+
+#search_form, #new_user_session, #new_user, #invite-friends-blurb {
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  background-color: #B0B6A6;
+  border: 5px solid #D8DECD;
+  color: #4A4D46;
+  margin-bottom: 50px;
+  padding: 20px 50px;
+  position: relative; }
+
+.blurb {
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  background-color: #B0B6A6;
+  border: 5px solid #D8DECD;
+  color: #50341A;
+  margin-bottom: 50px;
+  padding: 20px 25px;
+  position: relative;
+  top: -12em;
+  background-color: #eef5e1;
+  font-size: 105%; }
+
+.make-account-blurb {
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  background-color: #B0B6A6;
+  border: 5px solid #D8DECD;
+  color: #50341A;
+  margin-bottom: 50px;
+  padding: 20px 25px;
+  position: relative;
+  background-color: #eef5e1;
+  font-size: 105%; }
+
+#order-summary {
+  margin-top: 40px; }
+
+#search_form label, #new_user_session label, #new_user label {
+  margin-right: 20px;
+  font-size: 17px; }
+
+#search_form input, #new_user_session select {
+  background-color: #666699; }
+
+#search_form input, #new_user_session input, #new_user input {
+  margin: 10px 0px 5px;
+  background-color: #FFF;
+  border: none;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 5px; }
+
+#content {
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-box-shadow: 0 0 8px #888888;
+  background-color: #FFFFFF;
+  border: 5px solid #E3E7DB;
+  padding: 2em 20px 1em 20px; }
+
+#account-status {
+  float: left; }
+
+#account-nav {
+  float: right;
+  margin-top: -10px; }
+
+#page-header {
+  margin: 1em auto;
+  width: 950px;
+  display: block; }
+  #page-header p {
+    margin-top: 20px; }
+  #page-header a.btn {
+    background-color: #e76f00;
+    border: #d8e0ca 5px solid;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: #FFF;
+    padding: 10px;
+    text-decoration: none;
+    margin: 9px 15px 9px 0;
+    display: block;
+    float: left; }
+    #page-header a.btn:hover {
+      border: #FFF 5px solid; }
+
+.add-btn {
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  background-color: #00c6ff;
+  background-image: url(/images/plus.gif);
+  background-position: 85%;
+  background-repeat: no-repeat;
+  font-size: 20px;
+  font-family: Helvetica;
+  font-weight: bold;
+  letter-spacing: -1px;
+  color: #FFF;
+  padding: 15px 65px 15px 25px;
+  text-shadow: 0px 0px 5px #000;
+  border: #d8decd 5px solid;
+  clear: both; }
+  .add-btn:hover {
+    cursor: pointer;
+    background-image: url(/images/plus-hover.gif);
+    border: #494848 5px solid; }
+
+#opening-times {
+  float: right;
+  display: block; }
+  #opening-times table, #opening-times td, #opening-times tr {
+    background-color: transparent;
+    border-style: none;
+    border: 0; }
+
+table {
+  border-collapse: separate;
+  border: #d8decd 1px solid;
+  border-top: none;
+  background-color: #eef5e1;
+  width: 100%;
+  margin-bottom: 40px;
+  position: relative; }
+
+p {
+  letter-spacing: 0;
+  line-height: 1.5em;
+  margin-bottom: 20px; }
+
+.td-wrapper {
+  position: relative; }
+
+td {
+  border-top: #bbc3ad 1px solid;
+  border-bottom: #FFF 1px solid;
+  vertical-align: middle;
+  min-height: 20px;
+  padding-left: 15px;
+  position: relative; }
+
+td.notes {
+  border: none;
+  font-style: italic; }
+
+a {
+  color: #e76f00;
+  text-decoration: none; }
+  a:hover {
+    border-bottom: 1px solid; }
+
+.tooltip {
+  display: none;
+  font-size: 11px;
+  color: #fff; }
+  .tooltip .label {
+    color: yellow;
+    width: 35px; }
+  .tooltip a {
+    color: #ad4;
+    font-size: 11px;
+    font-weight: bold; }
+
+#flash {
+  background: #fff url(/gradient_images/80:DDDDDD:888888.png) repeat-x scroll 0 0;
+  _background-color: #fff;
+  overflow: visible;
+  position: fixed;
+  left: 0;
+  top: 0;
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  border-bottom: 2px solid #789;
+  width: 100%;
+  z-index: 2;
+  display: none; }
+
+#error {
+  color: red; }
+
+#order-status {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A;
+  font-size: 2.5em; }
+
+.mobile-message {
+  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  background: transparent;
+  color: #50341A;
+  font-size: 4.5em; }
+
+[disabled] {
+  filter: alpha(opacity=35);
+  -moz-opacity: 0.35;
+  -khtml-opacity: 0.35;
+  opacity: 0.35; }
+
+.login-message, .signup-message {
+  margin-bottom: 1em; }
+
+#static-map {
+  margin-top: 18px; }
+
+.pay-box {
+  float: right; }
+
+form.order fieldset.buttons {
+  padding-left: 0; }
+
+.my-friends, .my-restaurants {
+  position: relative;
+  top: -12em; }
+
+#new_user #user_email_offers_input label, #user_session_remember_me_input label {
+  padding: 0; }
+
+.button:hover, .remove img {
+  cursor: pointer;
+  text-decoration: none; }
+
+#page-footer .links {
+  width: 600px; }
+
+a img {
+  display: block;
+  vertical-align: bottom; }
+
+.twitter-follow {
+  display: inline-block; }
+
+ul.mi-flavours {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+  ul.mi-flavours li {
+    display: inline; }
+    ul.mi-flavours li:after {
+      content: ","; }
+    ul.mi-flavours li:last-child:after {
+      content: ""; }
+
+.mi-name {
+  font-weight: bold; }
+
+ul.menu {
+  padding-left: 0; }
+  ul.menu hr {
+    margin: 0 0 0 0; }
+  ul.menu ul.mi-flavours {
+    display: inline;
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    ul.menu ul.mi-flavours li {
+      display: inline; }
+      ul.menu ul.mi-flavours li:after {
+        content: ","; }
+      ul.menu ul.mi-flavours li:last-child:after {
+        content: ""; }
+
+.mi-controls {
+  float: right;
+  display: inline-block;
+  vertical-align: top; }
+
+.mi-details {
+  display: inline;
+  width: 80%;
+  float: left; }
+
+.mi-prices {
+  display: block; }
+
+h5.title {
+  margin: 1em 0 0.2em 0; }

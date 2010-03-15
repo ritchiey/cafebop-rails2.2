@@ -34,7 +34,8 @@ class User < ActiveRecord::Base
   attr_accessor :remember_me
   
   acts_as_mappable :default_distance=>:miles
-
+         
+  has_many :votes
   has_many :claims_to_review, :class_name => "Claim", :foreign_key=>:reviewer_id, :conditions=>{:state=>'under_review'}
   has_many :claims, :dependent=>:destroy
   has_many :work_contracts, :dependent=>:destroy

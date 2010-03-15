@@ -51,6 +51,7 @@ ActionController::Routing::Routes.draw do |map|
       :start_paypal=>:put,
       :stop_paypal=>:put
       } do |shops|
+    shops.resources :votes, :only=>[:create]
     shops.resources :operating_times
     shops.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
     shops.resources :customer_queues, :member=>{:current_orders=>:get, :stop=>:put, :start=>:put}

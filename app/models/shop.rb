@@ -24,6 +24,7 @@ class Shop < ActiveRecord::Base
     header_background_file_name :string
     header_background_content_type :string
     header_background_file_size :integer
+    votes_count :integer, :default=>0
     timestamps   
   end    
   
@@ -48,7 +49,12 @@ class Shop < ActiveRecord::Base
   # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
 
   after_create :guess_cuisines
+                                     
 
+  def ranking
+    Shop.count(:conditions=>["state='community' and votes_count >= ?", votes.count])
+  end
+  
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
   end 
@@ -71,6 +77,7 @@ class Shop < ActiveRecord::Base
     errors.add('street_address', 'Must be able to be located on map.') unless (lat and lng)
   end
   
+  has_many :votes, :dependent=>:destroy
   has_many :orders, :dependent=>:destroy, :order=>'created_at DESC'
   has_many :item_queues, :dependent=>:destroy, :order=>:position 
   has_many :customer_queues, :dependent=>:destroy, :order=>:position 
@@ -319,7 +326,7 @@ class Shop < ActiveRecord::Base
   end
   
   def calc_permalink
-    self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "").downcase
+    self[:name] and self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "").downcase
   end
 
 end

@@ -1,0 +1,10 @@
+.vote-thanks
+  %h1 Thanks for voting!
+
+  -if @vote.notify
+    -unless @vote.user  
+      %p
+        Please click the link in the email we sent you to verify your email
+        address.
+    %p
+      We'll let you know as soon as the menu is online.

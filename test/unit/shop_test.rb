@@ -7,6 +7,13 @@ class ShopTest < ActiveSupport::TestCase
       @shop = Shop.make
     end   
     
+    should "update its counter cache when voted for" do
+      assert_difference "@shop.votes_count", 1 do
+        @shop.votes.create
+        @shop.reload
+      end
+    end
+    
     should "not have a paypal recipient by default" do
       assert_nil @shop.paypal_recipient
     end             
@@ -70,7 +77,7 @@ class ShopTest < ActiveSupport::TestCase
     setup do
       @shop = Shop.make
       assert @shop.community?
-    end       
+    end
     
     should "only be claimable by a an appropriate user" do
       user = User.make
@@ -150,6 +157,7 @@ class ShopTest < ActiveSupport::TestCase
     
   end
 
+  
   context "With a bunch of cuisines" do
     setup do
       @cafe = Cuisine.make(:name=>'Cafe', :regex=>'coffee|cafe')
@@ -164,6 +172,31 @@ class ShopTest < ActiveSupport::TestCase
 
       should "automatically get the right cuisine" do
         assert_same_elements [@pizzeria], @shop.cuisines
+      end
+    end
+    
+  end
+  
+  
+  context "Given 3 shops" do
+    setup do
+      @shop1 = Shop.make
+      @shop2 = Shop.make
+      @shop3 = Shop.make
+    end
+
+    context "the most voted for" do
+      setup do
+        2.times { @shop1.votes.create}
+        3.times { @shop2.votes.create}
+        1.times { @shop3.votes.create}
+        [@shop1, @shop2, @shop3].each {|s| s.reload}
+      end
+
+      should "have the top ranking" do
+        assert_equal 1, @shop2.ranking
+        assert_equal 2, @shop1.ranking
+        assert_equal 3, @shop3.ranking
       end
     end
     
