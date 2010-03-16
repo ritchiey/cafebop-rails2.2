@@ -213,7 +213,7 @@ $(function() { // page ready
              var vote = data.vote;
              var shop = vote.shop;
              
-             cb.addNotice('Thanks for voting. Your vote places, "Get an accurate menu for '+
+             cb.addNotice('Thanks for your feedback. Your vote places, "Get an accurate menu for '+
               shop.name+'" at number '+shop.ranking+' on our To Do list.');
            },
            dataType: 'json'
