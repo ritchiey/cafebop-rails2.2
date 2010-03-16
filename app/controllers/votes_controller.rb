@@ -7,7 +7,7 @@ class VotesController < ApplicationController
     end
     respond_to do |format|
       format.html {redirect_to root_path}
-      format.json {render :json=>@vote.to_json(:include=>{:shop=>{:methods=>[:ranking]}})}
+      format.js {render :json=>@vote.to_json(:include=>{:shop=>{:methods=>[:ranking]}})}
     end
   end
   

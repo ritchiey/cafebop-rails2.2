@@ -209,8 +209,12 @@ $(function() { // page ready
            type: $form.attr('method'),
            url: $form.attr('action'),
            data: $form.serialize(),
-           complete: function(XMLHttpRequest, textStatus) {
-             cb.addNotice('Thanks for voting');
+           success: function(data, textStatus, XMLHttpRequest) { 
+             var vote = data.vote;
+             var shop = vote.shop;
+             
+             cb.addNotice('Thanks for voting. Your vote places, "Get an accurate menu for '+
+              shop.name+'" at number '+shop.ranking+' on our To Do list.');
            },
            dataType: 'json'
           });

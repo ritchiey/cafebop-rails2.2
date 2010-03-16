@@ -34,7 +34,6 @@ class OrdersController < OrdersRelatedController
     @shop = Shop.find_by_id_or_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
     @order = @shop.orders.build
     current_user and @order.user = current_user
-    add_notice "Hi there!"
   end
 
   def create

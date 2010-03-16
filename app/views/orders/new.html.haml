@@ -14,7 +14,7 @@
       still order from them using our generic #{h cuisine_names(@shop)} menu.
     %p
       We're adding menus for all Australian restaurants as fast as we can and
-      according to demand. If you'd like to see an accurate menu for #{h @shop.name}
+      according to demand. So, if you'd like to see an accurate menu for #{h @shop.name}
       sooner rather than later, please vote for them here:
     %h5
       I would like to see an accurate menu for #{h @shop.name}.
@@ -22,6 +22,3 @@
     -semantic_form_for [@shop, Vote.new] do |f|
       / empty form
       
-  .vote-thanks.hidden
-    %h1 Thanks for voting!
-

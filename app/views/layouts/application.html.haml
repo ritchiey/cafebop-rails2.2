@@ -87,8 +87,8 @@
             .main-header.span-24.last{:style=>"background: #{header_background}"}
               -default_content_for :content_header do
                 = @shop ? render(:partial => 'shops/page_header', :locals=>{:shop=>@shop}) : placeholder(:width=>1, :height=>180)
-            -if flash[:notices]    
-              #notifications.span-24.last
+            #notifications.span-24.last
+              -if flash[:notices]    
                 -flash[:notices].each do |notice|
                   .notice
                     =notice
