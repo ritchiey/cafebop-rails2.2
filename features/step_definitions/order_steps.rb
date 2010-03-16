@@ -34,7 +34,7 @@ When(/^(.+?) places an order at (.+?) for the following items:$/) do |name, shop
 end
 
 Then(/^I should see this order summary table:$/) do |expected_table|  
-  html_table = table_at("#order-summary-table").to_a.select {|r| r.size >1}
+  html_table = tableish('table#order-summary-table tr', 'td,th').select {|r| r.size >1}
   html_table.map! { |r| r.map! { |c| c.gsub(/<.+?>/, '') } }
   expected_table.diff!(html_table)  
 end
@@ -83,7 +83,7 @@ Then(/^they should be able to accept the invitation$/) do
 end        
 
 Then(/^I should see invited friends table$/) do |expected_table|  
-  html_table = table_at("#invited-friends").to_a
+  html_table = tableish('table#invited-friends tr', 'td,th')
   html_table.map! { |r| r.map! { |c| c.gsub(/<.+?>/, '') } }  
   expected_table.diff!(html_table)  
 end
