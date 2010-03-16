@@ -442,3 +442,6 @@ h5.title {
   margin: 20px 0 1em 0; }
   #notifications .close-btn {
     float: right; }
+
+#notifications:hover {
+  cursor: pointer; }
