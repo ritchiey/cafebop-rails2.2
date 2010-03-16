@@ -1,4 +1,10 @@
 
+var cb = {
+  addNotice: function(message) {
+    var notice = "<div class='notice'>"+message+"<img src='/images/remove.gif' class='close-btn' alt='close'></div>"
+    $('#notifications').append(notice);
+  }
+};
 
 function showControlsAsNeeded() {
   jQuery("tr").hover(
@@ -204,7 +210,7 @@ $(function() { // page ready
            url: $form.attr('action'),
            data: $form.serialize(),
            complete: function(XMLHttpRequest, textStatus) {
-             alert('Thanks for voting');
+             cb.addNotice('Thanks for voting');
            },
            dataType: 'json'
           });
@@ -241,6 +247,10 @@ $(function() { // page ready
     }
   });
   
+  $('.close-btn').live('click', function() {
+    var notice = $(this).closest('.notice');
+    notice.hide();
+  });
 
   $('.remove').live('click', function(e) {
     var tr = $(this).closest('tr');

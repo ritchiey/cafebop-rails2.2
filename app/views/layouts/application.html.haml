@@ -87,6 +87,12 @@
             .main-header.span-24.last{:style=>"background: #{header_background}"}
               -default_content_for :content_header do
                 = @shop ? render(:partial => 'shops/page_header', :locals=>{:shop=>@shop}) : placeholder(:width=>1, :height=>180)
+            -if flash[:notices]    
+              #notifications.span-24.last
+                -flash[:notices].each do |notice|
+                  .notice
+                    =notice
+                    =image_tag 'remove.gif', :class=>'close-btn'
             #content-body.span-16
               -default_content_for :content_body do
                 #main.span-16.last  

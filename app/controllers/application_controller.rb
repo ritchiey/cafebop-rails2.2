@@ -166,6 +166,10 @@ private
   end
   helper_method :mobile_device?
   
+  def add_notice notice
+    flash[:notices] ||= []
+    flash[:notices] << notice
+  end
   
   # Find the shop by the shop_id parameter if specified in the request and
   # if the @shop instance variable hasn't already been set.
