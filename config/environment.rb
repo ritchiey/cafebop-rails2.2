@@ -52,7 +52,8 @@ Rails::Initializer.run do |config|
   config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
   config.gem "aws-s3", :version => ">= 0.6.2", :lib => "aws/s3"  
   config.gem 'will_paginate', :version => '~> 2.3.11', :source => 'http://gemcutter.org'
-  
+  config.gem 'database_cleaner', :version=>'>= 0.5.0'
+  config.gem 'webrat', :version=>'>= 0.7.0'
   
 
   # Only load the plugins named here, in the order given (default is alphabetical).
