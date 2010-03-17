@@ -1,0 +1,16 @@
+-if @ask_to_vote
+  #vote-blurb.hidden
+    %h1 Vote for #{h @shop.name}
+
+    %p
+      We don't yet have an accurate menu for #{h @shop.name} but you can
+      still order from them using our generic #{h cuisine_names(@shop)} menu.
+    %p
+      We're adding menus for all Australian restaurants as fast as we can and
+      according to demand. So, if you'd like to see an accurate menu for #{h @shop.name}
+      sooner rather than later, please vote for them here:
+    %h5
+      I would like to see an accurate menu for #{h @shop.name}.
+
+    -semantic_form_for [@shop, Vote.new] do |f|
+      / empty form

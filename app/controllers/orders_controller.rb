@@ -2,10 +2,11 @@ OrderObserver.instance
 UserObserver.instance
 
 class OrdersController < OrdersRelatedController
-                                          
+
   around_filter :with_order_from_token, :only => [:accept, :decline]
   before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
   before_filter :order_from_id, :only=>[:update, :send_invitations, :place, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver, :get_name_for]
+  before_filter :ask_to_vote, :only => [:new, :edit]
   before_filter :check_paypal_status, :only => [:show]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
   before_filter :only_if_staff_or_admin, :only=>[:deliver]
@@ -34,10 +35,6 @@ class OrdersController < OrdersRelatedController
     @shop = Shop.find_by_id_or_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
     @order = @shop.orders.build
     current_user and @order.user = current_user
-    if @shop.community? and !been_asked_to_vote_for(@shop)
-      ask_to_vote_for(@shop)
-      @ask_to_vote = true
-    end
   end
 
   def create
@@ -309,6 +306,13 @@ private
   def wrangle_order_errors
     flash[:error] = @order.errors.full_messages.collect{|m| m}.join('. ')
     logger.error @order.errors.full_messages.collect{|m| m}.join('. ')
+  end
+
+  def ask_to_vote
+    if @shop.community? and !been_asked_to_vote_for(@shop)
+      ask_to_vote_for(@shop)
+      @ask_to_vote = true
+    end
   end
 
 end
