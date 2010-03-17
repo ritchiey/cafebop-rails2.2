@@ -14,6 +14,7 @@ class ShopsControllerTest < ActionController::TestCase
       @shop = Shop.make_unsaved
       @shop.stubs(:id).returns(12)
       Shop.stubs(:find).returns(@shop)
+      Shop.stubs(:find_by_id_or_permalink).returns(@shop)
     end
     
     context "which is community" do
@@ -30,11 +31,15 @@ class ShopsControllerTest < ActionController::TestCase
         
         context "updating cuisines" do
           setup do
-            put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>[3,5]}
+            assert_not_nil @shop     
+            @shop.expects(:update_attributes).with(any_parameters).once.returns(true)
+            put :update, :id=>@shop.id, :shop=>{:cuisine_ids=>[3,5]}
+            assert_equal @shop, controller.send(:find_instance)
           end
 
-          before_should "call update_attributes on shop" do
-            @shop.expects(:update_attributes).once.returns(true)
+          before_should "call update_attributes on shop" do       
+            # controller.expects(:find_instance).once.returns(@shop)
+            #Shop.expects(:find_by_id_or_permalink).once.returns(@shop)  
           end
           
           should "be ok" do

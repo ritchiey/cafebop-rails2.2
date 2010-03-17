@@ -171,6 +171,16 @@ private
     flash[:notices] << notice
   end
   
+  def been_asked_to_vote_for(shop)
+    session[:asked_to_vote_for] ||= []
+    session[:asked_to_vote_for].include?(shop.id)
+  end
+  
+  def ask_to_vote_for(shop)
+    session[:asked_to_vote_for] ||= []
+    session[:asked_to_vote_for] << shop.id
+  end
+  
   # Find the shop by the shop_id parameter if specified in the request and
   # if the @shop instance variable hasn't already been set.
   def find_order_and_or_shop

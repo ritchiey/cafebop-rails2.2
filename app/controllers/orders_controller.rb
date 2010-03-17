@@ -34,6 +34,10 @@ class OrdersController < OrdersRelatedController
     @shop = Shop.find_by_id_or_permalink(params[:shop_id], :include=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}])
     @order = @shop.orders.build
     current_user and @order.user = current_user
+    if @shop.community? and !been_asked_to_vote_for(@shop)
+      ask_to_vote_for(@shop)
+      @ask_to_vote = true
+    end
   end
 
   def create

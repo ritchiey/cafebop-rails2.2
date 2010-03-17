@@ -68,11 +68,10 @@ class ShopsController < ApplicationController
   end
   
   def edit
-    @shop = Shop.find_by_id_or_permalink(params[:id])
   end  
   
   def update
-    changes = params[:shop]
+    changes = params[:shop]  
     unless @shop.community? and (changes.keys - %w/franchise_id cuisine_ids/).empty?
       require_manager_or_admin and return
     end
@@ -140,7 +139,7 @@ class ShopsController < ApplicationController
     
 private
 
-    def find_instance
+    def find_instance  
       @shop = Shop.find_by_id_or_permalink(params[:id])
     end
 
@@ -153,16 +152,25 @@ private
     
     
     def require_manager_or_admin
-      unless current_user.is_admin? or @shop.is_manager?(current_user)
-        flash[:error] = "You're not authorized to do that."
-        redirect_to new_shop_order_path(@shop)
+      if current_user
+        unless current_user.is_admin? or @shop.is_manager?(current_user)
+          flash[:error] = "You're not authorized to do that."
+          redirect_to new_shop_order_path(@shop)
+        end
+      else
+        redirect_to login_path
       end
     end
     
     def require_admin
-      unless current_user.is_admin?
-        flash[:error] = "You're not authorized to do that."
-        redirect_to new_shop_order_path(@shop)
+      if current_user 
+        unless current_user.is_admin?
+          flash[:error] = "You're not authorized to do that."
+          redirect_to new_shop_order_path(@shop)
+        end
+      else
+        redirect_to login_path
       end
     end
+    
 end

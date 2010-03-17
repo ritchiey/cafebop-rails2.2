@@ -5,7 +5,7 @@
 = render :partial => 'ordering_form', :object=>[@shop, @order]
 
 
--if @shop.community?
+-if @ask_to_vote
   #vote-blurb.hidden
     %h1 Vote for #{h @shop.name}
 
