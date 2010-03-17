@@ -1,8 +1,19 @@
 -if @order and @order.close_time
+
+  -if @order.is_child?
+    :javascript
+      expiry_message = "Order is about to close!";
+  -else
+    :javascript
+      expiry_message = "Select a payment method below.";
+
   .order_close_time
     -if @order.closed?
-      .closed-message
-        Order is about to close!
+      .closed-message.hasCountdown
+        -if @order.is_child?
+          Order is about to close!
+        -else
+          Select a payment method below.
     -else
       #close_time_countdown
       :javascript
@@ -12,9 +23,10 @@
         	  until: order_close_time,
         	  format: 'dhmS',
             description: 'Until order closes.',
-            expiryText: 'Order is about to close!',
+            expiryText: expiry_message,
             onExpiry: order_timer_expired
         	  });
         }); 
       -unless @order.is_child?
-        =link_to "[Close Order Early]", close_order_path(@order), :method=>:put, :confirm=>"Are you sure?"
+        .close-early
+          =link_to "[Close Order Early]", close_order_path(@order), :method=>:put, :confirm=>"Are you sure?"

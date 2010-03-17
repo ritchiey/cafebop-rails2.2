@@ -275,18 +275,6 @@ class Shop < ActiveRecord::Base
   # End state related
                 
 
-  # Permissions
-  def can_edit?(acting_user)                 
-    return false unless acting_user
-    return true if acting_user.is_admin?
-    return true if (acting_user.manages? self)
-    false
-  end     
-  
-  def can_delete?(acting_user)
-    acting_user.andand.is_admin?
-  end
-  
   def can_view_history?(acting_user)
     return false unless acting_user
     return true if acting_user.is_admin?
