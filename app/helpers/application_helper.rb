@@ -65,11 +65,11 @@ module ApplicationHelper
   end
 
   def edit_shop_link(shop)
-    shop.can_edit?(current_user) ? (link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
+    current_user.andand.can_edit_shop?(shop) ? (link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
   end                            
   
   def delete_shop_link(shop)
-    shop.can_delete?(current_user) ? (link_to 'Delete', shop_path(shop), :method=>:delete, :confirm=>"Really delete #{shop}?") : ''
+    current_user.andand.can_delete_shop?(shop) ? (link_to 'Delete', shop_path(shop), :method=>:delete, :confirm=>"Really delete #{shop}?") : ''
   end
 
   def order_history_link(shop)

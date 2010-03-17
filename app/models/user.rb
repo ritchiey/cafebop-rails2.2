@@ -89,11 +89,13 @@ class User < ActiveRecord::Base
   
   def manages?(shop)
     shop.is_a?(ActiveRecord::Base) and shop = shop.id
-    shop && work_contracts.exists?(:shop_id=>shop, :role=>'manager')
+    # shop && work_contracts.exists?(:shop_id=>shop, :role=>'manager')
+    shop && work_contracts.any? {|wc| wc.role=='manager' and wc.shop_id == shop}
   end
   
   def works_at?(shop)
-    shop && work_contracts.exists?(:shop_id=>shop.id, :role=>['staff', 'manager'])
+    shop.is_a?(ActiveRecord::Base) and shop = shop.id
+    shop && work_contracts.any? {|wc| wc.role=='staff' and wc.shop_id == shop}
   end
 
   def can_access_queues_of?(shop)
@@ -102,6 +104,14 @@ class User < ActiveRecord::Base
 
   def can_manage_queues_of?(shop)
     shop and shop.can_have_queues? and (manages?(shop) or is_admin?)  
+  end
+
+  def can_edit_shop?(shop)
+    is_admin? or manages?(shop)
+  end
+  
+  def can_delete_shop?(shop)
+    is_admin?
   end
 
   def self.stats
