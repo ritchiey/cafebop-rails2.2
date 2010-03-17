@@ -2,7 +2,20 @@
 
 %ul.menu
   -if @shop.effective_menus.empty?
-    != render :partial => 'shops/adjust_cuisines_form'
+    %h4 A little help, please...
+    %p
+      #{h @shop.name} is new to us and we haven't worked out its cuisine let alone its
+      menus.
+    %p
+      If you wouldn't mind selecting the appropriate cuisines, we can show you a sensible
+      default menu from which to order.
+    %p Thanks
+      
+    -semantic_form_for @shop do |f|
+      -f.inputs do
+        =f.input :cuisines, :as=>:check_boxes, :hint=>"Please choose one or more of the above", :collection=>Cuisine.is_not_franchise
+      -f.buttons do
+        =f.commit_button :label=>"Show Menu"
   -else
     -@shop.effective_menus.each do |menu|
       %h5.title=h menu.name

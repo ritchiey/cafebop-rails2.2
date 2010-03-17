@@ -255,6 +255,11 @@ $(function() { // page ready
     var notice = $(this).closest('.notice');
     notice.hide();
   });
+  
+  $('.accuracy-warning').live('click', function() {
+    
+    return false;
+  });
 
   $('.remove').live('click', function(e) {
     var tr = $(this).closest('tr');

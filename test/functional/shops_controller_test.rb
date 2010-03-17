@@ -11,8 +11,11 @@ class ShopsControllerTest < ActionController::TestCase
 
   context "With an express shop" do
     setup do
-      @shop = Shop.make
-      @shop.transition_to('express')
+      @shop = Shop.make_unsaved
+      # @shop.transition_to('express')
+      @shop.stubs(:state).returns('express')
+      @shop.stubs(:id).returns(12)
+      Shop.stubs(:find).returns(@shop)
     end
     
     should "redirect to list of shops on search with no parameters" do
@@ -32,11 +35,17 @@ class ShopsControllerTest < ActionController::TestCase
         assert_redirected_to login_url
       end
       
-      should "be able to create a shop" do
-        assert_difference "Shop.count", 1 do
-          post :create, :shop=>{:name=>"Sniggles", :phone=>"22222", :street_address=>"987 slkdjlksdjdakl", :lat=>-31.9678531, :lng=>115.8909351}
+      context "creating a shop" do
+        setup do
+          post :create, :shop=>{:name=>"Sniggles"}
         end
-      end     
+        before_should "call new on the model class and save the model" do
+          Shop.expects(:new).with(any_parameters).once.returns(@shop)
+          @shop.expects(:save).once.returns(true)
+        end
+        should_redirect_to("show page") {new_shop_order_path(@shop)}
+      end
+          
       
       should "not be able to delete a shop" do
         delete :destroy, :id => @shop.to_param
@@ -56,31 +65,30 @@ class ShopsControllerTest < ActionController::TestCase
         assert_redirected_to new_shop_order_url(@shop)
       end
 
+      
+      # context "if it's a community shop" do
+      #   setup do
+      #     @shop.stubs(:state).returns('community')
+      #   end
+      # 
+      #   context "updating the franchise and cuisine" do
+      #     setup do
+      #       put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>@cuisine.id}
+      #     end
+      #     
+      #     before_should "create the appropriate shop_cuisine records" do
+      #       @cuisine = Cuisine.make_unsaved
+      #       @cuisine.stubs(:id=>6)
+      #       ShopCuisine.expects(:create).once.with({:cuisine_id=>@cuisine.id, :shop_id=>@shop.id})
+      #     end
+      #   end
+      #   
+      # end
+      
       should "not be able to update a shop" do
-        assert_no_difference "Shop.name_eq('Sniggles').count" do
-          put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
-          assert_redirected_to new_shop_order_url(@shop)
-        end
-      end
-      
-      should "be able to update the franchise and cuisine on a community shop" do
-        @shop.state = 'community'
-        @shop.save!
-        assert @shop.community?
-        Cuisine.create!(:name=>'strawberries')
-        # Cuisine.make
-        assert_difference "@shop.cuisines.count", 1 do
-          put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>[Cuisine.first.id]}
-          assert_redirected_to new_shop_order_url(@shop)
-          @shop.reload
-        end
-      end
-      
-      should "be able to create a shop" do
-        assert_difference "Shop.count", 1 do
-          post :create, :shop=>{:name=>"Sniggles", :phone=>"22222", :street_address=>"987 slkdjlksdjdakl", :lat=>-31.9678531, :lng=>115.8909351}
-        end
-      end     
+        put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
+        assert_redirected_to new_shop_order_path(@shop)
+      end  
       
       should "not be able to delete a shop" do
         assert_no_difference "Shop.count" do
@@ -130,18 +138,16 @@ class ShopsControllerTest < ActionController::TestCase
         assert_equal "Sniggles", @shop.name
       end     
               
-      should "be able to create a shop" do
-        assert_difference "Shop.count", 1 do
-          post :create, :shop=>{:name=>"Sniggles", :phone=>"22222", :street_address=>"987 slkdjlksdjdakl", :lat=>-31.9678531, :lng=>115.8909351}
-          assert_redirected_to new_shop_order_path(Shop.last)
-        end
-      end     
-              
-      should "be able to delete a shop" do
-        assert_difference "Shop.count", -1 do
+      
+      context "deleting the shop" do
+        setup do
           delete :destroy, :id => @shop.to_param
-          assert_redirected_to root_url
         end
+
+        before_should "call destroy on the model" do
+          @shop.expects(:destroy).once
+        end
+        should_redirect_to('root') {root_path}
       end
       
     end
