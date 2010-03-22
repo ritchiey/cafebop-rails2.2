@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
   
   def works_at?(shop)
     shop.is_a?(ActiveRecord::Base) and shop = shop.id
-    shop && work_contracts.any? {|wc| wc.role=='staff' and wc.shop_id == shop}
+    shop && work_contracts.any? {|wc| wc.shop_id == shop and %w(staff manager).include?(wc.role) }
   end
 
   def can_access_queues_of?(shop)

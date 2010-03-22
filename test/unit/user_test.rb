@@ -62,6 +62,10 @@ class UserTest < ActiveSupport::TestCase
         assert @user.works_at?(@other_shop_worked_at)
       end
 
+      should "be considered to work at the shop" do
+        assert @user.works_at?(@my_shop)
+      end                           
+      
       should "only manage his own shop" do
         assert @user.manages?(@my_shop)
         assert !@user.manages?(@other_shop)
