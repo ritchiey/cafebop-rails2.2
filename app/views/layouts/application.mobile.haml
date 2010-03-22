@@ -91,13 +91,13 @@
       %h2.order-status
       %h2.order-received
       .made-order-controls 
-        -form_tag '', :method=>:put do |f|
+        -form_tag '', :method=>:put do
           %a.grayButton.make-all-items.hidden Make All Items
           %a.grayButton.deliver.hidden Deliver
       %ul#summarized-order-items.item-list.rounded
       %p.total
       .order-controls
-        -form_tag '', :method=>:put do |f|
+        -form_tag '', :method=>:put do
           %a.whiteButton.cancel-order.hidden Cancel
           %a.whiteButton.no-show.hidden No Show
         
@@ -110,7 +110,7 @@
         %h1 Order Item
       %h1.item-details
       %h2.item-notes
-      -form_tag "/queued_order_items/make_all", :method=>:put, :id=>'make-order-item-form' do |f|
+      -form_tag "/queued_order_items/make_all", :method=>:put, :id=>'make-order-item-form' do
         .order-items
         %a.whiteButton.make Make
        
