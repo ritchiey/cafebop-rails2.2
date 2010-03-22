@@ -40,8 +40,9 @@ end
 
 config.gem "rspec", :lib=>false, :version=> ">=1.2.2"
 config.gem "rspec-rails", :lib=>false, :version=> ">=1.2.2"
-config.gem "webrat", :version=> ">=0.4.3"
 # config.gem "cucumber", :lib=>false, :version=> ">=0.4.4"  
 # config.gem "cucumber-rails", :lib=>false
 config.gem 'pickle', :lib => false, :version=> ">=0.1.21"
+config.gem 'database_cleaner', :version=>'>= 0.5.0'
+config.gem 'webrat', :version=>'>= 0.7.0'
 
