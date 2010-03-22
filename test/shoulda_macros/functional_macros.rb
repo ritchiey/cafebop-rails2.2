@@ -44,6 +44,9 @@ module FunctionalMacros
     should_redirect_to("the login page") {login_path}
   end
 
+  def should_ask_me_to_signup
+    should_redirect_to("the signup page") {signup_path}
+  end
 end
 
 

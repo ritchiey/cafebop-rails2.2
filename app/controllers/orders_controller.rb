@@ -83,6 +83,12 @@ class OrdersController < OrdersRelatedController
 
 
   def pay_in_shop
+    # Must be authenticated
+    unless current_user
+      flash[:notice] = "You'll need a Cafebop account place your order."
+      redirect_to signup_path(:order_id=>@order.id)
+      return
+    end
     if @order.can_be_queued?
       @order.pay_in_shop!
       redirect_to @order
@@ -296,7 +302,7 @@ private
   def check_delivery_details
     @order.name_required = true
     if @order.valid?
-      redirect_to @order
+      redirect_to order_path(@order)
     else
       wrangle_order_errors
       redirect_to edit_order_path(@order)

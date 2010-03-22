@@ -1,11 +1,13 @@
 Feature: Ordering
   In order to verify that we can place orders
-  As a customer
+  As an authenticated customer
   I want to place an order and verify that the order items appear in the appropriate queues
 
         
   Background:
-	  Given there is a shop named "Gromits"
+    Given there is an active user with email "harry@hogwarts.edu" and password "Quiddich"
+    And I am logged in as "harry@hogwarts.edu" with password "Quiddich"
+	  And there is a shop named "Gromits"
 	  And Gromits is an express shop
 		And Gromits has a menu called "Breakfast"
 		And the Breakfast menu has the following menu items:
