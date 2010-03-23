@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_filter :require_login, :except=>[:new, :create, :activate, :activate_invited]
   before_filter :require_admin_rights, :except=>[:new, :create, :activate, :activate_invited]
-  before_filter :require_valid_captcha, :only=>[:create]
+  # before_filter :require_valid_captcha, :only=>[:create]
   before_filter :require_user_parameters, :only => [:create]
   
   make_resourceful do
