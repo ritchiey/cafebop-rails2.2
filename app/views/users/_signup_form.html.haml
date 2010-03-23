@@ -1,0 +1,16 @@
+- semantic_form_for @user do |f|
+  != render :partial => 'shared/order_and_or_shop_form_fields'
+
+  = f.error_messages :header_message=>nil, :message=>nil
+  - f.inputs do
+    = f.input :email, :label=>"Your email"
+    = f.input :password, :as=>:password, :label=>"Choose a password"
+    = f.input :password_confirmation, :as=>:password, :label=>"Same password again"
+    = f.input :email_offers, :as=>:boolean, :label=>" Email me specials from restaurants near me"
+  
+    Are you human? Yes, it is an odd thing to ask but you'd be surprised by how many
+    robots we get around here. To prove you're human, please complete this simple task:
+    = recaptcha_tags
+      
+  - f.buttons do
+    =f.commit_button :button_html=>{:value=>'Sign up'}

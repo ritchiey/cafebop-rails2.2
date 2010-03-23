@@ -138,6 +138,17 @@
       .logo.print-only
         =image_tag('logo-small.png')
                                     
+    #authForm.hidden
+      .login.hidden
+        %h6 Login
+        Don't have an account?
+        %a.show-signup{:href=>"#"} Sign Up
+        != render :partial => 'user_sessions/login_form'
+      .signup
+        %h6 Signup
+        Already got an account?
+        %a.show-login{:href=>"#"} Login
+        != render :partial => 'users/signup_form'
 
     -default_content_for :snapabug do
       =yield :javascript   

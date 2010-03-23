@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   before_filter :cookies_required, :except => [:cookies_test]
   before_filter :find_order_and_or_shop, :except => [:cookies_test]
+  before_filter :default_objects
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :adjust_format_for_mobile
   filter_parameter_logging :password, :password_confirmation
@@ -189,5 +190,14 @@ private
     @order and @shop = @order.shop
     shop_id = params[:shop_id] and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])
   end
-                     
+  
+  # We set these objects up here for the ajax login and signup forms that
+  # appear on every page                   
+  def default_objects
+    @user = User.new
+    @user_session = UserSession.new
+    @user_session.errors.clear
+    @user_session.remember_me = true
+  end                   
+  
 end

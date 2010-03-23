@@ -1,0 +1,12 @@
+- semantic_form_for @user_session do |f|
+  != render :partial => 'shared/order_and_or_shop_form_fields'
+  = f.error_messages :header_message=>nil, :message=>nil
+  -f.inputs do
+    = f.input :email, :required=>false
+    = f.input :password, :as=>:password, :required=>false
+    = f.input :remember_me, :as=>:boolean, :required=>false, :label=>" Remember me on this computer"
+
+  - f.buttons do
+    =f.commit_button "Login"
+
+= link_to "Forgot password", new_password_reset_path

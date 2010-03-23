@@ -3,6 +3,10 @@ var cb = {
   addNotice: function(message) {
     var notice = "<div class='notice'>"+message+"<img src='/images/remove.gif' class='close-btn' alt='close'></div>"
     $('#notifications').append(notice);
+  },                                      
+  
+  requestSignUp: function() {
+    $('#authForm').dialog('open');
   }
 };
 
@@ -281,6 +285,28 @@ $(function() { // page ready
       form.prepend("<input type='hidden' name='order[order_items_attributes][][_delete]' value='true' />");
     }
   });
+            
+  $('#authForm').dialog({
+    autoOpen: false,
+    height: 500,
+    width: 500
+  });
+
+  $('#authForm .show-signup').click(function(e) {
+    $('#authForm .login').hide();
+    $('#authForm .signup').show();
+  });
+
+  $('#authForm .show-login').click(function(e) {
+    $('#authForm .login').show();
+    $('#authForm .signup').hide();
+  });
+
+  $('#pay-in-shop-button').click(function(e) {
+     cb.requestSignUp();
+     return false;
+  });
+
 
 });    
 
