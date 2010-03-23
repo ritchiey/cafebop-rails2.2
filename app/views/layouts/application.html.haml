@@ -141,10 +141,8 @@
                                     
     #authForm.hidden
       .login.hidden
-        %h4 Login
         != render :partial => 'user_sessions/login_form'
       .signup
-        %h4 Signup
         != render :partial => 'users/signup_form'
 
     -default_content_for :snapabug do

@@ -20,11 +20,17 @@ var cb = {
   },
   
   showSignup: function() {
+    $('#authForm').dialog('option', 'title', 'Sign Up');
+    $('#authForm').dialog('option', 'width', 700);
+    $('#authForm').dialog('option', 'height', 600);
     $('#authForm .login').hide();
     $('#authForm .signup').show();
   },
   
   showLogin: function() {
+    $('#authForm').dialog('option', 'title', 'Login');
+    $('#authForm').dialog('option', 'width', 400);
+    $('#authForm').dialog('option', 'height', 450);
     $('#authForm .login').show();
     $('#authForm .signup').hide();
   }
@@ -314,13 +320,14 @@ $(function() { // page ready
   });
 
   $('#authForm .show-signup').click(function(e) {
-    cb.showSignup()
+    $('#authForm').dialog('close');
+    cb.requestSignup()
     return false;
   });
 
   $('#authForm .show-login').click(function(e) {
-    $('#authForm .login').show();
-    $('#authForm .signup').hide();   
+    $('#authForm').dialog('close');
+    cb.requestLogin()
     return false;
   });
 
