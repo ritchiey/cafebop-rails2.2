@@ -111,7 +111,7 @@ var app = {
   	 url: options['url'] || form.attr('action'),
   	 data: form.serialize(),
   	 complete: onComplete,
-  	 dataType: options['dataType'] || 'json',
+  	 dataType: options['dataType'] || 'json'
   	});
   }, 
   
@@ -423,7 +423,7 @@ $('.made-check').tap(function(e) {
    data: $.param(data, true),
    complete: function(XMLHttpRequest, textStatus) {
    },
-   dataType: 'json',
+   dataType: 'json'
   });
   return true;
 });
