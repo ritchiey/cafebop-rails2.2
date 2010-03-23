@@ -5,9 +5,30 @@ var cb = {
     $('#notifications').append(notice);
   },                                      
   
-  requestSignUp: function() {
+  requestSignup: function() {
+    this.showSignup();
+    this.requestAuth();
+  },
+  
+  requestLogin: function() {
+    this.showLogin();
+    this.requestAuth();
+  },
+  
+  requestAuth: function() {
     $('#authForm').dialog('open');
+  },
+  
+  showSignup: function() {
+    $('#authForm .login').hide();
+    $('#authForm .signup').show();
+  },
+  
+  showLogin: function() {
+    $('#authForm .login').show();
+    $('#authForm .signup').hide();
   }
+  
 };
 
 function showControlsAsNeeded() {
@@ -293,20 +314,43 @@ $(function() { // page ready
   });
 
   $('#authForm .show-signup').click(function(e) {
-    $('#authForm .login').hide();
-    $('#authForm .signup').show();
+    cb.showSignup()
+    return false;
   });
 
   $('#authForm .show-login').click(function(e) {
     $('#authForm .login').show();
-    $('#authForm .signup').hide();
+    $('#authForm .signup').hide();   
+    return false;
   });
 
   $('#pay-in-shop-button').click(function(e) {
-     cb.requestSignUp();
-     return false;
+    if (current_user) {
+      return true;
+    } else {
+      cb.requestSignup();
+      return false;
+    }
+  });   
+  
+  $('#offer-friends-button').click(function(e) {
+    if (current_user) {
+      return true;
+    } else {
+      cb.requestSignup();
+      return false;
+    }
+  });   
+  
+  $('#login-btn').click(function(e) {
+    cb.requestLogin();
+    return false;
   });
 
+  $('#signup-btn').click(function(e) {
+    cb.requestSignup();
+    return false;
+  });
 
 });    
 

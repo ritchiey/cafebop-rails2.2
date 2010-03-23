@@ -1,4 +1,5 @@
 - semantic_form_for @user do |f|
+  %h6.login-message Already a Cafebop member? #{link_to "Login", login_path(with_order_or_shop(@order, @shop)), :class=>'show-login'}
   != render :partial => 'shared/order_and_or_shop_form_fields'
 
   = f.error_messages :header_message=>nil, :message=>nil

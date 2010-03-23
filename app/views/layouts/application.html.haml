@@ -23,6 +23,7 @@
     = javascript_include_tag 'jquery-form', 'jquery.validate.min','jquery.qtip-1.0.0-rc3.min', 'jrails', 'jquery.countdown.min', 'supersleight.plugin', 'application.js', :cache=>true
     / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]   
     =javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? 
+    =javascript_tag "var current_user = #{current_user ? '#{current_user}' : 'null'};"
     = yield(:head)
 
     %style{ :type => "text/css" }
@@ -140,14 +141,10 @@
                                     
     #authForm.hidden
       .login.hidden
-        %h6 Login
-        Don't have an account?
-        %a.show-signup{:href=>"#"} Sign Up
+        %h4 Login
         != render :partial => 'user_sessions/login_form'
       .signup
-        %h6 Signup
-        Already got an account?
-        %a.show-login{:href=>"#"} Login
+        %h4 Signup
         != render :partial => 'users/signup_form'
 
     -default_content_for :snapabug do

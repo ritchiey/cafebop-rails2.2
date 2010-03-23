@@ -1,3 +1,4 @@
+%h6.signup-message Don't have an account yet? #{link_to "Sign Up", signup_path(with_order_or_shop(@order, @shop)), :class=>'show-signup'}
 - semantic_form_for @user_session do |f|
   != render :partial => 'shared/order_and_or_shop_form_fields'
   = f.error_messages :header_message=>nil, :message=>nil
