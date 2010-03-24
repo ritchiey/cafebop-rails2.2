@@ -312,7 +312,9 @@ var app = {
   	  serverControllerName: 'queued_orders',
   	  // store the order for use when showing order items
   	  withLoadedObject: function(order) {
-    	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+order.effective_name)
+    	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+
+    	    order.effective_name +
+    	    " ("+ order.reputation_s+")")
     	  app.updateOrderAge(order);
       	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
     		app.current_order = order;

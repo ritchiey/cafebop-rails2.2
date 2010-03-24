@@ -67,6 +67,14 @@ class Order < ActiveRecord::Base
   def effective_name=(name)
     self[:name] = name
   end
+  
+  def reputation_s
+    if user
+      user.reputation_s
+    else
+      "unknown"
+    end
+  end
 
   def can_be_queued?
     name and name.length > 0
@@ -227,7 +235,7 @@ class Order < ActiveRecord::Base
     
   def no_show!
     if queued? or made?
-      user.no_show_for(self)
+      user and user.no_show_for(self)
       cancel!
     end
   end
@@ -300,7 +308,7 @@ class Order < ActiveRecord::Base
   end
 
   def deliver!
-    
+    user and user.picks_up(self)
     if made?
       self.state = 'delivered'
       save

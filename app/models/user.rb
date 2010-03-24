@@ -169,6 +169,16 @@ class User < ActiveRecord::Base
     self.reputation = reputation + 1
     self.reputation = BEST_REPUTATION if self.reputation > BEST_REPUTATION
     save!
+  end                 
+  
+  def reputation_s
+    if reputation == 0
+      'neutral'
+    elsif reputation > 0
+      "positive +#{reputation}"
+    else
+      "negative #{reputation}"
+    end
   end
   
 end

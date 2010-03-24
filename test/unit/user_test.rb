@@ -4,6 +4,30 @@ class UserTest < ActiveSupport::TestCase
 
   context "a user" do
     setup do
+      @user = User.make_unsaved
+    end
+
+    context "with a reputation of 0" do
+      setup { @user.stubs(:reputation).returns(0) }
+      should("be described as neutral") { assert_equal 'neutral', @user.reputation_s}
+    end
+    
+    context "with a reputation of 1" do
+      setup { @user.stubs(:reputation).returns(1) }
+      should("be described correctly") { assert_equal 'positive +1', @user.reputation_s}
+    end
+    
+    context "with a reputation of -10" do
+      setup { @user.stubs(:reputation).returns(-10) }
+      should("be described correctly") { assert_equal 'negative -10', @user.reputation_s}
+    end
+    
+    
+  end
+  
+
+  context "a user" do
+    setup do
       @user = User.make 
       assert_not_nil @user
     end
