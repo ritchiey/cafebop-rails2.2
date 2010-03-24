@@ -132,7 +132,7 @@ class OrdersControllerTest < ActionController::TestCase
           get :show, :id=>@order.id
         end
 
-        should_redirect_to("login screen") { login_path }
+        should_redirect_to("login screen with order id set") { login_path(:order_id=>@order.id) }
       end
       
     end
