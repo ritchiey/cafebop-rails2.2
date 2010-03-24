@@ -59,7 +59,7 @@ class OrderTest < ActiveSupport::TestCase
   context "an order with a few order_items" do
     
     setup do
-      @order = Order.make
+      @order = Order.make      
       (1..3).each do |i|
         menu_item = MenuItem.make(:price_in_cents=>100)
         OrderItem.make(:order=>@order, :quantity=>i, :menu_item=>menu_item)
@@ -117,12 +117,20 @@ class OrderTest < ActiveSupport::TestCase
           assert @order.made?
         end
         
-        should "be able to record a no_show" do
-          @order.user.expects(:no_show_for).with(@order).once
-          assert !@order.cancelled?
-          @order.no_show!
-          assert @order.cancelled?
+        context "with a user set" do
+          setup do
+            @user = User.make_unsaved
+            @order.stubs(:user).returns(@user)
+          end
+
+          should "be able to record a no_show" do
+            @order.user.expects(:no_show_for).with(@order).once
+            assert !@order.cancelled?
+            @order.no_show!
+            assert @order.cancelled?
+          end
         end
+        
 
         should "call make on each order_item on make_all_items" do
           assert @order.order_items.all.all? {|item| item.queued?}
