@@ -121,6 +121,22 @@ class OrdersControllerTest < ActionController::TestCase
       
     end
     
+    context "by an authenticated user" do
+      setup do
+        @user = User.make_unsaved
+        @order.stubs(:user).returns(@user)
+      end
+
+      context "showing the order" do
+        setup do
+          get :show, :id=>@order.id
+        end
+
+        should_redirect_to("login screen") { login_path }
+      end
+      
+    end
+    
   # 
   #   should "be able to be updated" do
   #   
@@ -146,5 +162,9 @@ class OrdersControllerTest < ActionController::TestCase
   #   
   #   end
   # 
-  end  
+  
+    
+  end
+  
+  
 end

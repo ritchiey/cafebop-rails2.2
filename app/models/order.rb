@@ -205,7 +205,7 @@ class Order < ActiveRecord::Base
   end
 
   def mine? claimant, token
-    (user_id and claimant.id == user_id) or token == perishable_token
+    (user_id and claimant and claimant.id == user_id) or token == perishable_token
   end   
   
   # State related methods

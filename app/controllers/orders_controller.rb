@@ -256,6 +256,10 @@ private
   # An order is considered yours if you are authenticated as order.user
   # or if the you have the perishable_token of that order in your session.
   def only_if_mine
+    if !current_user and @order.user
+      redirect_to login_path(:order_id=>@order.id)
+      return
+    end
     unless @order.mine?(current_user, session[:order_token])
       flash[:error] = "Whoa! That's not yours."
       redirect_to new_shop_order_path(@order.shop)
