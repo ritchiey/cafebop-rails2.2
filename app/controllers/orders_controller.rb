@@ -198,17 +198,6 @@ class OrdersController < OrdersRelatedController
     redirect_to @order
   end
   
-  def deliver
-    @order.deliver!
-    respond_to do |format|
-      format.html {redirect_back_or_default}
-      format.json do
-        cq = @order.customer_queue
-        render :json=>(cq ? cq.current_orders.count : 0).to_json
-      end
-    end
-  end
-  
   # User tried to accept or confirm their order but parent had already closed
   def closed
   end

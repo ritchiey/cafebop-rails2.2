@@ -300,6 +300,7 @@ class Order < ActiveRecord::Base
   end
 
   def deliver!
+    
     if made?
       self.state = 'delivered'
       save

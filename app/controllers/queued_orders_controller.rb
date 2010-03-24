@@ -34,6 +34,19 @@ class QueuedOrdersController < ApplicationController
     end
   end
   
+  def deliver
+    @order.deliver!
+    respond_to do |format|
+      format.html {redirect_back_or_default}
+      format.json do
+        cq = @order.customer_queue
+        render :json=>(cq ? cq.current_orders.count : 0).to_json
+      end
+    end
+  end
+  
+  
+  
   def cancel
     @order.cancel!
     respond_to do |format|

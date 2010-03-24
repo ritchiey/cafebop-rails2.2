@@ -246,7 +246,7 @@ var app = {
   
   deliverOrder: function($form) {
   	app.submitForm($form, {
-  	  url: '/orders/'+app.queued_order_id+'/deliver',
+  	  url: '/queued_orders/'+app.queued_order_id+'/deliver',
   	  failMessage: "Unable to deliver order. Try again."
   	});
   },

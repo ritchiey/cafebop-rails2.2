@@ -28,7 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :menus, :only=>[:new, :create, :index], # for generic menus
     :collection=>{:import=>:get, :import_csv=>:post}
 
-  map.resources :queued_orders, :only=>[:show], :member=>{:cancel=>:put, :no_show=>:put, :make_all_items=>:put}
+  map.resources :queued_orders, :only=>[:show], :member=>{:cancel=>:put, :no_show=>:put, :deliver => :put, :make_all_items=>:put}
   map.resources :queued_order_items, :only=>[:show],
     :member=>{:make=>:put},
     :collection=>{:make_all=>:put}
@@ -65,7 +65,6 @@ ActionController::Routing::Routes.draw do |map|
         :create => :put,
         :place => :put,
         # :pay_in_shop => :put,
-        :deliver => :put,
         # :pay_paypal => :put,
         :cancel_paypal => :get,
         :invite=>:get,
