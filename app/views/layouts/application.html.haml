@@ -114,13 +114,19 @@
                 %span
 
     #page-footer 
+      .powered-by.no-print  
+        #{@shop ? "Powered by " : ""}
+        #{link_to("Cafebop", root_path)} (#{separated([link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])}
+        |
+        %a#crowdsound-activate-popup Feedback
+        )
+      .logo.print-only
+        =image_tag('logo-small.png')
+
       .links.no-print
         %div
-        
           / AddThis Button BEGIN
           .addthis_toolbox.addthis_default_style
-            |
-            %a#crowdsound-activate-popup Feedback
             %a.addthis_button_compact{ :href => "http://addthis.com/bookmark.php?v=250&amp;username=ritchiey" }
               Share
             %span.addthis_separator
@@ -130,14 +136,10 @@
             %a.addthis_button_favorites
             %a.addthis_button_print
             |
-            =separated([link_to_refund_policy(@shop), link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])
+            =separated([link_to_refund_policy(@shop)])
           %script{ :src => "http://s7.addthis.com/js/250/addthis_widget.js#username=ritchiey", :type => "text/javascript" }
           / AddThis Button END
           
-      .logo.no-print
-        =link_to(image_tag('logo-small.png'), root_path)
-      .logo.print-only
-        =image_tag('logo-small.png')
                                     
     #authForm.hidden
       .login.hidden
