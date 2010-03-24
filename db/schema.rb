@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100315085814) do
+ActiveRecord::Schema.define(:version => 20100324005207) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -265,6 +265,8 @@ ActiveRecord::Schema.define(:version => 20100315085814) do
     t.datetime "current_login_at"
     t.string   "current_login_ip"
     t.boolean  "email_offers",      :default => true
+    t.date     "dob"
+    t.integer  "reputation",        :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

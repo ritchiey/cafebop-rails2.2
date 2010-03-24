@@ -9,9 +9,103 @@ class UserTest < ActiveSupport::TestCase
     end
     subject {@user}
   
-    should "have a no_show_for method" do
-      assert @user.respond_to?(:no_show_for)
+    context "with an order" do
+      
+      setup do
+        @order = Order.make_unsaved
+      end
+      
+      context "that has been paid for" do
+        setup do
+          @order.stubs(:paid_at).returns(5.minutes.ago)
+        end
+        
+        context "who doesn't show up" do
+          setup do
+            @user.no_show_for(@order)
+          end
+
+          should "not have his reputation changed" do
+            assert_equal 0, @user.reputation
+          end
+        end
+        
+        context "who picks up the order" do
+          setup do
+            @user.picks_up(@order)
+          end
+
+          should "not have his reputation changed" do
+            assert_equal 0, @user.reputation
+          end
+        end
+        
+      end
+      context "with the default reputation of 0" do
+        setup do
+          assert_equal 0, @user.reputation
+        end
+      
+      
+     
+        
+        context "who doesn't show up" do
+          setup do
+            @user.no_show_for(@order)  
+          end
+
+          should "lose 4 reputation points" do
+            assert_equal(-4, @user.reputation)
+          end
+        end
+      
+        context "who successfully picks up an order" do
+          setup do
+            @user.picks_up(@order)
+          end
+
+          should "gain 1 reputation point" do
+            assert_equal 1, @user.reputation
+          end
+        end
+      end
+      
+    
+      context "with a reputation of -9" do
+        setup do
+          @user.reputation = -9
+        end
+
+        context "who doesn't show up" do
+          setup do
+            @user.no_show_for(@order)
+          end
+
+          should "be reduced to a -10 reputation" do
+            assert_equal(-10, @user.reputation)
+          end
+        end
+      
+      end
+    
+      context "with a reputation of 10" do
+        setup do
+          @user.reputation = 10
+        end
+
+        context "who picks up an order" do
+          setup do
+            @user.picks_up(@order)
+          end
+
+          should "remain on a 10 reputation" do
+            assert_equal 10, @user.reputation
+          end
+        end
+      
+      end
     end
+
   
     should_validate_uniqueness_of :email, :case_sensitive => false
 

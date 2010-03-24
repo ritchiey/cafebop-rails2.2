@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 
+  WORST_REPUTATION = -10
+  BEST_REPUTATION = 10
+
   acts_as_authentic
   easy_roles :roles
   include Gravatar
@@ -26,6 +29,8 @@ class User < ActiveRecord::Base
     current_login_at    :datetime
     current_login_ip    :string
     email_offers        :boolean, :default=>true
+    dob                 :date
+    reputation          :integer, :default=>0
     timestamps
   end                          
   
@@ -153,6 +158,17 @@ class User < ActiveRecord::Base
   end
   
   def no_show_for(order)
-    # TODO: Implement reputation
+    return if order.paid_at
+    self.reputation = reputation - 4
+    self.reputation = WORST_REPUTATION if self.reputation < WORST_REPUTATION
+    save!
   end
+  
+  def picks_up(order)
+    return if order.paid_at
+    self.reputation = reputation + 1
+    self.reputation = BEST_REPUTATION if self.reputation > BEST_REPUTATION
+    save!
+  end
+  
 end
