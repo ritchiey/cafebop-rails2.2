@@ -34,9 +34,13 @@ class User < ActiveRecord::Base
     timestamps
   end                          
   
+  before_save :update_dob
+  
   # This is a bit ugly. I've just placed this here to let the
   # form processed by activate_invited work.
   attr_accessor :remember_me
+  
+  attr_accessor :dob_day, :dob_month
   
   acts_as_mappable :default_distance=>:miles
          
@@ -57,7 +61,6 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/io, :on => :create
   validates_uniqueness_of :email 
   
-                                           
   def to_s() name || shortened_email; end 
   
   def add_favourite(shop_id)
@@ -179,6 +182,20 @@ class User < ActiveRecord::Base
     else
       "negative #{reputation}"
     end
+  end
+  
+  private
+  
+  def update_dob
+    if @dob_day and @dob_day.length >0 and @dob_month and @dob_month.length > 0
+      self.dob = Date.parse("2000-#{@dob_month}-#{@dob_day}")
+    end
+  end
+
+  # TODO: Make this take the current timezone into account
+  def birthday?
+    now = Time.now
+    dob.day == now.day and dob.mday == now.mday
   end
   
 end

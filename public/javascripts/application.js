@@ -8,11 +8,15 @@ var cb = {
   requestSignup: function() {
     this.showSignup();
     this.requestAuth();
+    $('#user_email').focus();
+    $('#user_email').select();
   },
   
   requestLogin: function() {
     this.showLogin();
     this.requestAuth();
+    $('#user_session_email').focus();
+    $('#user_session_email').select();
   },
   
   requestAuth: function() {
@@ -21,7 +25,7 @@ var cb = {
   
   showSignup: function() {
     $('#authForm').dialog('option', 'title', 'Sign Up');
-    $('#authForm').dialog('option', 'width', 700);
+    $('#authForm').dialog('option', 'width', 600);
     $('#authForm').dialog('option', 'height', 600);
     $('#authForm .login').hide();
     $('#authForm .signup').show();
