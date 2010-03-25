@@ -306,7 +306,7 @@ td.notes
   
 a
   color: #e76f00
-  text-decoration: none
+//  text-decoration: none
 
   &:hover
     border-bottom: 1px solid      
@@ -359,8 +359,12 @@ a
   -khtml-opacity: 0.35
   opacity: 0.35
 
-.login-message, .signup-message
+.login-message, .signup-message, .about-cafebop-signup
   :margin-bottom  1em
+
+//#auth-form form.formtastic fieldset ol li label
+#user-password-input label, #user-password-confirmation-input label !important
+  :width 75%
 
 #static-map
   margin-top: 18px

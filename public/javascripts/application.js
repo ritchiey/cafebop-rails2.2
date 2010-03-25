@@ -25,8 +25,8 @@ var cb = {
   
   showSignup: function() {
     $('#authForm').dialog('option', 'title', 'Sign Up');
-    $('#authForm').dialog('option', 'width', 600);
-    $('#authForm').dialog('option', 'height', 600);
+    $('#authForm').dialog('option', 'width', 700);
+    $('#authForm').dialog('option', 'height', 675);
     $('#authForm .login').hide();
     $('#authForm .signup').show();
   },
@@ -335,7 +335,7 @@ $(function() { // page ready
     return false;
   });
 
-  $('#pay-in-shop-button').click(function(e) {
+  $('#pay-in-shop-button.to-queue').click(function(e) {
     if (current_user) {
       return true;
     } else {

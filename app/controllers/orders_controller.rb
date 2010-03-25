@@ -83,18 +83,16 @@ class OrdersController < OrdersRelatedController
 
 
   def pay_in_shop
-    # Must be authenticated
-    unless current_user
-      flash[:notice] = "You'll need a Cafebop account place your order."
-      redirect_to signup_path(:order_id=>@order.id)
-      return
+    if @shop.queues_in_shop_payments?
+      # Must be authenticated
+      unless current_user
+        flash[:notice] = "You'll need a Cafebop account place your order."
+        redirect_to signup_path(:order_id=>@order.id)
+        return
+      end
     end
-    if @order.can_be_queued?
-      @order.pay_in_shop!
-      redirect_to @order
-    else
-      redirect_to get_name_for_order_path(@order)
-    end
+    @order.pay_in_shop!
+    redirect_to @order
   end            
 
 

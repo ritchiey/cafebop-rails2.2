@@ -21,7 +21,7 @@
             -#=submit_tag "Pay with PayPal", :id=>'pay-paypal-button', :class=>'confirm-link order-closed', :disabled=>@order.waiting_for_close?
             %br
           -if @shop.accepts_in_shop_payments?
-            =submit_tag "Pay In Shop", :id=>'pay-in-shop-button', :class=>'order-closed', :disabled=>@order.waiting_for_close?
+            =submit_tag "Pay In Shop", :id=>'pay-in-shop-button', :class=>"order-closed #{@shop.accepts_queued_orders? ? 'to-queue':'to-print'}", :disabled=>@order.waiting_for_close?
   -elsif @order.confirmed?
     %h3 Order confirmed
     

@@ -137,33 +137,6 @@ class OrdersControllerTest < ActionController::TestCase
       
     end
     
-  # 
-  #   should "be able to be updated" do
-  #   
-  #   end                        
-  # 
-  #   should "be able to confirmed" do
-  #   
-  #   end
-  # 
-  #   should "be able to be summarised" do
-  #   
-  #   end
-  # 
-  #   should "not be able to be accepted" do
-  #   
-  #   end
-  # 
-  #   should "not be able to be declined" do
-  #   
-  #   end
-  # 
-  #   should "not be able to be closed when not invited" do
-  #   
-  #   end
-  # 
-  
-    
   end
   
   

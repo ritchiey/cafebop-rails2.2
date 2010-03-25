@@ -312,10 +312,7 @@ td.notes {
   font-style: italic; }
 
 a {
-  color: #e76f00;
-  text-decoration: none; }
-  a:hover {
-    border-bottom: 1px solid; }
+  color: #e76f00; }
 
 .tooltip {
   display: none;
@@ -365,8 +362,11 @@ a {
   -khtml-opacity: 0.35;
   opacity: 0.35; }
 
-.login-message, .signup-message {
+.login-message, .signup-message, .about-cafebop-signup {
   margin-bottom: 1em; }
+
+#user-password-input label, #user-password-confirmation-input label !important {
+  width: 75%; }
 
 #static-map {
   margin-top: 18px; }
