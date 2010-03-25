@@ -1,9 +1,15 @@
 :plain
 
-  Your order for #{@order.shop} is ready. If you haven't already, you should head
-  down to #{@order.shop} to collect it.
+  Your order for #{@shop} is ready. If you haven't already, you should head
+  down to #{@shop} to collect it.
   
   Full details are here:
     #{order_url(@order)}
-  
-  Feedback: Send complaints, praise or suggestions by replying to this email.
+
+-if @user.reputation > 2
+  :plain
+    Thank you for being a reliable customer.
+-else
+  :plain
+    Help us serve you better.
+    Build your karma by always picking up your orders.

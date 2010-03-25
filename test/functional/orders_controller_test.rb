@@ -79,16 +79,38 @@ class OrdersControllerTest < ActionController::TestCase
           @order.stubs(:can_be_queued?).returns(true)
         end
 
-        context "paying in shop" do
+        context "if the shop queues in shop payments" do
           setup do
-            post :place, :commit=>'Pay In Shop', :id=>@order.id
+            @shop.expects(:queues_in_shop_payments?).at_least_once.returns(true)
           end
 
-          should_redirect_to("signup page") {signup_path(:order_id=>@order.id)}
-          # before_should "call pay_in_shop!" do
-          #   @order.expects(:pay_in_shop).once
-          # end
+          context "paying in shop" do
+            setup do
+              post :place, :commit=>'Pay In Shop', :id=>@order.id
+            end
+
+            should_redirect_to("signup page") {signup_path(:order_id=>@order.id)}
+          end
+
         end
+        
+        context "if the shop does not queue in shop payments" do
+          setup do
+            @shop.expects(:queues_in_shop_payments?).at_least_once.returns(false)
+          end
+
+          context "paying in shop" do
+            setup do
+              post :place, :commit=>'Pay In Shop', :id=>@order.id
+            end
+            before_should "call pay_in_shop!" do
+              @order.expects(:pay_in_shop!).once
+            end
+            should_redirect_to("the show order page") {order_path(@order)}
+          end
+        end
+        
+        
       end
       
     end

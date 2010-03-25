@@ -59,7 +59,7 @@ class Notifications < ActionMailer::Base
     recipients order.user.email
     from       ORDERING_EMAIL
     sent_on    Time.now
-    body       :order=>order
+    body       :order=>order, :user=>order.user, :shop=>order.shop
   end
   
   def order_cancelled(order)
