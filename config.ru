@@ -2,7 +2,9 @@
 
 require "config/environment"
 
-# use SassOnHeroku 
+if RAILS_ENV == 'production'
+  use SassOnHeroku 
+end
 use Rails::Rack::LogTailer
 use Rails::Rack::Static
 run ActionController::Dispatcher.new
