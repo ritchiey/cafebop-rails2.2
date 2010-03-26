@@ -35,7 +35,17 @@ class QueuedOrderItemsController < ApplicationController
         order_item.make!
       end
       respond_to do |format|
-        format.json { render :json=>true}
+        # send back the whole order
+        format.json do
+          unless @order_items.empty?
+            @order = @order_items.first.order
+            json = @order.to_json(
+              :only=>[:id, :notes, :name, :state],
+              :methods=>[:grand_total, :summary, :summarized_order_items, :effective_name, :queued_at_utc, :reputation_s]
+            )
+          end
+          render :json=>json
+        end
       end
     end
     

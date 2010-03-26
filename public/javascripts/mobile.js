@@ -147,24 +147,29 @@ var app = {
   		options['withLoadedObject'] && options['withLoadedObject'](obj);
   		// Set page title
   		$(titleSelector).text(getTitle(obj));
-		
-  		// Populate each list on the page
-  		$(pageSelector + ' .item-list').each(function(index, itemList) {
-  		  var subCollectionName = app.underscore($(itemList).attr('id'));
-  		  if (subCollectionName == null) return; // todo throw exception here
-  		  if (obj[subCollectionName] == null)  return; // todo throw exception
-  		  var entries = jQuery.map(obj[subCollectionName], function(subObj, index) {
-  			return entryToHtml(subObj, subCollectionName, index);
-  		  });
-  		  $(itemList).empty();
-  		  if (entries.length == 0) {
-  		    entries.push(emptyList(subCollectionName))
-  		  } 
-  		  $(itemList).append(entries.join(''));
-  		});
+  		app.populateLists(pageSelector, obj, entryToHtml);
   	  });
   	}
   },   
+
+
+  populateLists: function(pageSelector, parentObject, entryToHtml) {
+		$(pageSelector + ' .item-list').each(function(index, itemList) {app.populateList(index, itemList, parentObject, entryToHtml);});
+  },
+
+  populateList: function(index, itemList, parentObject, entryToHtml) {
+  	  var subCollectionName = app.underscore($(itemList).attr('id'));
+  	  if (subCollectionName == null) return; // todo throw exception here
+  	  if (parentObject[subCollectionName] == null)  return; // todo throw exception
+  	  var entries = jQuery.map(parentObject[subCollectionName], function(subObj, index) {
+  		return entryToHtml(subObj, subCollectionName, index);
+	  });
+	  $(itemList).empty();
+	  if (entries.length == 0) {
+	    entries.push(emptyList(subCollectionName))
+	  } 
+	  $(itemList).append(entries.join(''));
+	},
 
   listLink: function(label, a_classes, target_id, options) {
   	options = options || {};
@@ -302,46 +307,49 @@ var app = {
   	app.loadDynamicPage('#show-customer-queue', 'customer_queue', options);
   },   
 
-
-  loadShowQueuedOrder: function() {
+  showLoadedOrder: function(order) {
   	var $order_controls = $('#show-queued-order .order-controls');
   	var $deliver = $('#show-queued-order .deliver');
   	var $make_all_items = $('#show-queued-order .make-all-items');
+	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+
+	    order.effective_name +
+	    " ("+ order.reputation_s+")")
+	  app.updateOrderAge(order);
+  	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
+		app.current_order = order;
+		$('.cancel-order').show();
+		if (order.state == 'made') {
+		  $deliver.show();
+		  $make_all_items.hide();
+		} else {
+		  $deliver.hide();
+		  $make_all_items.show();
+		}
+	  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total));
+	  $order_controls.show();
+  },
+
+  loadShowQueuedOrder: function() {
   	app.loadDynamicPage('#show-queued-order', 'queued_order', {
   	  serverObjectName: 'order',
   	  serverControllerName: 'queued_orders',
   	  // store the order for use when showing order items
-  	  withLoadedObject: function(order) {
-    	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+
-    	    order.effective_name +
-    	    " ("+ order.reputation_s+")")
-    	  app.updateOrderAge(order);
-      	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
-    		app.current_order = order;
-    		$('.cancel-order').show();
-    		if (order.state == 'made') {
-    		  $deliver.show();
-    		  $make_all_items.hide();
-    		} else {
-    		  $deliver.hide();
-    		  $make_all_items.show();
-    		}
-  		  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total));
-  		  $order_controls.show();
-  	  },
+  	  withLoadedObject: app.showLoadedOrder,
   	  getTitle: function(order) {return "Order"},
-  	  entryToHtml: function(order_item, list_name, index) {
-  		return app.listLink(order_item.quantity+' '+order_item.description,
-  		  'to-show-queued-order-item', index, {
-  			li_classes: order_item.state,
-  			subLink: order_item.notes,
-  			counter: app.as_currency(order_item.quantity * order_item.price_in_cents / 100.0) +
-  			  " <input type='checkbox' class='made-check' name='made' " +
-  			    ((order_item.state=='made')? "CHECKED ":"") +
-  			    " value='" + index+ "'></input>"
-  		  })
-  	  }
+  	  entryToHtml: app.orderItemToHtml
   	});
+  },
+
+  orderItemToHtml: function(order_item, list_name, index) {
+	return app.listLink(order_item.quantity+' '+order_item.description,
+	  'to-show-queued-order-item', index, {
+		li_classes: order_item.state,
+		subLink: order_item.notes,
+		counter: app.as_currency(order_item.quantity * order_item.price_in_cents / 100.0) +
+		  " <input type='checkbox' class='made-check' name='made' " +
+		    ((order_item.state=='made')? "CHECKED ":"") +
+		    " value='" + index+ "'></input>"
+	  })
   },
 
   updateOrderAge: function(order) {
@@ -423,7 +431,10 @@ $('.made-check').tap(function(e) {
    type: 'POST',
    url: '/queued_order_items/make_all',
    data: $.param(data, true),
-   complete: function(XMLHttpRequest, textStatus) {
+   success: function(d, textStatus, xmlHttpRequest) {
+     var order = d.order;
+     app.showLoadedOrder(order); 
+     app.populateLists('#show-queued-order', order, app.orderItemToHtml);
    },
    dataType: 'json'
   });
