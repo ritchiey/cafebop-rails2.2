@@ -18,6 +18,17 @@ protected
       redirect_to new_shop_order_path(@shop)
     end
   end
+
+  def order_with_items_and_shop_menu_from_id
+    @order = Order.find(params[:id], :include=>[
+      :order_items, {
+        :shop=>[:operating_times, {:menus=>{:menu_items=>[:sizes,:flavours]}}]
+      }
+    ])
     
+    @shop = @order.shop
+  end
+
+
 
 end

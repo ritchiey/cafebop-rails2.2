@@ -4,8 +4,9 @@ UserObserver.instance
 class OrdersController < OrdersRelatedController
 
   around_filter :with_order_from_token, :only => [:accept, :decline]
-  before_filter :order_with_items_from_id, :only => [:show, :edit, :summary, :status_of_pending, :status_of_queued]
+  before_filter :order_with_items_from_id, :only => [:show, :summary, :status_of_pending, :status_of_queued]
   before_filter :order_from_id, :only=>[:update, :send_invitations, :place, :cancel_paypal, :invite, :closed, :confirm, :close, :destroy, :deliver, :get_name_for]
+  before_filter :order_with_items_and_shop_menu_from_id, :only => [:edit]
   before_filter :ask_to_vote, :only => [:new, :edit]
   before_filter :check_paypal_status, :only => [:show]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
@@ -57,7 +58,6 @@ class OrdersController < OrdersRelatedController
 
                               
   def edit
-    @shop = @order.shop
   end
 
   def update
