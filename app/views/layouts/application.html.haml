@@ -24,7 +24,7 @@
     = javascript_include_tag 'application.js'
     / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]   
     =javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? 
-    =javascript_tag "var current_user = #{current_user ? '#{current_user}' : 'null'};"
+    =javascript_tag "var current_user = #{current_user ? "'#{current_user}'" : 'null'};"
     = yield(:head)
 
     %style{ :type => "text/css" }

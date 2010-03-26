@@ -20,10 +20,16 @@ class Shop < ActiveRecord::Base
     lng     :float
     location_accuracy :integer # Google's GGeoAddressAccuracy
     generic_orders :boolean, :default=>true
+    display_name :boolean, :default=>true
+    tile_border  :boolean, :default=>true
     header_background_updated_at :datetime
     header_background_file_name :string
     header_background_content_type :string
     header_background_file_size :integer
+    border_background_updated_at :datetime
+    border_background_file_name :string
+    border_background_content_type :string
+    border_background_file_size :integer
     votes_count :integer, :default=>0
     timestamps   
   end    
@@ -39,7 +45,7 @@ class Shop < ActiveRecord::Base
   # before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :franchise_id, :refund_policy
+        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -97,8 +103,12 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :menus 
   acts_as_mappable
   
+  has_attached_file :border_background,
+      paperclip_options('shops')
+
   has_attached_file :header_background,
       paperclip_options('shops').merge(:styles=>{:header=>"950x180>"})
+
       
 
   named_scope :by_name_suburb_or_postcode, lambda  {|term|

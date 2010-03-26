@@ -5,7 +5,8 @@
     -if shop.new_record?
       %h2 New Shop
     -else
-      %h2=h shop.name
+      -if shop.display_name
+        %h2=h shop.name
       .no-print
         %p=separated([claim_shop_link(shop), edit_shop_link(shop), order_history_link(shop), place_order_link(shop), delete_shop_link(shop)])
         -if current_user.andand.can_access_queues_of?(shop)
@@ -28,6 +29,9 @@
         %tr
           %td
             =h @shop.street_address
+            -if @shop.phone and @shop.phone.length > 0
+              %br
+              Ph: #{h @shop.phone}
           %td
             -if @shop.accepts_paypal_payments?
               != render :partial => 'shops/now_accepting_paypal'

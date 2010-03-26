@@ -89,7 +89,11 @@ module ApplicationHelper
 #8CBAD0          
                                             
   def page_background
-    "url(/gradient_images/250:B9C2A0:D0D4C2.png) repeat-x #D0D4C2"
+    if @shop and @shop.border_background
+      "url(#{@shop.border_background.url}) #{@shop.tile_border ? "repeat":"no-repeat"} #D0D4C2"
+    else
+      "url(/gradient_images/250:B9C2A0:D0D4C2.png) repeat-x #D0D4C2"
+    end
   end
   
   def header_background
