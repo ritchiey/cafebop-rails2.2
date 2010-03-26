@@ -10,4 +10,7 @@
 /public/assets
 .*.sw*
 webrat-*.html
-rerun.txt
+/rerun.txt
+.idea
+nbproject
+
