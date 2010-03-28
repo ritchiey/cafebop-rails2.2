@@ -20,24 +20,6 @@ ENV['RECAPTCHA_PUBLIC_KEY'] ||= '6LdFsQcAAAAAACX_QQwav_HmW9EyFvhcY3GgjINV'
 ENV['RECAPTCHA_PRIVATE_KEY'] ||= '6LdFsQcAAAAAAN2jPSftzNNhWO0uduT-0LymVTP4'
 
 
-module ActionController
-  module Routing
-    class RouteSet
-      def extract_request_environment(request)
-        { :method => request.method, :host => request.host.split('.').first }
-      end
-    end
-    class Route
-      def recognition_conditions_with_host
-        result = recognition_conditions_without_host
-        result << 'conditions[:host] === env[:host]' if conditions[:host]
-        result
-      end
-      alias_method_chain :recognition_conditions, :host
-    end
-  end
-end
-
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
