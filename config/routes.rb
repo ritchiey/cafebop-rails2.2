@@ -94,6 +94,7 @@ ActionController::Routing::Routes.draw do |map|
     }
 
 
+
   map.root :controller => "front", :action=>'index'
 
   # The priority is based upon order of creation: first created -> highest priority.
