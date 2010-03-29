@@ -64,7 +64,6 @@ class ShopsController < ApplicationController
   end
   
   def refund_policy_for
-    
   end
   
   def edit
