@@ -1,6 +1,6 @@
 -if @shop.accepts_queued_orders?
   Item queueing is currently enabled for this shop
-  =button_to_remote "Disable Queuing", :url=>stop_queuing_shop_path, :method=>:put, :confirm=>"If you proceed, customers will only be able to place printed orders. Normally, you would just stop each queue from accepting orders. Are you sure you want to do this?", :update=>'queuing-status'
+  =button_to_remote "Disable Queuing", :url=>stop_queuing_shop_path(@shop), :method=>:put, :confirm=>"If you proceed, customers will only be able to place printed orders. Normally, you would just stop each queue from accepting orders. Are you sure you want to do this?", :update=>'queuing-status'
 -else
   Item queueing is currently disabled for this shop
-  =button_to_remote "Enable Queuing", :url=>start_queuing_shop_path, :method=>:put, :confirm=>"Only proceed if you are ready to monitor your queues on an on-going basis. Are you sure?", :update=>'queuing-status'
+  =button_to_remote "Enable Queuing", :url=>start_queuing_shop_path(@shop), :method=>:put, :confirm=>"Only proceed if you are ready to monitor your queues on an on-going basis. Are you sure?", :update=>'queuing-status'

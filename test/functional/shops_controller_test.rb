@@ -9,12 +9,16 @@ class ShopsControllerTest < ActionController::TestCase
   
   setup :activate_authlogic
 
+
   context "With a shop" do
     setup do
+      @permalink = "myshop"
       @shop = Shop.make_unsaved
+      @shop.stubs(:permalink).returns(@permalink)
       @shop.stubs(:id).returns(12)
       Shop.stubs(:find).returns(@shop)
-      Shop.stubs(:find_by_id_or_permalink).returns(@shop)
+      Shop.stubs(:find_by_id_or_permalink).with(@permalink).returns(@shop)
+      #controller.stubs(:current_subdomain).returns(@permalink)
     end
     
     context "which is community" do
@@ -25,7 +29,7 @@ class ShopsControllerTest < ActionController::TestCase
       context "when unauthenticated" do
       
         should "not be able to update a shop's details" do
-          put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
+          put :update, :shop=>{:name=>"Sniggles"}
           assert_redirected_to login_url
         end
         
@@ -33,7 +37,7 @@ class ShopsControllerTest < ActionController::TestCase
           setup do
             assert_not_nil @shop     
             @shop.expects(:update_attributes).with(any_parameters).once.returns(true)
-            put :update, :id=>@shop.id, :shop=>{:cuisine_ids=>[3,5]}
+            put :update, :shop=>{:cuisine_ids=>[3,5]}
             assert_equal @shop, controller.send(:find_instance)
           end
 
@@ -64,12 +68,12 @@ class ShopsControllerTest < ActionController::TestCase
       context "when unauthenticated" do
 
         should "not be able to edit shop" do
-          get :edit, :id => @shop.to_param    
+          get :edit
           assert_redirected_to login_url
         end
 
         should "not be able to update a shop's details" do
-          put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
+          put :update, :shop=>{:name=>"Sniggles"}
           assert_redirected_to login_url
         end
       
@@ -88,7 +92,7 @@ class ShopsControllerTest < ActionController::TestCase
           
       
         should "not be able to delete a shop" do
-          delete :destroy, :id => @shop.to_param
+          delete :destroy
           assert_redirected_to login_url
         end
       
@@ -101,7 +105,7 @@ class ShopsControllerTest < ActionController::TestCase
         end
 
         should "not be able to edit shop" do
-          get :edit, :id => @shop.to_param    
+          get :edit
           assert_redirected_to new_shop_order_url(@shop)
         end
 
@@ -147,12 +151,12 @@ class ShopsControllerTest < ActionController::TestCase
         end
 
         should "be able to edit shop" do
-          get :edit, :id => @shop.to_param
+          get :edit
           assert_template 'edit'
         end     
               
         should "be able to update a shop" do
-          put :update, :id=>@shop.to_param, :shop=>{:name=>"Gumbys"}
+          put :update, :shop=>{:name=>"Gumbys"}
           @shop.reload
           assert_redirected_to new_shop_order_url(@shop)
           assert_equal "Gumbys", @shop.name
@@ -167,12 +171,12 @@ class ShopsControllerTest < ActionController::TestCase
         end
       
         should "be able to edit shop" do
-          get :edit, :id => @shop.to_param
+          get :edit
           assert_template 'edit'
         end     
               
         should "be able to update a shop" do
-          put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
+          put :update, :shop=>{:name=>"Sniggles"}
           @shop.reload
           assert_redirected_to new_shop_order_url(@shop)
           assert_equal "Sniggles", @shop.name
@@ -181,7 +185,7 @@ class ShopsControllerTest < ActionController::TestCase
       
         context "deleting the shop" do
           setup do
-            delete :destroy, :id => @shop.to_param
+            delete :destroy
           end
 
           before_should "call destroy on the model" do
