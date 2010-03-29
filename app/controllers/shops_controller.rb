@@ -140,7 +140,7 @@ class ShopsController < ApplicationController
 private
 
     def find_instance  
-      @shop = Shop.find_by_id_or_permalink(params[:id])
+      @shop = Shop.find_by_id_or_permalink(params[:id] || current_subdomain)
     end
 
     def can_edit

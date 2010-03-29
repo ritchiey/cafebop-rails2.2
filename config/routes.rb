@@ -93,7 +93,7 @@ ActionController::Routing::Routes.draw do |map|
     :credits => :get
     }
 
-
+  map.shop_root '', :controller=>:shops, :action=>:show, :conditions=>{:subdomain=>/.+/}
 
   map.root :controller => "front", :action=>'index'
 
