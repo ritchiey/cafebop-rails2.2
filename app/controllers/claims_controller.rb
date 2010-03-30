@@ -25,7 +25,7 @@ class ClaimsController < ApplicationController
   def review
     @claim.review!(current_user)     
     @claim.save
-    redirect_to @claim
+    redirect_to claim_path(@claim)
   end                 
   
   def show     
@@ -36,13 +36,8 @@ class ClaimsController < ApplicationController
   end                               
   
   def confirm
-    @claim.confirm!
-    if @claim.save
-      flash[:notice] = "Claim confirmed"
-      redirect_to claims_path
-    else
-      render @claim
-    end
+    @claim.confirm! and flash[:notice] = "Claim confirmed"
+    redirect_to claims_path
   end
   
   def reject

@@ -52,7 +52,10 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   def login_as_admin  
-    make_admin.tap {|user| login_as user}
+    # make_admin.tap {|user| login_as user}
+    @admin = User.make_unsaved(:active)
+    @admin.stubs(:is_admin?).returns(true)
+    controller.stubs(:current_user).returns(@admin)
   end               
 
   def make_admin

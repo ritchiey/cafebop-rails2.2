@@ -4,178 +4,170 @@ class ClaimsControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
 
-  context "With a community shop" do
+  context "with a claimable shop" do
     setup do
-      @shop = Shop.make
-      @shop.transition_to('community')
-      assert @shop.community?
-    end
-    
-    context "with another claim against it" do
-      setup do
-        @other_user = User.make(:active)
-        @other_claim = @shop.claims.make(:user=>@other_user)
-        assert @other_claim.pending?
+      claims = mock
+      @shop = mock("shop") do
+        stubs(:name).returns("My Shop")
+        stubs(:to_param).returns(12)
+        stubs(:claims).returns(claims)  
+        stubs(:can_be_claimed_by?).returns(true)
       end
-                 
-      context "when authenticated as an administrator" do
+      Shop.stubs(:find_by_id_or_permalink).returns(@shop)  
+    end
+  
+    context "Given an existing claim" do
+      setup do
+        @existing_claim = mock('existing claim') do
+          stubs(:to_param).returns("16")
+        end
+        Claim.stubs(:find).returns(@existing_claim)
+      end
+               
+      context "when authenticated as a claims reviewer" do
         setup do
-          login_as_admin
+          controller.stubs(:current_user).returns(mock(:can_review_claims? => true))
         end
-         
-        should "be able to review a claim" do
-          assert_difference "Claim.state_eq('under_review').count", 1 do
-            put :review, :id=>@other_claim.id
+       
+        context "reviewing the claim" do
+          setup do
+            @existing_claim.expects(:review!)#.with(@admin)
+            @existing_claim.expects(:save).returns(true)
+            put :review, :id=>@existing_claim.to_param
           end
-        end
+          before_should "call review! on model" do
 
+          end
+          should_redirect_to("claim") {claim_path(@existing_claim)}
+        end
       end
 
       context "which is under review" do
         setup do             
-          @reviewer = make_admin
-          @other_claim.review!(@reviewer)
-          assert @other_claim.under_review?
+          @existing_claim.stubs(:under_review?).returns(true)
         end
 
          context "when unauthenticated" do
-           should "not be able to lodge a claim" do
-             assert_no_difference "Claim.count" do                           
-               @user= User.make(:active)
+           setup do
+            controller.stubs(:current_user).returns(nil)
+           end
+
+           context "lodging a claim" do
+             setup do
                post :create, :shop_id=>@shop.to_param, :claim=>{:user=>@user}
              end
-           end                                 
-
-           should "not be able to review a claim" do
-             assert_no_difference "Claim.state_eq('under_review').count" do
-               put :review, :id=>@other_claim.id
-             end
+             should_require_login
            end
-   
-           should "not be able to confirm a claim" do
-             assert_no_difference "Claim.state_eq('confirmed').count" do
-               put :confirm, :id=>@other_claim.id
+         
+           context "attempting to review it" do
+             setup do
+               put :review, :id=>@existing_claim.to_param
              end
+             should_require_login
            end
-
-           should "not be able to reject a claim" do
-             assert_no_difference "Claim.state_eq('rejected').count" do
-               put :reject, :id=>@other_claim.id
+         
+          
+           context "attempting to confirm a claim" do
+             setup do
+               put :confirm, :id=>@existing_claim.to_param
              end
+             should_require_login
            end
-   
-           should "not be able to destroy a claim" do
-             assert_no_difference "Claim.count" do
-               delete :destroy, :id=>@other_claim.id
+          
+           context "attempting to reject a claim" do
+             setup do
+               put :reject, :id=>@existing_claim.to_param
              end
+             should_require_login
            end
+         
+           context "attempting to destroy a claim" do
+             setup do
+               delete :destroy, :id=>@existing_claim.to_param
+             end
+             should_require_login
+           end  
          end
 
          context "when authenticated as an active user" do
            setup do
-             @user = User.make(:active)
-             login_as @user
+             @user = User.make_unsaved(:active)
+             controller.stubs(:current_user).returns(@user)
            end
-
-           should "be able to lodge a claim" do
-             assert_difference "Claim.count", 1 do
-               @user= User.make(:active)
+         
+           context "lodging a claim" do
+             setup do
+               @shop.claims.expects(:build).returns(mock(:save=>true))
                post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :last_name=>'Riddle', :agreement=>'i agree'}
-             end
-           end                                 
-
-           should "not be able to review a claim" do
-             assert_no_difference "Claim.state_eq('under_review').count" do
-               put :review, :id=>@other_claim.id
-             end
+             end         
+             should_redirect_to("ordering screen for shop") {new_shop_order_path(@shop)}
            end
-   
-           should "not be able to confirm a claim" do
-             assert_no_difference "Claim.state_eq('confirmed').count" do
-               put :confirm, :id=>@other_claim.id
+         
+           context "reviewing a claim" do
+             setup do
+               put :review, :id=>@existing_claim.to_param
              end
+             should_not_be_allowed
            end
-
-           should "not be able to reject a claim" do
-             assert_no_difference "Claim.state_eq('rejected').count" do
-               put :reject, :id=>@other_claim.id
+            
+           context "confirming a claim" do
+             setup do
+               put :confirm, :id=>@existing_claim.to_param
              end
+             should_not_be_allowed
            end
-   
-           should "not be able to destroy a claim" do
-             assert_no_difference "Claim.count" do
-               delete :destroy, :id=>@other_claim.id
+           
+           context "rejecting a claim" do
+             setup do
+               put :reject, :id=>@existing_claim.to_param
              end
+             should_not_be_allowed
            end
-
-
+           
+           context "destroying a claim" do
+             setup do
+               delete :destroy, :id=>@existing_claim.to_param
+             end
+             should_not_be_allowed
+           end
+           
          end
 
-         context "when authenticated as an administrator" do
+         context "when authenticated as a claims reviewer" do
            setup do
-             login_as_admin
+             controller.stubs(:current_user).returns(mock(:can_review_claims? => true))
            end
-
-           should "be able to lodge a claim" do
-             assert_difference "Claim.count", 1 do
-               @user= User.make(:active)
-               post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :last_name=>'Riddle', :agreement=>'i agree'}
+           
+           context "confirming a claim" do
+             setup do
+               @existing_claim.expects(:confirm!)
+               put :confirm, :id=>@existing_claim.to_param
              end
-           end                                 
-
-           should "not be able to lodge a claim without agreeing" do
-             assert_no_difference "Claim.count" do
-               @user= User.make(:active)
-               post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :last_name=>'Riddle'}
-             end
-           end                                 
-
-           should "not be able to lodge a claim without specifying both names" do
-             assert_no_difference "Claim.count" do
-               @user= User.make(:active)
-               post :create, :shop_id=>@shop.to_param, :claim=>{:first_name=>'Tom', :agreement=>'i agree'}
-               post :create, :shop_id=>@shop.to_param, :claim=>{:last_name=>'Riddle', :agreement=>'i agree'}
-             end
-           end                                 
-
-
-           should "be able to confirm a claim" do
-             assert_difference "Claim.state_eq('confirmed').count", 1 do
-               put :confirm, :id=>@other_claim.id
-             end
+             should_redirect_to("list of claims") {claims_path}
            end
-
-           should "be able to reject a claim" do
-             assert_difference "Claim.state_eq('rejected').count", 1 do
-               put :reject, :id=>@other_claim.id
+           
+           
+           context "rejecting a claim" do
+             setup do
+               @existing_claim.expects(:reject!)
+               @existing_claim.expects(:save).returns(true)
+               put :reject, :id=>@existing_claim.to_param
              end
+             should_redirect_to("claims path") { claims_path }
            end
-   
-           should "be able to destroy a claim" do
-             assert_difference "Claim.count", -1 do
-               delete :destroy, :id=>@other_claim.id
+          
+           context "destroying the claim" do
+             setup do
+               @existing_claim.expects(:destroy).returns(true)
+               delete :destroy, :id=>@existing_claim.to_param
              end
+             should_redirect_to("claims path") { claims_path }
            end
-
-
-
+         
+         end
        end
- 
+     end 
 
-
-      end
-      
- 
-    end
   end
 
-  context "With an express shop" do
-    setup do
-      @shop = Shop.make
-      @shop.transition_to('express')
-      assert @shop.express?
-    end
-  end
-
-  
-end
+ end

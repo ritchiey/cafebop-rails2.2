@@ -18,7 +18,7 @@ class ShopsControllerTest < ActionController::TestCase
       @shop.stubs(:id).returns(12)
       Shop.stubs(:find).returns(@shop)
       Shop.stubs(:find_by_id_or_permalink).with(@permalink).returns(@shop)
-      #controller.stubs(:current_subdomain).returns(@permalink)
+      controller.stubs(:current_subdomain).returns(@permalink)
     end
     
     context "which is community" do
@@ -144,10 +144,9 @@ class ShopsControllerTest < ActionController::TestCase
     
       context "when logged in as a manager of the shop" do
         setup do
-          @manager = User.make(:active)
-          @shop.work_contracts.make(:user=>@manager, :role=>'manager')
-          assert @shop.save
-          login_as @manager   
+          @manager = User.make_unsaved(:active)
+          @shop.stubs(:is_manager?).with(@manager).returns(true)
+          controller.expects(:current_user).at_least_once.returns(@manager)
         end
 
         should "be able to edit shop" do
@@ -155,34 +154,46 @@ class ShopsControllerTest < ActionController::TestCase
           assert_template 'edit'
         end     
               
-        should "be able to update a shop" do
-          put :update, :shop=>{:name=>"Gumbys"}
-          @shop.reload
-          assert_redirected_to new_shop_order_url(@shop)
-          assert_equal "Gumbys", @shop.name
-        end     
+        context "updating a shop" do
+          setup do
+            put :update, :shop=>@change
+          end
+          
+          before_should "update the shop model" do
+            @change = {:name=>"Sniggles"}
+            @shop.expects(:update_attributes).returns(true)
+          end
+          should_redirect_to("new order for shop") {new_shop_order_path(@shop)}
+        end
+   
             
       end
     
     
       context "when logged in as an administrator" do
         setup do
-          login_as_admin
+          admin = User.make_unsaved(:active)
+          admin.stubs(:is_admin?).returns(true)
+          controller.stubs(:current_user).returns(admin)
         end
       
         should "be able to edit shop" do
           get :edit
           assert_template 'edit'
         end     
+        
+        context "updating a shop" do
+          setup do
+            put :update, :shop=>@change
+          end
+          
+          before_should "update the shop model" do
+            @change = {:name=>"Sniggles"}
+            @shop.expects(:update_attributes).returns(true)
+          end
+          should_redirect_to("new order for shop") {new_shop_order_path(@shop)}
+        end
               
-        should "be able to update a shop" do
-          put :update, :shop=>{:name=>"Sniggles"}
-          @shop.reload
-          assert_redirected_to new_shop_order_url(@shop)
-          assert_equal "Sniggles", @shop.name
-        end     
-              
-      
         context "deleting the shop" do
           setup do
             delete :destroy
