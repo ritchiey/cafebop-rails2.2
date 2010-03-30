@@ -65,7 +65,7 @@ module ApplicationHelper
   end
 
   def edit_shop_link(shop)
-    current_user.andand.can_edit_shop?(shop) ? (link_to_unless_current('Edit', edit_shop_path(shop)) {""} ) : nil
+    current_user.andand.can_edit_shop?(shop) ? (link_to_unless_current('Edit', shop_edit_path(@shop)) {""} ) : nil
   end                            
   
   def delete_shop_link(shop)

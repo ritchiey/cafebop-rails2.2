@@ -10,7 +10,19 @@ class ApplicationController < ActionController::Base
   before_filter :adjust_format_for_mobile
   filter_parameter_logging :password, :password_confirmation
   
-  helper_method :current_user_session, :current_user, :"admin?"
+  helper_method :current_user_session, :current_user, :admin?,
+    :shop_edit_path, :shop_new_order_path
+  
+  
+  # # Fix up routes to be conditionally subdomain specific
+  # alias_method :original_edit_shop_path, :edit_shop_path
+  # def edit_shop_path(shop)
+  #   if shop.permalink
+  #     edit_path(:subdomain=>shop.permalink)
+  #   else
+  #     original_edit_shop_path(shop)
+  #   end
+  # end 
   
   def persist_to store, target, options={}
     Persistence.persist_to store, target, options
@@ -107,6 +119,25 @@ class ApplicationController < ActionController::Base
       session[:return_to] = nil
     end
   end
+
+
+  def shop_edit_path(shop)
+    shop or return nil
+    if shop.permalink
+      edit_url(:subdomain=>shop.permalink)
+    else
+      edit_shop_path(shop)
+    end
+  end
+  
+  def shop_new_order_path(shop)    
+    if shop.permalink
+      new_order_url(:subdomain=>shop.permalink)
+    else
+      new_shop_order_path(shop)
+    end
+  end
+
 
 
 protected

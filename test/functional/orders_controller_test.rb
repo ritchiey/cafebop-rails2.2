@@ -1,9 +1,5 @@
 require 'test_helper'
 
-# Don't know how to write this. Orders are dependent on shops and you
-# can only manipulate your own order. So I don't know how to write effective
-# functional tests for this. See order_ownership_test.rb
-
 class OrdersControllerTest < ActionController::TestCase
   setup :activate_authlogic                                  
   

@@ -314,7 +314,6 @@ class Shop < ActiveRecord::Base
     Cuisine.matching_name(name).each {|c| shop_cuisines.create(:cuisine=>c)}
   end    
 
-  
   private
   
   def set_permalink
@@ -326,5 +325,5 @@ class Shop < ActiveRecord::Base
   def calc_permalink
     self[:name] and self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "").downcase
   end
-
+    
 end

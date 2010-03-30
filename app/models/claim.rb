@@ -65,6 +65,7 @@ class Claim < ActiveRecord::Base
       self.state = 'confirmed'
       if self.save
         Notifications.send_later(:deliver_claim_confirmed, self)
+        true
       end
     end
   end

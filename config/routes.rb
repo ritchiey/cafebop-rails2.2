@@ -33,6 +33,48 @@ ActionController::Routing::Routes.draw do |map|
     :member=>{:make=>:put},
     :collection=>{:make_all=>:put}
 
+  map.with_options(:conditions => {:subdomain => /.+/}) do |shop|
+    shop.edit "edit", :controller=>'shops', :action=>'edit'
+    shop.refund_policy_for "refund_policy", :controller=>'shops', :action=>'edit'
+    # shop.reorder_menus=>:post,
+    # shop.reorder_item_queues=>:post,
+    # shop.reorder_operating_times=>:post,
+    # shop.start_queuing=>:put,
+    # shop.stop_queuing=>:put,
+    # shop.start_paypal=>:put,
+    # shop.stop_paypal=>:put       
+
+    shop.resources :votes, :only=>[:create]
+    shop.resources :operating_times
+    shop.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
+    shop.resources :customer_queues, :member=>{:current_orders=>:get, :stop=>:put, :start=>:put}
+    shop.resources :claims, :only=>[:new, :create]
+    shop.resources :past_orders
+    shop.resources :orders, :shallow => true, :member => {
+        :status_of_pending => :get,
+        :status_of_queued => :get,
+        :summary => :get,
+        :new => :get,
+        :create => :put,
+        :place => :put,
+        :cancel_paypal => :get,
+        :invite=>:get,
+        :send_invitations => :put,
+        :confirm => :put,
+        :close=>:put,
+        :closed=>:get
+        } do |orders|
+      orders.resources :order_items, :member=>{:make=>:put}
+    end
+    shop.resources :menus, :shallow=>true, :member=>{:reorder_menu_items=>:post},
+      :collection=>{:import=>:get, :import_csv=>:post} do |menus|
+      menus.resources :menu_items, :shallow=>true, :member=>{:reorder_flavours=>:post, :reorder_sizes=>:post} do |menu_items|
+        menu_items.resources :sizes
+        menu_items.resources :flavours
+      end
+    end 
+  end
+
   map.resources :shops, :shallow=>true,
     :collection=>{
       :search=>:get,
@@ -82,7 +124,7 @@ ActionController::Routing::Routes.draw do |map|
         menu_items.resources :flavours
       end
     end 
-  end    
+  end
   
   map.resources :content, :only=>[], :collection=>{
     :bounty_conditions=>:get,

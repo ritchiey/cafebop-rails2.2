@@ -2,10 +2,10 @@
 
 -if @shop.accepts_paypal_payments?
   %p Online payment with PayPal is currently enabled for this shop
-  =button_to_remote "Disable PayPal", :url=>stop_paypal_shop_path, :method=>:put, :confirm=>"If you proceed, customers no longer be able to pay online with PayPal. Are you sure you want to do this?", :update=>'queuing-status'
+  =button_to_remote "Disable PayPal", :url=>stop_paypal_shop_path(@shop), :method=>:put, :confirm=>"If you proceed, customers no longer be able to pay online with PayPal. Are you sure you want to do this?", :update=>'queuing-status'
 -else
   %p Online payment with PayPal is not yet enabled for this shop
   -if @shop.can_enable_paypal_payments?
-    =button_to_remote "Enable PayPal", :url=>start_paypal_shop_path, :method=>:put, :confirm=>". Are you sure?", :update=>'queuing-status'
+    =button_to_remote "Enable PayPal", :url=>start_paypal_shop_path(@shop), :method=>:put, :confirm=>". Are you sure?", :update=>'queuing-status'
   -else
     %p Queuing must be enabled before PayPal can be enabled.

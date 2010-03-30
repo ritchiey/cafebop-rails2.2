@@ -3,7 +3,7 @@
 -shop = work_contract.shop
 -content_tag_for :tr, shop do
   %td
-    =link_to shop.name, new_shop_order_path(shop), :class=>"shop-entry"
+    =link_to shop.name, shop_new_order_path(shop), :class=>"shop-entry"
     != render :partial => 'shops/tooltip', :object=>shop
   
   %td
