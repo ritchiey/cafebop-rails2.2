@@ -14,17 +14,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user, :admin?,
     :shop_edit_path, :shop_new_order_path
   
-  
-  # # Fix up routes to be conditionally subdomain specific
-  # alias_method :original_edit_shop_path, :edit_shop_path
-  # def edit_shop_path(shop)
-  #   if shop.permalink
-  #     edit_path(:subdomain=>shop.permalink)
-  #   else
-  #     original_edit_shop_path(shop)
-  #   end
-  # end 
-  
   def persist_to store, target, options={}
     Persistence.persist_to store, target, options
   end

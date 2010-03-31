@@ -8,9 +8,6 @@ class OrderItemsController < ApplicationController
     belongs_to :order
   end
   
-  def show
-  end
-
   
   def find_order_item
     @order_item = OrderItem.find(params[:id])
@@ -24,4 +21,5 @@ class OrderItemsController < ApplicationController
       redirect_to new_shop_order_path(shop)
     end
   end
+
 end
