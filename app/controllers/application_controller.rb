@@ -4,7 +4,8 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   before_filter :cookies_required, :except => [:cookies_test]
-  before_filter :find_order_and_or_shop, :except => [:cookies_test]
+  before_filter :fetch_shop, :except => [:cookies_test]
+  # before_filter :fetch_order, :except => [:cookies_test]
   before_filter :default_objects
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :adjust_format_for_mobile
@@ -164,7 +165,64 @@ protected
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
-private
+
+  def search_term_for_shop
+    current_subdomain || params[:shop_id]
+  end
+
+  def fetch_shop
+    @shop = find_shop(search_term_for_shop)
+  end
+
+  
+  attr_accessor :include_with_shop
+  def include_with_shop
+    @include_with_shop ||= []
+  end
+  
+  def include_menus_with_shop
+    self.include_with_shop += [{:menus=>{:menu_items=>[:sizes,:flavours]}}]
+  end
+
+  def include_operating_times_with_shop
+    self.include_with_shop += [:operating_times]
+  end
+
+  def find_shop term 
+    term or return nil
+    options = {:include=>include_with_shop}
+    Shop.find_by_id_or_permalink(term, options)
+  end
+
+
+  def fetch_order
+    @order = find_order(params[:id])
+  end
+  
+  attr_accessor :include_with_order
+  def include_with_order
+    @include_with_order ||= []
+  end    
+  
+  def include_items_with_order
+    self.include_with_order = [:order_items]
+  end      
+  
+  def find_order param       
+    options = {:include=>include_with_order}
+    if @shop
+      @shop.orders.find(param, options)
+    else
+      order = Order.find(param, options)
+      order and @shop = order.shop
+      order
+    end
+  end
+  
+  
+
+
+protected
 
   def current_user_collections
     if current_user
@@ -213,14 +271,15 @@ private
     session[:asked_to_vote_for] << shop.id
   end
   
+
   # Find the shop by the shop_id parameter if specified in the request and
   # if the @shop instance variable hasn't already been set.
-  def find_order_and_or_shop
-    order_id = params[:order_id]
-    order_id and order_id.length > 0 and @order = Order.find(order_id, :include=>[{:shop=>[:operating_times]}])
-    @order and @shop = @order.shop
-    shop_id = params[:shop_id] and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])
-  end
+  # def find_order_and_or_shop
+  #   order_id = params[:order_id]
+  #   order_id and order_id.length > 0 and @order = Order.find(order_id, :include=>[{:shop=>[:operating_times]}])
+  #   @order and @shop = @order.shop
+  #   shop_id = params[:shop_id] and @shop ||= Shop.find_by_id_or_permalink(shop_id, :include=>[:operating_times])
+  # end
   
   # We set these objects up here for the ajax login and signup forms that
   # appear on every page                   

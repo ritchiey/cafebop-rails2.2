@@ -29,6 +29,4 @@ protected
     @shop = @order.shop
   end
 
-
-
 end

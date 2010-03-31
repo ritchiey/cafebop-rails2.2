@@ -17,7 +17,7 @@ class ShopsControllerTest < ActionController::TestCase
       @shop.stubs(:permalink).returns(@permalink)
       @shop.stubs(:id).returns(12)
       Shop.stubs(:find).returns(@shop)
-      Shop.stubs(:find_by_id_or_permalink).with(@permalink).returns(@shop)
+      Shop.stubs(:find_by_id_or_permalink).with(@permalink, anything).returns(@shop)
       controller.stubs(:current_subdomain).returns(@permalink)
     end
     
@@ -27,31 +27,30 @@ class ShopsControllerTest < ActionController::TestCase
       end
 
       context "when unauthenticated" do
-      
+        
+
         should "not be able to update a shop's details" do
           put :update, :shop=>{:name=>"Sniggles"}
           assert_redirected_to login_url
-        end
-        
+        end 
+      
+      
         context "updating cuisines" do
           setup do
             assert_not_nil @shop     
             @shop.expects(:update_attributes).with(any_parameters).once.returns(true)
             put :update, :shop=>{:cuisine_ids=>[3,5]}
-            assert_equal @shop, controller.send(:find_instance)
           end
 
           before_should "call update_attributes on shop" do       
             # controller.expects(:find_instance).once.returns(@shop)
             #Shop.expects(:find_by_id_or_permalink).once.returns(@shop)  
           end
-          
+        
           should "be ok" do
           end
         end
-        
       end
-
     end
       
     
@@ -64,149 +63,156 @@ class ShopsControllerTest < ActionController::TestCase
         get :search
         assert_redirected_to shops_path
       end
-    
-      context "when unauthenticated" do
 
-        should "not be able to edit shop" do
-          get :edit
-          assert_redirected_to login_url
-        end
-
-        should "not be able to update a shop's details" do
-          put :update, :shop=>{:name=>"Sniggles"}
-          assert_redirected_to login_url
+      context "in the subdomain for that shop" do
+        setup do
+          controller.stubs(:current_subdomain).returns(@permalink)
         end
       
-        context "creating a shop" do
-          setup do
-            post :create, :shop=>{:name=>"Sniggles"}
+
+    
+        context "when unauthenticated" do
+
+          should "not be able to edit shop" do
+            get :edit
+            assert_redirected_to login_url
           end
-          before_should "call new on the model class and save the model" do
-            Shop.expects(:new).with(any_parameters).once.returns(@shop)
-            @shop.expects(:save).once.returns(true)
+
+          should "not be able to update a shop's details" do
+            put :update, :shop=>{:name=>"Sniggles"}
+            assert_redirected_to login_url
           end
-          #should_redirect_to("show page") {new_shop_order_path(@shop)}
-          should "be cool" do
+      
+          context "creating a shop" do
+            setup do
+              post :create, :shop=>{:name=>"Sniggles"}
+            end
+            before_should "call new on the model class and save the model" do
+              Shop.expects(:new).with(any_parameters).once.returns(@shop)
+              @shop.expects(:save).once.returns(true)
+            end
+            #should_redirect_to("show page") {new_shop_order_path(@shop)}
+            should "be cool" do
+            end
           end
-        end
           
       
-        should "not be able to delete a shop" do
-          delete :destroy
-          assert_redirected_to login_url
-        end
+          should "not be able to delete a shop" do
+            delete :destroy
+            assert_redirected_to login_url
+          end
       
-      end
+        end
     
-      context "when logged in as an active user" do
-        setup do
-          @user = User.make(:active)
-          login_as @user
-        end
+        context "when logged in as an active user" do
+          setup do
+            @user = User.make(:active)
+            login_as @user
+          end
 
-        should "not be able to edit shop" do
-          get :edit
-          assert_redirected_to new_shop_order_url(@shop)
-        end
-
-      
-        # context "if it's a community shop" do
-        #   setup do
-        #     @shop.stubs(:state).returns('community')
-        #   end
-        # 
-        #   context "updating the franchise and cuisine" do
-        #     setup do
-        #       put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>@cuisine.id}
-        #     end
-        #     
-        #     before_should "create the appropriate shop_cuisine records" do
-        #       @cuisine = Cuisine.make_unsaved
-        #       @cuisine.stubs(:id=>6)
-        #       ShopCuisine.expects(:create).once.with({:cuisine_id=>@cuisine.id, :shop_id=>@shop.id})
-        #     end
-        #   end
-        #   
-        # end
-      
-        should "not be able to update a shop" do
-          put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
-          assert_redirected_to new_shop_order_path(@shop)
-        end  
-      
-        should "not be able to delete a shop" do
-          assert_no_difference "Shop.count" do
-            delete :destroy, :id => @shop.to_param
+          should "not be able to edit shop" do
+            get :edit
             assert_redirected_to new_shop_order_url(@shop)
           end
-        end
-      end
-    
-      context "when logged in as a manager of the shop" do
-        setup do
-          @manager = User.make_unsaved(:active)
-          @shop.stubs(:is_manager?).with(@manager).returns(true)
-          controller.expects(:current_user).at_least_once.returns(@manager)
-        end
 
-        should "be able to edit shop" do
-          get :edit
-          assert_template 'edit'
-        end     
-              
-        context "updating a shop" do
-          setup do
-            put :update, :shop=>@change
+      
+          # context "if it's a community shop" do
+          #   setup do
+          #     @shop.stubs(:state).returns('community')
+          #   end
+          # 
+          #   context "updating the franchise and cuisine" do
+          #     setup do
+          #       put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>@cuisine.id}
+          #     end
+          #     
+          #     before_should "create the appropriate shop_cuisine records" do
+          #       @cuisine = Cuisine.make_unsaved
+          #       @cuisine.stubs(:id=>6)
+          #       ShopCuisine.expects(:create).once.with({:cuisine_id=>@cuisine.id, :shop_id=>@shop.id})
+          #     end
+          #   end
+          #   
+          # end
+      
+          should "not be able to update a shop" do
+            put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
+            assert_redirected_to new_shop_order_path(@shop)
+          end  
+      
+          should "not be able to delete a shop" do
+            assert_no_difference "Shop.count" do
+              delete :destroy, :id => @shop.to_param
+              assert_redirected_to new_shop_order_url(@shop)
+            end
           end
-          
-          before_should "update the shop model" do
-            @change = {:name=>"Sniggles"}
-            @shop.expects(:update_attributes).returns(true)
-          end
-          should_redirect_to("new order for shop") {new_shop_order_path(@shop)}
         end
+    
+        context "when logged in as a manager of the shop" do
+          setup do
+            @manager = User.make_unsaved(:active)
+            @shop.stubs(:is_manager?).with(@manager).returns(true)
+            controller.expects(:current_user).at_least_once.returns(@manager)
+          end
+
+          should "be able to edit shop" do
+            get :edit
+            assert_template 'edit'
+          end     
+              
+          context "updating a shop" do
+            setup do
+              put :update, :shop=>@change
+            end
+          
+            before_should "update the shop model" do
+              @change = {:name=>"Sniggles"}
+              @shop.expects(:update_attributes).returns(true)
+            end
+            should_redirect_to("new order for shop") {new_shop_order_path(@shop)}
+          end
    
             
-      end
-    
-    
-      context "when logged in as an administrator" do
-        setup do
-          admin = User.make_unsaved(:active)
-          admin.stubs(:is_admin?).returns(true)
-          controller.stubs(:current_user).returns(admin)
         end
+    
+    
+        context "when logged in as an administrator" do
+          setup do
+            admin = User.make_unsaved(:active)
+            admin.stubs(:is_admin?).returns(true)
+            controller.stubs(:current_user).returns(admin)
+          end
       
-        should "be able to edit shop" do
-          get :edit
-          assert_template 'edit'
-        end     
+          should "be able to edit shop" do
+            get :edit
+            assert_template 'edit'
+          end     
         
-        context "updating a shop" do
-          setup do
-            put :update, :shop=>@change
-          end
+          context "updating a shop" do
+            setup do
+              put :update, :shop=>@change
+            end
           
-          before_should "update the shop model" do
-            @change = {:name=>"Sniggles"}
-            @shop.expects(:update_attributes).returns(true)
+            before_should "update the shop model" do
+              @change = {:name=>"Sniggles"}
+              @shop.expects(:update_attributes).returns(true)
+            end
+            should_redirect_to("new order for shop") {new_shop_order_path(@shop)}
           end
-          should_redirect_to("new order for shop") {new_shop_order_path(@shop)}
-        end
               
-        context "deleting the shop" do
-          setup do
-            delete :destroy
-          end
+          context "deleting the shop" do
+            setup do
+              delete :destroy
+            end
 
-          before_should "call destroy on the model" do
-            @shop.expects(:destroy).once
+            before_should "call destroy on the model" do
+              @shop.expects(:destroy).once
+            end
+            should_redirect_to('root') {root_path}
           end
-          should_redirect_to('root') {root_path}
-        end
       
+        end
       end
-
     end
 
   end

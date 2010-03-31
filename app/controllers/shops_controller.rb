@@ -1,7 +1,7 @@
 class ShopsController < ApplicationController      
   
   before_filter :require_login, :except=>[:search, :show, :index, :create, :new, :update]
-  before_filter :find_instance, :except=>[:new, :create, :index, :search]
+  before_filter :fetch_shop, :except=>[:new, :create, :index, :search]
   before_filter :require_manager_or_admin, :only=>[:edit]
   before_filter :require_admin, :only => [:destroy, :import_form, :import]
   before_filter :current_user_collections, :only=>[:search]
@@ -135,12 +135,17 @@ class ShopsController < ApplicationController
     redirect_to shops_path
   end
   
+protected
+
+  def search_term_for_shop
+    params[:id] || current_subdomain
+  end
     
 private
 
-    def find_instance  
-      @shop = Shop.find_by_id_or_permalink(params[:id] || current_subdomain)
-    end
+    # def find_instance  
+    #   @shop = Shop.find_by_id_or_permalink(params[:id] || current_subdomain)
+    # end
 
     def can_edit
       unless @shop.can_edit?(current_user)

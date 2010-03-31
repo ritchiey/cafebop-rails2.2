@@ -3,7 +3,6 @@ class ClaimsController < ApplicationController
   before_filter :require_login_for_claim
   before_filter :require_can_review_claims, :except=>[:new, :create]
   before_filter :find_claim, :except => [:new, :create, :index]
-  before_filter :find_shop, :only => [:new, :create]
   
   def new
     @claim = @shop.claims.build(:user=>current_user)
@@ -64,10 +63,6 @@ private
   
   def find_claim
     @claim = Claim.find(params[:id])
-  end
-  
-  def find_shop
-    @shop = Shop.find_by_id_or_permalink(params[:shop_id])
   end
   
 end

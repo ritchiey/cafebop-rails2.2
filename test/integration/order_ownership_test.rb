@@ -27,8 +27,8 @@ class OrderOwnershipTest < ActionController::IntegrationTest
   def test_listing_orders
     assert !@anon.can_list_orders?(@shop)
     assert !@harry.can_list_orders?(@shop)
-    assert @shop_owner.can_list_orders?(@shop)
     assert @admin.can_list_orders?(@shop)
+    assert @shop_owner.can_list_orders?(@shop)
   end
 
   def test_authenticated_cant_access_anonymous_order
