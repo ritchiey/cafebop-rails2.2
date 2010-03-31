@@ -5,8 +5,8 @@ namespace :deploy do
     task :staging do
       vars = {
       :INSTANCE_NAME=>'cafebop_staging',
-      :APPLICATION_DOMAIN=>'staging.cafebop.com',
-      :GOOGLE_API_KEY=>'ABQIAAAAuTvlrqlJASuyCXRw3N66QRR5Z0OX2BleViBVP01ZJ4jVRbr9tBT3iT4aMGS1m6ZVZdSU-meSFacRSQ',
+      :APPLICATION_DOMAIN=>'oomlr.com',
+      :GOOGLE_API_KEY=>'ABQIAAAAuTvlrqlJASuyCXRw3N66QRQMl_pjeRl5P_FnLBaAibv806AhuxSYSDfx-r5fH-hW0mXO3sDdsu2Ylw',
       :COUNTRY_CODE=>"us",
       :AMAZON_ACCESS_KEY_ID=>ENV['AMAZON_ACCESS_KEY_ID'],
       :AMAZON_SECRET_ACCESS_KEY=>ENV['AMAZON_SECRET_ACCESS_KEY'],

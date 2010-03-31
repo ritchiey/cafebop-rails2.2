@@ -10,7 +10,7 @@ config.action_controller.perform_caching             = true
 config.action_view.cache_template_loading            = true
 
 
-config.action_mailer.default_url_options = { :host => 'staging.cafebop.com' }
+config.action_mailer.default_url_options = { :host => 'oomlr.com' }
 
 # See everything in the log (default is :info)
 # config.log_level = :debug
