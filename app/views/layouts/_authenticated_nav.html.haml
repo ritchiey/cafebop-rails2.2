@@ -1,4 +1,4 @@
-=button_link_to_unless_current("Home", root_path) 
+=button_link_to_unless_current("Home", "http://#{APPLICATION_DOMAIN}") 
 -if current_user.is_admin?
   =button_link_to_unless_current("Admin Dashboard", dashboard_path)
 -if current_user.can_review_claims?
