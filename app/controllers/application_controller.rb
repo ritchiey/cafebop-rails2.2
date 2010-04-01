@@ -3,6 +3,7 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
+  before_filter :log_request_details
   before_filter :cookies_required, :except => [:cookies_test]
   before_filter :fetch_shop, :except => [:cookies_test]
   # before_filter :fetch_order, :except => [:cookies_test]
@@ -278,5 +279,11 @@ protected
     @user_session.errors.clear
     @user_session.remember_me = true
   end                   
+                                 
+  def log_request_details
+    logger.info("Request Env: '#{request.env['HTTP_HOST']}'")
+    logger.info("Current domain: '#{current_domain}'")
+    logger.info("Current subdomain: '#{current_subdomain}'")
+  end
   
 end
