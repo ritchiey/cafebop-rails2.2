@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   before_filter :cookies_required, :except => [:cookies_test]
   before_filter :fetch_shop, :except => [:cookies_test]
+  before_filter :ensure_valid_subdomain
   # before_filter :fetch_order, :except => [:cookies_test]
   before_filter :default_objects
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -279,4 +280,9 @@ protected
     @user_session.remember_me = true
   end                   
                                  
+  def ensure_valid_subdomain
+    if !@shop and current_subdomain and current_subdomain.length > 0
+      redirect_to APPLICATION_URL
+    end
+  end
 end
