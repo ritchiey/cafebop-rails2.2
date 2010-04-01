@@ -281,6 +281,7 @@ protected
   end                   
                                  
   def log_request_details
+    logger.info("Session domain: '#{ActionController::Base.session_options[:session_domain]}'")
     logger.info("Request Env: '#{request.env['HTTP_HOST']}'")
     logger.info("Current domain: '#{current_domain}'")
     logger.info("Current subdomain: '#{current_subdomain}'")
