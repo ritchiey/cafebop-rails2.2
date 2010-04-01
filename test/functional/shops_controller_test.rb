@@ -10,6 +10,11 @@ class ShopsControllerTest < ActionController::TestCase
   setup :activate_authlogic
 
 
+  should "redirect to list of shops on search with no parameters" do
+    get :search
+    assert_redirected_to shops_path
+  end
+
   context "With a shop" do
     setup do
       @permalink = "myshop"
@@ -59,18 +64,11 @@ class ShopsControllerTest < ActionController::TestCase
         @shop.stubs(:state).returns('express')
       end
 
-      should "redirect to list of shops on search with no parameters" do
-        get :search
-        assert_redirected_to shops_path
-      end
-
       context "in the subdomain for that shop" do
         setup do
           controller.stubs(:current_subdomain).returns(@permalink)
         end
       
-
-    
         context "when unauthenticated" do
 
           should "not be able to edit shop" do
@@ -85,6 +83,7 @@ class ShopsControllerTest < ActionController::TestCase
       
           context "creating a shop" do
             setup do
+              controller.stubs(:current_subdomain).returns(nil)
               post :create, :shop=>{:name=>"Sniggles"}
             end
             before_should "call new on the model class and save the model" do

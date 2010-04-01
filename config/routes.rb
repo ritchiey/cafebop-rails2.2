@@ -36,7 +36,7 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options(:conditions => {:subdomain => /.+/}) do |shop|
     shop.edit "edit", :controller=>'shops', :action=>'edit'
     shop.refund_policy_for "refund_policy", :controller=>'shops', :action=>'edit'
-    # shop.reorder_menus=>:post,
+    # shop.reorder_menus "reorder_menus", :controller=>'shops', :method=>:post,
     # shop.reorder_item_queues=>:post,
     # shop.reorder_operating_times=>:post,
     # shop.start_queuing=>:put,
@@ -106,8 +106,6 @@ ActionController::Routing::Routes.draw do |map|
         :new => :get,
         :create => :put,
         :place => :put,
-        # :pay_in_shop => :put,
-        # :pay_paypal => :put,
         :cancel_paypal => :get,
         :invite=>:get,
         :send_invitations => :put,

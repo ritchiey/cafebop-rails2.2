@@ -282,7 +282,7 @@ protected
                                  
   def ensure_valid_subdomain
     if !@shop and current_subdomain and current_subdomain.length > 0
-      redirect_to APPLICATION_URL
+      redirect_to root_url(:subdomain=>false)
     end
   end
 end

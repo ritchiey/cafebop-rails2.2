@@ -35,4 +35,3 @@ ActionController::Base.session_options[:session_domain] = '.localhost'
 # require 'hirb'
 # Hirb::View.enable
 APPLICATION_DOMAIN= ENV['APPLICATION_DOMAIN'] || 'localhost'
-APPLICATION_URL = "http://#{APPLICATION_DOMAIN}:3000/"
