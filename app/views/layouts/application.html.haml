@@ -117,7 +117,7 @@
     #page-footer 
       .powered-by.no-print  
         #{@shop ? "Powered by " : ""}
-        #{link_to("Cafebop", root_path)} (#{separated([link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])}
+        #{link_to("Cafebop", root_url(:subdomain=>false))} (#{separated([link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])}
         |
         %a#crowdsound-activate-popup Feedback
         )

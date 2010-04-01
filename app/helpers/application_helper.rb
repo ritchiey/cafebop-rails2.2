@@ -10,19 +10,19 @@ module ApplicationHelper
   end                             
   
   def link_to_site_terms(label="Terms")
-    link_to label, site_terms_content_path, :target=>'_new'
+    link_to label, site_terms_content_url(:subdomain=>false), :target=>'_new'
   end
   
   def link_to_faq(label="FAQ")
-    link_to label, faq_content_path, :target=>'_new'
+    link_to label, faq_content_url(:subdomain=>false), :target=>'_new'
   end
   
   def link_to_credits(label="About")
-    link_to label, credits_content_path, :target=>'_new'
+    link_to label, credits_content_url(:subdomain=>false), :target=>'_new'
   end
   
   def link_to_privacy_policy(label="Privacy")
-    link_to label, privacy_policy_content_path, :target=>'_new'
+    link_to label, privacy_policy_content_url(:subdomain=>false), :target=>'_new'
   end
 
   def button_link_to name, url, html_options={}
@@ -77,16 +77,13 @@ module ApplicationHelper
   end                            
   
   def place_order_link(shop) 
-    (link_to_unless_current('New Order', new_shop_order_path(shop)) {""} )
+    (link_to_unless_current('New Order', shop_new_order_path(shop)) {""} )
   end                            
   
   def separated links, separator=' | '
     links.select {|l| l and l.length > 0}.join(separator)
   end
-
-          
-#3E84BC
-#8CBAD0          
+         
                                             
   def page_background
     if @shop and @shop.border_background
