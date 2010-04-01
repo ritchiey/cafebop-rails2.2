@@ -5,7 +5,7 @@
     =h shop.street_address
 
   %p
-    =link_to "Show me the Menu", new_shop_order_path(shop)
+    =link_to "Show me the Menu", shop_new_order_path(shop)
 
   -if current_user.andand.can_access_queues_of?(shop)
     %h6 Queues
