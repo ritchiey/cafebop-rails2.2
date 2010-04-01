@@ -37,4 +37,3 @@ class ActiveRecord::Base
   end
 end
 
-ActionController::Base.session_options[:session_domain] = ".#{APPLICATION_DOMAIN}"

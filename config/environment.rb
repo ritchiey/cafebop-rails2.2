@@ -6,7 +6,7 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-APPLICATION_DOMAIN= ENV['APPLICATION_DOMAIN'] || 'cafebop.com'
+APPLICATION_DOMAIN= ENV['APPLICATION_DOMAIN'] || 'localhost'
 SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN 
 FEEDBACK_EMAIL = 'feedback@'+APPLICATION_DOMAIN 
 CLAIMS_EMAIL = 'support@'+APPLICATION_DOMAIN 
@@ -110,3 +110,4 @@ ActionMailer::Base.smtp_settings = {
 # Ensure the gateway is in test mode
 ActiveMerchant::Billing::Base.mode = (ENV['PAYPAL_LOGIN'] ? :production : :test)
 
+ActionController::Base.session_options[:domain] = ".#{APPLICATION_DOMAIN}"
