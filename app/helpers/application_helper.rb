@@ -77,7 +77,7 @@ module ApplicationHelper
   end                            
   
   def place_order_link(shop) 
-    (link_to_unless_current('Place Order', new_shop_order_path(shop)) {""} )
+    (link_to_unless_current('New Order', new_shop_order_path(shop)) {""} )
   end                            
   
   def separated links, separator=' | '

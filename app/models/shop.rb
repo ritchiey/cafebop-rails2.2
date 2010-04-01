@@ -57,6 +57,10 @@ class Shop < ActiveRecord::Base
   after_create :guess_cuisines
                                      
 
+  # def subdomain   
+  #   {:subdomain=>(permalink ? permalink : false)}
+  # end     
+
   def ranking
     Shop.count(:conditions=>["state='community' and votes_count >= ?", votes.count])
   end

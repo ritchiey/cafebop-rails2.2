@@ -8,11 +8,6 @@
       %h2
         != shop.display_name ? h(shop.name) : '&nbsp;'
         
-      .no-print
-        %p=separated([claim_shop_link(shop), edit_shop_link(shop), order_history_link(shop), place_order_link(shop), delete_shop_link(shop)])
-        -if current_user.andand.can_access_queues_of?(shop)
-          %h6 Queues
-          =separated((shop.customer_queues + shop.item_queues).map {|q| link_to_unless_current(q.name,q)})
   #opening-times
     %table
       -unless shop.operating_times.empty?
@@ -36,4 +31,9 @@
           %td
             -if @shop.accepts_paypal_payments?
               != render :partial => 'shops/now_accepting_paypal'
+
+
+.span-24.last
+  .no-print
+    %p=separated(links_for_shop(shop))
           

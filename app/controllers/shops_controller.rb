@@ -41,7 +41,7 @@ class ShopsController < ApplicationController
   def search
     if params[:search] 
       @search = Search.new(params[:search])
-      @page = params[:page]
+        @page = params[:page]
       @shops = @search.shops.paginate(:per_page=>8, :page=>@page)
       respond_to do |wants|
         wants.html
