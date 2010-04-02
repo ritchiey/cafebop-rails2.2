@@ -3,7 +3,7 @@ def calc_tld_size
 end
 
 SubdomainFu.tld_size = 1 # sets for current environment
-SubdomainFu.tld_sizes = {:development => 0, # localhost
+SubdomainFu.tld_sizes = {:development => 1, # localhost
                         :test => 1,
                         :cucumber=>1, 
                         :staging => calc_tld_size,

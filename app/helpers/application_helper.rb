@@ -110,7 +110,7 @@ module ApplicationHelper
   end   
   
   def import_google_api
-    javascript_include_tag "http://www.google.com/jsapi?key=#{GOOGLE_API_KEY}&ignore="
+    javascript_include_tag "http://www.google.com/jsapi?key=#{GOOGLE_API_KEY|| 'ABQIAAAAuTvlrqlJASuyCXRw3N66QRRZbV2-gr_MZFFc9gOZTwY2NgbmaxQzSGWr6zxZ9lUzBS56We3R9gG5Dw'}&ignore="
     #%Q{<script src="http://maps.google.com/maps?file=api&v=2&sensor=false&key=#{GOOGLE_API_KEY}" type="text/javascript"></script>}
   end   
   
