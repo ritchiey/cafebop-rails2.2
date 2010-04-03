@@ -24,4 +24,7 @@ class ContentController < ApplicationController
   def credits
   end
   
+  def owners
+  end
+  
 end

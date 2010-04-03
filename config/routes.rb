@@ -132,6 +132,8 @@ ActionController::Routing::Routes.draw do |map|
     :faq => :get,
     :credits => :get
     }
+    
+  map.owners '/owners', :controller=>:content, :action=>:owners 
 
   map.shop_root '', :controller=>:shops, :action=>:show, :conditions=>{:subdomain=>/.+/}
 
