@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_filter :require_admin_rights, :except=>[:new, :create, :activate, :activate_invited]
   # before_filter :require_valid_captcha, :only=>[:create]
   before_filter :require_user_parameters, :only => [:create]
+  before_filter :fetch_order, :only =>  [:new, :create]
   
   make_resourceful do
     actions :update, :show, :destroy

@@ -133,7 +133,7 @@ ActionController::Routing::Routes.draw do |map|
     :credits => :get
     }
     
-  map.owners '/owners', :controller=>:content, :action=>:owners 
+  map.owners '/owners', :controller=>:content, :action=>:owners, :conditions=>{:subdomain=>false}
 
   map.shop_root '', :controller=>:shops, :action=>:show, :conditions=>{:subdomain=>/.+/}
 

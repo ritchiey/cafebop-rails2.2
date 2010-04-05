@@ -2,6 +2,26 @@ require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
 
+
+  context "With an existing order" do
+    setup do
+      @order = Order.make_unsaved
+      @order_id = "13"
+      Order.stubs(:find).with(@order_id, any_parameters).returns(@order)
+    end
+
+    context "accessing new" do
+      setup do
+        get :new, :order_id=>@order_id
+      end
+
+      should_not_set_the_flash
+      should_render_template :new
+      should_assign_to(:order) {@order}
+      should_assign_to(:shop)
+    end
+  end
+    
   context "with an existing user" do
     setup do
       @user = User.make_unsaved(:active)

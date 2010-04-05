@@ -186,7 +186,7 @@ protected
 
 
   def fetch_order
-    @order = find_order(params[:id])
+    @order = find_order(params[:order_id] || params[:id])
   end
   
   attr_accessor :include_with_order
@@ -198,7 +198,8 @@ protected
     self.include_with_order = [:order_items]
   end      
   
-  def find_order param       
+  def find_order param  
+    return unless param     
     options = {:include=>include_with_order}
     if @shop
       @shop.orders.find(param, options)

@@ -60,7 +60,7 @@ Given /^I complete the signup form as "([^\"]*)" with password "([^\"]*)"$/ do |
     Then I should see "Thanks for signing up! Check your email to permanently activate your account."
     And "#{email}" should receive an email
     When I open the email
-    Then I should see "Thanks for joining cafebop.com" in the email body
+    Then I should see "Thanks for joining Cafebop" in the email body
     When I click the first link in the email
     Then I should see "Your Cafebop account is now active! Welcome aboard."
   }

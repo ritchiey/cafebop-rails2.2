@@ -1,4 +1,8 @@
 class UserSessionsController < ApplicationController 
+  
+  before_filter :fetch_order, :only =>  [:new, :create]
+  
+  
   def new
     flash[:email] and @user_session.email = flash[:email]
     respond_to do |format|
