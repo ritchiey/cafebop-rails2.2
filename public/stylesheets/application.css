@@ -159,7 +159,7 @@ h6 {
   .small-add-btn:hover, #offer-friends-button:hover {
     border: #494848 5px solid; }
 
-#search_form, #invite-friends-blurb, .group-box {
+#search_form, #invite-friends-blurb, .group-box, .step-box {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
   background-color: #B0B6A6;
@@ -168,6 +168,9 @@ h6 {
   margin-bottom: 50px;
   padding: 20px 50px;
   position: relative; }
+
+.step-box {
+  min-height: 10em; }
 
 .blurb {
   -moz-border-radius: 15px;
