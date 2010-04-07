@@ -179,7 +179,7 @@ protected
   end
 
   def find_shop term 
-    term or return nil
+    return nil unless term and term.strip.length > 0
     options = {:include=>include_with_shop}
     Shop.find_by_id_or_permalink(term, options)
   end
@@ -199,7 +199,7 @@ protected
   end      
   
   def find_order param  
-    return unless param     
+    return unless param and param.strip.length > 0
     options = {:include=>include_with_order}
     if @shop
       @shop.orders.find(param, options)

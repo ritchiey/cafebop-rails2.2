@@ -17,6 +17,8 @@ class FrontController < ApplicationController
     end                 
   end
   
+  
+  # Disable cookie test for front page
   def cookies_test
     super
   end
