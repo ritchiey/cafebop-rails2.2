@@ -1,5 +1,6 @@
 class ShopsController < ApplicationController      
   
+  before_filter :cookies_required, :except => [:cookies_test, :show]
   before_filter :require_login, :except=>[:search, :show, :index, :create, :new, :update]
   before_filter :fetch_shop, :except=>[:new, :create, :index, :search]
   before_filter :require_manager_or_admin, :only=>[:edit]

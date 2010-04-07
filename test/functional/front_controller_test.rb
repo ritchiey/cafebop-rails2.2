@@ -13,9 +13,9 @@ class FrontControllerTest < ActionController::TestCase
        @request.cookies.delete SESSION_KEY
     end
     
-    should "redirect results" do     
+    should "display anyway" do     
       get :index
-      assert_redirected_to :controller => :front, :action => :cookies_test
+      assert_response :success
     end
   end
 end

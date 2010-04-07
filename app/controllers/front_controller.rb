@@ -2,6 +2,7 @@ class FrontController < ApplicationController
   
   #geocode_ip_address
   
+  before_filter :cookies_required, :except => [:cookies_test, :index]
   before_filter :current_user_collections, :only=>[:index]
   
   def index
