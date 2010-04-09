@@ -37,6 +37,9 @@
 -semantic_form_for @shop, :html=>{:multipart=>true} do |f|
   -f.inputs do
     =f.input :name, :hint=>"Restaurant's title as it will appear at top of page"
+    -if current_user and current_user.is_admin?
+      =f.input :manager_email, :hint=>"Assign this user as the manager of the shop"
+      =f.input :permalink, :hint=>"This shops unique identifier as used in their URL"
     / -if @shop.new_record?
     /   =f.input :permalink, :hint=>"Unique name, no spaces. Can't be changed"
     =f.input :street_address, :hint=>"Physical location of the restaurant"

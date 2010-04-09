@@ -229,14 +229,10 @@ class ShopsControllerTest < ActionController::TestCase
           expects(:to_param).at_least_once.returns("xxx")
         end
         @create_args = {:name=>"Sniggles", :manager_email=>@email}
-        # Shop.expects(:new).with(has_entries @create_args).returns(@shop)
         Shop.expects(:new).returns(@shop)
         post :create, :shop=>@create_args
       end
 
-      before_should "call shop create" do
-      end
-      
       should_redirect_to("new shop order") { new_shop_order_path(@shop)}
     end
   end
