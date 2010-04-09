@@ -13,7 +13,9 @@ class ShopTest < ActiveSupport::TestCase
     end
     
     should "create a user and manager role for the email" do
-      assert User.find_by_email(@email)
+      user = User.find_by_email(@email)
+      assert user
+      assert user.manages?(@shop)
     end
     
     should "make email the paypal recipient for the shop" do

@@ -1,38 +1,38 @@
 class Shop < ActiveRecord::Base
   
-  fields do
-    name    :string
-    permalink :string
-    phone   :string
-    fax     :string
-    website :string
-    state   :string, :default=>'community'
-    email_address :email_address
-    accept_queued_orders :boolean, :default=>false 
-    accept_paypal_orders :boolean, :default=>false
-    paypal_recipient  :string    
-    fee_threshold_in_cents :integer, :default=>0
-    street_address  :string
-    postal_address  :string
-    refund_policy   :text
-    motto           :text
-    lat     :float
-    lng     :float
-    location_accuracy :integer # Google's GGeoAddressAccuracy
-    generic_orders :boolean, :default=>true
-    display_name :boolean, :default=>true
-    tile_border  :boolean, :default=>true
-    header_background_updated_at :datetime
-    header_background_file_name :string
-    header_background_content_type :string
-    header_background_file_size :integer
-    border_background_updated_at :datetime
-    border_background_file_name :string
-    border_background_content_type :string
-    border_background_file_size :integer
-    votes_count :integer, :default=>0
-    timestamps   
-  end    
+  # fields do
+  #   name    :string
+  #   permalink :string
+  #   phone   :string
+  #   fax     :string
+  #   website :string
+  #   state   :string, :default=>'community'
+  #   email_address :email_address
+  #   accept_queued_orders :boolean, :default=>false 
+  #   accept_paypal_orders :boolean, :default=>false
+  #   paypal_recipient  :string    
+  #   fee_threshold_in_cents :integer, :default=>0
+  #   street_address  :string
+  #   postal_address  :string
+  #   refund_policy   :text
+  #   motto           :text
+  #   lat     :float
+  #   lng     :float
+  #   location_accuracy :integer # Google's GGeoAddressAccuracy
+  #   generic_orders :boolean, :default=>true
+  #   display_name :boolean, :default=>true
+  #   tile_border  :boolean, :default=>true
+  #   header_background_updated_at :datetime
+  #   header_background_file_name :string
+  #   header_background_content_type :string
+  #   header_background_file_size :integer
+  #   border_background_updated_at :datetime
+  #   border_background_file_name :string
+  #   border_background_content_type :string
+  #   border_background_file_size :integer
+  #   votes_count :integer, :default=>0
+  #   timestamps   
+  # end    
   
   def self.find_by_id_or_permalink(term, options=nil)
     term = term.to_s

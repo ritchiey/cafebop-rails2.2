@@ -25,8 +25,12 @@ class ShopsController < ApplicationController
     end
   end    
   
-  def create
-    @shop = Shop.new(params[:shop])
+  def create                   
+    shop_params = params[:shop]
+    unless current_user and current_user.is_admin?
+      shop_params.delete(:manager_email)
+    end
+    @shop = Shop.new(shop_params)
     if @shop.save
       redirect_to new_shop_order_path(@shop)
     else                   

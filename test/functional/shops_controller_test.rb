@@ -4,7 +4,7 @@ class ShopsControllerTest < ActionController::TestCase
 
   test "uploading a background image" do  
     image_upload = fixture_file_upload('files/logo.png', 'image/png')
-    post :create, :name=>"Test Shop", :header_background=>image_upload
+    post :create, :shop=>{:name=>"Test Shop", :header_background=>image_upload}
   end
   
   setup :activate_authlogic
@@ -212,7 +212,33 @@ class ShopsControllerTest < ActionController::TestCase
         end
       end
     end
+  end
 
+  context "When logged in as an administrator" do
+    setup do
+      admin = User.make_unsaved(:active)
+      admin.stubs(:is_admin?).returns(true)
+      controller.stubs(:current_user).returns(admin)
+    end
+
+    context "creating a shop and specifying a manager email" do
+      setup do
+        @email = "bob@example.com"       
+        @shop = stub do
+          expects(:save).returns(true)
+          expects(:to_param).at_least_once.returns("xxx")
+        end
+        @create_args = {:name=>"Sniggles", :manager_email=>@email}
+        # Shop.expects(:new).with(has_entries @create_args).returns(@shop)
+        Shop.expects(:new).returns(@shop)
+        post :create, :shop=>@create_args
+      end
+
+      before_should "call shop create" do
+      end
+      
+      should_redirect_to("new shop order") { new_shop_order_path(@shop)}
+    end
   end
 
 end

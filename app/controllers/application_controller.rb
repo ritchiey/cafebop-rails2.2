@@ -283,6 +283,7 @@ protected
                                  
   def ensure_valid_subdomain
     if !@shop and current_subdomain and current_subdomain.length > 0
+      logger.info "Invalid subdomain '#{current_subdomain}'. Redirecting."
       redirect_to root_url(:subdomain=>false)
     end
   end
