@@ -2,6 +2,26 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ShopTest < ActiveSupport::TestCase
 
+  context "Specifying manager_email when creating a shop" do
+    setup do
+      @email = "bob@test.com"
+      @shop = Shop.make(:manager_email=>"bob@test.com")
+    end
+
+    should "create an express shop" do
+      assert @shop.express?
+    end
+    
+    should "create a user and manager role for the email" do
+      assert User.find_by_email(@email)
+    end
+    
+    should "make email the paypal recipient for the shop" do
+      assert_equal(@shop.paypal_recipient, @email)
+    end
+  end
+  
+
   context "a shop" do
     setup do
       @shop = Shop.make

@@ -221,5 +221,48 @@ class UserTest < ActiveSupport::TestCase
     end
   end
   
+  
+  context "Given a shop and a user" do
+    setup do
+      @shop = Shop.make
+      @user = User.make
+    end
+        
+    context "if the user becomes the manager of the shop" do
+      setup do
+        @user.becomes_manager_of(@shop)
+      end
+
+      before_should "not manage the shop" do
+        assert !@user.manages?(@shop)
+      end
+      should "be the manager of the shop" do
+        @user.reload
+        assert @user.manages?(@shop)
+      end
+    end
+    
+
+    context "who is a patron of that shop" do
+      setup do
+        @user.becomes_patron_of(@shop)
+        assert @user.is_patron_of?(@shop)
+      end
+
+      context "becomes the manager of the shop" do
+        setup do
+          @user.becomes_manager_of(@shop)
+        end
+        
+        should "no longer be a patron" do
+          @user.reload
+          assert !@user.is_patron_of?(@shop)
+          assert @user.manages?(@shop)
+        end
+      end
+    end
+    
+  end
+  
 
 end

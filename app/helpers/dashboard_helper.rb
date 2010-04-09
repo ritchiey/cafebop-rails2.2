@@ -14,7 +14,8 @@ module DashboardHelper
   end
 
   def shop_rows
-    tabulate([[link_to('Shops', shops_path), :total], :community, :express, :professional, [link_to("With no cuisine", cuisineless_shops_path), :with_no_cuisine]], @stat.shop)
+    tabulate([["#{link_to('Shops', shops_path)} (#{link_to('+', new_shop_path)})", :total],
+      :community, :express, :professional, [link_to("With no cuisine", cuisineless_shops_path), :with_no_cuisine]], @stat.shop)
   end        
   
   def claim_rows

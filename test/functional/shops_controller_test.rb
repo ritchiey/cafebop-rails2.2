@@ -95,7 +95,6 @@ class ShopsControllerTest < ActionController::TestCase
             end
           end
           
-      
           should "not be able to delete a shop" do
             delete :destroy
             assert_redirected_to login_url

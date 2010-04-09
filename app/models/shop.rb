@@ -45,7 +45,7 @@ class Shop < ActiveRecord::Base
   # before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy
+        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -54,12 +54,19 @@ class Shop < ActiveRecord::Base
   validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
   # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
 
+
+  before_save :process_manager_email
+  after_save :process_manager_user
   after_create :guess_cuisines
                                      
 
   # def subdomain   
   #   {:subdomain=>(permalink ? permalink : false)}
   # end     
+  
+  # Virtual attribute to assign a manager role & PayPal
+  # recipient and convert the shop to express.
+  attr_accessor :manager_email, :manager_user
 
   def ranking
     Shop.count(:conditions=>["state='community' and votes_count >= ?", votes.count])
@@ -226,7 +233,7 @@ class Shop < ActiveRecord::Base
 
   def claim!(user)
     if community?             
-      wc = work_contracts.find(:first, :conditions=>{:user_id=>user.id})
+      wc = work_contracts.user_id_eq(user.id).first
       wc ||= work_contracts.build(:user=>user, :role=>'manager')
       wc.role = 'manager'
       wc.save!
@@ -328,6 +335,25 @@ class Shop < ActiveRecord::Base
   
   def calc_permalink
     self[:name] and self[:name].gsub(/[ _]/, '-').gsub(Regexp.new('[!@#$%^&\*()\']'), "").downcase
+  end
+  
+  # Called before_save. Creates and assigns @manager_user and
+  # updates any fields on this record that need to be saved
+  def process_manager_email
+    if @manager_email
+      @manager_user = User.for_email(@manager_email)
+      if @manager_user
+        self.paypal_recipient = @manager_email
+        self.state = 'express'
+      end
+    end
+  end
+  
+  # Called after_save. Creates associated records.
+  def process_manager_user
+    if @manager_user
+      @manager_user.becomes_manager_of(self)
+    end
   end
     
 end

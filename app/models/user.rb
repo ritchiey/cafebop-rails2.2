@@ -97,14 +97,33 @@ class User < ActiveRecord::Base
   
   def manages?(shop)
     shop.is_a?(ActiveRecord::Base) and shop = shop.id
-    # shop && work_contracts.exists?(:shop_id=>shop, :role=>'manager')
     shop && work_contracts.any? {|wc| wc.role=='manager' and wc.shop_id == shop}
+  end
+  
+  def is_patron_of?(shop)
+    shop.is_a?(ActiveRecord::Base) and shop = shop.id
+    shop && work_contracts.any? {|wc| wc.role=='patron' and wc.shop_id == shop}
+  end
+  
+  def becomes_manager_of(shop)
+    shop.is_a?(ActiveRecord::Base) and shop = shop.id
+    wc = work_contracts.find_or_create_by_shop_id(:shop_id=>shop, :role=>'manager')
+    unless wc.role == 'manager'
+      wc.role = 'manager'
+      wc.save
+    end
+  end
+  
+  def becomes_patron_of(shop)
+    shop.is_a?(ActiveRecord::Base) and shop = shop.id
+    wc = work_contracts.find_or_create_by_shop_id(:shop_id=>shop, :role=>'patron')
   end
   
   def works_at?(shop)
     shop.is_a?(ActiveRecord::Base) and shop = shop.id
     shop && work_contracts.any? {|wc| wc.shop_id == shop and %w(staff manager).include?(wc.role) }
   end
+  
 
   def can_access_queues_of?(shop)
     shop and shop.can_have_queues? and (works_at?(shop) or is_admin?)  
