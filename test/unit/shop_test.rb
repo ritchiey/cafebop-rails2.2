@@ -21,6 +21,11 @@ class ShopTest < ActiveSupport::TestCase
     should "make email the paypal recipient for the shop" do
       assert_equal(@shop.paypal_recipient, @email)
     end
+    
+    should "make the required queues" do
+      assert_equal 1, @shop.customer_queues.count
+      assert_equal 1, @shop.item_queues.count
+    end
   end
   
 
