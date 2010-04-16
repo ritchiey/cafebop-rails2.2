@@ -1,6 +1,23 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ShopTest < ActiveSupport::TestCase
+  
+  context "Specifying menu_data when creating a shop" do
+    setup do
+      @shop = Shop.make(:name=>'blah', :menu_data=>@menu_data)
+    end
+
+    before_should "cause the menu to be imported" do
+      @menu_data =<<END
+Menu,Item Name,Description,Prices,Flavours
+
+Curry
+,Green Curry,"choice of chicken, beef or pork",15.9,"Chicken, Beef, Pork"
+END
+      Menu.expects(:import_csv).with("", @menu_data, anything).once
+    end
+  end
+  
 
   context "Specifying manager_email when creating a shop" do
     setup do

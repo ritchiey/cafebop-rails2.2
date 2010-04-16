@@ -45,7 +45,7 @@ class Shop < ActiveRecord::Base
   # before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email
+        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email, :menu_data
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -59,6 +59,7 @@ class Shop < ActiveRecord::Base
   after_save :process_manager_user
   after_create :guess_cuisines
   after_save :create_queues
+  after_save :import_menus
                                      
 
   # def subdomain   
@@ -68,7 +69,10 @@ class Shop < ActiveRecord::Base
   # Virtual attribute to assign a manager role & PayPal
   # recipient and convert the shop to express.
   attr_accessor :manager_email, :manager_user
-
+  
+  # Populate this virtual attribute to import a menu
+  attr_accessor :menu_data
+  
   def ranking
     Shop.count(:conditions=>["state='community' and votes_count >= ?", votes.count])
   end
@@ -359,6 +363,13 @@ class Shop < ActiveRecord::Base
           item.save
         end
       end
+    end
+  end
+                      
+  
+  def import_menus
+    if @menu_data
+      Menu.import_csv("", @menu_data, id)
     end
   end
     

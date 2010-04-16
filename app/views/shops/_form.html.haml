@@ -58,6 +58,7 @@
     =f.input :tile_border, :hint=>"Repeat the border image"
     =f.input :franchise, :hint=>"Does the shop belong to one of these franchises?", :collection=>Cuisine.is_franchise
     =f.input :cuisines, :as=>:check_boxes, :hint=>"What are your specialities", :collection=>Cuisine.is_not_franchise
+    =f.input :menu_data, :as=>:text, :hint=>"Import menus: menu_name, item_name, description, price(s), flavour(s)"
   =f.buttons
   
 -content_for :aside do
