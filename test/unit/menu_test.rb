@@ -2,26 +2,56 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class MenuTest < ActiveSupport::TestCase
    
-  should "import a menu in CSV format" do
-    Menu.expects('create').with(has_entries(
-    :permalink=>'Thai - Curry',
-    :name=>"Curry",
-    :menu_items_attributes=>[{
-      :name=>'Green Curry',
-      :description=>"choice of chicken, beef or pork",
-      :price=>15.9,
-      :flavours_attributes=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]
-      }])
-    )
-    data =<<END
+   
+  context "Given CSV menu data" do
+    setup do
+      @menu_data =<<END
 Menu,Item Name,Description,Prices,Flavours
 
 Curry
 ,Green Curry,"choice of chicken, beef or pork",15.9,"Chicken, Beef, Pork"
 END
-    Menu.import_csv("Thai", data)
-  end
+    end
 
+    should "be able to create a generic menu" do
+      Menu.expects('create').with(has_entries(
+      :permalink=>'Thai - Curry',
+      :name=>"Curry",
+      :menu_items_attributes=>[{
+        :name=>'Green Curry',
+        :description=>"choice of chicken, beef or pork",
+        :price=>15.9,
+        :flavours_attributes=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]
+        }])
+      )
+      Menu.import_csv("Thai", @menu_data)
+    end
+
+    context "for a given shop" do
+      setup do
+        @shop = Shop.make
+      end
+
+      should "be able to import a menu" do
+        Menu.expects('create').with(has_entries(
+        :permalink=>'Thai - Curry',
+        :shop_id=>@shop.id,
+        :name=>"Curry",
+        :menu_items_attributes=>[{
+          :name=>'Green Curry',
+          :description=>"choice of chicken, beef or pork",
+          :price=>15.9,
+          :flavours_attributes=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]
+          }])
+        )
+        Menu.import_csv("Thai", @menu_data, @shop.id)
+      end
+    end
+
+
+  end
+   
+  
 
   context "a mock menu" do
     setup do

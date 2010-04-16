@@ -33,7 +33,7 @@ class Menu < ActiveRecord::Base
   named_scope :for_franchise, lambda {|franchise| { :joins=>["INNER JOIN cuisine_menus AS cm ON cm.menu_id = menus.id"], :conditions=>["cm.cuisine_id = ?", franchise.id] }}
   named_scope :with_items, :include=>{:menu_items=>[:sizes,:flavours]}
 
-  def self.import_csv prefix, csv_data
+  def self.import_csv(prefix, csv_data, shop_id=nil)
     first = true
     menu_name = nil
     menu_items_attributes = []
@@ -59,18 +59,21 @@ class Menu < ActiveRecord::Base
       end
       next unless new_menu_name and new_menu_name.strip.length > 0
       if (new_menu_name != menu_name)
-        make_menu(prefix, menu_name, menu_items_attributes)
+        make_menu(prefix, menu_name, menu_items_attributes, shop_id)
         menu_name = new_menu_name
         menu_items_attributes = []
       end
     end
-    make_menu(prefix, menu_name, menu_items_attributes)
+    make_menu(prefix, menu_name, menu_items_attributes, shop_id)
   end             
   
-  def self.make_menu(prefix, menu_name, menu_items_attributes)
+  def self.make_menu(prefix, menu_name, menu_items_attributes, shop_id)
     permalink = "#{prefix} - #{menu_name}"
     if menu_name and menu_items_attributes.size > 0
-      menu = Menu.create(:permalink=>permalink, :name=>menu_name, :menu_items_attributes=>menu_items_attributes)
+      menu = Menu.create(:permalink=>permalink,
+        :name=>menu_name,
+        :menu_items_attributes=>menu_items_attributes,
+        :shop_id=>shop_id)
     end
   end
 
