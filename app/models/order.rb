@@ -11,6 +11,10 @@ class Order < ActiveRecord::Base
     state :string, :default=>'pending' 
     user_email :string
     name  :string
+    phone :string  
+    deliver :boolean
+    address :string
+    queue_after :datetime
     perishable_token :string
     minutes_til_close :integer
     close_time :datetime
@@ -26,7 +30,7 @@ class Order < ActiveRecord::Base
   before_create :add_to_customer_queue
   before_save :start_close_timer
   before_save :set_user_from_user_email
-  before_save :set_name_from_user
+  before_save :set_order_details_from_user
   after_save :confirm_if_child
   after_save :invite_additional_users
   
@@ -398,8 +402,12 @@ private
     end
   end
 
-  def set_name_from_user
-    self.user and self.name ||= user.to_s
+  def set_order_details_from_user
+    if self.user
+      self.name ||= user.to_s
+      self.phone ||= user.phone
+      self.address ||= user.address
+    end
   end
   
 end

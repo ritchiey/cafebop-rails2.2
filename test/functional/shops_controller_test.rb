@@ -113,26 +113,6 @@ class ShopsControllerTest < ActionController::TestCase
             assert_redirected_to new_shop_order_url(@shop)
           end
 
-      
-          # context "if it's a community shop" do
-          #   setup do
-          #     @shop.stubs(:state).returns('community')
-          #   end
-          # 
-          #   context "updating the franchise and cuisine" do
-          #     setup do
-          #       put :update, :id=>@shop.to_param, :shop=>{:cuisine_ids=>@cuisine.id}
-          #     end
-          #     
-          #     before_should "create the appropriate shop_cuisine records" do
-          #       @cuisine = Cuisine.make_unsaved
-          #       @cuisine.stubs(:id=>6)
-          #       ShopCuisine.expects(:create).once.with({:cuisine_id=>@cuisine.id, :shop_id=>@shop.id})
-          #     end
-          #   end
-          #   
-          # end
-      
           should "not be able to update a shop" do
             put :update, :id=>@shop.to_param, :shop=>{:name=>"Sniggles"}
             assert_redirected_to new_shop_order_path(@shop)
@@ -170,7 +150,6 @@ class ShopsControllerTest < ActionController::TestCase
             should_redirect_to("new order for shop") {new_shop_order_path(@shop)}
           end
    
-            
         end
     
     

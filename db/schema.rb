@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100326061412) do
+ActiveRecord::Schema.define(:version => 20100416083409) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -162,6 +162,10 @@ ActiveRecord::Schema.define(:version => 20100326061412) do
     t.string   "user_email"
     t.datetime "queued_at"
     t.datetime "unqueued_at"
+    t.string   "phone"
+    t.boolean  "deliver"
+    t.string   "address"
+    t.datetime "queue_after"
   end
 
   create_table "payment_notifications", :force => true do |t|
@@ -273,6 +277,8 @@ ActiveRecord::Schema.define(:version => 20100326061412) do
     t.boolean  "email_offers",      :default => true
     t.date     "dob"
     t.integer  "reputation",        :default => 0
+    t.string   "phone"
+    t.string   "address"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

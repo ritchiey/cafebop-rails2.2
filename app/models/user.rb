@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   fields do  
     name                :string
     email               :string 
+    phone               :string
+    address             :string
     active              :boolean, :default=>false, :null=>false
     crypted_password    :string
     password_salt       :string

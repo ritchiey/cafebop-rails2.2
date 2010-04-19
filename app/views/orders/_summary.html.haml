@@ -24,7 +24,10 @@
     -unless @order.is_child?
       %tr
         %td{:colspan=>'4'}
-          #{@order.name} will pick-up from #{@order.shop}
+          -if @order.deliver
+            #{@order.shop} will deliver to #{@order.address}
+          -else
+            #{@order.name} will pick-up from #{@order.shop}
 
   %tbody#order_items
     != render :partial => 'summary_rows', :object=>@order, :locals=>{:show_user=>@order.is_parent?}
@@ -40,10 +43,14 @@
       Your order has been sent to #{h @order.shop}.
       Keep this screen open to watch its progress.
     -when 'made'
-      -if @order.is_child?
-        Sit tight. #{@order.parent.name} should be back soon.
+      -if @order.deliver
+        Is on its way to #{@order.address}.
       -else
-        Your order is ready. Head down to #{@order.shop} to collect it.
+        -if @order.is_child?
+          Sit tight. #{@order.parent.name} should be back soon.
+        -else
+          Your order is ready. Head down to #{@order.shop} to collect it.
+        
     -when 'delivered'
       This order has been filled.
     -when 'confirmed'
