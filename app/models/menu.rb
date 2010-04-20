@@ -50,7 +50,7 @@ class Menu < ActiveRecord::Base
         record = {
           :name=>item_name,
           :description=>description,
-          :price=>price_str.to_f
+          :price=>price_str
         }
         if flavours_str and flavours_str.strip.length > 0
           record.merge!(:flavours_attributes=>flavours_str.split(',').map {|f| {:name=>f.strip}})

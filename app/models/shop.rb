@@ -368,7 +368,8 @@ class Shop < ActiveRecord::Base
                       
   
   def import_menus
-    if @menu_data
+    if @menu_data and @menu_data.strip.length > 0
+      menus.delete_all
       Menu.import_csv("", @menu_data, id)
     end
   end

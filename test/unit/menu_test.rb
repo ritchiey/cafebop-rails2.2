@@ -9,7 +9,7 @@ class MenuTest < ActiveSupport::TestCase
 Menu,Item Name,Description,Prices,Flavours
 
 Curry
-,Green Curry,"choice of chicken, beef or pork",15.9,"Chicken, Beef, Pork"
+,Green Curry,"choice of chicken, beef or pork","small:3.50,large:4.50","Chicken, Beef, Pork"
 END
     end
 
@@ -20,7 +20,7 @@ END
       :menu_items_attributes=>[{
         :name=>'Green Curry',
         :description=>"choice of chicken, beef or pork",
-        :price=>15.9,
+        :price=>"small:3.50,large:4.50",
         :flavours_attributes=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]
         }])
       )
@@ -40,7 +40,7 @@ END
         :menu_items_attributes=>[{
           :name=>'Green Curry',
           :description=>"choice of chicken, beef or pork",
-          :price=>15.9,
+          :price=>"small:3.50,large:4.50",
           :flavours_attributes=>[{:name=>"Chicken"}, {:name=>"Beef"}, {:name=>"Pork"}]
           }])
         )

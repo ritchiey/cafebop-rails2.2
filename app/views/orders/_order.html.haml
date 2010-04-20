@@ -3,7 +3,7 @@
   %tr{:class=>"order #{order.state}"}
     %td="Order for #{h order.name}"
     %td
-      -form_tag deliver_order_path(order), :method=>:put, :class=>"#{order.state}-order" do
+      -form_tag deliver_queued_order_path(order), :method=>:put, :class=>"#{order.state}-order" do
         =submit_tag "Deliver", :disabled=>!order.made?
     
     -if order.paid?
@@ -11,7 +11,7 @@
     -else
       %td=h number_to_currency(order.grand_total)
   
-  -order.summarized_order_items.each do |order_item|
+  -order.order_items.each do |order_item|
     -case order_item.state
       -when 'queued'
         %tr.queued{:id=>"order-item-#{order_item.id}"}
