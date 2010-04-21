@@ -158,10 +158,10 @@ var app = {
   },
 
   populateList: function(index, itemList, parentObject, entryToHtml) {
-  	  var subCollectionName = app.underscore($(itemList).attr('id'));
-  	  if (subCollectionName == null) return; // todo throw exception here
-  	  if (parentObject[subCollectionName] == null)  return; // todo throw exception
-  	  var entries = jQuery.map(parentObject[subCollectionName], function(subObj, index) {
+	  var subCollectionName = app.underscore($(itemList).attr('id'));
+	  if (subCollectionName == null) return; // todo throw exception here
+	  if (parentObject[subCollectionName] == null)  return; // todo throw exception
+	  var entries = jQuery.map(parentObject[subCollectionName], function(subObj, index) {
   		return entryToHtml(subObj, subCollectionName, index);
 	  });
 	  $(itemList).empty();
@@ -267,16 +267,18 @@ var app = {
   	if (app.isLoggedIn()) {
   		$('#home .unauthenticated').hide();
   	  app.getContent("/", function(data) { 
-  		var $shopList = $('.my-restaurants');
-  		var shopListEntries = jQuery.map(data.work_contracts, function(el) {
-  		  var wc = el.work_contract;
-  		  var shop = wc.shop;
-  		  return app.listLink(shop.name, 'to-show-shop', shop.id);
-  		});
-  		$shopList.empty();
-  		$shopList.append(shopListEntries.join(''));
-  		$('#home .authenticated').show();
-  	  })
+  		if (data && data.work_contracts) {
+    		var $shopList = $('.my-restaurants');
+    		var shopListEntries = jQuery.map(data.work_contracts, function(el) {
+    		  var wc = el.work_contract;
+    		  var shop = wc.shop;
+    		  return app.listLink(shop.name, 'to-show-shop', shop.id);
+    		});
+    		$shopList.empty();
+    		$shopList.append(shopListEntries.join(''));
+    		$('#home .authenticated').show();
+  		}
+  	  });
   	} else {
   	  app.clearHomePage();
   	}
@@ -391,7 +393,7 @@ var app = {
   },
   
   isLoggedIn: function() {
-  	return (user != null && user.length > 0);
+  	return (user && user.length > 0);
   },
   
   login: function($form) {
