@@ -408,7 +408,6 @@
                 if (!$node.attr('id')) {
                     $node.attr('id', 'page-' + (++newPageCount));
                 }
-                $('#'+$node.attr('id')).remove();
                 $node.appendTo($body);
                 if ($node.hasClass('current') || !targetPage ) {
                     targetPage = $node;
