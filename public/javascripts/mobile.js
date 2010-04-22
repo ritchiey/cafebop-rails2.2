@@ -374,9 +374,9 @@ var app = {
 		li_classes: order_item.state,
 		subLink: order_item.notes,
 		counter: app.as_currency(order_item.quantity * order_item.price_in_cents / 100.0) +
-		  "<span class='toggle'><input type='checkbox' class='made-check' name='made' " +
+		  " <input type='checkbox' class='made-check' name='made' " +
 		    ((order_item.state=='made')? "CHECKED ":"") +
-		    " value='" + index+ "'></input></span>"
+		    " value='" + index+ "'></input>"
 	  })
   },
 
