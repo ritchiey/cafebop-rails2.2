@@ -51,7 +51,15 @@ var jQT = $.jQTouch({
 	formSelector: 'form.ajax',
 	statusBar: 'black-translucent',
 	preloadImages: [
-	'/images/smallbubble.png'
+  "img/pinstripes.png",
+  "img/toolbar.png",
+  "img/toolButton.png",
+  "img/backButton.png",
+  "img/whiteButton.png",
+  "img/grayButton.png",
+  "img/chevron.png",
+  "/images/loading.gif",
+  "/images/smallbubble.png"
 	]
 });								  
 
@@ -187,10 +195,10 @@ var app = {
   	return "<li class='"+li_classes+"'>"+
   	  link( 
   	    "<div>"+label+"</div>" +
-  	    subLink +
-    	  small +
-    	  counter
+  	    subLink
   	  ) +
+  	  small +
+  	  counter +
   	  "</li>";
   },
   
@@ -366,9 +374,9 @@ var app = {
 		li_classes: order_item.state,
 		subLink: order_item.notes,
 		counter: app.as_currency(order_item.quantity * order_item.price_in_cents / 100.0) +
-		  " <input type='checkbox' class='made-check' name='made' " +
+		  "<span class='toggle'><input type='checkbox' class='made-check' name='made' " +
 		    ((order_item.state=='made')? "CHECKED ":"") +
-		    " value='" + index+ "'></input>"
+		    " value='" + index+ "'></input></span>"
 	  })
   },
 
