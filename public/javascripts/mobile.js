@@ -178,19 +178,22 @@ var app = {
   	var li_classes = options['li_classes'] || 'arrow';
   	var small = (options['small']) ? ("<small>"+options['small']+"</small>") : ""
   	var counter = (options['counter']) ? ("<small class='counter'>"+options['counter']+"</small>") : ""
+  	var subLink = (options['subLink']) ? "<div class='small'>"+options['subLink']+"</div>" : '';
   	var link = function(l) {
   	  return (l != null) ? ("<a class='"+a_classes+"'"+
   	  " href='#' target-id='"+target_id+
   	  "'>"+l+"</a>") : "";
   	}
   	return "<li class='"+li_classes+"'>"+
-  	  link(label) +
-  	  link(options['subLink']) +
+  	  link( 
+  	    "<div>"+label+"</div>" +
+  	    subLink
+  	  ) +
   	  small +
   	  counter+
   	  "</li>";
   },
-
+  
 
   // Register a static page ('#verb-noun') that may load dynamic data
   // when displayed. Also hook the tap event on any a.to-verb-noun links
@@ -200,7 +203,7 @@ var app = {
   	var pageSelector = '#'+verb+'-'+noun
   	$(function() {app.bindPage(pageSelector, options)});
   	app.bindLink('a.to-'+verb+'-'+noun, pageSelector, function(e) {
-  	  app[app.underscore(noun)+'_id'] = $(e.target).attr('target-id');
+  	  app[app.underscore(noun)+'_id'] = $(e.target).closest('a').attr('target-id');
   	});
   },
   
