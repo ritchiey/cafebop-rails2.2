@@ -42,7 +42,7 @@ class CustomerQueuesController < QueuesController
       format.html
       format.mobile
       format.json do
-        render :json=>@queue.to_json(:only=>[:name, :id], :include=>{
+        render :json=>@queue.to_json(:only=>[:name, :id, :active], :include=>{
           :current_orders=>{
             :only=>[:id, :notes, :name, :state],
             :methods=>[:grand_total, :summarized_order_items, :summary],
@@ -60,12 +60,18 @@ class CustomerQueuesController < QueuesController
 
   def start           
     @queue.start!
-    render :partial=>'status'
+    respond_to do |format|
+      format.html {render :partial=>'status'}
+      format.json {render :json=>@queue.to_json(:only=>[:name, :id, :active])}
+    end
   end
 
   def stop
     @queue.stop!
-    render :partial=>'status'
+    respond_to do |format|
+      format.html {render :partial=>'status'}
+      format.json {render :json=>@queue.to_json(:only=>[:name, :id, :active])}
+    end
   end
 
 

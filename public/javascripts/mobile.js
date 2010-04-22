@@ -105,12 +105,14 @@ var app = {
     	  alert(options['failMessage'] || "Unable to perform. Try again.");
     	}
     }
+    var onSuccess = options['onSuccess'] || function() {};
   
   	$.ajax({
   	 type: options['method'] || form.attr('method'),
   	 url: options['url'] || form.attr('action'),
   	 data: form.serialize(),
   	 complete: onComplete,
+  	 success: onSuccess,
   	 dataType: options['dataType'] || 'json'
   	});
   }, 
@@ -241,7 +243,7 @@ var app = {
   	  return false;
   	});
   },
-
+ 
   makeAllItems: function($form) {
   	app.submitForm($form, {
   	  url: '/queued_orders/'+app.queued_order_id+'/make_all_items',
@@ -291,6 +293,16 @@ var app = {
       }
   	}, (options || {}));
   	app.loadDynamicPage('#show-shop', 'shop', options);
+  },    
+  
+  displayQueueStatus: function(queue) {
+	  if (queue.active) {
+		  $('.customer-queue-started').show();
+		  $('.customer-queue-stopped').hide();
+	  } else {
+		  $('.customer-queue-started').hide();
+		  $('.customer-queue-stopped').show();
+	  }
   },
  
   loadShowCustomerQueue: function(options) {
@@ -304,6 +316,9 @@ var app = {
   		})},
   		emptyListEntry: function() {
   		  return "<li>Queue is empty</li>"
+  		},
+  		withLoadedObject: function(queue) {
+  		  app.displayQueueStatus(queue);
   		}
   	}, (options || {}));
   	app.loadDynamicPage('#show-customer-queue', 'customer_queue', options);
@@ -515,6 +530,34 @@ $(function() { // on page ready
 	  }
 	});
   });
+  
+  
+  $('.stop-customer-queue-btn').tap(function(e) {
+    if (confirm("Stop accepting orders?")) {
+      var queueId = $(e.target).attr('target-id');
+      var $form = $(this).closest("form");
+    	app.submitForm($form, {
+    	  url: '/customer_queues/'+app.customer_queue_id+'/stop',
+    	  onSuccess: function(data) {app.displayQueueStatus(data.customer_queue)},
+    	  onComplete: function() {}
+    	});
+  	}     
+  	return false;
+  });
+  
+  $('.start-customer-queue-btn').tap(function(e) {
+    if (confirm("Start accepting orders?")) {
+      var queueId = $(e.target).attr('target-id');
+      var $form = $(this).closest("form");
+    	app.submitForm($form, {
+    	  url: '/customer_queues/'+app.customer_queue_id+'/start',
+    	  onSuccess: function(data) {app.displayQueueStatus(data.customer_queue)},
+    	  onComplete: function() {}
+    	});
+  	}
+  	return false;
+  });
+  
   
   app.updateFormControls();	 
 

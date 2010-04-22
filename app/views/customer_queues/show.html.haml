@@ -1,7 +1,20 @@
-#queue_status
-  = render :partial => 'status'
+%h1 Monitoring Queues
 
-#collection-section
-  =render :partial=>'current_orders'
-= periodically_call_remote :update=>'collection-section', :url=>current_orders_customer_queue_path(@queue), :frequency=>20, :method=>'GET'
+%p
+  Cafebop queues are best viewed on one of the following:
 
+  %ul
+    %li Apple iPad
+    %li Apple iPhone or iPod Touch
+    %li Google Android phone or tablet
+
+%p  
+  To use on a PC or Mac, please:
+  
+  %ol
+    %li
+      Make sure you're using the Safari Web Browser. You can download it from
+      #{link_to "here", "http://www.apple.com/safari/download/"}.
+    %li
+      Switch to the #{link_to "mobile version", root_url(:subdomain=>false, :mobile=>"1")} of
+      this website.

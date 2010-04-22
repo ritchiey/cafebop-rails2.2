@@ -73,6 +73,19 @@
       .toolbar
         %a.back Back
         %h1.title Loading...
+      %table
+        %tr.customer-queue-stopped.hidden
+          %td
+            %h2 Not accepting orders.
+          %td
+            -form_tag '', :method=>:put do
+              %a.grayButton.start-customer-queue-btn Start
+        %tr.customer-queue-started.hidden
+          %td
+            %h2 Accepting orders.
+          %td
+            -form_tag '', :method=>:put do
+              %a.grayButton.stop-customer-queue-btn Stop
       %ul#current_orders.item-list
         %li.arrow
           Loading...
