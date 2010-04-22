@@ -187,10 +187,10 @@ var app = {
   	return "<li class='"+li_classes+"'>"+
   	  link( 
   	    "<div>"+label+"</div>" +
-  	    subLink
+  	    subLink +
+    	  small +
+    	  counter
   	  ) +
-  	  small +
-  	  counter+
   	  "</li>";
   },
   
@@ -202,7 +202,7 @@ var app = {
   addPage: function(verb, noun, options) {	
   	var pageSelector = '#'+verb+'-'+noun
   	$(function() {app.bindPage(pageSelector, options)});
-  	app.bindLink('a.to-'+verb+'-'+noun, pageSelector, function(e) {
+  	app.bindLink('a.to-'+verb+'-'+noun, pageSelector, function(e) { 
   	  app[app.underscore(noun)+'_id'] = $(e.target).closest('a').attr('target-id');
   	});
   },
@@ -458,7 +458,7 @@ $('.made-check').tap(function(e) {
    },
    dataType: 'json'
   });
-  return true;
+  return false;
 });
 
 
