@@ -9,14 +9,14 @@
   
     -@shop.effective_menus.each do |menu|
       %a{:name=>menu.id}
-        %h5.title=h menu.name
-        %hr
-        -menu.menu_items.each do |menu_item|
-          -if menu_item.present_flavours
-            -menu_item.flavours.each do |flavour|
-              =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
-          -else
-            =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
+      %h5.title=h menu.name
+      %hr
+      -menu.menu_items.each do |menu_item|
+        -if menu_item.present_flavours
+          -menu_item.flavours.each do |flavour|
+            =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
+        -else
+          =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
     
     
 
