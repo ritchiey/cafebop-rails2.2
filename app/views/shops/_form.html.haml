@@ -64,9 +64,17 @@
     -f.inputs :name=>"Menus", :id=>:menu_details, :class=>'bordered' do
       =f.input :menu_data, :as=>:text, :hint=>"Import menus: menu_name, item_name, description, price(s), flavour(s)"
     -f.inputs :name=>"Ordering", :id=>:ordering, :class=>'bordered' do
+      =f.input :accept_queued_orders
+      -f.inputs :id=>:payment_methods do
+        =f.input :accept_pay_in_shop, :label=>"Accept in-shop payments"
+        =f.input :accept_paypal_orders
       =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
     
-  =f.buttons
+    %p
+      =submit_tag "Save Changes"    
+      \|
+      =link_to "Cancel", shop_new_order_path(@shop)
+  
   
 -content_for :aside do
   #map(style="width: 310px; height:500px")
