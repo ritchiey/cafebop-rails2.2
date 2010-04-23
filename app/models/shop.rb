@@ -9,6 +9,7 @@ class Shop < ActiveRecord::Base
     state   :string, :default=>'community'
     email_address :email_address
     accept_queued_orders :boolean, :default=>false 
+    accept_pay_in_shop :boolean, :default=>true
     accept_paypal_orders :boolean, :default=>false
     paypal_recipient  :string    
     fee_threshold_in_cents :integer, :default=>0
@@ -18,6 +19,7 @@ class Shop < ActiveRecord::Base
     motto           :text
     lat     :float
     lng     :float
+    shop_discount   :float
     location_accuracy :integer # Google's GGeoAddressAccuracy
     generic_orders :boolean, :default=>true
     display_name :boolean, :default=>true

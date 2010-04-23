@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100416083409) do
+ActiveRecord::Schema.define(:version => 20100423031406) do
 
   create_table "claims", :force => true do |t|
     t.text     "notes"
@@ -225,6 +225,8 @@ ActiveRecord::Schema.define(:version => 20100416083409) do
     t.string   "border_background_file_name"
     t.string   "border_background_content_type"
     t.integer  "border_background_file_size"
+    t.boolean  "accept_pay_in_shop",             :default => true
+    t.float    "shop_discount"
   end
 
   add_index "shops", ["lat"], :name => "index_shops_on_lat"

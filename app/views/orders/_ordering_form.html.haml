@@ -2,30 +2,21 @@
 
 %ul.menu
   -if @shop.effective_menus.empty?
-    %h4 A little help, please...
-    %p
-      #{h @shop.name} is new to us and we haven't worked out its cuisine let alone its
-      menus.
-    %p
-      If you wouldn't mind selecting the appropriate cuisines, we can show you a sensible
-      default menu from which to order.
-    %p Thanks
-      
-    -semantic_form_for @shop do |f|
-      -f.inputs do
-        =f.input :cuisines, :as=>:check_boxes, :hint=>"Please choose one or more of the above", :collection=>Cuisine.is_not_franchise
-      -f.buttons do
-        =f.commit_button :label=>"Show Menu"
+    != render :partial => 'ask_user_for_cuisine'
   -else
+    %p
+      = separated(@shop.effective_menus.map {|m| link_to m.name, "##{m.id}"})
+  
     -@shop.effective_menus.each do |menu|
-      %h5.title=h menu.name
-      %hr
-      -menu.menu_items.each do |menu_item|
-        -if menu_item.present_flavours
-          -menu_item.flavours.each do |flavour|
-            =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
-        -else
-          =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
+      %a{:name=>menu.id}
+        %h5.title=h menu.name
+        %hr
+        -menu.menu_items.each do |menu_item|
+          -if menu_item.present_flavours
+            -menu_item.flavours.each do |flavour|
+              =render :partial=>'ordering_card', :locals=>{:card_for=>flavour, :item=>menu_item}
+          -else
+            =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
     
     
 
