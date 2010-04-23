@@ -80,7 +80,7 @@ module ApplicationHelper
     (link_to_unless_current('New Order', shop_new_order_path(shop)) {""} )
   end                            
   
-  def separated links, separator=' | '
+  def separated(links, separator=' | ')
     links.select {|l| l and l.length > 0}.join(separator)
   end
          
