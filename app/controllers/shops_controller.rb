@@ -86,25 +86,25 @@ class ShopsController < ApplicationController
     end
   end
 
-  def start_queuing
-    @shop.start_accepting_queued_orders!
-    render :partial=>'queuing_status'
-  end
-
-  def stop_queuing
-    @shop.stop_accepting_queued_orders!
-    render :partial=>'queuing_status'
-  end
-
-  def start_paypal
-    @shop.enable_paypal_payments!
-    render :partial=>'queuing_status'
-  end
-
-  def stop_paypal
-    @shop.disable_paypal_payments!
-    render :partial=>'queuing_status'
-  end
+  # def start_queuing
+  #   @shop.start_accepting_queued_orders!
+  #   render :partial=>'queuing_status'
+  # end
+  # 
+  # def stop_queuing
+  #   @shop.stop_accepting_queued_orders!
+  #   render :partial=>'queuing_status'
+  # end
+  # 
+  # def start_paypal
+  #   @shop.enable_paypal_payments!
+  #   render :partial=>'queuing_status'
+  # end
+  # 
+  # def stop_paypal
+  #   @shop.disable_paypal_payments!
+  #   render :partial=>'queuing_status'
+  # end
 
   def reorder_menus
     reorder_child_items(:menu)

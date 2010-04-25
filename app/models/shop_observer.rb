@@ -10,4 +10,12 @@ class ShopObserver < ActiveRecord::Observer
     end
   end        
   
+  def after_save(shop)
+    case shop.changes['accept_queued_orders']
+      when [false, true]
+        RAILS_DEFAULT_LOGGER.info "Queuing enabled for shop #{shop.id}"
+        Notifications.send_later(:deliver_queuing_enabled, shop)
+    end
+  end
+  
 end

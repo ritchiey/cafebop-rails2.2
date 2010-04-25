@@ -30,12 +30,4 @@
   -else
     %ul#operating-times-list= render :partial => @shop.operating_times
   =link_to "Add Opening Time", new_shop_operating_time_path(@shop)
-
-
--if @shop.can_have_queues?
-  %hr
-  #queuing-status
-    != render :partial => 'queuing_status'
--else
-  =placeholder
   

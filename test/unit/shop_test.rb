@@ -64,8 +64,7 @@ END
     
     should "not be able to enable queuing" do
       assert !@shop.accepts_queued_orders?
-      @shop.start_accepting_queued_orders!
-      @shop.reload
+      @shop.accept_queued_orders = true
       assert !@shop.accepts_queued_orders?
     end
     
@@ -183,8 +182,7 @@ END
         
         should "be able to enable queuing" do
           assert !@shop.accepts_queued_orders?
-          @shop.start_accepting_queued_orders!
-          @shop.reload
+          @shop.accept_queued_orders = true
           assert @shop.accepts_queued_orders?
         end
 

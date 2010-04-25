@@ -55,7 +55,7 @@ class Shop < ActiveRecord::Base
   validates_format_of :permalink, :with => /^[A-Za-z0-9-]+$/, :message => 'The permalink can only contain alphanumeric characters and dashes.', :allow_blank => true
   validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
   # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
-
+  validate  :no_queuing_if_community
 
   before_save :process_manager_email
   after_save :process_manager_user
@@ -185,14 +185,14 @@ class Shop < ActiveRecord::Base
     can_have_queues? and accept_queued_orders
   end
 
-  def start_accepting_queued_orders!
-    if can_have_queues?
-      self.accept_queued_orders = true
-      save!
-      RAILS_DEFAULT_LOGGER.info "Queuing enabled for shop #{id}"
-      Notifications.send_later(:deliver_queuing_enabled, self)
-    end
-  end
+  # def start_accepting_queued_orders!
+  #   if can_have_queues?
+  #     self.accept_queued_orders = true
+  #     save!
+  #     RAILS_DEFAULT_LOGGER.info "Queuing enabled for shop #{id}"
+  #     Notifications.send_later(:deliver_queuing_enabled, self)
+  #   end
+  # end
         
   def stop_accepting_queued_orders!
     disable_paypal_payments! if accepts_paypal_payments?
@@ -376,4 +376,10 @@ class Shop < ActiveRecord::Base
     end
   end
     
+    
+  def no_queuing_if_community
+    if community? and accept_queued_orders
+      errors.add_to_base("This shop can't have queues enabled because it's in community mode.")
+    end
+  end
 end

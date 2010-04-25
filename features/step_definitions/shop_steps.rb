@@ -32,8 +32,12 @@ end
 Given /^(.+?) has queuing (.+?)$/ do |shop_name, state|
   shop = Shop.find_by_name(shop_name)
   case state
-    when 'enabled': shop.start_accepting_queued_orders!
-    when 'disabled': shop.stop_accepting_queued_orders!
+    when 'enabled':
+      shop.accept_queued_orders = true
+      shop.save!
+    when 'disabled':
+      shop.accept_queued_orders = true
+      shop.save!
   else
     raise "Unknown state for shop queuing '#{state}'"
   end
