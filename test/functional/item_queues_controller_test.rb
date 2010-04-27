@@ -17,8 +17,9 @@ class ItemQueuesControllerTest < ActionController::TestCase
     
     context "as someone who can access queues" do
       setup do
-        @manager.expects(:can_access_queues_of?).with(@shop).returns(true)
-        @manager.expects(:can_manage_queues_of?).with(@shop).returns(true)
+        @manager = User.make_unsaved
+        @manager.stubs(:can_access_queues_of?).with(@shop).returns(true)
+        @manager.stubs(:can_manage_queues_of?).with(@shop).returns(true)
         controller.stubs(:current_user).returns(@manager)
       end
 
@@ -28,8 +29,8 @@ class ItemQueuesControllerTest < ActionController::TestCase
         end
 
         before_should "build and save the item_queue" do
-          @shop.item_queues.expects(:build).returns(@queue)
-          @queue.expects(:save).returns(true)
+          @shop.item_queues.expects(:build).never
+          @queue.expects(:save).never
         end
       end
       
@@ -97,57 +98,85 @@ class ItemQueuesControllerTest < ActionController::TestCase
 
     context "as someone who can access but not manage the queue" do
       setup do
-        @manager.expects(:can_access_queues_of?).with(@shop).returns(true)
-        @manager.expects(:can_manage_queues_of?).with(@shop).returns(false)
+        @manager = User.make_unsaved
+        @manager.stubs(:can_access_queues_of?).with(@shop).returns(true)
+        @manager.stubs(:can_manage_queues_of?).with(@shop).returns(false)
         controller.stubs(:current_user).returns(@manager)
       end
       
       
-      should "not be able to create a new item_queue" do
-        assert_no_difference "@shop.item_queues.count" do
+       context "creating an item_queue" do
+        setup do
           post :create, :shop_id=>@shop.to_param, :item_queue=>{:name=>"barrista"}
         end
-      end
 
-      should "not be able to update the item_queue" do
-        assert_no_difference "ItemQueue.name_eq('barry').count" do
-          put :update, :id=>@item_queue.id, :item_queue=>{:name=>"barry"}
-          assert_redirected_to new_shop_order_path(@shop)
+        before_should "not build nor save the item_queue" do
+          @shop.item_queues.expects(:build).never
+          @queue.expects(:save).never
         end
+        should_redirect_to("menu for shop") {new_shop_order_path(@shop)}
       end
-
-      should "be able to view the queue" do
-        get :show, :id=>@item_queue.id
-        assert_template :show
+      
+      context "viewing the queue" do
+        setup do
+          get :show, :id=>@item_queue.id
+        end                          
+        should_render_template :show
       end
             
-      should "be able to get the current items in the queue" do
-        get :current_items, :id=>@item_queue.id
-        assert_response :success
+      context "getting the current items in the queue" do
+        setup do
+          get :current_items, :id=>@item_queue.id
+        end
+        should_render_template "current_items"
+        should_assign_to(:queue) {@queue}
       end
+      
+      
 
-      should "not be able to delete the item_queue" do
-        assert_no_difference "ItemQueue.count" do
+      context "updating the item_queue" do
+        setup do
+          put :update, :id=>@item_queue.id, :item_queue=>{:name=>"barry"}
+        end
+
+        before_should "not call update on model" do
+          @item_queue.expects(:update_attributes).never
+        end
+        should_redirect_to("menu for shop") {new_shop_order_path(@shop)}
+      end
+      
+      context "deleting the queue" do
+        setup do
           delete :destroy, :id=>@item_queue.id
-          assert_redirected_to new_shop_order_path(@shop)
+        end
+
+        before_should "not work" do
+          @item_queue.expects(:destroy).never
+        end
+        should_redirect_to("menu for shop") {new_shop_order_path(@shop)}
+      end
+      
+      context "starting the item_queue" do
+        setup do
+          put :start, :id=>@item_queue.id
+        end
+
+        before_should "call start! on the item_queue" do
+          @item_queue.expects(:start!)
         end
       end
 
-      should "be able to start item_queue" do
-        @item_queue.stop!
-        assert !@item_queue.active
-        put :start, :id=>@item_queue.id
-        @item_queue.reload
-        assert @item_queue.active
-      end
+      context "stopping the item_queue" do
+        setup do
+          put :stop, :id=>@item_queue.id
+        end
 
-      should "be able to stop the item_queue" do
-        @item_queue.start!
-        assert @item_queue.active
-        put :stop, :id=>@item_queue.id
-        @item_queue.reload
-        assert !@item_queue.active
+        before_should "call stop! on the item_queue" do
+          @item_queue.expects(:stop!)
+        end
       end
+      
+      
     end
 
     context "as an active user" do
