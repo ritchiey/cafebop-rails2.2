@@ -6,10 +6,9 @@ class Shop < ActiveRecord::Base
     phone   :string
     fax     :string
     website :string
-    state   :string, :default=>'community'
+    state   :string, :default=>'express', :limit=>20
     email_address :email_address
-    accept_queued_orders :boolean, :default=>false 
-    accept_pay_in_shop :boolean, :default=>true
+    accept_pay_in_shop :boolean, :default=>false
     accept_paypal_orders :boolean, :default=>false
     paypal_recipient  :string    
     fee_threshold_in_cents :integer, :default=>0
@@ -32,7 +31,6 @@ class Shop < ActiveRecord::Base
     border_background_file_name :string
     border_background_content_type :string
     border_background_file_size :integer
-    votes_count :integer, :default=>0
     timestamps   
   end    
   
@@ -43,11 +41,10 @@ class Shop < ActiveRecord::Base
 
   treat_as_currency :fee_threshold
 
-  # permalinks are now optionally set as/after stores are claimed.
-  # before_validation_on_create :set_permalink
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email, :menu_data
+        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email, :menu_data,
+        :accept_pay_in_shop, :accept_paypal_orders
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -55,7 +52,7 @@ class Shop < ActiveRecord::Base
   validates_format_of :permalink, :with => /^[A-Za-z0-9-]+$/, :message => 'The permalink can only contain alphanumeric characters and dashes.', :allow_blank => true
   validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
   # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
-  validate  :no_queuing_if_community
+  # validate  :no_queuing_if_community
 
   before_save :process_manager_email
   after_save :process_manager_user
@@ -74,10 +71,6 @@ class Shop < ActiveRecord::Base
   
   # Populate this virtual attribute to import a menu
   attr_accessor :menu_data
-  
-  def ranking
-    Shop.count(:conditions=>["state='community' and votes_count >= ?", votes.count])
-  end
   
   def cuisine_ids=(ids)
     ids.each {|id| shop_cuisines.build(:cuisine_id=>id)}
@@ -101,14 +94,12 @@ class Shop < ActiveRecord::Base
     errors.add('street_address', 'Must be able to be located on map.') unless (lat and lng)
   end
   
-  has_many :votes, :dependent=>:destroy
   has_many :orders, :dependent=>:destroy, :order=>'created_at DESC'
   has_many :item_queues, :dependent=>:destroy, :order=>:position 
   has_many :customer_queues, :dependent=>:destroy, :order=>:position 
   has_many :menus, :dependent=>:destroy, :order=>:position 
   has_many :menu_items, :through => :menus
   has_many :operating_times, :dependent=>:destroy, :order=>:position 
-  has_many :claims, :dependent=>:destroy
   has_many :work_contracts, :dependent=>:destroy
   has_many :patrons, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'patron'"]
   has_many :staff, :through => :work_contracts, :source =>:user, :conditions=>["work_contracts.role = 'staff'"]
@@ -143,7 +134,7 @@ class Shop < ActiveRecord::Base
     }
     } 
     
-  named_scope :community, :conditions=>{:state=>'community'}
+  # named_scope :community, :conditions=>{:state=>'community'}
   named_scope :express, :conditions=>{:state=>'express'}
   named_scope :professional, :conditions=>{:state=>'professional'}
 
@@ -154,7 +145,7 @@ class Shop < ActiveRecord::Base
   # Return the menus that the customer should see when ordering whether
   # the be generic or specific to this shop
   def effective_menus
-    community? ? virtual_menus : menus 
+    menus
   end       
   
   def commission_rate
@@ -169,43 +160,6 @@ class Shop < ActiveRecord::Base
     staff.include?(user) || is_manager?(user)
   end
   
-  def can_be_claimed?
-    self.community?
-  end
-  
-  def can_be_claimed_by?(user)
-    can_be_claimed? && user && !user.claims.any? {|claim| claim.shop == self}
-  end
-
-  def can_have_queues?
-    !self.community?
-  end
-
-  def accepts_queued_orders?
-    can_have_queues? and accept_queued_orders
-  end
-
-  # def start_accepting_queued_orders!
-  #   if can_have_queues?
-  #     self.accept_queued_orders = true
-  #     save!
-  #     RAILS_DEFAULT_LOGGER.info "Queuing enabled for shop #{id}"
-  #     Notifications.send_later(:deliver_queuing_enabled, self)
-  #   end
-  # end
-        
-  def stop_accepting_queued_orders!
-    disable_paypal_payments! if accepts_paypal_payments?
-    self.accept_queued_orders = false
-    save!
-    RAILS_DEFAULT_LOGGER.info "Queuing disabled for shop #{id}"
-    Notifications.send_later(:deliver_queuing_disabled, self)
-  end
-                    
-  def can_enable_paypal_payments?
-    !community? and accepts_queued_orders?
-  end
-
   def enable_paypal_payments!
     if can_enable_paypal_payments?
       self.accept_paypal_orders = true
@@ -222,56 +176,52 @@ class Shop < ActiveRecord::Base
     Notifications.send_later(:deliver_paypal_disabled, self)
   end
         
+  def can_have_queues?
+    true
+  end
+
+  def can_enable_paypal_payments?
+    professional?
+  end
+
   def queues_in_shop_payments?
     accepts_queued_orders? and accepts_in_shop_payments?
   end
 
   def accepts_in_shop_payments?
-    return true if community?
-    # TODO: Give express and pro shops the chance to
-    # refuse in-shop payments if Paypal is configured
-    true
+    accept_pay_in_shop    
   end   
   
+  def accepts_queued_orders?
+    can_have_queues? and (accept_pay_in_shop or accept_paypal_orders)
+  end
+
+  def only_accepts_online_payment?
+    accept_paypal_orders and !accept_pay_in_shop
+  end
+  
   def accepts_paypal_payments?
-    return false if community?
     accept_paypal_orders
   end
 
-  def claim!(user)
-    if community?             
-      wc = work_contracts.user_id_eq(user.id).first
-      wc ||= work_contracts.build(:user=>user, :role=>'manager')
-      wc.role = 'manager'
-      wc.save!
-      self.paypal_recipient = user.email
-      go_express!
-      #TODO Send claimed email
-    end
-  end
   
   # State related    
-  def community?() state == 'community'; end
   def express?() state == 'express'; end
   def professional?() state == 'professional'; end
 
-  def transition_to desired_state
-    states = %w/community express professional/
-    raise "Invalid state for shop" unless states.include?(desired_state)
-    current_index = states.index(self.state)
-    desired_index = states.index(desired_state)
-    if current_index < desired_index
-      (current_index+1).upto(desired_index) {|i| self.send "go_#{states[i]}!" }
-    elsif current_index > desired_index
-      (current_index-1).downto(desired_index) {|i| self.send "go_#{states[i]}!" }
-    end
-  end
+  # def transition_to desired_state
+  #   states = %w/express professional/
+  #   raise "Invalid state for shop" unless states.include?(desired_state)
+  #   current_index = states.index(self.state)
+  #   desired_index = states.index(desired_state)
+  #   if current_index < desired_index
+  #     (current_index+1).upto(desired_index) {|i| self.send "go_#{states[i]}!" }
+  #   elsif current_index > desired_index
+  #     (current_index-1).downto(desired_index) {|i| self.send "go_#{states[i]}!" }
+  #   end
+  # end
   
   
-# def go_community!
-#   self.state = 'community'
-#   self.save
-# end
   
   # Switch the shop to express state. Express means that the
   # shop can receive orders to a queue but their customers can't
@@ -281,14 +231,14 @@ class Shop < ActiveRecord::Base
   # to produce custom menus.
   # A default queue is created for the shop and all menu_items are assigned
   # to it.
-  def go_express!
-    if community?
-      self.menus = virtual_menus.map {|menu| menu.deep_clone }
-    end
-    self.state = 'express'
-    self.save
-  end
-
+  # def go_express!
+  #   if community?
+  #     self.menus = virtual_menus.map {|menu| menu.deep_clone }
+  #   end
+  #   self.state = 'express'
+  #   self.save
+  # end
+  # 
   def go_professional!
     self.state = 'professional'
     self.save
@@ -377,9 +327,9 @@ class Shop < ActiveRecord::Base
   end
     
     
-  def no_queuing_if_community
-    if community? and accept_queued_orders
-      errors.add_to_base("This shop can't have queues enabled because it's in community mode.")
-    end
-  end
+  # def no_queuing_if_community
+  #   if community? and accept_queued_orders
+  #     errors.add_to_base("This shop can't have queues enabled because it's in community mode.")
+  #   end
+  # end   
 end

@@ -57,7 +57,7 @@ private
   
     def can_edit? order
       get edit_order_url(order)
-      @response.success?
+      @response.success? 
     end     
   
     def creates_an_order options={}

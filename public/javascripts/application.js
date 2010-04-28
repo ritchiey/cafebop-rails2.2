@@ -230,37 +230,6 @@ $(function() { // page ready
   });
     
 
-	$('#vote-blurb').dialog({
-			bgiframe: true,
-			autoOpen: true,
-			height: 450,
-      width: 650,
-			modal: true,
-			buttons: {
-				'Vote!': function() {
-					$(this).dialog('close');
-					var $form = $('#vote-blurb form');  
-          $.ajax({
-           type: $form.attr('method'),
-           url: $form.attr('action'),
-           data: $form.serialize(),
-           success: function(data, textStatus, XMLHttpRequest) { 
-             var vote = data.vote;
-             var shop = vote.shop;
-             
-             cb.addNotice('Thanks for your feedback. Your vote places, "Get an accurate menu for '+
-              shop.name+'" at number '+shop.ranking+' on our To Do list.');
-           },
-           dataType: 'json'
-          });
-        },
-        "Cancel": function() {
-					$(this).dialog('close');
-        }
-      }
-  });
-  
-
 
  
   dialog = $('#dialog');

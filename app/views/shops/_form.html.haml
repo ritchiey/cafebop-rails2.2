@@ -65,10 +65,9 @@
       =f.input :menu_data, :as=>:text, :hint=>"Import menus: menu_name, item_name, description, price(s), flavour(s)"
     -f.inputs :name=>"Ordering", :id=>:ordering, :class=>'bordered' do
       -if @shop.can_have_queues?
-        =f.input :accept_queued_orders
-        -f.inputs :id=>:payment_methods do
-          =f.input :accept_pay_in_shop, :label=>"Accept in-shop payments"
-          =f.input :accept_paypal_orders
+        =f.input :accept_pay_in_shop, :label=>"Accept in-shop payments"
+        -if @shop.can_enable_paypal_payments?
+          =f.input :accept_paypal_orders, :label=>"Accept payment online with PayPal"
       =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
     
     %p

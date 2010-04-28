@@ -66,10 +66,6 @@ class ApplicationController < ActionController::Base
     end
   end      
   
-  def require_can_review_claims
-    unauthorized unless current_user && current_user.can_review_claims?
-  end      
-  
   def require_admin_rights
     unauthorized unless current_user && current_user.is_admin?
   end
@@ -250,16 +246,6 @@ protected
   def add_notice notice
     flash[:notices] ||= []
     flash[:notices] << notice
-  end
-  
-  def been_asked_to_vote_for(shop)
-    session[:asked_to_vote_for] ||= []
-    session[:asked_to_vote_for].include?(shop.id)
-  end
-  
-  def ask_to_vote_for(shop)
-    session[:asked_to_vote_for] ||= []
-    session[:asked_to_vote_for] << shop.id
   end
   
 

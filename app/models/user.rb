@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   include Gravatar
   
   def self.possible_roles
-    %w/cafebop_admin claim_approver/
+    %w/cafebop_admin/
   end
   
   fields do  
@@ -47,9 +47,6 @@ class User < ActiveRecord::Base
   acts_as_mappable :default_distance=>:miles
          
   has_many :cuisine_choices
-  has_many :votes
-  has_many :claims_to_review, :class_name => "Claim", :foreign_key=>:reviewer_id, :conditions=>{:state=>'under_review'}
-  has_many :claims, :dependent=>:destroy
   has_many :work_contracts, :dependent=>:destroy
   has_many :shops, :through => :work_contracts
   has_many :friendships, :class_name =>"Friendship", :foreign_key => "user_id"
@@ -93,7 +90,6 @@ class User < ActiveRecord::Base
     Notifications.deliver_password_reset_instructions(self)  
   end
   
-  def can_review_claims?() is_cafebop_admin?; end
   def is_admin?() is_cafebop_admin?; end
 
   

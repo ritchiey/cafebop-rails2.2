@@ -39,22 +39,6 @@ class ShopsControllerTest < ActionController::TestCase
           assert_redirected_to login_url
         end 
       
-      
-        context "updating cuisines" do
-          setup do
-            assert_not_nil @shop     
-            @shop.expects(:update_attributes).with(any_parameters).once.returns(true)
-            put :update, :shop=>{:cuisine_ids=>[3,5]}
-          end
-
-          before_should "call update_attributes on shop" do       
-            # controller.expects(:find_instance).once.returns(@shop)
-            #Shop.expects(:find_by_id_or_permalink).once.returns(@shop)  
-          end
-        
-          should "be ok" do
-          end
-        end
       end
     end
       

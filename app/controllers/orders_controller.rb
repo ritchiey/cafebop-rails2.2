@@ -15,7 +15,6 @@ class OrdersController < OrdersRelatedController
   before_filter :fetch_order, :except =>  [:accept, :decline, :new, :create]
   
   
-  before_filter :ask_to_vote, :only => [:new, :edit]
   before_filter :check_paypal_status, :only => [:show]
   before_filter :only_if_mine, :except => [:new, :create, :accept, :decline, :index, :destroy, :deliver]
   before_filter :only_if_staff_or_admin, :only=>[:deliver]
@@ -310,13 +309,6 @@ private
   def wrangle_order_errors
     flash[:error] = @order.errors.full_messages.collect{|m| m}.join('. ')
     logger.error @order.errors.full_messages.collect{|m| m}.join('. ')
-  end
-
-  def ask_to_vote
-    if @shop.community? and !been_asked_to_vote_for(@shop)
-      ask_to_vote_for(@shop)
-      @ask_to_vote = true
-    end
   end
 
 end

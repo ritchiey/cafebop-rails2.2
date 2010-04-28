@@ -70,7 +70,6 @@
       =form.input :address, :hint=>"Delivery address"
       
           
-    != render :partial => 'price_warning'
     != render :partial => 'close_time_counter'
     =submit_tag((@order.is_child? ? "Confirm" : "Continue"), :disabled=>@order.order_items.empty?, :id=>'continue-order-button', :class=>'button')
         

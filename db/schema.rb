@@ -9,19 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100423031406) do
-
-  create_table "claims", :force => true do |t|
-    t.text     "notes"
-    t.string   "state",       :default => "pending"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
-    t.integer  "shop_id"
-    t.integer  "reviewer_id"
-    t.string   "first_name"
-    t.string   "last_name"
-  end
+ActiveRecord::Schema.define(:version => 20100427072701) do
 
   create_table "cuisine_menus", :force => true do |t|
     t.integer  "cuisine_id"
@@ -199,7 +187,7 @@ ActiveRecord::Schema.define(:version => 20100423031406) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",                          :default => "community"
+    t.string   "state",                          :limit => 20, :default => "express"
     t.float    "lat"
     t.float    "lng"
     t.string   "street_address"
@@ -208,24 +196,22 @@ ActiveRecord::Schema.define(:version => 20100423031406) do
     t.string   "header_background_content_type"
     t.integer  "header_background_file_size"
     t.datetime "header_background_updated_at"
-    t.boolean  "accept_queued_orders",           :default => false
-    t.boolean  "generic_orders",                 :default => true
+    t.boolean  "generic_orders",                               :default => true
     t.integer  "franchise_id"
     t.string   "permalink"
-    t.boolean  "accept_paypal_orders",           :default => false
+    t.boolean  "accept_paypal_orders",                         :default => false
     t.string   "paypal_recipient"
-    t.integer  "fee_threshold_in_cents",         :default => 0
+    t.integer  "fee_threshold_in_cents",                       :default => 0
     t.integer  "location_accuracy"
     t.text     "refund_policy"
     t.text     "motto"
-    t.integer  "votes_count",                    :default => 0
-    t.boolean  "display_name",                   :default => true
-    t.boolean  "tile_border",                    :default => true
+    t.boolean  "display_name",                                 :default => true
+    t.boolean  "tile_border",                                  :default => true
     t.datetime "border_background_updated_at"
     t.string   "border_background_file_name"
     t.string   "border_background_content_type"
     t.integer  "border_background_file_size"
-    t.boolean  "accept_pay_in_shop",             :default => true
+    t.boolean  "accept_pay_in_shop",                           :default => false
     t.float    "shop_discount"
   end
 
@@ -284,17 +270,6 @@ ActiveRecord::Schema.define(:version => 20100423031406) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-
-  create_table "votes", :force => true do |t|
-    t.string   "email"
-    t.boolean  "notification_requested"
-    t.boolean  "confirmed"
-    t.string   "confirmation_key"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "shop_id"
-    t.integer  "user_id"
-  end
 
   create_table "work_contracts", :force => true do |t|
     t.string   "role",       :default => "patron"

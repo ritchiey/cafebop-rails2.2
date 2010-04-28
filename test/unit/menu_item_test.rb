@@ -91,7 +91,8 @@ class MenuItemTest < ActiveSupport::TestCase
   context "a menu_item created in a shop with a queue" do
     setup do
       @shop = Shop.make
-      @queue = @shop.item_queues.create(:name=>"Default Queue")
+      @queue = @shop.item_queues.first
+      assert_equal 1, @shop.item_queues.count
       @menu = Menu.make(:shop=>@shop)
       @menu_item = @menu.menu_items.create(:menu=>@menu, :name=>'Fish')
       assert_equal @queue, @menu_item.item_queue

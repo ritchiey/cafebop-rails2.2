@@ -9,7 +9,6 @@ require File.join(File.dirname(__FILE__), 'boot')
 APPLICATION_DOMAIN= ENV['APPLICATION_DOMAIN'] || 'worknbills.com'
 SUPPORT_EMAIL = 'support@'+APPLICATION_DOMAIN 
 FEEDBACK_EMAIL = 'feedback@'+APPLICATION_DOMAIN 
-CLAIMS_EMAIL = 'support@'+APPLICATION_DOMAIN 
 ORDERING_EMAIL = 'ordering@'+APPLICATION_DOMAIN
 WELCOME_EMAIL = 'welcoming_committee@'+APPLICATION_DOMAIN
 GOOGLE_API_KEY= ENV['GOOGLE_API_KEY'] 
@@ -67,7 +66,7 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-  config.active_record.observers = :user_observer, :order_observer, :claim_observer, :shop_observer
+  config.active_record.observers = :user_observer, :order_observer, :shop_observer
 
   # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
   # Run "rake -D time" for a list of tasks for finding time zone names.

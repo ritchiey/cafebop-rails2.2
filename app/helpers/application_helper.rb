@@ -60,10 +60,6 @@ module ApplicationHelper
     @shop and @shop.header_background.file?
   end                  
 
-  def claim_shop_link(shop)
-    shop.can_be_claimed? ? (link_to_unless_current('Claim this Shop', new_shop_claim_path(shop)) {""} ) : nil
-  end
-
   def edit_shop_link(shop)
     current_user.andand.can_edit_shop?(shop) ? (link_to_unless_current('Edit', shop_edit_path(@shop)) {""} ) : nil
   end                            

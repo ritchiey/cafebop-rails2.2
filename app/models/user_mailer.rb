@@ -1,22 +1,5 @@
 class UserMailer < ActionMailer::Base
 
-  def claim_rejected(claim)
-  end
-  
-  def claim_confirmed(claim)
-    host = Hobo::Controller.request_host || "cafebop.com"
-    app_name = Hobo::Controller.app_name || host
-    subject "You are own #{claim.shop} in Cafebop"
-    recipients claim.user.email_address
-    from       "no-reply@cafebop.com"
-    sent_on    Time.now
-    body :claim=>claim,
-      :user => claim.user,
-      :shop=>claim.shop,
-      :host=>host,
-      :app_name=>app_name
-  end
-
   def order_invitation(order, key, host='cafebop.com', app_name='Cafebop')
     invitee = order.user
     invitor = order.parent.user

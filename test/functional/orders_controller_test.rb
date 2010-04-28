@@ -75,7 +75,7 @@ class OrdersControllerTest < ActionController::TestCase
           @order.stubs(:can_be_queued?).returns(true)
         end
 
-        context "if the shop queues in shop payments" do
+        context "if the shop queues in shop payments and is monitoring its queue" do
           setup do
             @shop.expects(:queues_in_shop_payments?).at_least_once.returns(true)
           end
@@ -92,6 +92,7 @@ class OrdersControllerTest < ActionController::TestCase
         
         context "if the shop does not queue in shop payments" do
           setup do
+            # @shop.expects(:accepts_queued_orders?).returns(false)
             @shop.expects(:queues_in_shop_payments?).at_least_once.returns(false)
           end
 
@@ -102,7 +103,7 @@ class OrdersControllerTest < ActionController::TestCase
             before_should "call pay_in_shop!" do
               @order.expects(:pay_in_shop!).once
             end
-            should_redirect_to("the show order page") {order_path(@order)}
+            should_redirect_to("show the printed order") {order_path(@order)}
           end
         end
         

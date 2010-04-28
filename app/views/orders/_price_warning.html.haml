@@ -1,7 +1,0 @@
--if @shop.community?  
-  .price-warning
-    %hr
-    The menu for this shop is maintained on a best effort basis and has not |
-    been verified by #{h @shop.name}. The items and prices listed here may be inaccurate.
-    %span.no-print
-      =link_to "More...", why_inaccurate_content_path, :class=>'accuracy-warning info'

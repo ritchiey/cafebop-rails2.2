@@ -30,22 +30,6 @@ class Notifications < ActionMailer::Base
                 :feedback_email => FEEDBACK_EMAIL
   end
   
-  def claim_confirmed(claim)
-    subject    "Your claim for #{claim.shop}"
-    recipients claim.user.email
-    from       CLAIMS_EMAIL
-    sent_on    Time.now
-    body       :claim=>claim
-  end
-
-  def claim_rejected(claim)
-    subject    "Your claim for #{claim.shop}"
-    recipients claim.user.email
-    from       CLAIMS_EMAIL
-    sent_on    Time.now
-    body       :claim=>claim
-  end
-
   def child_order_made(order)
     subject    "Your #{order.shop} order is ready"
     recipients order.user.email
@@ -101,14 +85,7 @@ class Notifications < ActionMailer::Base
     sent_on    Time.now
     body       :shop=>shop
   end       
-  
-  def new_claim(claim)
-    subject    "[claim] #{claim.user.email} claims #{claim.shop}"
-    recipients 'claims@cafebop.com'
-    from       SUPPORT_EMAIL
-    sent_on    Time.now
-    body       :claim=>claim
-  end
+
 
   def password_reset_instructions user
     subject       "Password Reset Instructions"  

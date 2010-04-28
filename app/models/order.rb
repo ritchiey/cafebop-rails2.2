@@ -287,11 +287,11 @@ class Order < ActiveRecord::Base
   end
   
   def pay_in_shop! 
-    if shop.accepts_in_shop_payments?
+    # if shop.accepts_in_shop_payments?
       print_or_queue!
-    else
-      raise "Shop doesn't accept in-shop payment"
-    end
+    # else
+    #   raise "Shop doesn't accept in-shop payment"
+    # end
   end         
   
   def pay_paypal!

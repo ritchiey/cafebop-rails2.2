@@ -20,7 +20,6 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller=>:user_sessions, :action=>:new
   map.not_me '/not_me', :controller=>:user_sessions, :action=>:not_me
   map.logout '/logout', :controller=>:user_sessions, :action =>:destroy
-  map.resources :claims, :member=>{:review=>:put, :confirm=>:put, :reject=>:put}
   
   map.resources :orders, :collection=>{:accept=>:get, :decline=>:get}
   map.resources :order_items  
@@ -37,11 +36,9 @@ ActionController::Routing::Routes.draw do |map|
     shop.edit "edit", :controller=>'shops', :action=>'edit'
     shop.refund_policy_for "refund_policy", :controller=>'shops', :action=>'edit'
 
-    shop.resources :votes, :only=>[:create]
     shop.resources :operating_times
     shop.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
     shop.resources :customer_queues, :member=>{:current_orders=>:get, :stop=>:put, :start=>:put}
-    shop.resources :claims, :only=>[:new, :create]
     shop.resources :past_orders
     shop.resources :orders, :shallow => true, :member => {
         :status_of_pending => :get,
@@ -82,11 +79,9 @@ ActionController::Routing::Routes.draw do |map|
       :reorder_item_queues=>:post,
       :reorder_operating_times=>:post,
       } do |shops|
-    shops.resources :votes, :only=>[:create]
     shops.resources :operating_times
     shops.resources :item_queues, :member=>{:current_items=>:get, :stop=>:put, :start=>:put}
     shops.resources :customer_queues, :member=>{:current_orders=>:get, :stop=>:put, :start=>:put}
-    shops.resources :claims, :only=>[:new, :create]
     shops.resources :past_orders
     shops.resources :orders, :shallow => true, :member => {
         :status_of_pending => :get,

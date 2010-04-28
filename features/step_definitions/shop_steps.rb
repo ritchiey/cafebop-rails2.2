@@ -13,7 +13,8 @@ end
 
 Given /^(.+?) is an? (.+?) shop$/ do |shop_name, state|
   shop = Shop.find_by_name shop_name
-  shop.transition_to(state)
+  shop.state = state
+  shop.save
 end
 
 Given /^(.*) has a menu called "([^\"]*)"$/ do |shop_name, menu_name|
@@ -33,10 +34,10 @@ Given /^(.+?) has queuing (.+?)$/ do |shop_name, state|
   shop = Shop.find_by_name(shop_name)
   case state
     when 'enabled':
-      shop.accept_queued_orders = true
+      shop.accept_pay_in_shop = true
       shop.save!
     when 'disabled':
-      shop.accept_queued_orders = true
+      shop.accept_pay_in_shop = true
       shop.save!
   else
     raise "Unknown state for shop queuing '#{state}'"

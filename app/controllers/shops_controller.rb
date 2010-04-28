@@ -76,9 +76,7 @@ class ShopsController < ApplicationController
   
   def update
     changes = params[:shop]  
-    unless @shop.community? and (changes.keys - %w/franchise_id cuisine_ids/).empty?
-      require_manager_or_admin and return
-    end
+    require_manager_or_admin and return
     if @shop.update_attributes(changes)
       redirect_to new_shop_order_path(@shop)
     else

@@ -15,13 +15,9 @@ module DashboardHelper
 
   def shop_rows
     tabulate([["#{link_to('Shops', shops_path)} (#{link_to('+', new_shop_path)})", :total],
-      :community, :express, :professional, [link_to("With no cuisine", cuisineless_shops_path), :with_no_cuisine]], @stat.shop)
+      :express, :professional, [link_to("With no cuisine", cuisineless_shops_path), :with_no_cuisine]], @stat.shop)
   end        
   
-  def claim_rows
-    tabulate([[link_to('Claims',claims_path), :total], :outstanding, :pending, ["Under review", :under_review], :confirmed, :rejected], @stat.claim)
-  end
-
   def order_rows
     tabulate([['Orders', :total], ["Last 24 hours", :last_24_hours], ["Last hour", :last_hour]], @stat.order)
   end

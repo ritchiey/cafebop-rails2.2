@@ -1,11 +1,10 @@
 class Stat
 
-  attr_accessor :shop, :user, :claim
+  attr_accessor :shop, :user
   
   def initialize
     @user = user
     @shop = shop
-    @claim = claim
   end
   
   def user
@@ -17,24 +16,12 @@ class Stat
   def shop
     {
       :total => Shop.count,
-      :community => Shop.community.count,
       :express => Shop.express.count,
       :professional => Shop.professional.count,
       :with_no_cuisine => Shop.number_with_no_cuisine
     }
   end                       
 
-  def claim
-    {
-      :total => Claim.count,
-      :outstanding => Claim.count,
-      :pending => Claim.pending.count,
-      :under_review=> Claim.under_review.count,
-      :confirmed=> Claim.confirmed.count,
-      :rejected=> Claim.rejected.count
-    }
-  end
-   
   def order
     {
       :total => Order.count,

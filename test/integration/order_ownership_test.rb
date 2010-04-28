@@ -12,7 +12,6 @@ class OrderOwnershipTest < ActionController::IntegrationTest
     @shop_owner_user = User.make(:active=>true, :email=>"blotts@hogwarts.edu", :password=>password, :password_confirmation=>password)
     admin_user = User.make(:active=>true, :roles=>['cafebop_admin'], :email=>"snape@hogwarts.edu", :password=>password, :password_confirmation=>password)
     @shop = Shop.make
-    @shop.go_express!
     @shop.work_contracts.make(:user=>@shop_owner_user, :role=>'manager')
     @shop_owner_user.reload
     assert @shop_owner_user.manages?(@shop)
