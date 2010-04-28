@@ -96,7 +96,8 @@ module ApplicationHelper
       if @shop
         "url(/gradient_images/180:4474AB:FEFEFD.png) repeat-x #FEFEFD"
       else
-        "url(/images/logo.png) no-repeat" 
+        "rgba(255,255,255,0)"
+        # "url(/images/logo.png) no-repeat" 
       end
     end
   end
