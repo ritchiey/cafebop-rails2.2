@@ -11,11 +11,19 @@
   -content_for :content_top do  
     != render :partial => 'current_orders'
 -else
+  .about
+    Cafebop is the affordable way to put your takeaway Restaurant or Cafe online.
+    Customers order from the menu you provide and you receive the order on an
+    iPhone&reg;, iPod Touch&reg;, iPad&reg; or computer located in your store.
+
   -content_for :aside do
-    != render :partial => 'side_blurbs'
+    / != render :partial => 'side_blurbs'
 
-!= render :partial => 'shops/search_panel'
-.twitter-follow
-  %a{ :href => "http://www.twitter.com/Cafebop", :class=>'button'}
-    %img{ :src => "http://twitter-badges.s3.amazonaws.com/follow_us-b.png", :alt => "Follow Cafebop on Twitter" }
+/ != render :partial => 'shops/search_panel'
 
+-content_for :content_foot do
+  != render :partial => 'content/benefits'
+  .twitter-follow
+    %a{ :href => "http://www.twitter.com/Cafebop", :class=>'button'}
+      %img{ :src => "http://twitter-badges.s3.amazonaws.com/follow_us-b.png", :alt => "Follow Cafebop on Twitter" }
+  

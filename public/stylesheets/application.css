@@ -507,4 +507,10 @@ h1.logo {
 
 h2.slogan {
   font-size: 2em;
-  margin: -1em 0 1em 0.5em; }
+  margin: -1em 0 1em 0.5em;
+  color: #404040;
+  color: rgba(32, 32, 32, 0.9); }
+
+.about {
+  color: #606060;
+  font: 1.5em helvetica, verdana, arial, times, "Times New Roman", sans-serif; }
