@@ -58,18 +58,15 @@
       @media tv {
       \#mediaInspector { z-index: 9 }
       }
-         
-    /
-      [if IE]>
+    
+    /[if IE]     
       %style{ :type => "text/css" }
-        h1.logo {
+        h1.logo {  
         background: url('images/cafebop.png') top left no-repeat;
         width: 7em;
-        height: 1.5em;          /* height is essential for this technique */
-        text-indent: 	-1000em; /* move html text off-screen to the left */
-        line-height: 1000em;   /* move text down outside of the element if text-indent fails (some older browsers) */
+        height: 1.5em;          
+        text-indent: 	-1000em;
         }
-      <![endif]
 
   %body{:style=>"background: #{page_background}"} 
     #mediaInspector
@@ -107,7 +104,6 @@
                     %span.c> C
                     %span.afe> afe
                     %span.bop> bop
-                  / %h2.slogan Start taking online orders today  
                   %h2.slogan Online ordering for every restaurant
             #notifications.span-24.last
               -if flash[:notices]    

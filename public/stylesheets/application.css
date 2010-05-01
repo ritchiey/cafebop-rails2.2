@@ -486,21 +486,21 @@ form.formtastic fieldset.bordered {
 form.formtastic fieldset#payment_methods {
   margin-left: 5%; }
 
-h1.logo {
+.logo {
   font-size: 700%;
   font: 8em helvetica, verdana, arial, times, "Times New Roman", sans-serif;
   margin-bottom: 0; }
-  h1.logo .c {
+  .logo .c {
     color: #B08B5E;
     color: rgba(176,139,94,0.9);
     font-size: 150%;
     vertical-align: sub;
     text-shadow: #000 1px 2px 2px; }
-  h1.logo .afe {
+  .logo .afe {
     color: #50351A;
     color: rgba(80,53,26,0.9);
     text-shadow: #000 1px 2px 2px; }
-  h1.logo .bop {
+  .logo .bop {
     color: #B08B5E;
     color: rgba(80,139,94, 0.9);
     text-shadow: #000 1px 2px 2px; }
