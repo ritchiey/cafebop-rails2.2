@@ -25,6 +25,10 @@ class ContentController < ApplicationController
   end
   
   def owners
+  end      
+  
+  def pricing
+    
   end
   
 end
