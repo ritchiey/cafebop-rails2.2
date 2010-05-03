@@ -19,74 +19,75 @@
           =render :partial=>'ordering_card', :locals=>{:card_for=>menu_item, :item=>menu_item}
     
     
+-unless @shop.effective_menus.empty?
 
--content_for :aside do        
-  %h5.title Your Order
+  -content_for :aside do        
+    %h5.title Your Order
 
-  -semantic_form_for order do |form|
-    %table.order.order-form
-      %thead
-        %tr
-          %th Qty
-          %th Description
-          %th Cost($)
-          %th
+    -semantic_form_for order do |form|
+      %table.order.order-form
+        %thead
+          %tr
+            %th Qty
+            %th Description
+            %th Cost($)
+            %th
 
-      %tfoot
-        %tr
-          %td(colspan="2") Total
-          %td#total #{number_to_currency(@order.total)}
-          %td
+        %tfoot
+          %tr
+            %td(colspan="2") Total
+            %td#total #{number_to_currency(@order.total)}
+            %td
 
-      %tbody#order_items
-        -@order.order_items.each do |order_item|
-          -fields_for "order[order_items_attributes][]", order_item, :index=>nil do |item_form|
-            -if item_form.object
-              %tr
-                %td
-                  =h item_form.object.quantity
-                  = item_form.hidden_field :id, :index=>nil
-                  = item_form.hidden_field :quantity
-                  = item_form.hidden_field :menu_item_id
-                  = item_form.hidden_field :flavour_id
-                  = item_form.hidden_field :size_id
-                %td
-                  =h item_form.object.description
-                %td.cost
-                  =h number_to_currency(item_form.object.cost, :unit=>'')
-                %td.remove
-                  =image_tag '/images/remove.gif', :alt=>'remove'
-              -if item_form.object.notes
-                %tr.notes
-                  %td.notes(colspan="3")
-                    =h item_form.object.notes
-            -else
-              %tr
-                %td
-    -form.inputs do
-      =form.input :effective_name, :label=>'Name', :hint=>"Name that will appear on order", :required=>true, :input_html=>{:class=>'required'}
-      =form.input :phone, :hint=>"Your phone number", :required=>true, :input_html=>{:class=>'required'}
-      =form.input :deliver
-      =form.input :address, :hint=>"Delivery address"
+        %tbody#order_items
+          -@order.order_items.each do |order_item|
+            -fields_for "order[order_items_attributes][]", order_item, :index=>nil do |item_form|
+              -if item_form.object
+                %tr
+                  %td
+                    =h item_form.object.quantity
+                    = item_form.hidden_field :id, :index=>nil
+                    = item_form.hidden_field :quantity
+                    = item_form.hidden_field :menu_item_id
+                    = item_form.hidden_field :flavour_id
+                    = item_form.hidden_field :size_id
+                  %td
+                    =h item_form.object.description
+                  %td.cost
+                    =h number_to_currency(item_form.object.cost, :unit=>'')
+                  %td.remove
+                    =image_tag '/images/remove.gif', :alt=>'remove'
+                -if item_form.object.notes
+                  %tr.notes
+                    %td.notes(colspan="3")
+                      =h item_form.object.notes
+              -else
+                %tr
+                  %td
+      -form.inputs do
+        =form.input :effective_name, :label=>'Name', :hint=>"Name that will appear on order", :required=>true, :input_html=>{:class=>'required'}
+        =form.input :phone, :hint=>"Your phone number", :required=>true, :input_html=>{:class=>'required'}
+        =form.input :deliver
+        =form.input :address, :hint=>"Delivery address"
       
           
-    != render :partial => 'close_time_counter'
-    =submit_tag((@order.is_child? ? "Confirm" : "Continue"), :disabled=>@order.order_items.empty?, :id=>'continue-order-button', :class=>'button')
+      != render :partial => 'close_time_counter'
+      =submit_tag((@order.is_child? ? "Confirm" : "Continue"), :disabled=>@order.order_items.empty?, :id=>'continue-order-button', :class=>'button')
         
 
-.hidden
-  #dialog{ :title => "Add to Order" }
-    %form
-      #quantity_details
-        %label{ :for => "quantity" } Quantity      
-        %input#quantity_field.text.ui-widget-content.ui-corner-all{ :name => "quantity", :type => "text", :size=>"2", :maxlength=>"2"}
-      #flavour_details
-        %label{ :for => "flavour" } Flavour
-        %select#flavour_field.select.ui-widget-content.ui-corner-all{ :name => "flavour" }
-      #size_details
-        %label{ :for => "size" } Size
-        %select#size_field.select.ui-widget-content.ui-corner-all{ :name => "size" }
-      %label{ :for => "notes" } Notes
-      %input#notes_field.text.ui-widget-content.ui-corner-all{ :name => "notes", :type => "text", :value => "" }
-      %input#details_field{ :name => "details", :type => "hidden", :value => "" }
+  .hidden
+    #dialog{ :title => "Add to Order" }
+      %form
+        #quantity_details
+          %label{ :for => "quantity" } Quantity      
+          %input#quantity_field.text.ui-widget-content.ui-corner-all{ :name => "quantity", :type => "text", :size=>"2", :maxlength=>"2"}
+        #flavour_details
+          %label{ :for => "flavour" } Flavour
+          %select#flavour_field.select.ui-widget-content.ui-corner-all{ :name => "flavour" }
+        #size_details
+          %label{ :for => "size" } Size
+          %select#size_field.select.ui-widget-content.ui-corner-all{ :name => "size" }
+        %label{ :for => "notes" } Notes
+        %input#notes_field.text.ui-widget-content.ui-corner-all{ :name => "notes", :type => "text", :value => "" }
+        %input#details_field{ :name => "details", :type => "hidden", :value => "" }
       

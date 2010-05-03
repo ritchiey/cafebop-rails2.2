@@ -7,6 +7,8 @@ class Shop < ActiveRecord::Base
     fax     :string
     website :string
     state   :string, :default=>'express', :limit=>20
+    activation_code :string, :limit=>20
+    creator_email_address :string, :limit=>250
     email_address :email_address
     accept_pay_in_shop :boolean, :default=>false
     accept_paypal_orders :boolean, :default=>false
@@ -44,7 +46,7 @@ class Shop < ActiveRecord::Base
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email, :menu_data,
-        :accept_pay_in_shop, :accept_paypal_orders
+        :accept_pay_in_shop, :accept_paypal_orders, :creator_email, :activation_confirmation, :creator_email_address
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -54,6 +56,7 @@ class Shop < ActiveRecord::Base
   # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
   # validate  :no_queuing_if_community
 
+  before_create :create_activation_code
   before_save :process_manager_email
   after_save :process_manager_user
   after_create :guess_cuisines
@@ -67,7 +70,7 @@ class Shop < ActiveRecord::Base
   
   # Virtual attribute to assign a manager role & PayPal
   # recipient and convert the shop to express.
-  attr_accessor :manager_email, :manager_user
+  attr_accessor :manager_email, :manager_user, :creator_email,:activation_confirmation
   
   # Populate this virtual attribute to import a menu
   attr_accessor :menu_data
@@ -203,7 +206,19 @@ class Shop < ActiveRecord::Base
   def accepts_paypal_payments?
     accept_paypal_orders
   end
+      
+  def active=(val)
+    self.activation_code = (val)? nil : rand(1000000000).to_s(26)
+  end
 
+  def active() !activation_code; end
+  alias_method :active?, :active
+  
+  def activation_confirmation=(val)
+    if !active? and activation_code.andand.downcase == val.andand.downcase
+      self.active = true
+    end
+  end
   
   # State related    
   def express?() state == 'express'; end
@@ -326,10 +341,10 @@ class Shop < ActiveRecord::Base
     end
   end
     
-    
-  # def no_queuing_if_community
-  #   if community? and accept_queued_orders
-  #     errors.add_to_base("This shop can't have queues enabled because it's in community mode.")
-  #   end
-  # end   
+  
+  def create_activation_code
+    self.active = false
+    true
+  end
+  
 end

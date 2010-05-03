@@ -18,6 +18,37 @@ END
     end
   end
   
+  context "a newly created shop" do
+    setup do
+      @shop = Shop.make
+    end
+
+    should "be inactive" do
+      assert !@shop.active?
+    end
+    
+    context "given the correct activation code" do
+      setup do
+        @shop.activation_confirmation = @shop.activation_code
+      end
+
+      should "become active" do
+        assert @shop.active?
+      end
+    end
+    
+    context "given an incorrect activation code" do
+      setup do
+        @shop.activation_confirmation = 'strawberries'
+      end
+
+      should "remain inactive" do
+        assert !@shop.active?
+      end
+    end
+    
+  end
+  
 
   context "Specifying manager_email when creating a shop" do
     setup do

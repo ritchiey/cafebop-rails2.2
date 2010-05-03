@@ -2,4 +2,20 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  formtastic: 
+    titles:
+      shop_name: "Shop Name title"
+    labels:
+      shop:
+        creator_email: "Email address"
+        name: "Name"
+        permalink: "http://"
+        edit:
+          name: "Edit name"
+    hints:
+      post:
+        name: "as it will appear on screen"
+        permalink: "url for your site"
+    actions:
+      create: "Create {{model}}"
+      update: "Save changes"
