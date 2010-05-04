@@ -19,8 +19,8 @@ class ShopSignupController < ApplicationController
   end
     
   def update
-    changes = params[:shop]
-    #TODO Make sure can only update activation_confirmation
+    changes = params[:shop].reject {|k,v| k.to_sym != :activation_confirmation}
+    
     if @new_shop.update_attributes(changes)
       redirect_to :action=>:active
     end

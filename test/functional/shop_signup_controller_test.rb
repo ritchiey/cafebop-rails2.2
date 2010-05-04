@@ -19,7 +19,7 @@ class ShopSignupControllerTest < ActionController::TestCase
       @shop.expects(:id).at_least_once.returns(37)
     end
 
-    context "calling update" do
+    context "calling create" do
       setup do
         post :create, @shop_parameters
       end
@@ -52,6 +52,17 @@ class ShopSignupControllerTest < ActionController::TestCase
       should_assign_to :new_shop
       should_render_template :activation_form
     end
+    
+    context "calling update" do
+      setup do
+        put :update, :id=>@shop.id, :shop=>{'activation_confirmation'=>'12345', 'name'=>'Ignore this'}
+      end
+
+      before_should "only update the activation code" do
+        @shop.expects(:update_attributes).with('activation_confirmation'=>'12345').returns(true)
+      end
+    end
+    
   end
   
   
