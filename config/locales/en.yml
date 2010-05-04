@@ -9,7 +9,7 @@ en:
       shop:
         creator_email: "Email address"
         name: "Name"
-        permalink: "http://"
+        permalink: "URL"
         edit:
           name: "Edit name"
     hints:

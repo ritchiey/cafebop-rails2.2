@@ -1,6 +1,12 @@
-%h3 Activation
+%h3 Email Confirmation
+            
+%p
+  We've sent an email with a short code in it to '#{@new_shop.creator_email_address}'.
+  Please enter the code in the box below.
 
-/ -semantic_form_for @shop do
-/   =fields :activation_code
-/   =buttons
+-semantic_form_for @new_shop, :url=>shop_signup_path(@new_shop) do |f|
+  -f.inputs :class=>'bordered' do
+    =f.input :activation_confirmation, :label=>"Activation Code", :hint=>"Activation code from the email"
+    -f.buttons do
+      =f.commit_button 'Continue'
 

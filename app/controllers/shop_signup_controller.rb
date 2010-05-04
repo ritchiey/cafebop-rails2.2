@@ -11,7 +11,7 @@ class ShopSignupController < ApplicationController
     if @new_shop.save
       redirect_to activation_form_shop_signup_path(@new_shop)
     else
-      redirect_to :new
+      redirect_to :action=>:new
     end
   end
   
@@ -20,8 +20,9 @@ class ShopSignupController < ApplicationController
     
   def update
     changes = params[:shop]
+    #TODO Make sure can only update activation_confirmation
     if @new_shop.update_attributes(changes)
-      redirect_to :active
+      redirect_to :action=>:active
     end
   end  
   
@@ -31,7 +32,7 @@ class ShopSignupController < ApplicationController
 private            
 
   def find_instance
-    @new_shop = Shop.find(params[:id])
+    @new_shop = find_shop(params[:id])
   end
   
 end

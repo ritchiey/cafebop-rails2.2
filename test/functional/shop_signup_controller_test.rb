@@ -41,7 +41,7 @@ class ShopSignupControllerTest < ActionController::TestCase
   context "With an existing inactive shop" do
     setup do
       @shop = Shop.make_unsaved
-      Shop.expects(:find).returns(@shop)
+      Shop.expects(:find_by_id_or_permalink).returns(@shop)
       @shop.expects(:id).at_least_once.returns(37)
     end
 

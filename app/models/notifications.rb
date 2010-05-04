@@ -8,6 +8,14 @@ class Notifications < ActionMailer::Base
     body       :activation_url => activate_url(:token => user.perishable_token)
   end
 
+  def activate_shop shop
+    subject    'Activation code for your new shop'
+    recipients shop.creator_email_address
+    from       SUPPORT_EMAIL
+    sent_on    Time.now
+    body       :shop => shop
+  end
+
   def invite(order)                        
     parent = order.parent
     subject    "Want anything from #{parent.shop}?"

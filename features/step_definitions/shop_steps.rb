@@ -1,4 +1,9 @@
 
+When /^I enter the activation code from the email$/ do
+  current_email.body.should =~ /Activation Code: (.+)/i
+  Given %Q{I fill in "Activation Code" with "#{$1}"}
+end
+
 Given /^there is a shop named "(.+?)"$/ do |shop_name|
   @shop = Shop.make(:name=>shop_name)
 end
@@ -56,3 +61,4 @@ Given /^the customer queue for (.+?) is (.+?)$/ do |shop_name, state|
     raise "Unknown state for customer queue '#{state}'"
   end
 end
+

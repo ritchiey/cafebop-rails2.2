@@ -32,7 +32,7 @@ ActionController::Routing::Routes.draw do |map|
     :member=>{:make=>:put},
     :collection=>{:make_all=>:put}
 
-  map.resources :shop_signup, :member=>{:activation_form=>:get, :activate=>:put}
+  map.resources :shop_signup, :member=>{:activation_form=>:get, :active=>:get}
   map.with_options(:conditions => {:subdomain => /.+/}) do |shop|
     shop.edit "edit", :controller=>'shops', :action=>'edit'
     shop.refund_policy_for "refund_policy", :controller=>'shops', :action=>'edit'

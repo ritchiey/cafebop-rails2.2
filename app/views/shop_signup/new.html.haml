@@ -1,9 +1,9 @@
 %h1 Create your Shop
 
 -semantic_form_for @new_shop, :url=>shop_signup_index_path do |f|
-  -f.inputs :name=>"Your", :id=>:user_fields, :class=>'bordered' do
-    =f.inputs :creator_email
-  -f.inputs :name=>"Restaurant", :id=>:shop_fields, :class=>'bordered' do
+  -f.inputs :name=>"Your Details", :id=>:user_fields, :class=>'bordered' do
+    =f.input :creator_email_address, :label=>'Email Address'
+  -f.inputs :name=>"Restaurant Details", :id=>:shop_fields, :class=>'bordered' do
     =f.inputs :name, :street_address, :phone, :permalink
   -f.buttons do
     =f.commit_button

@@ -46,7 +46,7 @@ class Shop < ActiveRecord::Base
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email, :menu_data,
-        :accept_pay_in_shop, :accept_paypal_orders, :creator_email, :activation_confirmation, :creator_email_address
+        :accept_pay_in_shop, :accept_paypal_orders, :creator_email_address, :activation_confirmation, :creator_email_address
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -70,7 +70,7 @@ class Shop < ActiveRecord::Base
   
   # Virtual attribute to assign a manager role & PayPal
   # recipient and convert the shop to express.
-  attr_accessor :manager_email, :manager_user, :creator_email,:activation_confirmation
+  attr_accessor :manager_email, :manager_user, :activation_confirmation
   
   # Populate this virtual attribute to import a menu
   attr_accessor :menu_data
@@ -208,7 +208,7 @@ class Shop < ActiveRecord::Base
   end
       
   def active=(val)
-    self.activation_code = (val)? nil : rand(1000000000).to_s(26)
+    self.activation_code = (val)? nil : rand(1000000000).to_s(26).upcase
   end
 
   def active() !activation_code; end

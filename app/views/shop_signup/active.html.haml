@@ -2,7 +2,7 @@
 
 %p
   Your shop #{@new_shop.name} is now online at
-  #{link_to(new_shop_order_url(@new_shop), new_shop_order_url(@new_shop))}.
+  #{link_to(shop_new_order_path(@new_shop), shop_new_order_path(@new_shop))}.
 %p
   We've created some sample menus based on the cuisines you chose but these
   are almost certainly not accurate so the next step is to edit or import
