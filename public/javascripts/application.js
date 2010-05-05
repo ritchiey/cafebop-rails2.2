@@ -102,6 +102,11 @@ $.fn.qtip.styles.cafebop = {
 
 $(function() { // page ready
   
+  
+  $('#shop_name').change(function(e) {
+    populateField("#shop_permalink", toPermalink($(this).val()));
+  })
+  
   $('.make-account-blurb').hide();
   
   setTimeout(function() {
@@ -556,6 +561,13 @@ function toPermalink(name) {
 function toShopUrl(name) {
   return "http://"+toPermalink(name) +"."+ domain_name + "/";
 }     
+
+function populateField(selector, value) {
+  field = $(selector)
+  if (field.val() == "") {
+    field.val(value);
+  } 
+}
 
 function initialize_geocoder() {
   geocoder = new GClientGeocoder();   
