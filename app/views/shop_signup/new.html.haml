@@ -4,6 +4,11 @@
   -f.inputs :name=>"Your Details", :id=>:user_fields, :class=>'bordered' do
     =f.input :creator_email_address, :label=>'Email Address'
   -f.inputs :name=>"Restaurant Details", :id=>:shop_fields, :class=>'bordered' do
-    =f.inputs :name, :street_address, :phone, :permalink
+    =f.inputs :name, :street_address, :phone
+    %li#shop_permalink_input.string.optional
+      %label{ :for => "shop_permalink" } URL
+      http://
+      %input#shop_permalink{:name => "shop[permalink]", :maxlength => "255", :size => "10", :type => "text" }>
+      \.#{APPLICATION_DOMAIN}
   -f.buttons do
     =f.commit_button

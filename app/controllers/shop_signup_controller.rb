@@ -20,9 +20,10 @@ class ShopSignupController < ApplicationController
     
   def update
     changes = params[:shop].reject {|k,v| k.to_sym != :activation_confirmation}
-    
     if @new_shop.update_attributes(changes)
       redirect_to :action=>:active
+    else
+      redirect_to :action=>:activation_form
     end
   end  
   

@@ -514,3 +514,6 @@ h2.slogan {
 .about {
   color: #606060;
   font: 1.5em helvetica, verdana, arial, times, "Times New Roman", sans-serif; }
+
+input#shop_permalink {
+  width: 30%; }
