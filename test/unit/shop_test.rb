@@ -27,6 +27,14 @@ END
       assert !@shop.active?
     end
     
+    should "not be able to be updated without an activation code" do
+      @shop.name = "Bad Guy's"
+      assert !@shop.save
+      assert_equal 1, @shop.errors.count
+      assert_same_elements ["Invalid activation code"], @shop.errors.on_base 
+    end
+    
+    
     context "given the correct activation code" do
       setup do
         @shop.activation_confirmation = @shop.activation_code

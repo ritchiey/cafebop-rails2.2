@@ -5,6 +5,7 @@
   Please enter the code in the box below.
 
 -semantic_form_for @new_shop, :url=>shop_signup_path(@new_shop) do |f|
+  =f.error_messages
   -f.inputs :class=>'bordered' do
     =f.input :activation_confirmation, :label=>"Activation Code", :hint=>"Activation code from the email"
     -f.buttons do

@@ -1,11 +1,14 @@
 
 When /^I enter the activation code from the email$/ do
-  current_email.body.should =~ /Activation Code: (.+)/i
+  assert current_email.body =~ /Activation Code: (\w+)/i
+  assert $1 and $1.strip.length > 1
   Given %Q{I fill in "Activation Code" with "#{$1}"}
 end
 
-Given /^there is a shop named "(.+?)"$/ do |shop_name|
+Given /^there is an (.+?) shop named "(.+?)"$/ do |state, shop_name|
   @shop = Shop.make(:name=>shop_name)
+  @shop.active = (state == 'active')
+  @shop.save
 end
 
 Given /^I am logged in as a (.+?) of (.+?)$/ do |role, shop_name|

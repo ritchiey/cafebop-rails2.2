@@ -53,7 +53,7 @@ class Shop < ActiveRecord::Base
   #validates_presence_of :name, :permalink, :street_address
   validates_format_of :permalink, :with => /^[A-Za-z0-9-]+$/, :message => 'The permalink can only contain alphanumeric characters and dashes.', :allow_blank => true
   validates_exclusion_of :permalink, :in => %w( support blog www billing help api ), :message => "The permalink <strong>{{value}}</strong> is reserved and unavailable."
-  # validates_uniqueness_of :permalink, :on => :create, :message => "already exists"
+  validates_uniqueness_of :permalink, :on => :create, :message => "already exists", :if=>:permalink
   # validate  :no_queuing_if_community
 
   before_create :create_activation_code
@@ -95,6 +95,10 @@ class Shop < ActiveRecord::Base
 
   def validate
     errors.add('street_address', 'Must be able to be located on map.') unless (lat and lng)
+  end
+  
+  def validate_on_update
+    active? or errors.add_to_base("Invalid activation code")
   end
   
   has_many :orders, :dependent=>:destroy, :order=>'created_at DESC'

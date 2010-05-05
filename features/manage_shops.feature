@@ -4,7 +4,7 @@ Feature: Manage Shops
   I want to create and manage menus
 
   Background:
-    Given there is a shop named "Bulbousity"
+    Given there is an active shop named "Bulbousity"
     And Bulbousity is an express shop
 
   Scenario: Creating a Menu as a manager

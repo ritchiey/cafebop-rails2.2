@@ -6,7 +6,7 @@ Feature: Invite others
   Background:
     Given there is an active user with email "harry@hogwarts.edu" and password "Quiddich"
     And "harry@hogwarts.edu" has a friend with email "hermione@hogwarts.edu"
-	  And there is a shop named "Gromits"
+	  And there is an active shop named "Gromits"
 		And Gromits has a menu called "Breakfast"
 		And the Breakfast menu has the following menu items:
 	 | name   | description                    | price |

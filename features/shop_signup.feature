@@ -20,6 +20,9 @@ Scenario: An new user creates a shop
     When I open the email
     Then I should see "This is the activation code for your new shop" in the email body
     And I should see "Please enter this code on the Email Confirmation screen" in the email body
+    When I fill in "Activation Code" with "XXXX"
+    And press "Continue"
+    Then I should see "Invalid activation code"
     When I enter the activation code from the email
     And press "Continue"
     Then I should see "Nice One!"

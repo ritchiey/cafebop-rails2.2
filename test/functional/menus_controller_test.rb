@@ -126,6 +126,7 @@ class MenusControllerTest < ActionController::TestCase
       setup do
         @manager = User.make(:active)
         @shop.work_contracts.make(:user=>@manager, :role=>'manager')
+        @shop.active = true
         assert @shop.save
         login_as @manager   
       end

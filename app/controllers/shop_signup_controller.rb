@@ -23,7 +23,7 @@ class ShopSignupController < ApplicationController
     if @new_shop.update_attributes(changes)
       redirect_to :action=>:active
     else
-      redirect_to :action=>:activation_form
+      render :action=>:activation_form
     end
   end  
   
