@@ -2,15 +2,15 @@
 
 -semantic_form_for @new_shop, :url=>shop_signup_index_path do |f|
   -f.inputs :name=>"Your Details", :id=>:user_fields, :class=>'bordered' do
-    =f.input :creator_email_address, :label=>'Email Address'
+    =f.input :creator_email_address, :label=>'Email Address', :input_html=>{:class=>'required'}
   -f.inputs :name=>"Restaurant Details", :id=>:shop_fields, :class=>'bordered' do
-    =f.input :name
+    =f.input :name, :input_html=>{:class=>'required'}
     %li#shop_permalink_input.string.optional
       %label{ :for => "shop_permalink" } URL
       http://
-      %input#shop_permalink{:name => "shop[permalink]", :maxlength => "255", :size => "10", :type => "text" }>
+      %input#shop_permalink{:name => "shop[permalink]", :maxlength => "255", :size => "10", :type => "text", :class=>"required" }>
       \.#{APPLICATION_DOMAIN}
-    =f.inputs :street_address, :phone
+    =f.inputs :street_address, :phone, :input_html=>{:class=>'required'}
     =f.input :cuisines, :as=>:check_boxes, :hint=>"Select one or more", :collection=>Cuisine.is_not_franchise
   -f.buttons do
     =f.commit_button

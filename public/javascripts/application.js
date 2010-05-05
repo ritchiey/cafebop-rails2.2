@@ -102,6 +102,7 @@ $.fn.qtip.styles.cafebop = {
 
 $(function() { // page ready
   
+  $("form#new_shop").validate();
   
   $('#shop_name').change(function(e) {
     populateField("#shop_permalink", toPermalink($(this).val()));
