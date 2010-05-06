@@ -191,7 +191,7 @@ class ShopsControllerTest < ActionController::TestCase
           expects(:save).returns(true)
           expects(:to_param).at_least_once.returns("xxx")
         end
-        @create_args = {:name=>"Sniggles", :manager_email=>@email}
+        @create_args = {:name=>"Sniggles", :owner_email=>@email}
         Shop.expects(:new).returns(@shop)
         post :create, :shop=>@create_args
       end

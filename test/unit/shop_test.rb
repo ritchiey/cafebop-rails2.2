@@ -18,10 +18,15 @@ END
     end
   end
   
-  context "a newly created shop" do
+  context "a newly created shop with an owner email specified" do
+    
     setup do
-      @shop = Shop.make
+      @owner_email = "ron@hogwarts.edu"
+      @owner = User.make_unsaved
+      User.expects(:for_email).with(@owner_email, {:suppress_activation_email=>true}).returns(@owner)
+      @shop = Shop.make(:owner_email=>@owner_email)
     end
+
 
     should "be inactive" do
       assert !@shop.active?
@@ -57,11 +62,25 @@ END
     
   end
   
+#  context "Specifying a creator_email_address when creating a shop" do
+#    setup do
+#      @email = "bob@test.com"
+#      @shop = Shop.make(:creator_email_address=>@email)
+#    end
+#
+#    should "make the user and set it as the creator" do
+#      assert_not_nil @shop.creator
+#      assert @shop.creator.is_a?(User)
+#      assert_equal @email, @shop.creator.email
+#    end
+#
+#  end
+  
 
-  context "Specifying manager_email when creating a shop" do
+  context "Specifying owner_email when creating a shop" do
     setup do
       @email = "bob@test.com"
-      @shop = Shop.make(:manager_email=>"bob@test.com")
+      @shop = Shop.make(:owner_email=>@email)
     end
 
     should "create an express shop" do
@@ -74,7 +93,7 @@ END
       assert user.manages?(@shop)
     end
     
-    should "make email the paypal recipient for the shop" do
+    should "email the paypal recipient for the shop" do
       assert_equal(@shop.paypal_recipient, @email)
     end
     

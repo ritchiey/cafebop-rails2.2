@@ -50,7 +50,7 @@
       =f.input :fax, :hint=>"If available"
     -if current_user and current_user.is_admin?
       -f.inputs :name=>"Advanced", :id=>:advanced, :class=>'bordered' do
-        =f.input :manager_email, :hint=>"Assign this user as the manager of the shop"
+        =f.input :owner_email, :hint=>"Assign this user as the manager of the shop"
         =f.input :permalink, :hint=>"This shops unique identifier as used in their URL"
     / =f.input :fee_threshold, :hint=>"Customer must pay the transaction fees on orders less than this amount"
     -f.inputs :name=>"Theme", :id=>:theme, :class=>'bordered' do

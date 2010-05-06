@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100503061734) do
+ActiveRecord::Schema.define(:version => 20100506060915) do
 
   create_table "cuisine_menus", :force => true do |t|
     t.integer  "cuisine_id"
@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(:version => 20100503061734) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",                          :limit => 20,  :default => "express"
+    t.string   "state",                          :limit => 20, :default => "express"
     t.float    "lat"
     t.float    "lng"
     t.string   "street_address"
@@ -196,25 +196,25 @@ ActiveRecord::Schema.define(:version => 20100503061734) do
     t.string   "header_background_content_type"
     t.integer  "header_background_file_size"
     t.datetime "header_background_updated_at"
-    t.boolean  "generic_orders",                                :default => true
+    t.boolean  "generic_orders",                               :default => true
     t.integer  "franchise_id"
     t.string   "permalink"
-    t.boolean  "accept_paypal_orders",                          :default => false
+    t.boolean  "accept_paypal_orders",                         :default => false
     t.string   "paypal_recipient"
-    t.integer  "fee_threshold_in_cents",                        :default => 0
+    t.integer  "fee_threshold_in_cents",                       :default => 0
     t.integer  "location_accuracy"
     t.text     "refund_policy"
     t.text     "motto"
-    t.boolean  "display_name",                                  :default => true
-    t.boolean  "tile_border",                                   :default => true
+    t.boolean  "display_name",                                 :default => true
+    t.boolean  "tile_border",                                  :default => true
     t.datetime "border_background_updated_at"
     t.string   "border_background_file_name"
     t.string   "border_background_content_type"
     t.integer  "border_background_file_size"
-    t.boolean  "accept_pay_in_shop",                            :default => false
+    t.boolean  "accept_pay_in_shop",                           :default => false
     t.float    "shop_discount"
     t.string   "activation_code",                :limit => 20
-    t.string   "creator_email_address",          :limit => 250
+    t.integer  "owner_id"
   end
 
   add_index "shops", ["lat"], :name => "index_shops_on_lat"

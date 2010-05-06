@@ -8,7 +8,6 @@ class Shop < ActiveRecord::Base
     website :string
     state   :string, :default=>'express', :limit=>20
     activation_code :string, :limit=>20
-    creator_email_address :string, :limit=>250
     email_address :email_address
     accept_pay_in_shop :boolean, :default=>false
     accept_paypal_orders :boolean, :default=>false
@@ -45,8 +44,8 @@ class Shop < ActiveRecord::Base
 
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
-        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :manager_email, :menu_data,
-        :accept_pay_in_shop, :accept_paypal_orders, :creator_email_address, :activation_confirmation, :creator_email_address
+        :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :owner_email, :menu_data,
+        :accept_pay_in_shop, :accept_paypal_orders, :creator_email_address, :activation_confirmation
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -57,11 +56,12 @@ class Shop < ActiveRecord::Base
   # validate  :no_queuing_if_community
 
   before_create :create_activation_code
-  before_save :process_manager_email
-  after_save :process_manager_user
+  before_save :process_owner_email
+  after_save :ensure_owner_is_manager
   after_create :guess_cuisines
   after_save :create_queues
-  after_save :import_menus
+  after_save :import_menus    
+  # after_update :confirm_manager_user
                                      
 
   # def subdomain   
@@ -70,7 +70,8 @@ class Shop < ActiveRecord::Base
   
   # Virtual attribute to assign a manager role & PayPal
   # recipient and convert the shop to express.
-  attr_accessor :manager_email, :manager_user, :activation_confirmation
+  attr_accessor :owner_email, :manager_user, :activation_confirmation,
+    :creator_email_address
   
   # Populate this virtual attribute to import a menu
   attr_accessor :menu_data
@@ -116,6 +117,7 @@ class Shop < ActiveRecord::Base
   has_many :shop_cuisines
   has_many :cuisines, :through=>:shop_cuisines, :conditions=>{:franchise=>false}
   belongs_to :franchise, :class_name => "Cuisine", :foreign_key => "franchise_id", :conditions=>{:franchise=>true}
+  belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   accepts_nested_attributes_for :menus 
   acts_as_mappable
   
@@ -308,23 +310,21 @@ class Shop < ActiveRecord::Base
   
   # Called before_save. Creates and assigns @manager_user and
   # updates any fields on this record that need to be saved
-  def process_manager_email
-    if @manager_email
-      @manager_user = User.for_email(@manager_email)
-      if @manager_user
-        self.paypal_recipient = @manager_email
+  def process_owner_email
+    if @owner_email
+      self.owner = User.for_email(@owner_email, :suppress_activation_email=>true)
+      if owner
+        self.paypal_recipient = @owner_email
         self.state = 'express'
       end
     end
   end
   
   # Called after_save. Creates associated records.
-  def process_manager_user
-    if @manager_user
-      @manager_user.becomes_manager_of(self)
-    end
+  def ensure_owner_is_manager
+    owner and owner.becomes_manager_of(self)
   end
-  
+
   def create_queues
     if can_have_queues? and customer_queues.count == 0
       customer_queues.create

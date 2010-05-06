@@ -19,7 +19,7 @@ class ShopObserver < ActiveRecord::Observer
   end
   
   def after_create(shop)
-    if !shop.active? and shop.creator_email_address
+    if !shop.active? and shop.owner
       Notifications.send_later(:deliver_activate_shop, shop)
     end
   end

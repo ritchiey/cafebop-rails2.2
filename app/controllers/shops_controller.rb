@@ -28,7 +28,7 @@ class ShopsController < ApplicationController
   def create                   
     shop_params = params[:shop]
     unless current_user and current_user.is_admin?
-      shop_params.delete(:manager_email)
+      shop_params.delete(:owner_email)
     end
     @shop = Shop.new(shop_params)
     if @shop.save

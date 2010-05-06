@@ -6,7 +6,7 @@ class UserTest < ActiveSupport::TestCase
     setup do
       @user = User.make_unsaved
     end
-
+    
     context "with a reputation of 0" do
       setup { @user.stubs(:reputation).returns(0) }
       should("be described as neutral") { assert_equal 'neutral', @user.reputation_s}

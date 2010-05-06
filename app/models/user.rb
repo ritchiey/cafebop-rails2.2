@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   attr_accessor :remember_me
   
   attr_accessor :dob_day, :dob_month
+  attr_accessor :suppress_activation_email
   
   acts_as_mappable :default_distance=>:miles
          
@@ -54,6 +55,7 @@ class User < ActiveRecord::Base
   has_many :fanships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :fans, :through=>:fanships, :source=>:user
   has_many :orders
+  has_many :owned_shops, :class_name => "Shop", :foreign_key => "owner_id"
   
   named_scope :email_in, lambda {|emails| {:conditions=>{:email=>emails}}}
   
@@ -145,8 +147,8 @@ class User < ActiveRecord::Base
     }
   end
 
-  def self.for_email(email)
-    find_or_create_by_email({:email=>email}.merge(dummy_password_attributes))
+  def self.for_email(email, options={})
+    find_or_create_by_email({:email=>email}.merge(dummy_password_attributes).merge(options))
   end
   
   def self.for_emails(emails)

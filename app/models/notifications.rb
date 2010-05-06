@@ -10,7 +10,7 @@ class Notifications < ActionMailer::Base
 
   def activate_shop shop
     subject    'Activation code for your new shop'
-    recipients shop.creator_email_address
+    recipients shop.owner.email
     from       SUPPORT_EMAIL
     sent_on    Time.now
     body       :shop => shop
