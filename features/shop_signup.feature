@@ -27,4 +27,4 @@ Scenario: An new user creates a shop
     And press "Continue"
     Then I should see "Nice One!"
     And I should see "Your shop Scabbers is now online at http://scabbers.example.com"
-    
+    And I should see "Logged in as ron"

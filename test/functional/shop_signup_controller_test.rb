@@ -40,9 +40,12 @@ class ShopSignupControllerTest < ActionController::TestCase
 
   context "With an existing inactive shop" do
     setup do
-      @shop = Shop.make_unsaved
+      @shop = Shop.make_unsaved(:owner) 
+      @owner = User.make_unsaved
       Shop.expects(:find_by_id_or_permalink).returns(@shop)
       @shop.expects(:id).at_least_once.returns(37)
+      @shop.stubs(:active?).returns(false)  
+      @shop.stubs(:owner).returns(@owner)
     end
 
     context "Displaying the activation form" do
@@ -58,8 +61,9 @@ class ShopSignupControllerTest < ActionController::TestCase
         put :update, :id=>@shop.id, :shop=>{'activation_confirmation'=>'12345', 'name'=>'Ignore this'}
       end
 
-      before_should "only update the activation code" do
+      before_should "only update the activation code and login as the owner" do
         @shop.expects(:update_attributes).with('activation_confirmation'=>'12345').returns(true)
+        controller.expects(:login_as).with(@owner)
       end
     end
     

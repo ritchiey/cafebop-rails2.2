@@ -58,11 +58,10 @@ class Shop < ActiveRecord::Base
   before_create :create_activation_code
   before_save :process_owner_email
   after_save :ensure_owner_is_manager
+  # after_update :activate_owner
   after_create :guess_cuisines
   after_save :create_queues
-  after_save :import_menus    
-  # after_update :confirm_manager_user
-                                     
+  after_save :import_menus
 
   # def subdomain   
   #   {:subdomain=>(permalink ? permalink : false)}
@@ -214,7 +213,12 @@ class Shop < ActiveRecord::Base
   end
       
   def active=(val)
-    self.activation_code = (val)? nil : rand(1000000000).to_s(26).upcase
+    if val
+      activate_owner
+      self.activation_code = nil
+    else
+      self.activation_code = rand(1000000000).to_s(26).upcase
+    end
   end
 
   def active() !activation_code; end
@@ -318,11 +322,19 @@ class Shop < ActiveRecord::Base
         self.state = 'express'
       end
     end
+    true
   end
   
   # Called after_save. Creates associated records.
   def ensure_owner_is_manager
     owner and owner.becomes_manager_of(self)
+    true
+  end
+  
+  # Called after_update. Activates the owner if the shop
+  # was activated on this update.
+  def activate_owner          
+    owner and owner.activate!
   end
 
   def create_queues
@@ -335,9 +347,9 @@ class Shop < ActiveRecord::Base
         end
       end
     end
+    true
   end
                       
-  
   def import_menus
     if @menu_data and @menu_data.strip.length > 0
       menus.delete_all

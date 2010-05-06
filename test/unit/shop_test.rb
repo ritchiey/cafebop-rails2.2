@@ -42,6 +42,8 @@ END
     
     context "given the correct activation code" do
       setup do
+        @shop.expects(:owner).at_least_once.returns(@owner)
+        @owner.expects(:activate!).returns(true)
         @shop.activation_confirmation = @shop.activation_code
       end
 
@@ -62,19 +64,19 @@ END
     
   end
   
-#  context "Specifying a creator_email_address when creating a shop" do
-#    setup do
-#      @email = "bob@test.com"
-#      @shop = Shop.make(:creator_email_address=>@email)
-#    end
-#
-#    should "make the user and set it as the creator" do
-#      assert_not_nil @shop.creator
-#      assert @shop.creator.is_a?(User)
-#      assert_equal @email, @shop.creator.email
-#    end
-#
-#  end
+ context "Specifying an owner_email when creating a shop" do
+   setup do
+     @email = "bob@test.com"
+     @shop = Shop.make(:owner_email=>@email)
+   end
+
+   should "make the user and set it as the creator" do
+     assert_not_nil @shop.owner
+     assert @shop.owner.is_a?(User)
+     assert_equal @email, @shop.owner.email
+   end
+
+ end
   
 
   context "Specifying owner_email when creating a shop" do

@@ -16,12 +16,14 @@ class ShopObserver < ActiveRecord::Observer
         RAILS_DEFAULT_LOGGER.info "Queuing enabled for shop #{shop.id}"
         Notifications.send_later(:deliver_queuing_enabled, shop)
     end
+    true
   end
   
   def after_create(shop)
     if !shop.active? and shop.owner
       Notifications.send_later(:deliver_activate_shop, shop)
     end
+    true
   end
   
 end
