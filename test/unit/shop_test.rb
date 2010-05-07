@@ -2,6 +2,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ShopTest < ActiveSupport::TestCase
   
+  should "distinguish correctly between ids and permalinks" do
+    assert Shop.is_id?("12")
+    assert Shop.is_id?("12-twelve")
+    assert !Shop.is_id?("palmers")
+    assert !Shop.is_id?("12palmers")
+  end
+  
   context "Specifying menu_data when creating a shop" do
     setup do
       @shop = Shop.make(:name=>'blah', :menu_data=>@menu_data)

@@ -74,6 +74,27 @@ class ShopSignupControllerTest < ActionController::TestCase
       end
 
     end
+
+    context "if the owner of the shop is already signed up" do
+      setup do
+        @owner.expects(:signed_up?).returns(true)
+      end
+
+      context "calling update" do
+        setup do
+          put :update, :id=>@shop.id, :shop=>{'activation_confirmation'=>'12345', 'name'=>'Ignore this'}
+        end
+
+        before_should "only update the activation code and login as the owner" do
+          @shop.expects(:update_attributes).with('activation_confirmation'=>'12345').returns(true)
+          controller.expects(:login_as).with(@owner)
+        end
+        should_redirect_to('shop created screen') {active_shop_signup_path(@shop)}
+      end
+
+    end
+
+
   end
   
   

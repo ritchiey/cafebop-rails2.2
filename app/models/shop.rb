@@ -37,7 +37,11 @@ class Shop < ActiveRecord::Base
   
   def self.find_by_id_or_permalink(term, options=nil)
     term = term.to_s
-    (term =~ /^[0-9]/o) ?  find(term, options) : find_by_permalink(term, options)
+    is_id?(term) ?  find(term, options) : find_by_permalink(term, options)
+  end
+  
+  def Shop.is_id?(term)
+    term =~ /^[0-9]+(-.*)?$/o
   end
 
   treat_as_currency :fee_threshold

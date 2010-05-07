@@ -34,11 +34,10 @@ class ShopSignupController < ApplicationController
         user_session = current_user_session
         user_session.send :save_cookie
       end
-      user.save and flash[:notice] = "Welcome aboard, #{user}."
-      Notifications.deliver_welcome user
+      user.save and flash[:notice] = "Password set for, #{user}."
     end
     
-    redirect_to :action=>:active
+    redirect_to active_shop_signup_path(@new_shop)
   end
     
   def update
@@ -47,7 +46,7 @@ class ShopSignupController < ApplicationController
       user = @new_shop.owner
       login_as(user)
       if user.signed_up?
-        redirect_to :action=>:active
+        redirect_to active_shop_signup_path(@new_shop)
       else
         redirect_to choose_password_for_shop_signup_path(@new_shop)
       end
