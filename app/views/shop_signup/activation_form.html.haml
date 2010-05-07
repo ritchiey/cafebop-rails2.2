@@ -1,7 +1,7 @@
 %h3 Email Confirmation
             
 %p
-  We've sent an email with a short code in it to '#{@new_shop.creator_email_address}'.
+  We've sent an email with a short code in it to '#{@new_shop.owner.email}'.
   Please enter the code in the box below.
 
 -semantic_form_for @new_shop, :url=>shop_signup_path(@new_shop) do |f|

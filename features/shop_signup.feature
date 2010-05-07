@@ -25,6 +25,13 @@ Scenario: An new user creates a shop
     Then I should see "Invalid activation code"
     When I enter the activation code from the email
     And press "Continue"
-    Then I should see "Nice One!"
+    Then I should see "Logged in as ron"
+    And I should see "An account has been created for you to manage your new shop."
+    And I should see "You will need to set a password for the account."
+    When I fill in "Password" with "fluffy"
+    And I fill in "Same password again" with "fluffy"
+    And I press "Set Password"
+    # Then I should see "Your password has been changed."
+    And I should see "Nice One!"
     And I should see "Your shop Scabbers is now online at http://scabbers.example.com"
-    And I should see "Logged in as ron"
+    

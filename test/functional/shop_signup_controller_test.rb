@@ -48,7 +48,7 @@ class ShopSignupControllerTest < ActionController::TestCase
       @shop.stubs(:owner).returns(@owner)
     end
 
-    context "Displaying the activation form" do
+    context "displaying the activation form" do
       setup do
         get :activation_form, :id=>@shop.id
       end
@@ -56,17 +56,24 @@ class ShopSignupControllerTest < ActionController::TestCase
       should_render_template :activation_form
     end
     
-    context "calling update" do
+    context "if the owner of the shop isn't already signed up" do
       setup do
-        put :update, :id=>@shop.id, :shop=>{'activation_confirmation'=>'12345', 'name'=>'Ignore this'}
+        @owner.expects(:signed_up?).returns(false)
       end
 
-      before_should "only update the activation code and login as the owner" do
-        @shop.expects(:update_attributes).with('activation_confirmation'=>'12345').returns(true)
-        controller.expects(:login_as).with(@owner)
+      context "calling update" do
+        setup do
+          put :update, :id=>@shop.id, :shop=>{'activation_confirmation'=>'12345', 'name'=>'Ignore this'}
+        end
+
+        before_should "only update the activation code and login as the owner" do
+          @shop.expects(:update_attributes).with('activation_confirmation'=>'12345').returns(true)
+          controller.expects(:login_as).with(@owner)
+        end
+        should_redirect_to('choose password form') {choose_password_for_shop_signup_path(@shop)}
       end
+
     end
-    
   end
   
   

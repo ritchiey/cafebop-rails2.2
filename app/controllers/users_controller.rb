@@ -69,9 +69,7 @@ class UsersController < ApplicationController
     if params[:user] and user = current_user
       user.sign_up
       user.attributes = params[:user]
-      # user.password = params[:user][:password]
-      # user.password_confirmation = params[:user][:password_confirmation]
-      # user.remember_me = params[:user][:remember_me]
+
       if user.remember_me
         current_user_session.remember_me = true 
         user_session = current_user_session
