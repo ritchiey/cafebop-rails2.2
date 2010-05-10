@@ -11,23 +11,22 @@
    
 =render :partial=>'form', :object=>@shop
            
-%hr
 
-.span-7
-  .menus 
-    %h4 Menus
-    -if @shop.menus.empty?
-      No menus yet.
-    -else
-      %ul#menus-list= render :partial => @shop.menus
-    =link_to "Add Menu", new_shop_menu_path(@shop)
-
-.span-7.last
-  .operating-times
-  %h4 Opening Hours
-  -if @shop.operating_times.empty?
-    No opening hours yet.
-  -else
-    %ul#operating-times-list= render :partial => @shop.operating_times
-  =link_to "Add Opening Time", new_shop_operating_time_path(@shop)
-  
+/ .span-7
+/   .menus 
+/     %h4 Menus
+/     -if @shop.menus.empty?
+/       No menus yet.
+/     -else
+/       %ul#menus-list= render :partial => @shop.menus
+/     =link_to "Add Menu", new_shop_menu_path(@shop)
+/ 
+/ .span-7.last
+/   .operating-times
+/   %h4 Opening Hours
+/   -if @shop.operating_times.empty?
+/     No opening hours yet.
+/   -else
+/     %ul#operating-times-list= render :partial => @shop.operating_times
+/   =link_to "Add Opening Time", new_shop_operating_time_path(@shop)
+/   

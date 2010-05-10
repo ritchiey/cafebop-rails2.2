@@ -610,6 +610,18 @@ $('#'+item+'-list').sortable(
           url: '/'+container+'/'+container_id+'/reorder_'+item.replace('-','_')})
       }
   })                    
+}      
+
+// Multi-model form functions
+function remove_fields(link) {
+  $(link).prev("input[type=hidden]").val("1");
+  $(link).closest(".fields").hide();
+}
+
+function add_fields(link, association, content) {
+  var new_id = new Date().getTime();
+  var regexp = new RegExp("new_" + association, "g")
+  $(link).closest('.add_fields_control').before(content.replace(regexp, new_id));
 }
 
 function order_timer_expired() {
