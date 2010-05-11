@@ -102,6 +102,8 @@ $.fn.qtip.styles.cafebop = {
 
 $(function() { // page ready
 
+  $('#tabs').tabs();
+
   $('.editable').each(function(i,e) {Editable.initialize(e);Editable.displayAsText(e)});
   
   $("form#new_shop").validate();
@@ -694,4 +696,3 @@ function printable(code) {
 // });
 
 
-  

@@ -529,3 +529,6 @@ input#shop_permalink {
   width: 15em;
   margin: 0;
   padding: 0; }
+
+.ui-tabs .ui-tabs-hide {
+  display: none; }
