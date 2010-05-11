@@ -69,6 +69,9 @@
         -if @shop.can_enable_paypal_payments?
           =f.input :accept_paypal_orders, :label=>"Accept payment online with PayPal"
       =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
+
+    %li
+      != render :partial => 'shared/menu_legend'
     
     %li
       %ul.menus

@@ -5,7 +5,7 @@
     != render :partial => 'ask_user_for_cuisine'
   -else
     %p
-      = separated(@shop.effective_menus.map {|m| link_to m.name, "##{m.id}"})
+      != render :partial => 'shared/menu_legend'
   
     -@shop.effective_menus.each do |menu|
       %a{:name=>menu.id}
