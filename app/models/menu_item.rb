@@ -24,7 +24,8 @@ class MenuItem < ActiveRecord::Base
   belongs_to :extras_menu, :class_name=>"Menu"
   
   treat_as_currency :price #create virtual price attribute
-  accepts_nested_attributes_for :flavours, :sizes
+  accepts_nested_attributes_for :flavours, :allow_destroy=>true, :reject_if=>lambda {|f| f[:name].blank?} 
+  accepts_nested_attributes_for :sizes, :allow_destroy=>true, :reject_if=>lambda {|s| s[:name].blank?} 
   acts_as_list :scope=>:menu
     
 

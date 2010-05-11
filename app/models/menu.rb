@@ -25,7 +25,7 @@ class Menu < ActiveRecord::Base
 
   acts_as_list :scope=>:shop
 
-  accepts_nested_attributes_for :menu_items
+  accepts_nested_attributes_for :menu_items, :allow_destroy=>true, :reject_if=>lambda {|m| m[:name].blank?} 
 
   named_scope :generic, :conditions=>{:shop_id=>nil}
   named_scope :virtual_for_shop, lambda {|shop| { :joins=>["INNER JOIN cuisine_menus AS cm ON cm.menu_id = menus.id",

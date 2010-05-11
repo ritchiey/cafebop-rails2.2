@@ -71,7 +71,7 @@
       =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
     
     %li
-      %ul
+      %ul.menus
         -f.fields_for :menus do |menu_f|
           != render 'menu_fields', :f=>menu_f
         %li.add_fields_control  

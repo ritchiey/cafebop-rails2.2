@@ -1,10 +1,7 @@
 %li.fields
-  %p
-  =f.label "Menu"
-  =link_to_remove_fields "delete", f
-  %br
   =f.text_field :name
-  %ul
+  =link_to_remove_fields "delete", f
+  %ul.menu
     -f.fields_for :menu_items do |menu_item_f|
       != render 'menu_item_fields', :f=>menu_item_f
     %li.add_fields_control
