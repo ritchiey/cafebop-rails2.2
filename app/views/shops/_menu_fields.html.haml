@@ -1,6 +1,8 @@
+-menu=f.object
 %li.fields
-  =link_to_remove_fields "delete", f
+  =link_to_remove_fields "delete", f 
   %h5.title=f.text_field :name, :class=>'editable'
+  %a{:name=>menu.id}
   %ul.menu
     -f.fields_for :menu_items do |menu_item_f|
       != render 'menu_item_fields', :f=>menu_item_f
