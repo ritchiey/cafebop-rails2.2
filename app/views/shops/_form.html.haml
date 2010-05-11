@@ -35,7 +35,7 @@
     })
 
 -semantic_form_for @shop, :html=>{:multipart=>true} do |f|
-  #tabs
+  #tabs.ui-tabs
     %ul
       %li
         %a{:href=>'#menus'} Menus
@@ -50,7 +50,7 @@
       %li
         %a{:href=>'#ordering'} Ordering
       
-    %li#menus
+    %li#menus.ui-tabs-hide
       != render :partial => 'shared/menu_legend'
       %ul.menus
         -f.fields_for :menus do |menu_f|
@@ -61,7 +61,7 @@
     -f.inputs do
       / -if @shop.new_record?
       /   =f.input :permalink, :hint=>"Unique name, no spaces. Can't be changed"  
-      -f.inputs :name=>"Contact Details", :id=>:contact, :class=>'bordered' do
+      -f.inputs :name=>"Contact Details", :id=>:contact, :class=>'bordered ui-tabs-hide' do
         -if current_user and current_user.is_admin?
           =f.input :owner_email, :hint=>"Assign this user as the manager of the shop"
           =f.input :permalink, :hint=>"This shops unique identifier as used in their URL"
@@ -75,17 +75,17 @@
         =f.input :phone, :hint=>"To call for bookings"
         =f.input :fax, :hint=>"If available"
       / =f.input :fee_threshold, :hint=>"Customer must pay the transaction fees on orders less than this amount"
-      -f.inputs :name=>"Theme", :id=>:theme, :class=>'bordered' do
+      -f.inputs :name=>"Theme", :id=>:theme, :class=>'bordered ui-tabs-hide' do
         =f.input :header_background, :hint=>"Upload an image to appear above the shop's menu"
         =f.input :display_name, :hint=>"Uncheck if your header background includes the name"
         =f.input :border_background, :hint=>"Upload an image to appear around the shop's menu"
         =f.input :tile_border, :hint=>"Repeat the border image"
-      -f.inputs :name=>"Cuisine", :id=>:cuisine, :class=>'bordered' do
+      -f.inputs :name=>"Cuisine", :id=>:cuisine, :class=>'bordered ui-tabs-hide' do
         =f.input :franchise, :hint=>"Does the shop belong to one of these franchises?", :collection=>Cuisine.is_franchise
         =f.input :cuisines, :as=>:check_boxes, :hint=>"What are your specialities", :collection=>Cuisine.is_not_franchise
-      -f.inputs :name=>"Menus", :id=>:menu_details, :class=>'bordered' do
+      -f.inputs :name=>"Menus", :id=>:menu_details, :class=>'bordered ui-tabs-hide' do
         =f.input :menu_data, :as=>:text, :hint=>"Import menus: menu_name, item_name, description, price(s), flavour(s)"
-      -f.inputs :name=>"Ordering", :id=>:ordering, :class=>'bordered' do
+      -f.inputs :name=>"Ordering", :id=>:ordering, :class=>'bordered ui-tabs-hide' do
         -if @shop.can_have_queues?
           =f.input :accept_pay_in_shop, :label=>"Accept in-shop payments"
           -if @shop.can_enable_paypal_payments?
