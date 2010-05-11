@@ -101,6 +101,8 @@ $.fn.qtip.styles.cafebop = {
 };
 
 $(function() { // page ready
+
+  $('.editable').each(function(i,e) {Editable.initialize(e);Editable.displayAsText(e)});
   
   $("form#new_shop").validate();
   
@@ -622,6 +624,41 @@ function add_fields(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g")
   $(link).closest('.add_fields_control').before(content.replace(regexp, new_id));
+  $('.editable').each(function (i,e) {Editable.initialize(e)});
+}
+
+//In-place Edit functions
+var Editable = {
+  
+  defaultText: '-',
+  
+  initialize: function(e) {
+    $(e).blur(function(e) {Editable.displayAsText(e.target)})
+  },
+
+  displayAsText: function(e) {
+    var content = "<span class='editable-text'>"+ Editable.textValue(e)+"</span>";
+    var $textSpan = $(e).prev();
+    if ($textSpan.is('span.editable-text')) {
+      $textSpan.replaceWith(content);
+    } else {
+      $(e).before(content);
+    }
+    $(e).prev("span.editable-text").click(Editable.edit);
+    $(e).hide();
+  },
+  
+  edit: function(e) {
+    var $target = $(e.target);
+    var $input = $target.next('.editable');
+    $target.hide();
+    $input.show().focus();
+  },
+  
+  textValue: function(e) {
+    var text = $(e).val();
+    return (text && text.length > 0)? text : this.defaultText;
+  }
 }
 
 function order_timer_expired() {
