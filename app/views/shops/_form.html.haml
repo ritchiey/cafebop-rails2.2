@@ -38,6 +38,8 @@
   #tabs
     %ul
       %li
+        %a{:href=>'#menus'} Menus
+      %li
         %a{:href=>'#contact'} Contact Details
       %li
         %a{:href=>'#theme'} Theme
@@ -47,9 +49,14 @@
         %a{:href=>'#menu_details'} Import
       %li
         %a{:href=>'#ordering'} Ordering
-      %li
-        %a{:href=>'#menus'} Menus
       
+    %li#menus
+      != render :partial => 'shared/menu_legend'
+      %ul.menus
+        -f.fields_for :menus do |menu_f|
+          != render 'menu_fields', :f=>menu_f
+        %li.add_fields_control  
+          =link_to_add_fields "Add Menu", f, :menus
     
     -f.inputs do
       / -if @shop.new_record?
@@ -84,15 +91,6 @@
           -if @shop.can_enable_paypal_payments?
             =f.input :accept_paypal_orders, :label=>"Accept payment online with PayPal"
         =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
-
-    
-      %li#menus
-        != render :partial => 'shared/menu_legend'
-        %ul.menus
-          -f.fields_for :menus do |menu_f|
-            != render 'menu_fields', :f=>menu_f
-          %li.add_fields_control  
-            =link_to_add_fields "Add Menu", f, :menus
     %p
       =submit_tag "Save Changes"    
       \|
