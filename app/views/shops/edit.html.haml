@@ -7,8 +7,6 @@
     make_sortable('item-queues', 'shops', '#{@shop.id}');
     make_sortable('operating-times', 'shops', '#{@shop.id}');
 
-%h3= "Edit Shop (#{@shop.state} edition)"
-   
 =render :partial=>'form', :object=>@shop
            
 
