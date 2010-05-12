@@ -7,6 +7,16 @@
     make_sortable('item-queues', 'shops', '#{@shop.id}');
     make_sortable('operating-times', 'shops', '#{@shop.id}');
 
+    var needToConfirm = true;
+  
+    window.onbeforeunload = confirmExit;
+    function confirmExit()
+    {
+    if (needToConfirm)
+    return "You will lose any unsaved changes you have made. Are you sure you want to exit this page?";
+    }
+
+
 =render :partial=>'form', :object=>@shop
            
 

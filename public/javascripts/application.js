@@ -103,10 +103,10 @@ $.fn.qtip.styles.cafebop = {
 $(function() { // page ready
 
   $('#tabs').tabs();
-
   $('.editable').each(function(i,e) {Editable.initialize(e);Editable.displayAsText(e)});
   
   $("form#new_shop").validate();
+  $('#save-shop').click(function() {needToConfirm = false});
   
   $('#shop_name').change(function(e) {
     populateField("#shop_permalink", toPermalink($(this).val()));

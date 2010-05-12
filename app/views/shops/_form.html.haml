@@ -92,7 +92,7 @@
             =f.input :accept_paypal_orders, :label=>"Accept payment online with PayPal"
         =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
     %p
-      =submit_tag "Save Changes"    
+      =submit_tag "Save Changes", :id=>'save-shop'    
       \|
       =link_to "Cancel", shop_new_order_path(@shop)
   
