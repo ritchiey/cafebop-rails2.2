@@ -13,3 +13,10 @@
       != render 'flavour_fields', :f=>flavour_f
     %li.add_fields_control
       =link_to_add_fields "Add", f, :flavours
+  %br
+  =f.label 'Sizes'
+  %ul.sizes
+    -f.fields_for :sizes do |size_f|
+      != render 'size_fields', :f=>size_f
+    %li.add_fields_control
+      =link_to_add_fields "Add", f, :sizes

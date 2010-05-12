@@ -544,9 +544,9 @@ ul.menu > li.fields {
   ul.menu > li.fields > .controls {
     float: right; }
 
-ul.flavours {
+ul.flavours, ul.sizes {
   display: inline; }
-  ul.flavours li {
+  ul.flavours li, ul.sizes li {
     display: inline;
     list-style: none; }
 

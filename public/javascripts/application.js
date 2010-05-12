@@ -626,6 +626,7 @@ function add_fields(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g")
   $(link).closest('.add_fields_control').before(content.replace(regexp, new_id));
+  $(link).closest('.add_fields_control').prev().find('input').first().select().focus();
   $('.editable').each(function (i,e) {Editable.initialize(e)});
 }
 
@@ -654,7 +655,7 @@ var Editable = {
     var $target = $(e.target);
     var $input = $target.next('.editable');
     $target.hide();
-    $input.show().focus();
+    $input.show().select().focus();
   },
   
   textValue: function(e) {
