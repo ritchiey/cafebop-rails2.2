@@ -532,3 +532,14 @@ input#shop_permalink {
 
 .ui-tabs .ui-tabs-hide {
   display: none; }
+
+ul.menus > li.fields {
+  margin-top: 1.3em; }
+  ul.menus > li.fields h5.menu-header {
+    display: inline; }
+
+ul.menu li.fields {
+  border: 1px solid #999;
+  margin-bottom: 0.5em; }
+  ul.menu li.fields .controls {
+    float: right; }

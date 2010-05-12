@@ -1,5 +1,8 @@
 %li.fields
+  =f.label :name
   =f.text_field :name
-  =link_to_remove_fields "delete", f
+  .controls
+    =link_to_remove_fields "delete", f
   %br
+  =f.label :price
   =f.text_field :price
