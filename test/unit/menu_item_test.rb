@@ -74,16 +74,6 @@ class MenuItemTest < ActiveSupport::TestCase
           ], price_attributes
       end            
       
-      context "in the price field" do
-        setup do               
-          @item.price = @prices
-          @item.save!
-        end
-        should "create the prices as sizes and reformat them" do
-          assert_equal 3, @item.sizes.count
-          assert_equal "regular:$4.20, large:$8.00, huge:$20.00", @item.price
-        end
-      end
     end
 
   end
