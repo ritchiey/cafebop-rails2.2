@@ -7,12 +7,9 @@
   =f.label :description
   =f.text_field :description
   %br
-  =f.label 'Flavours'
-  %ul.flavours
-    -f.fields_for :flavours do |flavour_f|
-      != render 'flavour_fields', :f=>flavour_f
-    %li.add_fields_control
-      =link_to_add_fields "Add", f, :flavours
+  =f.label :price
+  =f.text_field :price, :size=>4
+  (if no sizes)
   %br
   =f.label 'Sizes'
   %ul.sizes
@@ -20,3 +17,10 @@
       != render 'size_fields', :f=>size_f
     %li.add_fields_control
       =link_to_add_fields "Add", f, :sizes
+  %br
+  =f.label 'Flavours'
+  %ul.flavours
+    -f.fields_for :flavours do |flavour_f|
+      != render 'flavour_fields', :f=>flavour_f
+    %li.add_fields_control
+      =link_to_add_fields "Add", f, :flavours
