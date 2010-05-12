@@ -538,8 +538,17 @@ ul.menus > li.fields {
   ul.menus > li.fields h5.menu-header {
     display: inline; }
 
-ul.menu li.fields {
+ul.menu > li.fields {
   border: 1px solid #999;
   margin-bottom: 0.5em; }
-  ul.menu li.fields .controls {
+  ul.menu > li.fields > .controls {
     float: right; }
+
+ul.flavours {
+  display: inline; }
+  ul.flavours li {
+    display: inline;
+    list-style: none; }
+
+.remove-control {
+  vertical-align: super; }

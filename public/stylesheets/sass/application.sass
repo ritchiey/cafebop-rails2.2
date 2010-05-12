@@ -546,9 +546,19 @@ ul.menus > li.fields
     display: inline
   
 
-ul.menu li.fields
+ul.menu > li.fields
   :border 1px solid #999
   :margin-bottom 0.5em
   
-  .controls
+  & > .controls
     :float  right
+    
+ul.flavours
+  :display inline
+
+  li
+    :display inline
+    :list-style none
+
+.remove-control
+  vertical-align: super
