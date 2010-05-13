@@ -40,7 +40,9 @@
       %li
         %a{:href=>'#menus'} Menus
       %li
-        %a{:href=>'#contact'} Contact Details
+        %a{:href=>'#contact'} Contact
+      %li
+        %a{:href=>'#hours'} Hours
       %li
         %a{:href=>'#theme'} Theme
       %li
@@ -57,6 +59,14 @@
           != render 'menu_fields', :f=>menu_f
         %li.add_fields_control  
           =link_to_add_fields "Add Menu", f, :menus
+
+    %li#hours.ui-tabs-hide
+      -f.fields_for :operating_times do |operating_times_f|
+        %table
+          != render 'operating_times_fields', :f=>operating_times_f
+      .add_fields_control  
+        =link_to_add_fields "Add", f, :operating_times
+
     
     -f.inputs do
       / -if @shop.new_record?
@@ -83,7 +93,7 @@
       -f.inputs :name=>"Cuisine", :id=>:cuisine, :class=>'bordered ui-tabs-hide' do
         =f.input :franchise, :hint=>"Does the shop belong to one of these franchises?", :collection=>Cuisine.is_franchise
         =f.input :cuisines, :as=>:check_boxes, :hint=>"What are your specialities", :collection=>Cuisine.is_not_franchise
-      -f.inputs :name=>"Menus", :id=>:menu_details, :class=>'bordered ui-tabs-hide' do
+      -f.inputs :name=>"Menu Import", :id=>:menu_details, :class=>'bordered ui-tabs-hide' do
         =f.input :menu_data, :as=>:text, :hint=>"Import menus: menu_name, item_name, description, price(s), flavour(s)"
       -f.inputs :name=>"Ordering", :id=>:ordering, :class=>'bordered ui-tabs-hide' do
         -if @shop.can_have_queues?

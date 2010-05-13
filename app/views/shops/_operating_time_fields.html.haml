@@ -1,0 +1,5 @@
+%tr.fields
+  %td=f.select :days, OperatingTime.days_values
+  %td=f.text_field :opens, :size=>'6'
+  %td=f.text_field :closes, :size=>'6'
+  %td=link_to_remove_fields "x", f 

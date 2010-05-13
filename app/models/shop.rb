@@ -49,7 +49,7 @@ class Shop < ActiveRecord::Base
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :owner_email, :menu_data,
-        :accept_pay_in_shop, :accept_paypal_orders, :creator_email_address, :activation_confirmation, :menus_attributes
+        :accept_pay_in_shop, :accept_paypal_orders, :creator_email_address, :activation_confirmation, :menus_attributes, :operating_times_attributes
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
@@ -122,6 +122,8 @@ class Shop < ActiveRecord::Base
   belongs_to :franchise, :class_name => "Cuisine", :foreign_key => "franchise_id", :conditions=>{:franchise=>true}
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
   accepts_nested_attributes_for :menus, :allow_destroy=>true, :reject_if=>lambda {|m| m[:name].blank?} 
+  accepts_nested_attributes_for :operating_times, :allow_destroy=>true, :reject_if=>lambda {|o| o[:opens].blank?} 
+  
   acts_as_mappable
   
   has_attached_file :border_background,
