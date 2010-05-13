@@ -75,8 +75,15 @@
       -form.inputs do
         =form.input :effective_name, :label=>'Name', :hint=>"Name that will appear on order", :required=>true, :input_html=>{:class=>'required'}
         =form.input :phone, :hint=>"Your phone number", :required=>true, :input_html=>{:class=>'required'}
-        =form.input :deliver
-        =form.input :address, :hint=>"Delivery address"
+        -if @shop.deliver
+          =form.input :deliver
+          =form.input :address, :hint=>"Delivery address"
+          %li
+            %p
+              We deliver to #{@shop.delivery_area}.
+            %p
+              A delivery fee of #{@shop.delivery_fee} applies to orders under
+              #{@shop.minimum_for_free_delivery}.
       
           
       != render :partial => 'close_time_counter'

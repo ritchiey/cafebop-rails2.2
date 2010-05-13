@@ -19,7 +19,7 @@ class Shop < ActiveRecord::Base
     deliver         :boolean
     delivery_area   :string
     delivery_fee_in_cents :integer, :default=>500
-    minimum_for_free_delivery :integer, :default=>2500
+    minimum_for_free_delivery_in_cents :integer, :default=>2500
     motto           :text
     lat     :float
     lng     :float
@@ -53,7 +53,8 @@ class Shop < ActiveRecord::Base
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,
         :header_background, :border_background, :display_name, :tile_border, :franchise_id, :refund_policy, :owner_email, :menu_data,
-        :accept_pay_in_shop, :accept_paypal_orders, :creator_email_address, :activation_confirmation, :menus_attributes, :operating_times_attributes
+        :accept_pay_in_shop, :accept_paypal_orders, :creator_email_address, :activation_confirmation, :menus_attributes, :operating_times_attributes,
+        :delivery_area, :deliver, :delivery_fee, :minimum_for_free_delivery
    
   # attr_accessible :fee_threshold  # disabled because it doesn't comply with PayPal conditions
 
