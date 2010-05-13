@@ -8,6 +8,7 @@ class Menu < ActiveRecord::Base
 
   fields do
     name      :string
+    description :string
     permalink :string
     header    :string
     footer    :string

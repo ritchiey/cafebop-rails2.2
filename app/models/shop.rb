@@ -16,6 +16,10 @@ class Shop < ActiveRecord::Base
     street_address  :string
     postal_address  :string
     refund_policy   :text
+    deliver         :boolean
+    delivery_area   :string
+    delivery_fee_in_cents :integer, :default=>500
+    minimum_for_free_delivery :integer, :default=>2500
     motto           :text
     lat     :float
     lng     :float
@@ -44,7 +48,7 @@ class Shop < ActiveRecord::Base
     term =~ /^[0-9]+(-.*)?$/o
   end
 
-  treat_as_currency :fee_threshold
+  treat_as_currency :fee_threshold, :delivery_fee, :minimum_for_free_delivery
 
                         
   attr_accessible :name, :permalink, :phone, :fax, :email_address, :website, :street_address, :postal_address, :lat, :lng, :cuisine_ids,

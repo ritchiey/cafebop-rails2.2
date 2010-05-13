@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100506060915) do
+ActiveRecord::Schema.define(:version => 20100513045308) do
 
   create_table "cuisine_menus", :force => true do |t|
     t.integer  "cuisine_id"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(:version => 20100506060915) do
     t.integer  "shop_id"
     t.integer  "position"
     t.string   "permalink"
+    t.string   "description"
   end
 
   create_table "operating_times", :force => true do |t|
@@ -215,6 +216,10 @@ ActiveRecord::Schema.define(:version => 20100506060915) do
     t.float    "shop_discount"
     t.string   "activation_code",                :limit => 20
     t.integer  "owner_id"
+    t.boolean  "deliver"
+    t.string   "delivery_area"
+    t.integer  "delivery_fee_in_cents",                        :default => 500
+    t.integer  "minimum_for_free_delivery",                    :default => 2500
   end
 
   add_index "shops", ["lat"], :name => "index_shops_on_lat"

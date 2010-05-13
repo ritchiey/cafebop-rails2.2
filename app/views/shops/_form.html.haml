@@ -101,7 +101,12 @@
           =f.input :accept_pay_in_shop, :label=>"Accept in-shop payments"
           -if @shop.can_enable_paypal_payments?
             =f.input :accept_paypal_orders, :label=>"Accept payment online with PayPal"
+        =f.input :deliver, :label=>"Offer to deliver"
+        =f.input :delivery_area, :hint=>"What area(s) will you deliver to?"
+        =f.input :delivery_fee, :hint=>"How much extra if delivered?"
+        =f.input :minimum_for_free_delivery, :hint=>"Delivery is free for orders this amount or over"
         =f.input :refund_policy, :hint=>"A link to this will appear at the bottom of your menu"
+        
     %p
       =submit_tag "Save Changes", :id=>'save-shop'    
       \|

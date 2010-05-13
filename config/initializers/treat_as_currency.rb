@@ -2,8 +2,7 @@
 module ActiveRecord
   class Base
 
-    def self.treat_as_currency fields
-      fields.kind_of?(Array) || fields = [fields]
+    def self.treat_as_currency *fields
       fields.each do |field|
         field = field.to_s
 
