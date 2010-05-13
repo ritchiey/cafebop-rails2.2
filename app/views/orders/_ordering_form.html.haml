@@ -1,14 +1,16 @@
 -order = ordering_form
 
 %ul.menu
-  -if @shop.effective_menus.empty?
-    -if current_user and current_user.can_edit_shop?(@shop)
-      %p
-        To edit your menus and other settings, click on the 'Edit' link
-        above.
-    -else
-      %p
-        #{@shop.name} will be online soon.
+  -if @shop.menus.empty?
+    .about
+      -if current_user and current_user.can_edit_shop?(@shop)
+        %p You don't have any menus yet.
+        %p
+          To edit your menus and other settings, click on the 'Edit' link
+          above.
+      -else
+        %p
+          #{@shop.name} will be online soon.
   -else
     %p
       != render :partial => 'shared/menu_legend'
