@@ -3,7 +3,6 @@ class MenusController < ApplicationController
   before_filter :find_instance, :except => [:index, :new, :create, :import, :import_csv]
   before_filter :require_login, :except=>[:show]
   before_filter :require_manager_or_admin, :except=>[:show]
-  # before_filter :reorder_children, :only=>[:update, :create]
 
 
   class ::MenuImport
@@ -82,7 +81,7 @@ private
   end
 
   def find_instance
-    @menu ||= @shop.menus.find(params[:id])
+    @menu ||= Menu.find(params[:id])
   end
   
   
