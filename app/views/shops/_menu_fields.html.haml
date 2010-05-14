@@ -1,5 +1,6 @@
 -menu=f.object
 %li.fields
+  =f.hidden_field :position
   %h5.menu-header=f.text_field :name, :class=>'editable'
   =link_to_remove_fields "x", f 
   %a{:name=>menu.id}

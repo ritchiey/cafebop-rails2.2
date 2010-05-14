@@ -83,18 +83,17 @@ class ApplicationController < ActionController::Base
     redirect_to path
   end
   
-  def reorder_child_items(child)
-    child = child.to_s
-    items = find_instance.send(child.pluralize)
-    ordered_ids = params[child]
-    find_instance.transaction do
-      for item in items
-        item.position = ordered_ids.index(item.id.to_s) + 1
-        item.save
-      end
-    end
-    render :nothing=>true
-  end
+  # def reorder_child_items(child)
+  #   child = child.to_s
+  #   items = find_instance.send(child.pluralize)
+  #   ordered_ids = params[child]
+  #   find_instance.transaction do
+  #     for item in items
+  #       item.position = ordered_ids.index(item.id.to_s) + 1
+  #       item.save
+  #     end
+  #   end
+  # end
 
   def cookies_test
     if request.cookies[SESSION_KEY].blank?

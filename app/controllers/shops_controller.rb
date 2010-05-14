@@ -6,6 +6,7 @@ class ShopsController < ApplicationController
   before_filter :require_manager_or_admin, :only=>[:edit]
   before_filter :require_admin, :only => [:destroy, :import_form, :import]
   before_filter :current_user_collections, :only=>[:search]
+  # before_filter :reorder_children, :only=>[:update, :create]
 
   def new
     @shop = Shop.new
@@ -74,7 +75,7 @@ class ShopsController < ApplicationController
   def edit
   end  
   
-  def update
+  def update   
     changes = params[:shop]  
     require_manager_or_admin and return
     if @shop.update_attributes(changes)
@@ -82,39 +83,7 @@ class ShopsController < ApplicationController
     else
       render :action=>:edit
     end
-  end
-
-  # def start_queuing
-  #   @shop.start_accepting_queued_orders!
-  #   render :partial=>'queuing_status'
-  # end
-  # 
-  # def stop_queuing
-  #   @shop.stop_accepting_queued_orders!
-  #   render :partial=>'queuing_status'
-  # end
-  # 
-  # def start_paypal
-  #   @shop.enable_paypal_payments!
-  #   render :partial=>'queuing_status'
-  # end
-  # 
-  # def stop_paypal
-  #   @shop.disable_paypal_payments!
-  #   render :partial=>'queuing_status'
-  # end
-
-  def reorder_menus
-    reorder_child_items(:menu)
-  end                 
-  
-  def reorder_item_queues
-    reorder_child_items(:item_queue)
-  end
-                                    
-  def reorder_operating_times
-    reorder_child_items(:operating_time)
-  end
+  end                                    
   
   def destroy
     @shop.destroy
@@ -146,38 +115,45 @@ protected
     
 private
 
-    # def find_instance  
-    #   @shop = Shop.find_by_id_or_permalink(params[:id] || current_subdomain)
-    # end
+  def reorder_children
+    reorder_child_items(:menu)
+    reorder_child_items(:item_queue)
+    reorder_child_items(:operating_time)
+  end
 
-    def can_edit
-      unless @shop.can_edit?(current_user)
-        flash[:error] = "You aren't authorized to do that."
-        redirect_to root_path
-      end
-    end  
-    
-    
-    def require_manager_or_admin
-      if current_user
-        unless current_user.is_admin? or @shop.is_manager?(current_user)
-          flash[:error] = "You're not authorized to do that."
-          redirect_to new_shop_order_path(@shop)
-        end
-      else
-        redirect_to login_path
-      end
+
+  def find_instance  
+    @shop ||= Shop.find_by_id_or_permalink(params[:id] || current_subdomain)
+  end
+
+  def can_edit
+    unless @shop.can_edit?(current_user)
+      flash[:error] = "You aren't authorized to do that."
+      redirect_to root_path
     end
-    
-    def require_admin
-      if current_user 
-        unless current_user.is_admin?
-          flash[:error] = "You're not authorized to do that."
-          redirect_to new_shop_order_path(@shop)
-        end
-      else
-        redirect_to login_path
+  end  
+  
+  
+  def require_manager_or_admin
+    if current_user
+      unless current_user.is_admin? or @shop.is_manager?(current_user)
+        flash[:error] = "You're not authorized to do that."
+        redirect_to new_shop_order_path(@shop)
       end
+    else
+      redirect_to login_path
     end
-    
+  end
+  
+  def require_admin
+    if current_user 
+      unless current_user.is_admin?
+        flash[:error] = "You're not authorized to do that."
+        redirect_to new_shop_order_path(@shop)
+      end
+    else
+      redirect_to login_path
+    end
+  end
+  
 end

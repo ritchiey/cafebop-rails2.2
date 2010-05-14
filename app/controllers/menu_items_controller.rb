@@ -3,7 +3,7 @@ class MenuItemsController < ApplicationController
   before_filter :get_menu, :only=>[:new, :create]
   before_filter :find_instance, :except=>[:new, :create]
   before_filter :only_manager_or_admin
-  
+  # before_filter :reorder_children, :only=>[:update, :create]
   
   
   def new
@@ -39,18 +39,15 @@ class MenuItemsController < ApplicationController
     end
   end
 
-  def reorder_sizes
-    reorder_child_items :size
-  end
+private
 
-  def reorder_flavours
+  def reorder_children
+    reorder_child_items :size
     reorder_child_items :flavour
   end
 
-private
-
   def find_instance
-    @menu_item = MenuItem.find(params[:id])
+    @menu_item ||= @menu.menu_items.find(params[:id])
   end
 
   def get_menu

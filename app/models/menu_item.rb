@@ -42,15 +42,6 @@ class MenuItem < ActiveRecord::Base
       self.normal_price=value
     end
   end
-
-  # alias_method :normal_price, :price
-  # def price                         
-  #   if sizes.empty?
-  #     normal_price
-  #   else
-  #     sizes.map {|s| "#{s.name}:$#{s.price}"}.join(', ')
-  #   end
-  # end
   
   before_create :set_default_queue
   

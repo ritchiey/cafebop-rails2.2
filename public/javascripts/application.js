@@ -100,7 +100,23 @@ $.fn.qtip.styles.cafebop = {
     name: 'dark'
 };
 
+function makeSortable(selector, positionRegex) {
+  $(selector).sortable({
+    update: function(event, ui) {
+      var counter = 0;
+      $(selector).find("input").each(function(i, e) {
+        if ($(e).attr('name').match(positionRegex)) {
+          $(e).attr('value', counter++);
+        }
+      });
+    }
+  });
+}
+
 $(function() { // page ready
+
+  makeSortable('ul.menu', /shop\[menus_attributes\]\[\d+\]\[menu_items_attributes\]\[\d+\]\[position\]/g);
+  makeSortable('ul.menus', /shop\[menus_attributes\]\[\d+\]\[position\]/g);
 
   $('#tabs').tabs();
   $('.editable').each(function(i,e) {Editable.initialize(e);Editable.displayAsText(e)});
@@ -597,24 +613,24 @@ function initialize_shop_form_map() {
   }      
 }
 
-function make_sortable(item, container, container_id) {
-$('#'+item+'-list').sortable(
-  {
-    items: 'li',
-    opacity: 0.4,
-    scroll: true,
-    update: function(){
-      $.ajax({
-          type: 'post', 
-          data: $('#'+item+'-list').sortable('serialize'), 
-          dataType: 'script', 
-          complete: function(request){
-              $('#'+item+'-list').effect('highlight');
-            },
-          url: '/'+container+'/'+container_id+'/reorder_'+item.replace('-','_')})
-      }
-  })                    
-}      
+// function make_sortable(item, container, container_id) {
+// $('#'+item+'-list').sortable(
+//   {
+//     items: 'li',
+//     opacity: 0.4,
+//     scroll: true,
+//     update: function(){
+//       $.ajax({
+//           type: 'post', 
+//           data: $('#'+item+'-list').sortable('serialize'), 
+//           dataType: 'script', 
+//           complete: function(request){
+//               $('#'+item+'-list').effect('highlight');
+//             },
+//           url: '/'+container+'/'+container_id+'/reorder_'+item.replace('-','_')})
+//       }
+//   })                    
+// }      
 
 // Multi-model form functions
 function remove_fields(link) {

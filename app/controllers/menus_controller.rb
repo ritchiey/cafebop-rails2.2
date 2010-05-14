@@ -3,6 +3,7 @@ class MenusController < ApplicationController
   before_filter :find_instance, :except => [:index, :new, :create, :import, :import_csv]
   before_filter :require_login, :except=>[:show]
   before_filter :require_manager_or_admin, :except=>[:show]
+  # before_filter :reorder_children, :only=>[:update, :create]
 
 
   class ::MenuImport
@@ -73,14 +74,15 @@ class MenusController < ApplicationController
     redirect_to @menu.generic? ? menus_path : edit_shop_path(@menu.shop)
   end  
   
-  def reorder_menu_items
-    reorder_child_items :menu_item
-  end          
        
 private
 
+  def reorder_children
+    reorder_child_items :menu_item
+  end
+
   def find_instance
-    @menu = Menu.find(params[:id])
+    @menu ||= @shop.menus.find(params[:id])
   end
   
   
