@@ -64,7 +64,7 @@
       Opening hours for this restaurant.
       -f.fields_for :operating_times do |operating_times_f|
         %table
-          != render 'operating_times_fields', :f=>operating_times_f
+          != render 'operating_time_fields', :f=>operating_times_f
       .add_fields_control  
         =link_to_add_fields "Add", f, :operating_times
 
