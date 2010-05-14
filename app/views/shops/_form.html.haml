@@ -62,11 +62,17 @@
 
     %li#hours.ui-tabs-hide
       Opening hours for this restaurant.
-      -f.fields_for :operating_times do |operating_times_f|
-        %table
-          != render 'operating_time_fields', :f=>operating_times_f
-      .add_fields_control  
-        =link_to_add_fields "Add", f, :operating_times
+      %table.operating-times
+        %thead
+          %tr
+            %th Days
+            %th From
+            %th Til
+        %tbody
+          -f.fields_for :operating_times do |operating_times_f|
+            != render 'operating_time_fields', :f=>operating_times_f
+          %tr
+            %td.add_fields_control=link_to_add_fields "Add", f, :operating_times
 
     
     -f.inputs do

@@ -100,8 +100,8 @@ $.fn.qtip.styles.cafebop = {
     name: 'dark'
 };
 
-function makeSortable(selector, positionRegex) {
-  $(selector).sortable({
+function makeSortable(selector, positionRegex, options) {
+  options = $.merge({
     update: function(event, ui) {
       var counter = 0;
       $(selector).find("input").each(function(i, e) {
@@ -110,14 +110,16 @@ function makeSortable(selector, positionRegex) {
         }
       });
     }
-  });
+  }, options || {});
+  $(selector).sortable(options);
 }
 
 $(function() { // page ready
 
   makeSortable('ul.menu', /shop\[menus_attributes\]\[\d+\]\[menu_items_attributes\]\[\d+\]\[position\]/g);
   makeSortable('ul.menus', /shop\[menus_attributes\]\[\d+\]\[position\]/g);
-
+  makeSortable('table.operating-times tbody', /shop\[operating_times_attributes\]\[\d+\]\[position\]/g, {items: 'tr.fields'});
+                            
   $('#tabs').tabs();
   $('.editable').each(function(i,e) {Editable.initialize(e);Editable.displayAsText(e)});
   
@@ -612,25 +614,6 @@ function initialize_shop_form_map() {
     displayShop(new GLatLng(lat, lng), address, name);
   }      
 }
-
-// function make_sortable(item, container, container_id) {
-// $('#'+item+'-list').sortable(
-//   {
-//     items: 'li',
-//     opacity: 0.4,
-//     scroll: true,
-//     update: function(){
-//       $.ajax({
-//           type: 'post', 
-//           data: $('#'+item+'-list').sortable('serialize'), 
-//           dataType: 'script', 
-//           complete: function(request){
-//               $('#'+item+'-list').effect('highlight');
-//             },
-//           url: '/'+container+'/'+container_id+'/reorder_'+item.replace('-','_')})
-//       }
-//   })                    
-// }      
 
 // Multi-model form functions
 function remove_fields(link) {
