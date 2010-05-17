@@ -55,7 +55,7 @@
         = periodically_call_remote :url=>status_of_queued_order_path(@order), :frequency=>10, :method=>'GET'
 
       #order-summary.span-24.last
-        != render :partial => 'order_summary'
+        !=render :partial=>'summary'
 
       -if @order.printed?
         / -content_for :snapabug do
