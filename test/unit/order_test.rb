@@ -131,13 +131,14 @@ class OrderTest < ActiveSupport::TestCase
       context "if delivery is not selected" do
         
         setup do
+          @order.stubs(:grand_total).returns(10)
           @order.deliver = false
         end
 
         should "not include a delivery fee" do
           assert_equal 0, @order.effective_delivery_fee
-          assert_equal 21, @order.grand_total
-          assert_equal 21, @order.grand_total_with_fees
+          assert_equal 10, @order.grand_total
+          assert_equal 10, @order.grand_total_with_fees
         end
 
       end
