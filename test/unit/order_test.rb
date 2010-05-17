@@ -5,8 +5,6 @@ class OrderTest < ActiveSupport::TestCase
   
   should_allow_mass_assignment_of :user, :order_item_attributes
 
-
-
   context "a new order" do
     
     setup do
@@ -98,8 +96,8 @@ class OrderTest < ActiveSupport::TestCase
     context "for a shop that delivers" do
       setup do
         @order.shop.stubs(:deliver).returns(true)
-        @order.shop.stubs(:delivery_fee).returns(2)
-        @order.shop.stubs(:minimum_for_free_delivery).returns(20)
+        @order.shop.stubs(:delivery_fee_in_cents).returns(200)
+        @order.shop.stubs(:minimum_for_free_delivery_in_cents).returns(2000)
       end
 
       context "if delivery is selected for an order under the threshold" do
