@@ -46,7 +46,7 @@
 .no-print
   -if @order.pending?
     #order-summary.span-14.last
-      != render :partial => 'order_summary'
+      != render :partial => 'summary'
     -if @order.is_parent?
       = periodically_call_remote :url=>status_of_pending_order_path(@order), :frequency=>10, :method=>'GET'
   -else
