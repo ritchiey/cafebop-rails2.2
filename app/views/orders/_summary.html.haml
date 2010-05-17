@@ -18,7 +18,7 @@
       -if @order.is_parent?
         %td
       %td Total
-      %td="#{h number_to_currency(@order.grand_total)}"
+      %td="#{h number_to_currency(@order.grand_total_with_fees)}"
       %td
       %td 
     -unless @order.is_child?

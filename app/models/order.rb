@@ -162,9 +162,9 @@ class Order < ActiveRecord::Base
     shop_pays_fee? ? 0 : shop.processing_fee
   end
   
-  def effective_delivery_fee
-    if deliver and grand_total < shop.minimum_for_free_delivery
-      shop.delivery_fee
+  def effective_delivery_fee   
+    if deliver and grand_total < shop.minimum_for_free_delivery_in_cents / 100
+      shop.delivery_fee_in_cents / 100
     else
       0
     end

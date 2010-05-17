@@ -6,3 +6,9 @@
     %td(colspan="2")  
     %td #{h order.name} pays
     %td=h number_to_currency(order.total)
+
+-if !order.is_child? and order.deliver
+  %tr.delivery-fee
+    %td
+    %td Delivery
+    %td=h number_to_currency(order.effective_delivery_fee)
