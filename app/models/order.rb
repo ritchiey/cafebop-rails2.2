@@ -143,7 +143,7 @@ class Order < ActiveRecord::Base
   end
   
   def grand_total_with_fees
-    grand_total + effective_processing_fee
+    grand_total + effective_processing_fee + effective_delivery_fee
   end
   
   def commission_rate
@@ -160,6 +160,14 @@ class Order < ActiveRecord::Base
   
   def effective_processing_fee
     shop_pays_fee? ? 0 : shop.processing_fee
+  end
+  
+  def effective_delivery_fee
+    if deliver and grand_total < shop.minimum_for_free_delivery
+      shop.delivery_fee
+    else
+      0
+    end
   end
   
   def paypal_recipient

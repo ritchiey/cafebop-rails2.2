@@ -93,7 +93,61 @@ class OrderTest < ActiveSupport::TestCase
 
     should "be able to be queued" do
       assert @order.can_be_queued?
+    end 
+    
+    context "for a shop that delivers" do
+      setup do
+        @order.shop.stubs(:deliver).returns(true)
+        @order.shop.stubs(:delivery_fee).returns(2)
+        @order.shop.stubs(:minimum_for_free_delivery).returns(20)
+      end
+
+      context "if delivery is selected for an order under the threshold" do
+        setup do
+          @order.stubs(:grand_total).returns(10)
+          @order.deliver = true
+        end
+        
+        should "include a delivery fee" do
+          assert_equal 2, @order.effective_delivery_fee
+          assert_equal 10, @order.grand_total
+          assert_equal 12, @order.grand_total_with_fees
+        end
+      end
+      
+      context "if delivery is selected but the order is over the threshold" do
+        setup do
+          @order.stubs(:grand_total).returns(21)
+          @order.deliver = true
+        end
+
+        should "not include a delivery fee" do
+          assert_equal 0, @order.effective_delivery_fee
+          assert_equal 21, @order.grand_total
+          assert_equal 21, @order.grand_total_with_fees
+        end
+      end       
+      
+      context "if delivery is not selected" do
+        
+        setup do
+          @order.deliver = false
+        end
+
+        should "not include a delivery fee" do
+          assert_equal 0, @order.effective_delivery_fee
+          assert_equal 21, @order.grand_total
+          assert_equal 21, @order.grand_total_with_fees
+        end
+
+      end
+      
+      
+      
+      
+      
     end
+    
 
     context "for a shop that queues pay-in-shop items" do
       setup do
