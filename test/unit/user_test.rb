@@ -14,12 +14,12 @@ class UserTest < ActiveSupport::TestCase
     
     context "with a reputation of 1" do
       setup { @user.stubs(:reputation).returns(1) }
-      should("be described correctly") { assert_equal 'positive +1', @user.reputation_s}
+      should("be described correctly") { assert_equal 'ok', @user.reputation_s}
     end
     
     context "with a reputation of -10" do
       setup { @user.stubs(:reputation).returns(-10) }
-      should("be described correctly") { assert_equal 'negative -10', @user.reputation_s}
+      should("be described correctly") { assert_equal 'unreliable', @user.reputation_s}
     end
     
     

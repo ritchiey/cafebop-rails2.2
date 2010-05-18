@@ -194,12 +194,20 @@ class User < ActiveRecord::Base
   end                 
   
   def reputation_s
-    if reputation == 0
-      'neutral'
+    if reputation > 8
+      "awesome"
+    elsif reputation > 4
+      "great"
+    elsif reputation > 2
+      "good"
     elsif reputation > 0
-      "positive +#{reputation}"
+      "ok"
+    elsif reputation == 0
+      'neutral'
+    elsif reputation > -3
+      "not so good"
     else
-      "negative #{reputation}"
+      "unreliable"
     end
   end
   
