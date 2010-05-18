@@ -101,8 +101,18 @@
       .toolbar
         %a.back Back
         %h1.title Loading...
-      %h2.order-status
-      %h2.order-received
+      %ul.order-info.rounded
+        %li
+          %a.order-status{:href=>'#'}
+          %a{:href=>'#'}
+            Ph:
+            %span.phone
+          %a.reputation{:href=>'#'}
+        %li.delivery-details.hidden
+          %a{:href=>'#'} Deliver to:
+          %a.address{:href=>'#'}
+          %a.order-received{:href=>'#'}
+        
       .made-order-controls 
         -form_tag '', :method=>:put do
           %a.grayButton.make-all-items.hidden Make All Items
@@ -114,6 +124,7 @@
           %a.whiteButton.cancel-order.hidden Cancel
           %a.whiteButton.no-show.hidden No Show
         
+      
           
           
     / Show Order Item      

@@ -154,10 +154,9 @@ var app = {
   	  app.getContent("/"+serverControllerName+"/"+app[localObjectName+'_id']+"/", function(data) {
       app.hideLoading(pageSelector);
   		var obj = data[serverObjectName]
-  		options['withLoadedObject'] && options['withLoadedObject'](obj);
-  		// Set page title
   		$(titleSelector).text(getTitle(obj));
   		app.populateLists(pageSelector, obj, entryToHtml);
+  		options['withLoadedObject'] && options['withLoadedObject'](obj);
   	  });
   	}
   },   
@@ -323,7 +322,7 @@ var app = {
   		return app.listLink(order.name, 'to-show-queued-order', order.id, {
   			li_classes: 'arrow ' + order.state,
   		  subLink: order.summary,
-  			counter: app.as_currency(order.grand_total)
+  			counter: app.as_currency(order.grand_total_with_fees)
   		})},
   		emptyListEntry: function() {
   		  return "<li>Queue is empty</li>"
@@ -339,9 +338,22 @@ var app = {
   	var $order_controls = $('#show-queued-order .order-controls');
   	var $deliver = $('#show-queued-order .deliver');
   	var $make_all_items = $('#show-queued-order .make-all-items');
+  	var $phone = $('#show-queued-order .phone');
+  	var $delivery_details = $('#show-queued-order .delivery-details');
+  	var $address = $('#show-queued-order .address');
+  	if (order.deliver) {
+  	  $address.text(order.address);
+  	  $delivery_details.show();
+      $('#summarized-order-items').append("<li class='fee'>Delivery<small>"+
+        app.as_currency(order.effective_delivery_fee)+
+        "</small></li>");
+  	} else {
+  	  $delivery_details.hide();
+  	}
 	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+
-	    order.effective_name +
-	    " ("+ order.reputation_s+")")
+	    order.effective_name);
+	  $('#show-queued-order .reputation').text("Reputation: "+ order.reputation_s);
+	  $phone.text(order.phone);
 	  app.updateOrderAge(order);
   	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
 		app.current_order = order;
@@ -353,7 +365,7 @@ var app = {
 		  $deliver.hide();
 		  $make_all_items.show();
 		}
-	  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total));
+	  $('#show-queued-order .total').text('Total: $'+ app.as_currency(order.grand_total_with_fees));
 	  $order_controls.show();
   },
 

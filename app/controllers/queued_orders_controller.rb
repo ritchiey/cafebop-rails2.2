@@ -9,7 +9,16 @@ class QueuedOrdersController < ApplicationController
       format.json {
         render :json=>@order.to_json(
           :only=>[:id, :notes, :name, :state],
-          :methods=>[:grand_total, :summary, :summarized_order_items, :effective_name, :queued_at_utc, :reputation_s] #,
+          :methods=>[:grand_total_with_fees,
+              :summary,
+              :summarized_order_items,
+              :effective_name,
+              :queued_at_utc,
+              :reputation_s,
+              :deliver,
+              :address,
+              :phone,
+              :effective_delivery_fee] #,
           #:include=>{:order_items=>{:only=>[:state, :quantity, :description, :id], :methods=>[:cost]}}
         )
       }
