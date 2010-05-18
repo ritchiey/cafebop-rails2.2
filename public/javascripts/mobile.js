@@ -175,10 +175,14 @@ var app = {
 	  });
 	  $(itemList).empty();
 	  if (entries.length == 0) {
-	    entries.push(emptyList(subCollectionName))
+	    entries.push(app.emptyList(subCollectionName))
 	  } 
 	  $(itemList).append(entries.join(''));
 	},
+	
+	emptyList: function(name) {
+	  return "<li>No Entries</li>";
+	}, 
 
   listLink: function(label, a_classes, target_id, options) {
   	options = options || {};
@@ -201,7 +205,17 @@ var app = {
   	  "</li>";
   },
   
-
+  listEntry: function(label, options) {
+  	options = options || {};
+  	var li_classes = options['li_classes'] || 'arrow';
+  	var small = (options['small']) ? ("<small>"+options['small']+"</small>") : "";
+  	var counter = (options['counter']) ? ("<small class='counter'>"+options['counter']+"</small>") : "";
+    return "<li class='"+li_classes+"'>"+
+      "<span>"+label+"</span>"+
+  	  small +
+  	  counter +
+  	  "</li>";
+  },
   // Register a static page ('#verb-noun') that may load dynamic data
   // when displayed. Also hook the tap event on any a.to-verb-noun links
   // and set an variable app.noun_id to be the value taken from the 'target-id'
@@ -382,15 +396,14 @@ var app = {
   },
 
   orderItemToHtml: function(order_item, list_name, index) {
-	return app.listLink(order_item.quantity+' '+order_item.description,
-	  'to-show-queued-order-item', index, {
+	return app.listEntry(order_item.quantity+' '+order_item.description, {
 		li_classes: order_item.state,
-		subLink: order_item.notes,
+		subEntry: order_item.notes,
 		counter: app.as_currency(order_item.quantity * order_item.price_in_cents / 100.0) +
 		  " <input type='checkbox' class='made-check' name='made' " +
 		    ((order_item.state=='made')? "CHECKED ":"") +
 		    " value='" + index+ "'></input>"
-	  })
+	  });
   },
 
   updateOrderAge: function(order) {

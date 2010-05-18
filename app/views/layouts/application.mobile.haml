@@ -103,15 +103,15 @@
         %h1.title Loading...
       %ul.order-info.rounded
         %li
-          %a.order-status{:href=>'#'}
-          %a{:href=>'#'}
+          %span.order-status{:href=>'#'}
+          %span{:href=>'#'}
             Ph:
             %span.phone
-          %a.reputation{:href=>'#'}
+          %span.reputation{:href=>'#'}
         %li.delivery-details.hidden
-          %a{:href=>'#'} Deliver to:
-          %a.address{:href=>'#'}
-          %a.order-received{:href=>'#'}
+          %span{:href=>'#'} Deliver to:
+          %span.address{:href=>'#'}
+          %span.order-received{:href=>'#'}
         
       .made-order-controls 
         -form_tag '', :method=>:put do
