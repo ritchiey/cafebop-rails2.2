@@ -45,7 +45,7 @@ class CustomerQueuesController < QueuesController
         render :json=>@queue.to_json(:only=>[:name, :id, :active], :include=>{
           :current_orders=>{
             :only=>[:id, :notes, :name, :state],
-            :methods=>[:grand_total, :summarized_order_items, :summary],
+            :methods=>[:grand_total_with_fees, :summarized_order_items, :summary],
             :include=>{:user=>{:only=>[:name]}}
           }
         })

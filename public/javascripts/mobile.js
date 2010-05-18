@@ -353,6 +353,7 @@ var app = {
 	  $('#show-queued-order .order-status').text(((order.state == 'made')? "Ready for ":"For ")+
 	    order.effective_name);
 	  $('#show-queued-order .reputation').text("Reputation: "+ order.reputation_s);
+	  $('#show-queued-order .deliver').text((order.deliver) ? "Deliver" : "Picked Up");
 	  $phone.text(order.phone);
 	  app.updateOrderAge(order);
   	app.order_interval_id = window.setInterval(function() {app.updateOrderAge(order);}, 5000);
@@ -608,4 +609,4 @@ app.addPage('show', 'queued-order', {
 	window.clearInterval(app.order_interval_id);
   }
   });
-app.addPage('show', 'queued-order-item', {onEntry: app.loadShowQueuedOrderItem});
+// app.addPage('show', 'queued-order-item', {onEntry: app.loadShowQueuedOrderItem});
