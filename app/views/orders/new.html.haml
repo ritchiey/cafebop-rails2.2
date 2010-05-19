@@ -1,6 +1,13 @@
 
 -content_for :content_header do
   = render :partial => 'shops/page_header', :locals=>{:shop=>@shop}
+  
+-content_for :meta_tags do
+  -cuisine_names = @shop.cuisines.map {|c| c.name}
+  %meta{:name=>'keywords', :content=>"takeaway restaurant #{cuisine_names.join(' ')}"}
+  %meta{:name=>'description', :content=>"#{cuisine_names.join(', ')}"}
+  %meta{:name=>'robots', :content=>'all'}
+  
 
 = render :partial => 'ordering_form', :object=>[@shop, @order]
 

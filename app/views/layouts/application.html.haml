@@ -2,12 +2,15 @@
 
 %html{ "xml:lang" => "en", :lang => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
   %head
-    %title= h(yield(:title) || "Cafebop - Takeaway Food Online")
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}
     %meta{"http-equiv"=>"Content-Style-Type", :content=>"text/css"}
     %meta{"http-equiv"=>"Content-Script-Type", :content=>"text/javascript"}
-    -#%meta{ :content => "chrome=1", "http-equiv" => "X-UA-Compatible" }
-
+    %title= h(yield(:title) || "Cafebop - Takeaway Food Online") 
+    -default_content_for :meta_tags do
+      %meta{:name=>'keywords', :content=>'takeaway food ordering restaurants online service free'}
+      %meta{:name=>'description', :content=>'Cafebop makes it easy for any takeaway restaurant to take orders online.'}
+      %meta{:name=>'robots', :content=>'all'}
+    
     !=import_google_api
     :javascript
       google.load("jquery", "1.4.1");
