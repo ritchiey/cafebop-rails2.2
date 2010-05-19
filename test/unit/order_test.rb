@@ -89,9 +89,22 @@ class OrderTest < ActiveSupport::TestCase
       @order.order_items.each {|item| assert item.printed?}
     end
 
-    should "be able to be queued" do
-      assert @order.can_be_queued?
-    end 
+    should "not be able to be queued" do
+      assert !@order.can_be_queued?
+    end
+    
+    context "with a name and phone number" do
+      setup do
+        @order.expects(:effective_name).at_least_once.returns("Bob")
+        @order.expects(:effective_phone).at_least_once.returns("2222222")
+      end
+
+      should "be able to be queued" do
+        assert @order.can_be_queued?
+      end
+
+    end
+    
     
     context "for a shop that delivers" do
       setup do
@@ -140,16 +153,12 @@ class OrderTest < ActiveSupport::TestCase
         end
 
       end
-      
-      
-      
-      
-      
     end
     
 
     context "for a shop that queues pay-in-shop items" do
       setup do
+        @order.stubs(:effective_phone).returns('2222222')
         @order.shop.stubs(:queues_in_shop_payments?).returns(true)
       end     
       
@@ -157,10 +166,10 @@ class OrderTest < ActiveSupport::TestCase
         setup do
           @order.order_items.each {|item| assert item.pending?}
           @order.send 'print_or_queue!'
+          assert @order.queued?
         end                   
         
         should "queue all its order_items" do
-          assert @order.queued?
           @order.order_items.each {|item| assert item.queued?}
         end   
                                              
@@ -222,10 +231,16 @@ class OrderTest < ActiveSupport::TestCase
         assert @order.save
       end
       
-
-      should "be able to be queued" do
-        assert @order.can_be_queued?
+      context "with appropriate details" do
+        setup do
+          @user.stubs(:name).returns("Bob")
+          @user.stubs(:phone).returns("2222222")
+        end
+        should "be able to be queued" do
+          assert @order.can_be_queued?
+        end
       end
+      
 
       context "who has friends" do
         setup do
@@ -328,9 +343,8 @@ class OrderTest < ActiveSupport::TestCase
         
         context "for a shop that queues pay-in-shop items" do
           setup do
-            class << @order.shop
-              def queues_in_shop_payments?() true; end
-            end
+            @order.shop.stubs(:queues_in_shop_payments?).returns(true)
+            @order.stubs(:can_be_queued?).returns(true)
           end     
 
           context "when queued" do

@@ -71,6 +71,23 @@ class Order < ActiveRecord::Base
   def effective_name=(name)
     self[:name] = name
   end
+
+  def effective_phone
+    self[:phone] || (user && user.phone)
+  end
+  
+  def effective_phone=(phone)
+    self[:phone] = phone
+  end
+
+  def effective_address
+    self[:address] || (user && user.address)
+  end
+  
+  def effective_address=(address)
+    self[:address] = address
+  end
+
   
   def reputation_s
     if user
@@ -81,7 +98,8 @@ class Order < ActiveRecord::Base
   end
 
   def can_be_queued?
-    name and name.length > 0
+    effective_name and effective_name.length > 0 and
+    effective_phone and effective_phone.length > 0
   end
 
   # Parent order invitation closed

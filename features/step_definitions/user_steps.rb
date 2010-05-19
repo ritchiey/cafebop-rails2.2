@@ -13,6 +13,16 @@ Given /^there is an active user with email "([^\"]*)" and password "([^\"]*)"$/ 
   end
 end
 
+Given /^there are active users with the following details:$/ do |table|
+  user_attributes = table.hashes.map do |hash|
+    User.make(:active=>true,
+    :email=>hash[:email],
+    :password=>hash[:password],
+    :password_confirmation=>hash[:password],
+    :address=>hash[:address])
+  end
+end
+
 
 Given /^I am logged in as "(.+?)" with password "(.+?)"$/ do |email, password|
   visit "/login"

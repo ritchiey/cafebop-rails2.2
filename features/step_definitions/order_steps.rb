@@ -19,7 +19,6 @@ Given(/^(.+?) has a pending order with items at (.+?)$/) do |name, shop|
 end            
                     
 When(/^(.+?) places an order at (.+?) for the following items:$/) do |name, shop_name, table|
-  # table is a Cucumber::Ast::Table
   name_param = (name =~ /s?he/i) ? {} : {:name=>name}
   shop = Shop.find_by_name(shop_name)
   order_item_attributes = table.hashes.map do |hash|
@@ -30,7 +29,9 @@ When(/^(.+?) places an order at (.+?) for the following items:$/) do |name, shop
       {'notes' => hash[:notes]}
     ]
   end.flatten
-  visit shop_orders_path(shop), :post, :order=>{:order_items_attributes=>order_item_attributes}.merge(name_param)
+  visit shop_orders_path(shop),
+   :post,
+   :order=>{:order_items_attributes=>order_item_attributes, :phone=>'2222222'}.merge(name_param)
 end
 
 Then(/^I should see this order summary table:$/) do |expected_table|  

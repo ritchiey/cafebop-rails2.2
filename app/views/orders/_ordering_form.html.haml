@@ -74,10 +74,10 @@
                   %td
       -form.inputs do
         =form.input :effective_name, :label=>'Name', :hint=>"Name that will appear on order", :required=>true, :input_html=>{:class=>'required'}
-        =form.input :phone, :hint=>"Your phone number", :required=>true, :input_html=>{:class=>'required'}
+        =form.input :effective_phone, :label=>'Phone', :hint=>"Your phone number", :required=>true, :input_html=>{:class=>'required'}
         -if @shop.deliver
           =form.input :deliver
-          =form.input :address, :hint=>"Delivery address"
+          =form.input :effective_address, :label=>'Address', :hint=>"Delivery address"
           %li
             %p
               We deliver to #{@shop.delivery_area}.

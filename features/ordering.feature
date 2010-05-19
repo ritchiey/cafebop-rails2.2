@@ -5,7 +5,10 @@ Feature: Ordering
 
         
   Background:
-    Given there is an active user with email "harry@hogwarts.edu" and password "Quiddich"
+    # Given there is an active user with email "harry@hogwarts.edu" and password "Quiddich"
+    Given there are active users with the following details:
+      | email              | phone   | address                         | password |
+      | harry@hogwarts.edu | 2222222 | 2 Privet Drive, Little Whinging | Quiddich |
     And I am logged in as "harry@hogwarts.edu" with password "Quiddich"
 	  And there is an active shop named "Gromits"
 	  And Gromits is an express shop

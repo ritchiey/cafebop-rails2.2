@@ -22,12 +22,13 @@ class OrderObserver < ActiveRecord::Observer
       Notifications.send_later(:deliver_order_cancelled, order) if order.user
     end
     
-    # update name in user record for next time
-    if order.changes['name']
-      user = order.user
-      if user and user.name != order.name
-        user.update_attributes(:name=>order.name)
-      end
+    # update details in user record for next time
+    user = order.user
+    if user and order.changes.keys.any? {|k| [:name, :phone, :address].include?(k.to_sym)}
+      user.name = order.name if order.name_changed?
+      user.phone = order.phone if order.phone_changed?
+      user.address = order.address if order.address_changed?
+      user.save
     end
   end
   
