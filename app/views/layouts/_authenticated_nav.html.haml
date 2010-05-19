@@ -1,4 +1,6 @@
-=button_link_to_unless_current("Home", root_url(:subdomain=>false)) 
+=link_to_unless_current("Home", root_url(:subdomain=>false)) 
+\|
 -if current_user.is_admin?
-  =button_link_to_unless_current("Admin Dashboard", dashboard_url(:subdomain=>false))
-=button_link_to "Logout", logout_url(:subdomain=>false)
+  =link_to_unless_current("Admin Dashboard", dashboard_url(:subdomain=>false))
+  \|
+=link_to "Logout", logout_url(:subdomain=>false)

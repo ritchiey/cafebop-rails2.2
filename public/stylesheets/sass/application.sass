@@ -211,10 +211,15 @@ h6
 
 #account-status
   :float  left
+  :font-weight  bold
+  p
+    +bubble
   
 #account-nav
   float: right
-  margin-top: -10px
+  :font-weight  bold
+  p
+    +bubble            
 
 
 #page-header  
@@ -224,8 +229,6 @@ h6
   
   p
     margin-top: 20px
-
-
 
   a.btn
     background-color: #e76f00
@@ -241,6 +244,7 @@ h6
 
     &:hover
       border: #FFF 5px solid     
+
 
 .add-btn
   -moz-border-radius: 10px
@@ -477,8 +481,6 @@ h5.title
 .addthis_toolbox
   +bubble
   
-#account-status p
-  +bubble
   
 form.formtastic fieldset.bordered
   :border 1px solid #999
@@ -560,4 +562,7 @@ ul.flavours, ul.sizes
     :list-style none
 
 .remove-control
-  vertical-align: super
+  :vertical-align super
+
+#opening-times td
+  :padding 0 10px 0 5px

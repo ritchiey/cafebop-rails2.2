@@ -5,7 +5,8 @@
       =link_to "Not #{current_user}?", not_me_path
     
 #account-nav.no-print
-  -if current_user
-    != render :partial => 'layouts/authenticated_nav'
-  -else        
-    != render :partial => 'layouts/unauthenticated_nav'
+  %p
+    -if current_user
+      != render :partial => 'layouts/authenticated_nav'
+    -else        
+      != render :partial => 'layouts/unauthenticated_nav'

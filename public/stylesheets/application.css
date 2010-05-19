@@ -230,11 +230,22 @@ h6 {
   padding: 2em 20px 1em 20px; }
 
 #account-status {
-  float: left; }
+  float: left;
+  font-weight: bold; }
+  #account-status p {
+    border: 1px solid #8cbad0;
+    background-color: #b9c2a0;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px; }
 
 #account-nav {
   float: right;
-  margin-top: -10px; }
+  font-weight: bold; }
+  #account-nav p {
+    border: 1px solid #8cbad0;
+    background-color: #b9c2a0;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px; }
 
 #page-header {
   margin: 1em auto;
@@ -471,12 +482,6 @@ h5.title {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px; }
 
-#account-status p {
-  border: 1px solid #8cbad0;
-  background-color: #b9c2a0;
-  -moz-border-radius: 15px;
-  -webkit-border-radius: 15px; }
-
 form.formtastic fieldset.bordered {
   border: 1px solid #999;
   padding: 1em 1em;
@@ -551,3 +556,6 @@ ul.flavours, ul.sizes {
 
 .remove-control {
   vertical-align: super; }
+
+#opening-times td {
+  padding: 0 10px 0 5px; }

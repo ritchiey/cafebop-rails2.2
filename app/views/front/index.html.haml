@@ -17,7 +17,8 @@
     iPhone&reg;, iPod Touch&reg;, iPad&reg; or computer located in your store.
 
   -content_for :aside do
-    =link_to "Create your Shop", pricing_path 
+    .create-shop
+      =button_link_to "Create your Shop", pricing_path 
     / != render :partial => 'side_blurbs'
 
 / != render :partial => 'shops/search_panel'
