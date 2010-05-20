@@ -4,6 +4,7 @@ class QueuedOrderItemsController < ApplicationController
     before_filter :get_instance, :except=>[:make_all]
     before_filter :only_if_can_access_queue, :except=>[:make_all]
 
+
     def show
       respond_to do |format|
         format.json {
@@ -48,8 +49,10 @@ class QueuedOrderItemsController < ApplicationController
                 :effective_delivery_fee
                 ]
             )
+            render :json=>json
+          else
+            render :nothing
           end
-          render :json=>json
         end
       end
     end

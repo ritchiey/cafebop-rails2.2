@@ -105,6 +105,7 @@ class QueuedOrderItemsControllerTest < ActionController::TestCase
           OrderItem.any_instance.stubs('make!').returns(true)
           put :make_all, :order_item_ids=>ids, :format=>'json'
         end
+        should_assign_to(:order) {@order}
         should_respond_with :success
         should_not_set_the_flash
       end
