@@ -570,4 +570,9 @@ ul.flavours, ul.sizes {
   text-shadow: 0 0 5px #000000;
   padding: 5px 25px 5px 15px;
   border: 5px solid #D8DECD;
-  background-color: $add_btn_bg_colour; }
+  background-color: blue;
+  width: 50%; }
+  .create-shop:hover {
+    border-color: yellow; }
+  .create-shop a:hover {
+    color: white; }
