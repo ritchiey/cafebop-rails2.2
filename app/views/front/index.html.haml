@@ -18,13 +18,13 @@
 
   -content_for :aside do
     .create-shop
-      =button_link_to "Create your Shop", pricing_path 
+      =link_to "Create your Shop", pricing_path 
     / != render :partial => 'side_blurbs'
 
 / != render :partial => 'shops/search_panel'
 
 -content_for :content_foot do
-  / != render :partial => 'content/benefits'
+  != render :partial => 'content/benefits'
   .twitter-follow
     %a{ :href => "http://www.twitter.com/Cafebop", :class=>'button'}
       %img{ :src => "http://twitter-badges.s3.amazonaws.com/follow_us-b.png", :alt => "Follow Cafebop on Twitter" }

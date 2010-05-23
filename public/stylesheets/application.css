@@ -270,7 +270,7 @@ h6 {
 .add-btn {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  background-color: #00c6ff;
+  background-color: $add_btn_bg_colour;
   background-image: url(/images/plus.gif);
   background-position: 85%;
   background-repeat: no-repeat;
@@ -559,3 +559,20 @@ ul.flavours, ul.sizes {
 
 #opening-times td {
   padding: 0 10px 0 5px; }
+
+.create-shop {
+  clear: both;
+  color: #FFFFFF;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  text-shadow: 0 0 5px #000000;
+  padding: 5px 25px 5px 15px;
+  border: 5px solid #D8DECD;
+  background-color: blue;
+  width: 50%; }
+  .create-shop:hover {
+    border-color: yellow; }
+  .create-shop a:hover {
+    color: white; }
