@@ -249,7 +249,7 @@ h6
 .add-btn
   -moz-border-radius: 10px
   -webkit-border-radius: 10px
-  background-color: #00c6ff
+  :background-color $add_btn_bg_colour
   background-image: url(/images/plus.gif)
   background-position: 85%
   background-repeat: no-repeat
@@ -566,3 +566,7 @@ ul.flavours, ul.sizes
 
 #opening-times td
   :padding 0 10px 0 5px
+  
+.create-shop
+  +small_button
+  :background-color $add_btn_bg_colour
