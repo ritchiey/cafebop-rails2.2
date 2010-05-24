@@ -22,7 +22,7 @@
     = stylesheet_link_tag "blueprint/screen", "jquery.countdown", :media=>'screen'
     = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css', "formtastic"
     = stylesheet_link_tag 'application'
-    / = stylesheet_link_tag "blueprint/print", "print", :media=>'print'
+    = stylesheet_link_tag "blueprint/print", "print", :media=>'print'
     -#= javascript_include_tag 'http://cdn.jquerytools.org/1.1.2/jquery.tools.min.js'
     = javascript_include_tag 'jquery-form', 'jquery.validate.min','jquery.qtip-1.0.0-rc3.min', 'jrails', 'jquery.countdown.min', 'supersleight.plugin', :cache=>true
     = javascript_include_tag 'application.js'
@@ -108,6 +108,7 @@
                     %span.c> C
                     %span.afe> afe
                     %span.bop> bop
+                    %span.beta beta
                   %h2.slogan Online ordering for every restaurant
             #notifications.span-24.last
               -if flash[:notices]    
@@ -138,8 +139,8 @@
       .powered-by.no-print  
         #{@shop ? "Powered by " : ""}
         #{link_to("Cafebop", root_url(:subdomain=>false))} (#{separated([link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])})
-      .logo.print-only
-        =image_tag('logo-small.png')
+      / .logo.print-only
+      /   =image_tag('cafebop-small.png')
 
       .links.no-print
         %div
