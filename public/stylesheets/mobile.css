@@ -1,7 +1,7 @@
 form#login a.login, form#login a.goback {
   margin: 0 10px 10px 10px; }
 form#login a.login {
-  color: rgba(0,0,0,0.9); }
+  color: rgba(0, 0, 0, 0.9); }
 
 .whiteButton {
   margin: 0 10px 10px 10px; }
@@ -20,8 +20,8 @@ form#login a.login {
   float: right;
   margin: 0 46px 10px 10px;
   font: bold 18px Helvetica;
-  text-shadow: rgba(255,255,255,.2) 0 1px 1px;
-  color: rgb(76, 86, 108); }
+  text-shadow: rgba(255, 255, 255, 0.2) 0 1px 1px;
+  color: #4c566c; }
 #show-queued-order .order-controls {
   margin: 4em 10px 0 10px; }
   #show-queued-order .order-controls a.cancel-order {
@@ -41,7 +41,7 @@ ul li .small {
   display: none; }
 
 .toolbar h1 {
-  text-shadow: 1px 1px 0px #000; }
+  text-shadow: 1px 1px 0px black; }
 
 #loading {
   position: absolute;
@@ -50,7 +50,7 @@ ul li .small {
   z-index: 1000; }
 
 ul li span + span {
-  color: #000;
+  color: black;
   font: 14px Helvetica;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -59,7 +59,7 @@ ul li span + span {
   margin: 0;
   padding: 0; }
   ul li span + span + span {
-    color: #666;
+    color: #666666;
     font: 13px Helvetica;
     margin: 0;
     text-overflow: ellipsis;
@@ -68,7 +68,7 @@ ul li span + span {
     display: block;
     padding: 0; }
 ul li.img span + span + span + span, ul li.img span + small + span + span + span {
-  color: #666;
+  color: #666666;
   font: 13px Helvetica;
   margin: 0;
   text-overflow: ellipsis;
