@@ -540,13 +540,18 @@ input#shop_permalink {
 ul.menus > li.fields {
   margin-top: 1.3em; }
   ul.menus > li.fields h5.menu-header {
-    display: inline; }
+    display: inline;
+    margin-bottom: 0; }
 
 ul.menu > li.fields {
   border: 1px solid #999;
   margin-bottom: 0.5em; }
   ul.menu > li.fields > .controls {
     float: right; }
+
+.menu-description span, .menu-description {
+  font-style: italic;
+  margin-top: -25px; }
 
 ul.flavours, ul.sizes {
   display: inline; }
