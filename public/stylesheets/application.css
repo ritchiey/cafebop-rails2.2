@@ -2,13 +2,13 @@
   display: none; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif; }
+  font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif; }
 
 .locate_title {
   margin: 1em 0 0 0; }
 
 body, p, td, li, ul, ol {
-  font-family: Verdana,Helvetica,Arial,sans-serif; }
+  font-family: Verdana, Helvetica, Arial, sans-serif; }
 
 .links a {
   font-weight: bold; }
@@ -27,17 +27,17 @@ body, p, td, li, ul, ol {
       border: none; }
 
 .email-message {
-  background-color: #FEFEFE;
+  background-color: #fefefe;
   border-style: solid;
   border-color: black;
   border-width: 1px; }
 
 thead th {
-  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif;
   background: transparent;
-  color: #50341A;
+  color: #50341a;
   border-bottom-style: solid;
-  border-bottom-color: #B08B5E;
+  border-bottom-color: #b08b5e;
   border-bottom-width: 1px;
   font-size: 2em; }
 
@@ -45,9 +45,9 @@ thead th {
   font-size: 1.5em; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif;
   background: transparent;
-  color: #50341A; }
+  color: #50341a; }
 
 h1 {
   font-size: 3.5em; }
@@ -79,15 +79,15 @@ h6 {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   clear: both;
-  color: #FFFFFF;
+  color: white;
   font-family: Helvetica;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -1px;
-  text-shadow: 0 0 5px #000000;
+  text-shadow: 0 0 5px black;
   padding: 5px 25px 5px 15px;
-  border: 5px solid #D8DECD;
-  background-color: #E76F00;
+  border: 5px solid #d8decd;
+  background-color: #e76f00;
   background-image: url(../images/arrow-right.gif);
   background-position: 85% 50%;
   background-repeat: no-repeat;
@@ -109,15 +109,15 @@ h6 {
 
 #print-btn {
   clear: both;
-  color: #FFFFFF;
+  color: white;
   font-family: Helvetica;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -1px;
-  text-shadow: 0 0 5px #000000;
+  text-shadow: 0 0 5px black;
   padding: 5px 25px 5px 15px;
-  border: 5px solid #D8DECD;
-  background-color: #E76F00;
+  border: 5px solid #d8decd;
+  background-color: #e76f00;
   float: right; }
   #print-btn:hover {
     cursor: pointer;
@@ -127,15 +127,15 @@ h6 {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   clear: both;
-  color: #FFFFFF;
+  color: white;
   font-family: Helvetica;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -1px;
-  text-shadow: 0 0 5px #000000;
+  text-shadow: 0 0 5px black;
   padding: 5px 25px 5px 15px;
-  border: 5px solid #D8DECD;
-  background-color: #E76F00;
+  border: 5px solid #d8decd;
+  background-color: #e76f00;
   background-image: url(../images/arrow-left.gif);
   background-position: 15% 50%;
   background-repeat: no-repeat;
@@ -147,14 +147,14 @@ h6 {
 
 .small-add-btn, #offer-friends-button {
   clear: both;
-  color: #FFFFFF;
+  color: white;
   font-family: Helvetica;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -1px;
-  text-shadow: 0 0 5px #000000;
+  text-shadow: 0 0 5px black;
   padding: 5px 25px 5px 15px;
-  border: 5px solid #D8DECD;
+  border: 5px solid #d8decd;
   background-color: #00c6ff; }
   .small-add-btn:hover, #offer-friends-button:hover {
     border: #494848 5px solid; }
@@ -162,9 +162,9 @@ h6 {
 #search_form, #invite-friends-blurb, .group-box, .step-box {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
-  background-color: #B0B6A6;
-  border: 5px solid #D8DECD;
-  color: #4A4D46;
+  background-color: #b0b6a6;
+  border: 5px solid #d8decd;
+  color: #4a4d46;
   margin-bottom: 50px;
   padding: 20px 50px;
   position: relative; }
@@ -175,9 +175,9 @@ h6 {
 .blurb {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
-  background-color: #B0B6A6;
-  border: 5px solid #D8DECD;
-  color: #50341A;
+  background-color: #b0b6a6;
+  border: 5px solid #d8decd;
+  color: #50341a;
   margin-bottom: 50px;
   padding: 20px 25px;
   position: relative;
@@ -188,9 +188,9 @@ h6 {
 .make-account-blurb {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
-  background-color: #B0B6A6;
-  border: 5px solid #D8DECD;
-  color: #50341A;
+  background-color: #b0b6a6;
+  border: 5px solid #d8decd;
+  color: #50341a;
   margin-bottom: 50px;
   padding: 20px 25px;
   position: relative;
@@ -209,7 +209,7 @@ h6 {
 
 #search_form input {
   margin: 10px 0px 5px;
-  background-color: #FFF;
+  background-color: white;
   border: none;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -225,8 +225,8 @@ h6 {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-box-shadow: 0 0 8px #888888;
-  background-color: #FFFFFF;
-  border: 5px solid #E3E7DB;
+  background-color: white;
+  border: 5px solid #e3e7db;
   padding: 2em 20px 1em 20px; }
 
 #account-status {
@@ -258,19 +258,19 @@ h6 {
     border: #d8e0ca 5px solid;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    color: #FFF;
+    color: white;
     padding: 10px;
     text-decoration: none;
     margin: 9px 15px 9px 0;
     display: block;
     float: left; }
     #page-header a.btn:hover {
-      border: #FFF 5px solid; }
+      border: white 5px solid; }
 
 .add-btn {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  background-color: $add_btn_bg_colour;
+  background-color: #00c6ff;
   background-image: url(/images/plus.gif);
   background-position: 85%;
   background-repeat: no-repeat;
@@ -278,9 +278,9 @@ h6 {
   font-family: Helvetica;
   font-weight: bold;
   letter-spacing: -1px;
-  color: #FFF;
+  color: white;
   padding: 15px 65px 15px 25px;
-  text-shadow: 0px 0px 5px #000;
+  text-shadow: 0px 0px 5px black;
   border: #d8decd 5px solid;
   clear: both; }
   .add-btn:hover {
@@ -315,7 +315,7 @@ p {
 
 td {
   border-top: #bbc3ad 1px solid;
-  border-bottom: #FFF 1px solid;
+  border-bottom: white 1px solid;
   vertical-align: middle;
   min-height: 20px;
   padding-left: 15px;
@@ -336,18 +336,18 @@ a {
 .tooltip {
   display: none;
   font-size: 11px;
-  color: #fff; }
+  color: white; }
   .tooltip .label {
     color: yellow;
     width: 35px; }
   .tooltip a {
-    color: #ad4;
+    color: #aadd44;
     font-size: 11px;
     font-weight: bold; }
 
 #flash {
-  background: #fff url(/gradient_images/80:DDDDDD:888888.png) repeat-x scroll 0 0;
-  _background-color: #fff;
+  background: white url(/gradient_images/80:DDDDDD:888888.png) repeat-x scroll 0 0;
+  _background-color: white;
   overflow: visible;
   position: fixed;
   left: 0;
@@ -355,7 +355,7 @@ a {
   text-align: center;
   padding: 15px;
   font-size: 18px;
-  border-bottom: 2px solid #789;
+  border-bottom: 2px solid #778899;
   width: 100%;
   z-index: 2;
   display: none; }
@@ -364,15 +364,15 @@ a {
   color: red; }
 
 #order-status {
-  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif;
   background: transparent;
-  color: #50341A;
+  color: #50341a;
   font-size: 2.5em; }
 
 .mobile-message {
-  font-family: "Trebuchet MS",Geneva,Arial,Helvetica,SunSans-Regular,Verdana,sans-serif;
+  font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, Verdana, sans-serif;
   background: transparent;
-  color: #50341A;
+  color: #50341a;
   font-size: 4.5em; }
 
 [disabled] {
@@ -384,7 +384,7 @@ a {
 .login-message, .signup-message, .about-cafebop-signup {
   margin-bottom: 1em; }
 
-#user-password-input label, #user-password-confirmation-input label !important {
+#user-password-input label, #user-password-confirmation-input label {
   width: 75%; }
 
 #static-map {
@@ -483,7 +483,7 @@ h5.title {
   -webkit-border-radius: 15px; }
 
 form.formtastic fieldset.bordered {
-  border: 1px solid #999;
+  border: 1px solid #999999;
   padding: 1em 1em;
   margin: 0 0 1em 0; }
 
@@ -495,19 +495,19 @@ form.formtastic fieldset#payment_methods {
   font: 8em helvetica, verdana, arial, times, "Times New Roman", sans-serif;
   margin-bottom: 0; }
   .logo .c {
-    color: #B08B5E;
-    color: rgba(176,139,94,0.9);
+    color: #b08b5e;
+    color: rgba(176, 139, 94, 0.9);
     font-size: 150%;
-    text-shadow: #000 1px 2px 2px;
+    text-shadow: black 1px 2px 2px;
     vertical-align: middle; }
   .logo .afe {
-    color: #50351A;
-    color: rgba(80,53,26,0.9);
-    text-shadow: #000 1px 2px 2px; }
+    color: #50351a;
+    color: rgba(80, 53, 26, 0.9);
+    text-shadow: black 1px 2px 2px; }
   .logo .bop {
-    color: #B08B5E;
-    color: rgba(80,139,94, 0.9);
-    text-shadow: #000 1px 2px 2px; }
+    color: #b08b5e;
+    color: rgba(80, 139, 94, 0.9);
+    text-shadow: black 1px 2px 2px; }
   .logo .beta {
     font-size: 20%;
     vertical-align: 200%; }
@@ -547,7 +547,7 @@ ul.menus > li.fields {
     margin-bottom: 0; }
 
 ul.menu > li.fields {
-  border: 1px solid #999;
+  border: 1px solid #999999;
   margin-bottom: 0.5em; }
   ul.menu > li.fields > .controls {
     float: right; }
@@ -569,17 +569,17 @@ ul.flavours, ul.sizes {
 
 .create-shop {
   clear: both;
-  color: #FFFFFF;
+  color: white;
   font-family: Helvetica;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: -1px;
-  text-shadow: 0 0 5px #000000;
+  text-shadow: 0 0 5px black;
   padding: 5px 25px 5px 15px;
-  border: 5px solid #D8DECD;
+  border: 5px solid #d8decd;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
-  background-color: #50351A;
+  background-color: #50351a;
   width: 50%; }
   .create-shop:hover {
     border-color: yellow; }

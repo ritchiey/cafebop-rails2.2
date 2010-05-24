@@ -19,13 +19,13 @@ img.logo {
   float: right;
   width: 23%;
   padding: 2%;
-  border: 1px solid #aaa; }
+  border: 1px solid #aaaaaa; }
 
 table.order-summary {
   margin-top: 10%;
   margin-left: 5%;
   width: 90%;
-  border: 1px solid #aaa; }
+  border: 1px solid #aaaaaa; }
 
 .total * {
   font-weight: bold; }
