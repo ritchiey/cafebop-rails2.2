@@ -17,12 +17,12 @@
     iPhone&reg;, iPod Touch&reg;, iPad&reg; or computer located in your store.
 
   -content_for :aside do
+    .demo-link
+      Try our #{link_to "Demo Restaurant", root_url(:subdomain=>'demo')} 
+    or
     .create-shop
       =link_to "Create your Shop", pricing_path
     \* our starter plan is free
-    / != render :partial => 'side_blurbs'
-
-/ != render :partial => 'shops/search_panel'
 
 -content_for :content_foot do
   -unless current_user
