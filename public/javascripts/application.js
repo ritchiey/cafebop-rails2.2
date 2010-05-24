@@ -478,7 +478,7 @@ function cost(menu_item) {
 function total_cost() {       
   var total = 0.0;
   $('#order_items .cost').each(function(i) {
-    var amount = this.textContent;
+    var amount = $(this).text();
     total += parseFloat(amount);
   });
   return total;
