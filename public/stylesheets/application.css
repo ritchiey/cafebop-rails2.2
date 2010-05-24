@@ -550,8 +550,7 @@ ul.menu > li.fields {
     float: right; }
 
 .menu-description span, .menu-description {
-  font-style: italic;
-  margin-top: -25px; }
+  font-style: italic; }
 
 ul.flavours, ul.sizes {
   display: inline; }

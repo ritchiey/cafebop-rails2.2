@@ -137,10 +137,7 @@
     #page-footer 
       .powered-by.no-print  
         #{@shop ? "Powered by " : ""}
-        #{link_to("Cafebop", root_url(:subdomain=>false))} (#{separated([link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])}
-        |
-        %a#crowdsound-activate-popup Feedback
-        )
+        #{link_to("Cafebop", root_url(:subdomain=>false))} (#{separated([link_to_site_terms, link_to_privacy_policy, link_to_faq, link_to_credits])})
       .logo.print-only
         =image_tag('logo-small.png')
 
@@ -186,7 +183,7 @@
         SnapABug.addButton('e3e421df-23ce-43c9-ad37-fd9c5768c922',"0","55%");
         }
 
-      %script{ :src => "http://crowdsound.com/widgets/popup?popup=true&aid=2953", :type => "text/javascript" }
+      / %script{ :src => "http://crowdsound.com/widgets/popup?popup=true&aid=2953", :type => "text/javascript" }
 
     / Google Analytics  
     %script{ :type => "text/javascript" }
