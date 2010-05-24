@@ -3,7 +3,7 @@ class MenuItem < ActiveRecord::Base
   fields do
     name  :string
     description :string
-    price_in_cents :integer
+    price_in_cents :integer, :default=>100
     position :integer
     present_flavours :boolean, :default=>false
     timestamps

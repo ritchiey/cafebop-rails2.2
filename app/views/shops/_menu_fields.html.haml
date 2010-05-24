@@ -1,8 +1,10 @@
 -menu=f.object
 %li.fields
   =f.hidden_field :position
-  %h5.menu-header=f.text_field :name, :class=>'editable'
+  %h5.menu-header=f.text_field :name, :class=>'editable' 
   =link_to_remove_fields "x", f 
+  %br
+  .menu-description=f.text_field :description, :class=>'editable', :size=>56
   %a{:name=>menu.id}
   %ul.menu
     -f.fields_for :menu_items do |menu_item_f|

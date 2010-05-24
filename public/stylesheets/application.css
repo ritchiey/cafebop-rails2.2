@@ -508,6 +508,9 @@ form.formtastic fieldset#payment_methods {
     color: #B08B5E;
     color: rgba(80,139,94, 0.9);
     text-shadow: #000 1px 2px 2px; }
+  .logo .beta {
+    font-size: 20%;
+    vertical-align: 200%; }
 
 h2.slogan {
   font-size: 2em;
@@ -540,13 +543,17 @@ input#shop_permalink {
 ul.menus > li.fields {
   margin-top: 1.3em; }
   ul.menus > li.fields h5.menu-header {
-    display: inline; }
+    display: inline;
+    margin-bottom: 0; }
 
 ul.menu > li.fields {
   border: 1px solid #999;
   margin-bottom: 0.5em; }
   ul.menu > li.fields > .controls {
     float: right; }
+
+.menu-description span, .menu-description {
+  font-style: italic; }
 
 ul.flavours, ul.sizes {
   display: inline; }
