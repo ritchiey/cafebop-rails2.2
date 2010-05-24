@@ -5,12 +5,18 @@
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}
     %meta{"http-equiv"=>"Content-Style-Type", :content=>"text/css"}
     %meta{"http-equiv"=>"Content-Script-Type", :content=>"text/javascript"}
-    %title= h(yield(:title) || "Cafebop - Takeaway Food Online") 
+    %title= h(yield(:title) || (@shop and "#{@shop.name}") ||"Cafebop - Takeaway Food Online") 
     -default_content_for :meta_tags do
-      %meta{:name=>'keywords', :content=>'takeaway food ordering restaurants online service free'}
-      %meta{:name=>'description', :content=>'Cafebop makes it easy for any takeaway restaurant to take orders online.'}
-      %meta{:name=>'robots', :content=>'all'}
-      %meta{ :name => "google-site-verification", :content => "uV0Dzd157cLdeYKdo7CdcSX_wZA-g2EYfC18GDXsG1A" }
+      -if @shop
+        -cuisine_names = @shop.cuisines.map {|c| c.name}
+        %meta{:name=>'keywords', :content=>"takeaway restaurant #{cuisine_names.join(' ')}"}
+        %meta{:name=>'description', :content=>"#{cuisine_names.join(', ')}"}
+        %meta{:name=>'robots', :content=>'all'}
+      -else
+        %meta{:name=>'keywords', :content=>'takeaway food ordering restaurants online service free'}
+        %meta{:name=>'description', :content=>'Cafebop makes it easy for any takeaway restaurant to take orders online.'}
+        %meta{:name=>'robots', :content=>'all'}
+        %meta{ :name => "google-site-verification", :content => "uV0Dzd157cLdeYKdo7CdcSX_wZA-g2EYfC18GDXsG1A" }
     
     !=import_google_api
     :javascript
