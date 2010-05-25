@@ -8,4 +8,4 @@
       %td(span=2)
         -form_for current_user.friendships.build, :url=>user_friendships_path(current_user) do |ff|
           =ff.text_field :friend_email
-          =submit_tag "Add Friend", :class=>'add-btn'
+          =submit_tag "Add Friend", :class=>'small-add-btn'
