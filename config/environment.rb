@@ -1,7 +1,7 @@
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.7' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -41,7 +41,7 @@ Rails::Initializer.run do |config|
   config.gem 'notahat-machinist', :lib => 'machinist', :source => "http://gems.github.com"
   config.gem 'sevenwire-forgery', :lib => 'forgery', :source => "http://gems.github.com"
   config.gem 'haml'
-  config.gem "authlogic"
+  config.gem "authlogic", :version=>'>=2.1.4'
   config.gem 'searchlogic'
   config.gem 'raganwald-andand', :lib => 'andand', :source => 'http://gems.github.com'
   config.gem "josevalim-rails-footnotes",  :lib => "rails-footnotes", :source => "http://gems.github.com"

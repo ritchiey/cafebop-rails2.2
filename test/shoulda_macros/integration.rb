@@ -23,7 +23,7 @@ class ActionController::IntegrationTest
   end                    
   
   def logout
-    click_link "Logout"
+    click_link "Logout"    
   end
 
   def place_webrat_order options={}
