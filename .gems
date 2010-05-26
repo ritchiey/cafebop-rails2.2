@@ -1,4 +1,7 @@
 rails -v 2.3.5
+pg
+rmagick --version 2.13.1
+activerecord-postgresql-adapter
 geokit --source gemcutter.org
 hobofields --version '>= 0.8.8' --source gems.github.com --source gems.rubyforge.org  
 test-unit  --version '>= 2.0.3'    
