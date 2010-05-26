@@ -3,7 +3,7 @@ pg
 rmagick --version 2.13.1
 activerecord-postgresql-adapter
 geokit --source gemcutter.org
-hobofields --version '>= 0.8.8' --source gems.github.com --source gems.rubyforge.org  
+hobofields --version '>= 0.8.8' --source gems.github.com --source gems.rubyforge.org --ignore-dependencies
 test-unit  --version '>= 2.0.3'    
 thoughtbot-shoulda --version '>= 2.10.2' --source gems.github.com   
 rr  --version '>= 0.10.2' --source gemcutter.org
@@ -16,7 +16,7 @@ easy_roles --source gemcutter.org
 authlogic --version '>= 2.1.1'
 ambethia-recaptcha --source "http://gems.github.com"
 aws-s3
-formtastic --version '>= 0.9.7'
+formtastic --version '>= 0.9.7' --ignore-dependencies
 will_paginate --version '>=2.3.11'
 subdomain-fu --version '>=0.5.4'
 haml --version '>=3.0.5'
