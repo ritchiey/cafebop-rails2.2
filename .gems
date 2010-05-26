@@ -12,7 +12,7 @@ searchlogic   --version '>= 2.3.5' --source gems.github.com
 raganwald-andand   --version '>= 1.3.1' --source gems.github.com
 josevalim-rails-footnotes  --version '>= 3.6.2' --source gems.github.com
 easy_roles --source gemcutter.org
-authlogic --version '>= 2.1.1'
+authlogic --version '2.1.2'
 ambethia-recaptcha --source "http://gems.github.com"
 aws-s3
 formtastic --version '>= 0.9.7' --ignore-dependencies
