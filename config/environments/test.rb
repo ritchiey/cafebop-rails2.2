@@ -46,3 +46,12 @@ config.gem 'pickle', :lib => false, :version=> ">=0.1.21"
 config.gem 'database_cleaner', :version=>'>= 0.5.0'
 config.gem 'webrat', :version=>'>= 0.7.0'
 
+config.after_initialize do
+  Bullet.enable = true 
+  Bullet.alert = true
+  Bullet.bullet_logger = true  
+  Bullet.console = true
+  Bullet.growl = false
+  Bullet.rails_logger = true
+  Bullet.disable_browser_cache = true
+end

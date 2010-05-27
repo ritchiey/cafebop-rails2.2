@@ -40,6 +40,7 @@ Rails::Initializer.run do |config|
   config.gem "haml"
   config.gem "hobofields"
   config.gem 'rr'
+  config.gem 'bullet', :source => 'http://gemcutter.org'
   config.gem 'notahat-machinist', :lib => 'machinist', :source => "http://gems.github.com"
   config.gem 'sevenwire-forgery', :lib => 'forgery', :source => "http://gems.github.com"
   config.gem 'haml'
