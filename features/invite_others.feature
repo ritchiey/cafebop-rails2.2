@@ -60,8 +60,8 @@ Feature: Invite others
     When I press "Continue"
     Then I should see invited friends table
       | Friend   | Status  |
-      | hermione | invited |
       | harry    | invited |
+      | hermione | invited |
     
       
   Scenario: Resuming and completing order without inviting anyone

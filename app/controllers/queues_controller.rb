@@ -9,7 +9,7 @@ protected
   end
 
   def queue_from_id
-    @queue = model_class.find(params[:id], :include=>[:shop])
+    @queue = model_class.find(params[:id], :include=>[{:shop=>{:include=>[:owner, :menu_items]}}])
     @shop = @queue.shop
   end
   
