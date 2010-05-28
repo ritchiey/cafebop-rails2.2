@@ -1,5 +1,6 @@
 rails -v 2.3.5
 pg
+bullet
 rmagick --version '>= 1.15.17'
 geokit --source gemcutter.org
 hobosupport
