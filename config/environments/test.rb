@@ -45,6 +45,7 @@ config.gem "rspec-rails", :lib=>false, :version=> ">=1.2.2"
 config.gem 'pickle', :lib => false, :version=> ">=0.1.21"
 config.gem 'database_cleaner', :version=>'>= 0.5.0'
 config.gem 'webrat', :version=>'>= 0.7.0'
+config.gem 'bullet', :source => 'http://gemcutter.org'
 
 config.after_initialize do
   Bullet.enable = true 
