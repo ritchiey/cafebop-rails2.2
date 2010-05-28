@@ -1,6 +1,6 @@
 class ItemQueuesController < QueuesController
-
-  before_filter :shop_from_permalink, :only => [:new, :create]
+              
+  before_filter :fetch_shop, :only=> [:new, :create]
   before_filter :queue_from_id, :except => [:new, :create]
   before_filter :require_manager, :except => [:show, :start, :stop, :current_items]
   before_filter :require_staff, :only => [:show, :start, :stop, :current_items]
@@ -19,7 +19,7 @@ class ItemQueuesController < QueuesController
     end
   end
        
-  def update       
+  def update
     unless @queue.update_attributes(params[:item_queue])
       flash[:error] = "Couldn't update item queue"
     end
@@ -58,6 +58,12 @@ private
   def model_class
     ItemQueue
   end
+
+  def queue_from_id
+    @queue = model_class.find(params[:id], :include=>[{:shop=>[:owner, :menu_items]}])
+    @shop = @queue.shop(:include=>[:owner, :menu_items])
+  end
+
 
 end
 

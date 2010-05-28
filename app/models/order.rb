@@ -37,7 +37,7 @@ class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :shop
   belongs_to :customer_queue
-  has_many :order_items, :dependent=>:destroy
+  has_many :order_items, :include=>[:menu_item], :dependent=>:destroy
   has_many :payment_notifications, :dependent=>:destroy
 
   has_many :child_orders, :class_name=>'Order', :foreign_key=>'parent_id', :order=>'orders.name ASC'

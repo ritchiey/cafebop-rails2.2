@@ -11,7 +11,7 @@ class OrdersController < OrdersRelatedController
   before_filter :cookies_required, :except => [:cookies_test, :new]
   before_filter :include_menus_with_shop, :only => [:new, :edit]
   before_filter :fetch_shop, :except => [:accept, :decline]
-  before_filter :include_items_with_order, :only => [:show, :summary, :status_of_pending, :status_of_queued]
+  before_filter :include_items_with_order, :only => [:summary, :status_of_pending, :status_of_queued]
   before_filter :fetch_order, :except =>  [:accept, :decline, :new, :create]
   
   

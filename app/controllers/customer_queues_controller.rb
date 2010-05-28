@@ -1,6 +1,7 @@
 class CustomerQueuesController < QueuesController
 
-  before_filter :shop_from_permalink, :only => [:new, :create]
+  # before_filter :shop_from_permalink, :only => [:new, :create]
+  before_filter :fetch_shop, :only => [:new, :create]
   before_filter :queue_from_id, :except => [:new, :create]
   before_filter :require_manager, :except => [:show, :start, :stop, :current_items]
   before_filter :require_staff, :only => [:show, :start, :stop, :current_items]
