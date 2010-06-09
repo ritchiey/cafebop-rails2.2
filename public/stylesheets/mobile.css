@@ -1,3 +1,25 @@
+.logo {
+  font-size: 700%;
+  font: 8em helvetica, verdana, arial, times, "Times New Roman", sans-serif;
+  margin-bottom: 0; }
+  .logo .c {
+    color: #b08b5e;
+    color: rgba(176, 139, 94, 0.9);
+    font-size: 150%;
+    text-shadow: black 1px 2px 2px;
+    vertical-align: middle; }
+  .logo .afe {
+    color: #50351a;
+    color: rgba(80, 53, 26, 0.9);
+    text-shadow: black 1px 2px 2px; }
+  .logo .bop {
+    color: #b08b5e;
+    color: rgba(80, 139, 94, 0.9);
+    text-shadow: black 1px 2px 2px; }
+  .logo .beta {
+    font-size: 20%;
+    vertical-align: 200%; }
+
 form#login a.login, form#login a.goback {
   margin: 0 10px 10px 10px; }
 form#login a.login {

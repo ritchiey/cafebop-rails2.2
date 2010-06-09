@@ -30,12 +30,14 @@
         %ul.my-restaurants
           %li
             Loading...
-        .info
-          The mobile version of the site currently only supports
-          shop queue management. To place an order, please use the #{link_to "full site", root_url(:mobile => 0), :rel => "external" }
 
       .unauthenticated.hidden
-        %h1 Cafebop
+        != render :partial => 'logo'
+        
+
+      .info
+        The mobile version of the site currently only supports
+        shop queue management. To place an order, please use the #{link_to "full site", root_url(:mobile => 0), :rel => "external" }
 
 
             

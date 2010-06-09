@@ -109,11 +109,7 @@
                 -if @shop
                   =render(:partial => 'shops/page_header', :locals=>{:shop=>@shop})
                 -else
-                  %h1.logo<
-                    %span.c> C
-                    %span.afe> afe
-                    %span.bop> bop
-                    %span.beta beta
+                  != render :partial => 'shared/logo'
                   %h2.slogan Online ordering for every restaurant
             #notifications.span-24.last
               -if flash[:notices]    
