@@ -233,8 +233,9 @@ h6 {
   float: left;
   font-weight: bold; }
   #account-status p {
-    border: 1px solid #8cbad0;
+    box-shadow: 3px 5px black;
     background-color: #b9c2a0;
+    padding: 0 0.7em;
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px; }
 
@@ -242,8 +243,9 @@ h6 {
   float: right;
   font-weight: bold; }
   #account-nav p {
-    border: 1px solid #8cbad0;
+    box-shadow: 3px 5px black;
     background-color: #b9c2a0;
+    padding: 0 0.7em;
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px; }
 
@@ -471,14 +473,16 @@ h5.title {
 .powered-by {
   float: left;
   font-weight: bold;
-  border: 1px solid #8cbad0;
+  box-shadow: 3px 5px black;
   background-color: #b9c2a0;
+  padding: 0 0.7em;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px; }
 
 .addthis_toolbox {
-  border: 1px solid #8cbad0;
+  box-shadow: 3px 5px black;
   background-color: #b9c2a0;
+  padding: 0 0.7em;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px; }
 
