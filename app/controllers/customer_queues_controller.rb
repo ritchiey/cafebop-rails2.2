@@ -83,7 +83,7 @@ private
   end
 
   def queue_from_id
-    @queue = model_class.find(params[:id], :include=>[:shop, {:orders=>[{:child_orders=>:order_items}, :order_items]}])
+    @queue = model_class.find(params[:id], :include=>[:shop, {:orders=>[:shop, :user, {:child_orders=>:order_items}]}])
     @shop = @queue.shop
   end
 end
