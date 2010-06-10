@@ -20,6 +20,26 @@
     font-size: 20%;
     vertical-align: 200%; }
 
+.eyes-img {
+  background: white url("/images/eyes.png") no-repeat;
+  height: 128px;
+  width: 150px; }
+
+.work-coffee-img {
+  background: white url("/images/work_coffee.png") no-repeat;
+  height: 128px;
+  width: 150px; }
+
+.waiting-room-img {
+  background: white url("/images/waiting_room.png") no-repeat;
+  height: 128px;
+  width: 150px; }
+
+.paint-img {
+  background: white url("/images/paint.png") no-repeat;
+  height: 128px;
+  width: 150px; }
+
 .print-only, .hidden {
   display: none; }
 
