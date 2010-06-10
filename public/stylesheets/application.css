@@ -20,23 +20,26 @@
     font-size: 20%;
     vertical-align: 200%; }
 
+.benefit-sprite {
+  background-image: url("/images/benefit_sprites.png"); }
+
 .eyes-img {
-  background: white url("/images/eyes.png") no-repeat;
+  background-position: -10px -10px;
   height: 128px;
   width: 150px; }
 
 .work-coffee-img {
-  background: white url("/images/work_coffee.png") no-repeat;
+  background-position: -10px -158px;
   height: 128px;
   width: 150px; }
 
 .waiting-room-img {
-  background: white url("/images/waiting_room.png") no-repeat;
+  background-position: -10px -306px;
   height: 128px;
   width: 150px; }
 
 .paint-img {
-  background: white url("/images/paint.png") no-repeat;
+  background-position: -10px -454px;
   height: 128px;
   width: 150px; }
 
