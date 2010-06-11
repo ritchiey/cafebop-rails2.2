@@ -20,6 +20,22 @@
         %meta{:name=>'keywords', :content=>'takeaway food ordering restaurants online service free'}
         %meta{:name=>'description', :content=>'Cafebop makes it easy for any takeaway restaurant to take orders online.'}
         %meta{:name=>'robots', :content=>'all'}
+
+    / !=import_google_api
+    %script{ :src => "http://www.google.com/jsapi", :type => "text/javascript" }
+    :javascript
+      var country_code = '#{ENV["COUNTRY_CODE"] || "us"}';
+      var domain_name = '#{ENV["DOMAIN_NAME"] || "cafebop.com"}';
+      //google.load("jquery", "1.4.1");
+      //google.load("jqueryui", "1.7.2");
+
+    -#= javascript_include_tag 'http://cdn.jquerytools.org/1.1.2/jquery.tools.min.js'
+    = javascript_include_tag 'jquery-1.4.1.min', 'jquery-ui-1.7.2.custom.min', 'jquery-form', 'jquery.validate.min','jquery.qtip-1.0.0-rc3.min', 'jrails', 'jquery.countdown.min', 'supersleight.plugin', 'application', :cache=>true
+    / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]   
+    =javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? 
+    =javascript_tag "var current_user = #{current_user ? "'#{current_user}'" : 'null'};"
+
+
     
     = yield(:head)
 
@@ -185,17 +201,5 @@
       } catch(err) {}
     / End Google Analytics  
 
-    !=import_google_api
-    :javascript
-      google.load("jquery", "1.4.1");
-      google.load("jqueryui", "1.7.2");
-      var country_code = '#{ENV["COUNTRY_CODE"] || "us"}';
-      var domain_name = '#{ENV["DOMAIN_NAME"] || "cafebop.com"}';
-    
-    -#= javascript_include_tag 'http://cdn.jquerytools.org/1.1.2/jquery.tools.min.js'
-    = javascript_include_tag 'jquery-form', 'jquery.validate.min','jquery.qtip-1.0.0-rc3.min', 'jrails', 'jquery.countdown.min', 'supersleight.plugin', 'application', :cache=>true
-    / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]   
-    =javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? 
-    =javascript_tag "var current_user = #{current_user ? "'#{current_user}'" : 'null'};"
 
 
