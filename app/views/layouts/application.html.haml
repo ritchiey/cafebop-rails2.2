@@ -5,10 +5,9 @@
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}
     %meta{"http-equiv"=>"Content-Style-Type", :content=>"text/css"}
     %meta{"http-equiv"=>"Content-Script-Type", :content=>"text/javascript"}
-    = stylesheet_link_tag "blueprint/screen", "jquery.countdown", :media=>'screen', :cache=>true
-    = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css', "formtastic", :cache=>true
-    = stylesheet_link_tag 'application'
-    = stylesheet_link_tag "blueprint/print", "print", :media=>'print', :cache=>true
+    = stylesheet_link_tag "blueprint/screen", "jquery.countdown", :media=>'screen', :cache=>'screen'
+    = stylesheet_link_tag 'start/jquery-ui-1.7.2.custom.css', "formtastic", 'application', :cache=>true
+    = stylesheet_link_tag "blueprint/print", "print", :media=>'print', :cache=>'print'
     %title= h(yield(:title) || (@shop and "#{@shop.name}") ||"Cafebop - Takeaway Food Online") 
     -default_content_for :meta_tags do
       -if @shop
@@ -192,8 +191,7 @@
       //google.load("jquery", "1.4.1");
       //google.load("jqueryui", "1.7.2");
 
-    -#= javascript_include_tag 'http://cdn.jquerytools.org/1.1.2/jquery.tools.min.js'
-    = javascript_include_tag 'jquery-1.4.1.min', 'jquery-ui-1.7.2.custom.min', 'jquery-form', 'jquery.validate.min','jquery.qtip-1.0.0-rc3.min', 'jrails', 'jquery.countdown.min', 'supersleight.plugin', 'application', :cache=>true
+    = javascript_include_tag 'jquery-1.4.1.min', 'jquery-ui-1.7.2.custom.min', 'jquery-form', 'jquery.validate.min','jquery.qtip-1.0.0-rc3.min', 'jrails', 'jquery.countdown.min', 'supersleight.plugin', 'application', :cache=>'scripts'
     / [if lt IE 8]><link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]   
     =javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? 
     =javascript_tag "var current_user = #{current_user ? "'#{current_user}'" : 'null'};"
