@@ -8,7 +8,8 @@ class WorkContract < ActiveRecord::Base
   belongs_to :shop
   belongs_to :user
 
-
+  validates_presence_of :user_id, :on => :create, :message => "can't be blank"
+  validates_presence_of :shop_id, :on => :create, :message => "can't be blank"
 
   # --- Permissions --- #
 
